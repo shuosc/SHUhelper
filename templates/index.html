@@ -1,12 +1,30 @@
 ﻿{% extends "layout.html" %} {% block title %}首页{% endblock %} {% block h %}简陋的上海大学便民查询系统{% endblock %}{% block body %}
-	<div class="row">
-		<div class="span6">
+<div class="row">
+	<div class="span6">
+		<div class="row">
+			<div class="span3">
+				<a href="/login/pe"><button class="btn btn-large btn-block btn-info" type="button">体育查询</button></a>
+				<dl>
+					<dt>
+						体育晨跑，课外活动记录查询请按，信息来自体育学院官网。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<a href="/fin"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
+				<dl>
+					<dt>
+						财务处缴费查询(新版网站)(本科)(信息来自新版网站http://xssf.shu.edu.cn:8100/SFP_Share/，目前这个接口登录密码是身份证后六位或学号后六位)，目前只可以显示当年记录，缴费情况未出所以显示为零。
+					</dt>
+				</dl>
+			</div>
+		</div>
 			<div class="row">
 				<div class="span3">
-					<a href="/login/pe"><button class="btn btn-large btn-block btn-info" type="button">体育查询</button></a>
+					<button class="btn btn-large btn-block btn-info disabled" type="button">信息公告</button>
 					<dl>
 						<dt>
-							体育晨跑，课外活动记录查询请按，信息来自体育学院官网。
+							还没做好
 						</dt>
 					</dl>
 				</div>
@@ -14,7 +32,7 @@
 					<a href="/login/fin"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
 					<dl>
 						<dt>
-							财务处缴费查询（本科），目前只可以显示当年记录，缴费情况未出所以显示为零。
+							财务处缴费查询(旧版网站)(本科)(信息来自旧版网站http://www.cwc.shu.edu.cn)，目前只可以显示当年记录，缴费情况未出所以显示为零。
 						</dt>
 					</dl>
 				</div>
@@ -76,4 +94,4 @@
 
 		</div>
 	</div>
-{% endblock %}
+	{% endblock %}

@@ -1,12 +1,26 @@
-{% extends "layout.html" %} {% block title %}财务查询{% endblock %} {% block h %}财务查询结果{% endblock %}{% block body %}
-
-
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <!--<table class="table table-hover" cellspacing="0" cellpadding="0" width="759" align="center" border="0">-->
-            <table class="table table-hover">
-                {{ r|safe }}
-            </table>
-        </div>
+{% extends "layout.html" %} {% block links %}
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/chargeStyle/chargeStyle.css" rel="stylesheet" type="text/css"
+/>
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/kendo/2014.1.318/kendo.common.min.css" rel="stylesheet" type="text/css"
+/>
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/kendo/2014.1.318/kendo.dataviz.min.css" rel="stylesheet" type="text/css"
+/>
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/kendo/2014.1.318/kendo.BlueOpal.min.css" rel="stylesheet" type="text/css"
+/>
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/kendo/2014.1.318/kendo.dataviz.default.min.css" rel="stylesheet"
+    type="text/css" />
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/ludo-jquery-treetable-css/jquery.treetable.css" rel="stylesheet"
+    type="text/css" />
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/ludo-jquery-treetable-css/jquery.treetable.theme.default.css"
+    rel="stylesheet" type="text/css" />
+<link href="http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/Content/seasky/seaskyMsg.css" rel="stylesheet" type="text/css" /> 
+{% endblock %}
+ {% block title %}财务查询{% endblock %} 
+ {% block h %}财务查询结果{% endblock %}{% block body %}
+<div class="row clearfix">
+    <div class="col-md-12 column">
+        <!--<table class="table table-hover" cellspacing="0" cellpadding="0" width="759" align="center" border="0">-->
+        {{ r|safe }}
     </div>
+</div>
 {% endblock %}

@@ -27,7 +27,7 @@ def pelogin(user,pwd):
             return False
         return content[0]
 
-def finlogin(user,pwd):
+def finoldlogin(user,pwd):
     url='http://finance.shu.edu.cn/Login.aspx?ReturnUrl=%2fTuition.aspx'
     postData={'__EVENTTARGET':'',
     '__EVENTARGUMENT':'',
@@ -50,6 +50,7 @@ def finlogin(user,pwd):
         string = re.sub(r'<span id="Tuition1_Label2">([\s\S]*)</select>', "", content[0])
         string = re.sub(r"<font color='red'>([\s\S]*?)</font>", "", string)
         return string
+
 
 def lehulogin(user,pwd):
     postData={'username':user,'password':pwd,'url':'http://www.lehu.shu.edu.cn/'}
@@ -78,6 +79,60 @@ def cal():
     resp = make_response(render_template('cal.html'))
     return resp
 
+def finquest():
+    from PIL import Image
+    from io import BytesIO
+    s = requests.Session()
+    r = s.get('http://xssf.shu.edu.cn:8100/SFP_Share/Home/CheckImgCode',timeout=10)
+    return BytesIO(r.content).getvalue().encode('base64') , s.cookies
+
+def finlogin(cookies,user,pwd,check):
+    postData={'userName':user,
+    'pwd':pwd,
+    'ktextbox':check,
+    'hidCheckCode':''}
+    s = requests.Session()
+    try:
+        r = s.post('http://xssf.shu.edu.cn:8100/SFP_Share/?Length=5',data=postData,timeout=10,cookies=cookies)
+        r = s.get('http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_PersonInfo',timeout=10)
+        personinfo = re.search(r'(<fieldset([\s\S]*)</fieldset>)',r.text,flags=0).group(0)
+        r =s.get('http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryPaymentcondition',timeout=10)
+        paymentcondition = re.search(r'(<table([\s\S]*)</table>)',r.text,flags=0).group(0)
+        arrearageAmount = re.search(r'[0-9]\d*.[0-9]\d*',r.text,flags=0).group(0)
+        personinfo = re.sub(r'<span id="arrearageAmount"></span>',arrearageAmount,personinfo)
+        r = s.get('http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryChargeRecord',timeout=10)
+        chargerecord = re.search(r'(<table([\s\S]*)</table>)',r.text,flags=0).group(0)
+        r = s.get('http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryRefundRecord',timeout=10)
+        refundrecord = re.search(r'(<table([\s\S]*)</table>)',r.text,flags=0).group(0)
+        string = personinfo+u'<legend></legend><legend>缴费情况</legend>'+paymentcondition+u'<legend>缴费记录</legend>'+chargerecord+u'<legend>退费记录</legend>'+refundrecord+u'<legend></legend>'
+        string = re.sub(r'<table class="tblList tblInLine">','<table class="table table-hover">',string)
+    except:
+        return False
+    else:
+        return string
+
+@app.route('/fin',methods=['POST', 'GET'])
+def fin():
+    error = None
+    if request.method == 'POST':
+        usercookies = requests.cookies.RequestsCookieJar()
+        usercookies.set('ASP.NET_SessionId',request.cookies.get('ASP.NET_SessionId'),domain='shu.edu.cn')
+        usercookies.set('SFP_Verify_Cookie',request.cookies.get('SFP_Verify_Cookie'),domain='shu.edu.cn')
+        r = finlogin(usercookies,request.form['username'],request.form['password'],request.form['check'])
+        if r != False:
+            resp = make_response(render_template('fin.html', r=r))
+            return resp
+        else:
+            error = u'登录失败！可能是账户密码错误或服务器宕机'
+            return render_template('index.html', error=error)
+    elif request.method == 'GET':
+        r,cookies = finquest()
+        resp = make_response(render_template('loginc.html',r=r))
+        for cj in cookies:
+            resp.set_cookie(cj.name,cj.value)
+        return resp
+    return render_template('index.html', error=error)
+
 @app.route('/bus')
 def bus():
     resp = make_response(render_template('bus.html'))
@@ -94,8 +149,8 @@ def login(site):
     if request.method == 'POST':
         if site == 'pe':
             r = pelogin(request.form['username'],request.form['password'])
-        elif site == 'fin':
-            r = finlogin(request.form['username'],request.form['password'])
+        elif site == 'finold':
+            r = finoldlogin(request.form['username'],request.form['password'])
         elif site == 'cardsurplus':
             r = lehulogin(request.form['username'],request.form['password'])
         else:
