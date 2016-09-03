@@ -2,11 +2,14 @@
 <html>
 
 <head>
-{% block links %}{% endblock %}
+    <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-ui"></script>
+    <link href="http://www.francescomalagrino.com/BootstrapPageGenerator/3/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
     <meta charset="utf-8">
-    <title>{% block title %}Welcome{% endblock %} |简陋的上海大学便民查询系统</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-2.0.0.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }} ">
     <script>
 var _hmt = _hmt || [];
 (function() {
@@ -15,36 +18,80 @@ var _hmt = _hmt || [];
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
-</script>
-    <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-ui"></script>
-    <link href="http://www.francescomalagrino.com/BootstrapPageGenerator/3/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
-    <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/bootstrap.min.js"></script>
+</script> {% block links %}{% endblock %}
+    <title>{% block title %}Welcome{% endblock %} |简陋的上海大学便民查询系统</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="span6">
-                <h3 class="text-center text-warning">
-                    {% block h %}Welcome{% endblock %}
-                </h3>
-                <a href="/"><button class="btn btn-block btn-info btn-large " type="button">返回首页</button></a>
-                <p>
-                    {% if error %}
-                    <div class="error"><strong>Error:</strong> {{ error }}</div>{% endif %}
-                </p>
-            </div>
-        </div>
-        {% block body %}{% endblock %}
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
 
-        <div class="row">
-            <div class="span6">
-                <p class="text-center text-success">
-                    网站持续更新中，目前还很简陋，未来将加入更加功能</br>有任何批评/建议/合作请致 formula@dumbrabbit.com。</br>也请关注<a href="https://cosformula.github.io/">开发博客</a>
-                </p>
+                <a class="navbar-brand" href="/"><span>上海大学便民查询系统</span></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active">
+                        <a href="/">首页</a>
+                    </li>
+                    <li>
+                        <a href="/">Contacts</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1> {% block h %}Welcome{% endblock %}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if error %}
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-dismissable alert-success">
+                        <strong>Error:</strong> {{ error }}.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %} 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <footer class="section section-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1></h1>
+                    <p>网站持续更新中，目前还很简陋，未来将加入更加功能。
+                        <br>
+                        <br>&nbsp;有任何批评/建议/请致 formula@dumbrabbit.com。&nbsp;
+                        <br>
+                        <br>也请关注
+                        <a href="https://cosformula.github.io/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 </body>
 
