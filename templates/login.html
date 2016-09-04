@@ -10,11 +10,21 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="inputPassword">一卡通密码</label>
+				<label class="control-label" for="inputPassword">密码</label>
 				<div class="controls">
 					<input id="inputPassword" name="password" type="password" />
 				</div>
 			</div>
+			{% if check %}
+			<div class="control-group">
+				<label class="control-label" for="inputPassword">
+					<img src="data:image/gif;base64,{{ r|safe}}"/>
+					验证码</label>
+				<div class="controls">
+					<input id="inputCheck" name="check" type="text" />
+				</div>
+			</div>
+			{% endif %} 
 			<div class="control-group">
 				<p></p>
 				<div class="controls">
