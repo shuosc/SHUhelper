@@ -1,243 +1,126 @@
-{% extends "layout.html" %} 
-{% block title %}首页{% endblock %}
-{% block h %}首页{% endblock %}
-{% block body %}
-<div class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="panel panel-danger">
-          <div class="panel-heading">
-            <h3 class="panel-title">通知公告</h3>
-          </div>
-          <div class="panel-body">
-            <div class="section">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-12">
-                            <ol>
-                              <li>网页全新改版！虽然还是不好看。</li>
-                              <li>没有别的通知了</li>
-                            </ol>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="panel panel-success">
-          <div class="panel-heading">
-            <h3 class="panel-title">常用工具</h3>
-          </div>
-          <div class="panel-body">
-            <div class="section text-left">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="section text-left">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="/cal" class="btn btn-block btn-lg btn-success">校历</a>
-                            <blockquote>
-                              <footer>保证你能看得懂的校历查看（16-17）</footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a class="btn btn-block btn-lg btn-success disabled">电话黄页</a>
-                            <blockquote>
-                              <footer>各学院、部门的电话号码。（开发中）</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="/bus" class="btn btn-block btn-lg btn-success">校车时刻表</a>
-                            <blockquote>
-                              <footer>校车运行时刻表。</footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a class="btn btn-block btn-lg btn-success disabled">校园地图</a>
-                            <blockquote>
-                              <footer>校园地图。（开发中）</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="panel panel-warning">
-          <div class="panel-heading">
-            <h3 class="panel-title">常用查询</h3>
-          </div>
-          <div class="panel-body">
-            <div class="section">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="/login/pe" class="btn btn-block btn-lg btn-warning">体育查询</a>
-                            <blockquote>
-                              <footer>体育晨跑，课外活动记录查询请按，信息来自体育学院官网。</footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a href="/fin" class="btn btn-block btn-lg btn-warning">财务查询</a>
-                            <blockquote>
-                              <footer>财务处缴费查询(新版网站)(本科)(信息来自新版网站http://xssf.shu.edu.cn:8100/SFP_Share/，目前这个接口登录密码是身份证后六位或学号后六位)，目前只可以显示当年记录，缴费情况未出所以显示为零。</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="/login/cardsurplus" class="btn btn-block btn-lg btn-warning">一卡通查询</a>
-                            <blockquote>
-                              <footer>一卡通余额、最近流水查询，由于乐乎系统问题，登陆要等待很久。</footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a href="/login/fin" class="btn btn-block btn-lg btn-warning">财务查询</a>
-                            <blockquote>
-                              <footer>财务处缴费查询(旧版网站)(本科)(信息来自旧版网站http://www.cwc.shu.edu.cn)，目前只可以显示当年记录，缴费情况未出所以显示为零。</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="/phy" class="btn btn-block btn-lg btn-warning">物理实验查询</a>
-                            <blockquote>
-                              <footer>忘记是哪个实验室了吗，看一下吧(*^_^*)请注意<strong>初始密码为学号</strong></footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a href="/" class="btn btn-block btn-lg btn-warning">没有想好</a>
-                            <blockquote>
-                              <footer>为了对称放上来的，没有任何功能</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="section">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">常用链接</h3>
-          </div>
-          <div class="panel-body">
-            <div class="section">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="ftp://msftp.shu.edu.cn" class="btn btn-block btn-lg btn-primary">微软正版软件</a>
-                            <blockquote>
-                              <footer>微软正版软件，系统。来自信息办。需校内ip访问。</footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a href="http://www.act.shu.edu.cn/Login.aspx" class="btn btn-block btn-lg btn-primary">成就系统</a>
-                            <blockquote>
-                              <footer>成就系统，校园活动报名等等，目前只是一个链接。</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="section">
-              <div class="container">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="section">
-                      <div class="container">
-                        <div class="row">
-                          <div class="col-md-5">
-                            <a href="http://202.120.127.129/Shulvms/Login.aspx" class="btn btn-block btn-lg btn-primary">志愿者管理系统</a>
-                            <blockquote>
-                              <footer>上海大学志愿者管理系统，目前只是一个链接。</footer>
-                            </blockquote>
-                          </div>
-                          <div class="col-md-5">
-                            <a href="http://cj.shu.edu.cn" class="btn btn-block btn-lg btn-primary">教务查询</a>
-                            <blockquote>
-                              <footer>课表，已完成学分状况，考试安排等等。</footer>
-                            </blockquote>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+﻿{% extends "layout.html" %} {% block title %}首页{% endblock %} {% block h %}简陋的上海大学便民查询系统{% endblock %}{% block body %}
+<div class="row">
+
+	<div class="span6">
+		<div class="row">
+			<div class="span3">
+				<a href="/login/pe"><button class="btn btn-large btn-block btn-info" type="button">体育查询</button></a>
+				<dl>
+					<dt>
+						体育晨跑，课外活动记录查询请按，信息来自体育学院官网。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<a href="/fin"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
+				<dl>
+					<dt>
+						财务处缴费查询(新版网站)(本科)(信息来自新版网站http://xssf.shu.edu.cn:8100/SFP_Share/，目前这个接口登录密码是身份证后六位或学号后六位)，目前只可以显示当年记录，缴费情况未出所以显示为零。
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<a href="ftp://msftp.shu.edu.cn"><button class="btn btn-large btn-block btn-info " type="button">微软正版软件</button></a>
+				<dl>
+					<dt>
+						微软正版软件，系统。来自信息办。需校内ip访问。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<a href="/login/finold"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
+				<dl>
+					<dt>
+						财务处缴费查询(旧版网站)(本科)(信息来自旧版网站http://www.cwc.shu.edu.cn)，目前只可以显示当年记录，缴费情况未出所以显示为零。
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<button class="btn btn-info btn-large btn-block disabled" type="button">教务查询</button>
+				<dl>
+					<dt>
+						教务查询，来自http://cj.shu.edu.cn，但是还没有做好所以不给你看。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<a href="/cal"><button class="btn btn-block btn-info btn-large " type="button">校历查询</button></a>
+				<dl>
+					<dt>
+						校历查看（16-17）
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<a href="/bus"><button class="btn btn-info btn-large btn-block " type="button">校车运行</button></a>
+				<dl>
+					<dt>
+						校车运行时刻表。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<button class="btn btn-block btn-info btn-large disabled " type="button">校园地图</button>
+				<dl>
+					<dt>
+						校园地图。(开发中)
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<a href="/login/cardsurplus"><button class="btn btn-info btn-large btn-block " type="button">一卡通查询</button></a>
+				<dl>
+					<dt>
+						一卡通余额、最近流水查询，由于乐乎系统问题，登陆要等待很久。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<button class="btn btn-block btn-info btn-large disabled" type="button">电话黄页</button>
+				<dl>
+					<dt>
+						各学院、部门的电话号码。（开发中）
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<a href="http://www.act.shu.edu.cn/Login.aspx"><button class="btn btn-info btn-large btn-block " type="button">成就系统</button></a>
+				<dl>
+					<dt>
+						成就系统，校园活动报名等等，目前只是一个链接。
+					</dt>
+				</dl>
+			</div>
+			<div class="span3">
+				<a href="http://202.120.127.129/Shulvms/Login.aspx"><button class="btn btn-block btn-info btn-large " type="button">志愿者报名系统</button></a>
+				<dl>
+					<dt>
+						上海大学志愿者管理系统，目前只是一个链接。
+					</dt>
+				</dl>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span3">
+				<a href="/phy">
+					<button class="btn btn-info btn-large btn-block " type="button">物理实验查询</button></a>
+				<dl>
+					<dt>
+						忘记是哪个实验室了吗，看一下吧(*^_^*)请注意初始密码为学号
+					</dt>
+				</dl>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}

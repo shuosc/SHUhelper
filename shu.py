@@ -37,19 +37,11 @@ def finoldlogin(user,pwd):
     'login1$txtPsw':pwd,
     'login1$Button1':''}
     s = requests.Session()
-    try:
-        r = s.post(url,data=postData,timeout=10)
-    except:
-        return False
-    else:
-        table_p=r'<table id="Table1" cellspacing="0" cellpadding="0" width="759" align="center" border="0">([\s\S]*)</table>'
-        content=re.findall(table_p,r.text,re.S|re.M)
-        if(len(content)==0):
-            return False
-        content=re.findall(table_p,r.text,re.S|re.M)
-        string = re.sub(r'<span id="Tuition1_Label2">([\s\S]*)</select>', "", content[0])
-        string = re.sub(r"<font color='red'>([\s\S]*?)</font>", "", string)
-        return string
+    r = s.post(url,data=postData,timeout=30)
+    string = re.search(r'<table id="Table1" cellspacing="0" cellpadding="0" width="759" align="center" border="0">([\s\S]*)</table>',r.text,flags=0).group(0)
+    string = re.sub(r'<span id="Tuition1_Label2">([\s\S]*)</select>', "", string)
+    string = re.sub(r"<font color='red'>([\s\S]*?)</font>", "", string)
+    return string
 
 
 def lehulogin(user,pwd):
