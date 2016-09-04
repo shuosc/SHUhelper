@@ -5,8 +5,7 @@
     <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-ui"></script>
     <link href="http://www.francescomalagrino.com/BootstrapPageGenerator/3/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }} ">
@@ -61,7 +60,7 @@ var _hmt = _hmt || [];
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="alert alert-dismissable alert-success">
+                    <div class="alert ">
                         <strong>Error:</strong> {{ error }}.</div>
                 </div>
             </div>
@@ -71,11 +70,11 @@ var _hmt = _hmt || [];
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {% block body %}{% endblock %}
+                {% block body %}
+                {% endblock %}
             </div>
         </div>
     </div>
-
     <footer class="section section-info">
         <div class="container">
             <div class="row">

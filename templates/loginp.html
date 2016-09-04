@@ -1,0 +1,37 @@
+﻿{% extends "layout.html" %} {% block title %}登陆{% endblock %} {% block h %}登陆{% endblock %} {% block body %}
+
+<div class="row">
+	<div class="span6">
+		<form class="form-horizontal" method="post">
+			<div class="control-group">
+				<label class="control-label" for="inputEmail">一卡通账号</label>
+				<div class="controls">
+					<input id="inputEmail" name="username" type="text" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputPassword" ng-value="12">密码</label>
+				<div class="controls">
+					<input id="inputPassword" name="password" type="password" />
+				</div>
+			</div>
+			
+			<div class="control-group">
+				
+				<label class="control-label" for="inputPassword">
+					<img src="data:image/gif;base64,{{ r|safe}}"/>
+					验证码</label>
+				<div class="controls">
+					<input id="inputCheck" name="check" type="text" />
+				</div>
+			</div>
+			<div class="control-group">
+				<p></p>
+				<div class="controls">
+					<div class="actions"><input type="submit" value="登录" class="btn btn-large btn-info "></div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

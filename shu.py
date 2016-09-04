@@ -111,6 +111,57 @@ def finlogin(cookies,user,pwd,check):
     else:
         return string
 
+def phyquest():
+    from PIL import Image
+    from io import BytesIO
+    s = requests.Session()
+    r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/login/',timeout=10)
+    phyhash = re.search(r'<input type="hidden" name="__hash__" value="([\s\S]*)" />',r.text,flags=0).group(1)
+    r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/verify/',timeout=10)
+    return BytesIO(r.content).getvalue().encode('base64') , s.cookies ,phyhash
+
+def phylogin(cookies,hash,user,pwd,check):
+    postData={'_hash_':hash,
+    'account':user,
+    'ajax':'1',
+    'password':pwd,
+    'verify':check}
+    s = requests.Session()
+    try:
+        r = s.post('http://www.phylab.shu.edu.cn/openexp/index.php/Public/checkLogin/',data=postData,timeout=10,cookies=cookies)
+        r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/main',timeout=10,cookies=cookies)
+        string = re.search(r'(<TABLE([\s\S]*?)</TABLE>)',r.text,flags=0).group(0)
+        string = re.sub(r'<TABLE id="checkList" class="list" cellpadding=0 cellspacing=0 >','<table class="table table-hover" cellpadding="0" cellspacing="0" >',string)
+        string = re.sub(r'<input type="submit" name="submit1"','<input type="submit" name="submit1" class="btn btn-large btn-info" ',string)
+    except:
+        return False
+    else:
+        return string
+
+ 
+@app.route('/phy',methods=['POST', 'GET'])
+def phy():
+    error = None
+    if request.method == 'POST':
+        usercookies = requests.cookies.RequestsCookieJar()
+        usercookies.set('PHPSESSID',request.cookies.get('PHPSESSID'))
+        r = phylogin(usercookies,request.cookies.get('_hash_'),request.form['username'],request.form['password'],request.form['check'])
+        if r != False:
+            resp = make_response(render_template('phy.html', r=r))
+            return resp
+        else:
+            error = u'登录失败！可能是账户密码错误或服务器宕机'
+            return render_template('index.html', error=error)
+    elif request.method == 'GET':
+        r,cookies,phyhash = phyquest()
+        error = u'请注意！若未修改过密码，初始密码为学号！！'
+        resp = make_response(render_template('loginp.html',r=r,error=error))
+        for cj in cookies:
+            resp.set_cookie(cj.name,cj.value)
+        resp.set_cookie('_hash_',phyhash)
+        return resp
+        
+    return render_template('index.html', error=error)
 @app.route('/fin',methods=['POST', 'GET'])
 def fin():
     error = None
