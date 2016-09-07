@@ -113,9 +113,38 @@ def phylogin(cookies,phyhash,user,pwd,check):
         return False
     else:
         return string
+def nhce(user,pwd,cid):
+    postData={'password':'nhce111','username':user}
+    postData2={'CID':cid,'Submit':'Confirm'}#Confirm
+    s = requests.Session()
+    try:
+        r = s.get('http://nhce.shu.edu.cn')
+        r = s.post('http://nhce.shu.edu.cn/index.php',data=postData,timeout=10)
+        r = s.post('http://nhce.shu.edu.cn/login/classregister.php',data=postData2,timeout=10)
+    except:
+        return False
+    else:
+        if(re.search('Please login from the homepage',r.text.encode('utf-8'),flags=0) == None):
+            return u'提交成功！请登录<a href="http://nhce.shu.edu.cn">nhce.shu.edu.cn</a>查看班级注册结果，如果不小心选错了可以在“班级注册”处注销班级重新选择'
+        else:
+            return False
+
+
+@app.route('/nhce', methods=['POST', 'GET'])
+def nhceroute():
+    if request.method == 'POST':
+        r = nhce(request.form['username'],request.form['password'],request.form['CID'])
+        if(r!=False):
+            resp = make_response(render_template('nhce.html', error=r , check=None))
+        else:
+            resp = make_response(render_template('nhce.html', error=u'注册失败！请重新尝试,请注意初始密码为 nhce111' , check=None))
+    elif request.method == 'GET':
+        resp = make_response(render_template('nhce.html', error=u'请注意初始密码为 nhce111' , check=None))
+    return resp
 
 @app.route('/')
 def index():
+    
     resp = make_response(render_template('index.html'))
     return resp
 
@@ -153,6 +182,8 @@ def login(site,check):
             usercookies.set('ASP.NET_SessionId',request.cookies.get('ASP.NET_SessionId'))
             usercookies.set('SFP_Verify_Cookie',request.cookies.get('SFP_Verify_Cookie'))
             r = finlogin(usercookies,request.form['username'],request.form['password'],request.form['check'])
+        elif site == 'nhce':
+            r = nhce(request.form['username'],request.form['password'],request.form['CID'])
         else:
             return render_template('index.html', error=error)
         if r != False:
@@ -176,6 +207,8 @@ def login(site,check):
                resp.set_cookie(cj.name,cj.value)
             resp.set_cookie('_hash_',phyhash)
             return resp
+        elif site =='nhce':
+             resp = make_response(render_template('nhce.html',r=r , error=error , check=check))
         else:
             return render_template('login.html', error=error,check=check)
     return render_template('index.html', error=error)

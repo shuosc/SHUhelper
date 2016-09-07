@@ -2,7 +2,7 @@
 
 <div class="row">
 	<div class="span6">
-		<form class="form-horizontal" method="post">
+		<form class="form-horizontal" onsubmit="return validate_form(this)" method="post">
 			<div class="control-group">
 				<label class="control-label" for="inputEmail">一卡通账号</label>
 				<div class="controls">
@@ -25,6 +25,7 @@
 				</div>
 			</div>
 			{% endif %} 
+
 			<div class="control-group">
 				<p></p>
 				<div class="controls">

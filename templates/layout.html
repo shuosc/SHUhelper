@@ -5,10 +5,33 @@
     <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-ui"></script>
     <link href="http://www.francescomalagrino.com/BootstrapPageGenerator/3/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
     <meta charset="utf-8">
-      <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }} ">
+    <script type="text/javascript">
+    function validate_required(field,alerttxt)
+{
+with (field)
+  {
+  if (value==null||value=="")
+    {alert(alerttxt);return false}
+  else {return true}
+  }
+}
+
+function validate_form(thisform)
+{
+with (thisform)
+  {
+  if (validate_required(username,"用户名不能为空")==false)
+    {username.focus();return false}
+if(validate_required(password,"密码不能为空")==false)
+    {password.focus();return false}
+  }
+  return true
+}
+  </script>
     <script>
 var _hmt = _hmt || [];
 (function() {
@@ -66,12 +89,11 @@ var _hmt = _hmt || [];
             </div>
         </div>
     </div>
-    {% endif %} 
+    {% endif %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {% block body %}
-                {% endblock %}
+                {% block body %} {% endblock %}
             </div>
         </div>
     </div>
