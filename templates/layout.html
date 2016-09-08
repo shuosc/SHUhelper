@@ -2,13 +2,16 @@
 <html>
 
 <head>
-    <script type="text/javascript" src="http://www.francescomalagrino.com/BootstrapPageGenerator/3/js/jquery-ui"></script>
-    <link href="http://www.francescomalagrino.com/BootstrapPageGenerator/3/css/bootstrap-combined.min.css" rel="stylesheet" media="screen">
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.css.net/files/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.css.net/files/bootstrap/3.3.5/css/bootstrap-theme.css" rel="stylesheet">
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }} ">
+    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }} ">-->
+    <!--<script src="{{ url_for('static', filename='scripts.js') }}"></script>-->
     <script type="text/javascript">
     function validate_required(field,alerttxt)
 {
@@ -45,70 +48,73 @@ var _hmt = _hmt || [];
 </head>
 
 <body>
-    <div class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
 
-                <a class="navbar-brand" href="/"><span>上海大学便民查询系统</span></a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar-ex-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active">
-                        <a href="/">首页</a>
-                    </li>
-                    <li>
-                        <a href="/">Contacts</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1> {% block h %}Welcome{% endblock %}</h1>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% if error %}
-    <div class="section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="alert ">
-                        <strong>Error:</strong> {{ error }}.</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {% block body %} {% endblock %}
+                <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                    <div class="navbar-header">
+
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> <a class="navbar-brand" href="#">简陋的上海大学便民查询系统</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="/">首页</a>
+                            </li>
+                            <li>
+                                <a href="https://cosformula.github.io/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/cosformula/shuhelper/">源代码</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </nav>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center"> {% block h %}Welcome{% endblock %}</h1>
+            </div>
+        </div>
+
+        {% if error %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-dismissable alert-success">
+
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+					×
+				</button>
+                    <h4>
+                        Alert!
+                    </h4> {{ error|safe }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {% block body %} {% endblock %}
+                </div>
             </div>
         </div>
     </div>
-    <footer class="section section-info">
+    <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <h1></h1>
-                    <p>网站持续更新中，目前还很简陋，未来将加入更加功能。
-                        <br>
-                        <br>&nbsp;有任何批评/建议/请致 formula@dumbrabbit.com。&nbsp;
-                        <br>
-                        <br>也请关注
-                        <a href="https://cosformula.github.io/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
+                    <p class="text-muted text-center">网站持续更新中，目前还很简陋，未来将加入更加功能。&nbsp;有任何批评/建议/请致 formula@dumbrabbit.com。&nbsp;也请关注<a href="https://cosformula.github.io/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
                     </p>
+
                 </div>
             </div>
         </div>

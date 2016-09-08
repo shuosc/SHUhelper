@@ -46,6 +46,7 @@ def general_login(site,user,pwd): #不使用验证码登录的网站的通用登
         #根据不同site进行不同的文本处理
         if site == 'pe':
             content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)<tr>\s+<td colspan="13">',string,flags=0).group(0)
+            content = re.sub(r'<table cellpadding="3" cellspacing="1" class="table_bg">','<table class="table table-hover">',content)
         elif site == 'finold':
             content = re.search(r'<table id="Table1" cellspacing="0" cellpadding="0" width="759" align="center" border="0">([\s\S]*)</table>',string,flags=0).group(0)
             content = re.sub(r'<span id="Tuition1_Label2">([\s\S]*)</select>', "", content)
@@ -161,6 +162,10 @@ def bus():
 @app.route('/map')
 def map():
     resp = make_response(render_template('map.html'))
+    return resp
+@app.route('/tel')
+def tel():
+    resp = make_response(render_template('tel.html'))
     return resp
 
 @app.route('/login/<check>/<site>', methods=['POST', 'GET'])

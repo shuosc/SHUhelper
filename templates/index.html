@@ -1,134 +1,156 @@
-﻿{% extends "layout.html" %} {% block title %}首页{% endblock %} {% block h %}简陋的上海大学便民查询系统{% endblock %}{% block body %}
+﻿{% extends "layout.html" %}
+{% block title %}首页{% endblock %} 
+{% block h %}首页{% endblock %}
+{% block body %}
+
 <div class="row">
 
-	<div class="span6">
-		<div class="row">
-			<div class="span3">
-				<a href="/login/novali/pe"><button class="btn btn-large btn-block btn-info" type="button">体育查询</button></a>
-				<dl>
-					<dt>
-						体育晨跑，课外活动记录查询请按，信息来自体育学院官网。
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<a href="/login/vali/fin"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
-				<dl>
-					<dt>
-						财务处缴费查询(新版网站)(本科)(信息来自新版网站http://xssf.shu.edu.cn:8100/SFP_Share/，目前这个接口登录密码是身份证后六位或学号后六位)，目前只可以显示当年记录，缴费情况未出所以显示为零。
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span3">
-				<a href="ftp://msftp.shu.edu.cn"><button class="btn btn-large btn-block btn-info " type="button">微软正版软件</button></a>
-				<dl>
-					<dt>
-						微软正版软件，系统。来自信息办。需校内ip访问。
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<a href="/login/novali/finold"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
-				<dl>
-					<dt>
-						财务处缴费查询(旧版网站)(本科)(信息来自旧版网站http://www.cwc.shu.edu.cn)，目前只可以显示当年记录，缴费情况未出所以显示为零。
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span3">
-				<button class="btn btn-info btn-large btn-block disabled" type="button">教务查询</button>
-				<dl>
-					<dt>
-						教务查询，来自http://cj.shu.edu.cn，但是还没有做好所以不给你看。
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<a href="/cal"><button class="btn btn-block btn-info btn-large " type="button">校历查询</button></a>
-				<dl>
-					<dt>
-						校历查看（16-17）
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span3">
-				<a href="/bus"><button class="btn btn-info btn-large btn-block " type="button">校车运行</button></a>
-				<dl>
-					<dt>
-						校车运行时刻表。
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<button class="btn btn-block btn-info btn-large disabled " type="button">校园地图</button>
-				<dl>
-					<dt>
-						校园地图。(开发中)
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span3">
-				<a href="/login/novali/lehu"><button class="btn btn-info btn-large btn-block " type="button">一卡通查询</button></a>
-				<dl>
-					<dt>
-						一卡通余额、最近流水查询，由于乐乎系统问题，登陆要等待很久。
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<button class="btn btn-block btn-info btn-large disabled" type="button">电话黄页</button>
-				<dl>
-					<dt>
-						各学院、部门的电话号码。（开发中）
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span3">
-				<a href="http://www.act.shu.edu.cn/Login.aspx"><button class="btn btn-info btn-large btn-block " type="button">成就系统</button></a>
-				<dl>
-					<dt>
-						成就系统，校园活动报名等等，目前只是一个链接。
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<a href="http://202.120.127.129/Shulvms/Login.aspx"><button class="btn btn-block btn-info btn-large " type="button">志愿者报名系统</button></a>
-				<dl>
-					<dt>
-						上海大学志愿者管理系统，目前只是一个链接。
-					</dt>
-				</dl>
-			</div>
-		</div>
-		<div class="row">
-			<div class="span3">
-				<a href="/login/vali/phylab">
-					<button class="btn btn-info btn-large btn-block " type="button">物理实验查询</button></a>
-				<dl>
-					<dt>
-						忘记是哪个实验室了吗，看一下吧(*^_^*)请注意初始密码为学号
-					</dt>
-				</dl>
-			</div>
-			<div class="span3">
-				<a href="/nhce"><button class="btn btn-block btn-info btn-large " type="button">英语班级注册</button></a>
-				<dl>
-					<dt>
-						普通的方法太麻烦所以做了这个，以后再也不用问别人为什么没法注册了。
-					</dt>
-				</dl>
+	<div class="col-md-12">
+		<div class="tabbable" id="tabs-678246">
+			<ul class="nav nav-tabs">
+				<li class="active">
+					<a href="#panel-1" data-toggle="tab">常用工具</a>
+				</li>
+				<li>
+					<a href="#panel-2" data-toggle="tab">常用查询</a>
+				</li>
+				<li>
+					<a href="#panel-3" data-toggle="tab">常用链接</a>
+				</li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="panel-1">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<a href="/cal"><button class="btn btn-block btn-info btn-large " type="button">校历查询</button></a>
+									<dl>
+										<dt>
+											校历查看（16-17）
+										</dt>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<a href="/bus"><button class="btn btn-info btn-large btn-block " type="button">校车运行</button></a>
+									<dl>
+										<dt>
+											校车运行时刻表。
+										</dt>
+									</dl>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<a href="/map"><button class="btn btn-block btn-info btn-large  " type="button">校园地图</button></a>
+									<dl>
+										<dt>
+											校园地图。(完整宝山区校园地图，比较大(4m)请注意流量使用)。
+										</dt>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<a href="/tel"><button class="btn btn-block btn-info btn-large" type="button">电话黄页</button></a>
+									<dl>
+										<dt>
+											各学院、部门的电话号码。
+										</dt>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane " id="panel-2">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<a href="/login/novali/pe"><button class="btn btn-large btn-block btn-info" type="button">体育查询</button></a>
+									<dl>
+										<dt>
+											体育晨跑，课外活动记录查询请按，信息来自体育学院官网。
+										</dt>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<a href="/login/vali/fin"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
+									<dl>
+										<dt>
+											财务处缴费查询(新版网站)(本科)(信息来自新版网站http://xssf.shu.edu.cn:8100/SFP_Share/，目前这个接口登录密码是身份证后六位或学号后六位)，目前只可以显示当年记录，缴费情况未出所以显示为零。
+										</dt>
+									</dl>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<a href="/login/novali/finold"><button class="btn btn-large btn-info btn-block " type="button">财务查询</button></a>
+									<dl>
+										<dt>
+											财务处缴费查询(旧版网站)(本科)(信息来自旧版网站http://www.cwc.shu.edu.cn)，目前只可以显示当年记录，缴费情况未出所以显示为零。
+										</dt>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<a href="/login/vali/phylab">
+										<button class="btn btn-info btn-large btn-block " type="button">物理实验查询</button></a>
+									<dl>
+										<dt>
+											忘记是哪个实验室了吗，看一下吧(*^_^*)请注意初始密码为学号
+										</dt>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane " id="panel-3">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-6">
+									<a href="ftp://msftp.shu.edu.cn"><button class="btn btn-large btn-block btn-info " type="button">微软正版软件</button></a>
+									<dl>
+										<dt>
+											微软正版软件，系统。来自信息办。需校内ip访问。
+										</dt>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<a href="http://www.act.shu.edu.cn/Login.aspx"><button class="btn btn-info btn-large btn-block " type="button">成就系统</button></a>
+									<dl>
+										<dt>
+											成就系统，校园活动报名等等，目前只是一个链接。
+										</dt>
+									</dl>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<a href="http://202.120.127.129/Shulvms/Login.aspx"><button class="btn btn-block btn-info btn-large " type="button">志愿者报名系统</button></a>
+									<dl>
+										<dt>
+											上海大学志愿者管理系统，目前只是一个链接。
+										</dt>
+									</dl>
+								</div>
+								<div class="col-md-6">
+									<a href="/nhce"><button class="btn btn-block btn-info btn-large " type="button">英语班级注册</button></a>
+									<dl>
+										<dt>
+											普通的方法太麻烦所以做了这个，以后再也不用问别人为什么没法注册了。
+										</dt>
+									</dl>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
 {% endblock %}
