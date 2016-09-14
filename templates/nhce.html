@@ -1,0 +1,1387 @@
+﻿{% extends "layout.html" %} {% block title %}登陆{% endblock %} {% block h %}登陆{% endblock %} {% block body %}
+
+<div class="row">
+	<div class="span6">
+		<script>
+			function checkRadio() {
+		var inputs = document.getElementsByTagName('input');
+		var checked = [];
+		for (var i = 0; i < inputs.length; i++) {
+			if (inputs[i].type === 'radio' && inputs[i].checked) {
+				checked.push(i + 1);
+			}
+		}
+        if (checked.length==0)
+		{   
+            alert(checked + '请选择一个班级！');
+            return false
+        }
+	}
+	</script>
+	<!--checkRadio(this)&&validate_form(thisform)-->
+		<form class="form-horizontal" onsubmit="return validate_form(this)&&checkRadio(this)" method="post" >
+			<div class="form-group">
+
+			<label for="inputEmail3" class="col-sm-2 control-label">
+						一卡通账号
+					</label>
+			<div class="col-sm-10">
+				<input type="username" class="form-control" name="username" />
+			</div>
+		</div>
+		<div class="form-group">
+
+			<label for="inputPassword3" class="col-sm-2 control-label">
+						密码
+					</label>
+			<div class="col-sm-10">
+				<input type="password" class="form-control" name="password" />
+			</div>
+		</div>
+			<table class="table table-hover">
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1994">
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）1班姚兴凤 </td>
+					<td align="left" valign="middle">
+						030043821001 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+					</input>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1995">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）2班陈方红 </td>
+					<td align="left" valign="middle">
+						030043821002 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1996">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）3班吴羊 </td>
+					<td align="left" valign="middle">
+						030043821003 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1997">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）4班张新玲 </td>
+					<td align="left" valign="middle">
+						030043821004 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1998">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）5班王晓莹 </td>
+					<td align="left" valign="middle">
+						030043821005 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1999">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）6班白岸杨 </td>
+					<td align="left" valign="middle">
+						030043821006 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2000">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）7班姚兴凤 </td>
+					<td align="left" valign="middle">
+						030043821007 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2001">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）8班陈方红 </td>
+					<td align="left" valign="middle">
+						030043821008 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2002">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）9班张新玲 </td>
+					<td align="left" valign="middle">
+						030043821009 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2003">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）10班王晓莹 </td>
+					<td align="left" valign="middle">
+						030043821010 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2004">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）11班白岸杨 </td>
+					<td align="left" valign="middle">
+						030043821011 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2005">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）12班雷远旻 </td>
+					<td align="left" valign="middle">
+						030043821012 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2006">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）13班吴羊 </td>
+					<td align="left" valign="middle">
+						030043821013 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2007">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）14班陈方红 </td>
+					<td align="left" valign="middle">
+						030043821014 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2008">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）15班赵春华 </td>
+					<td align="left" valign="middle">
+						030043821015 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2009">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）16班王晓莹 </td>
+					<td align="left" valign="middle">
+						030043821016 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2010">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）17班雷远旻 </td>
+					<td align="left" valign="middle">
+						030043821017 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2011">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）18班姚兴凤 </td>
+					<td align="left" valign="middle">
+						030043821018 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2012">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）19班雷远旻 </td>
+					<td align="left" valign="middle">
+						030043821019 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2013">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）20班沈力 </td>
+					<td align="left" valign="middle">
+						030043821020 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2014">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）21班赵春华 </td>
+					<td align="left" valign="middle">
+						030043821021 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2015">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						大学英语A级（1）22班赵春华 </td>
+					<td align="left" valign="middle">
+						030043821022 </td>
+					<td align="left" valign="middle">
+						大学英语A级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1950">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）1班薛清 </td>
+					<td align="left" valign="middle">
+						030043881001 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1951">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）2班王伟 </td>
+					<td align="left" valign="middle">
+						030043881002 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1952">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）3班谢怡沁 </td>
+					<td align="left" valign="middle">
+						030043881003 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1953">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）4班朱虹 </td>
+					<td align="left" valign="middle">
+						030043881004 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1954">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）5班张苹 </td>
+					<td align="left" valign="middle">
+						030043881005 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1955">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）6班白静远 </td>
+					<td align="left" valign="middle">
+						030043881006 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="2016">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）7班梁君华 </td>
+					<td align="left" valign="middle">
+						030043881007 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1957">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）8班金焱 </td>
+					<td align="left" valign="middle">
+						030043881008 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1958">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）9班蔡俏兰 </td>
+					<td align="left" valign="middle">
+						030043881009 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1959">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）10班薛瑜 </td>
+					<td align="left" valign="middle">
+						030043881010 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1960">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）11班陈驿 </td>
+					<td align="left" valign="middle">
+						030043881011 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1961">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）12班章健 </td>
+					<td align="left" valign="middle">
+						030043881012 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1962">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）13班杨兆明 </td>
+					<td align="left" valign="middle">
+						030043881013 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1963">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）14班戴朝晖 </td>
+					<td align="left" valign="middle">
+						030043881014 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1964">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）15班薛清 </td>
+					<td align="left" valign="middle">
+						030043881015 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1965">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）16班王伟 </td>
+					<td align="left" valign="middle">
+						030043881016 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1966">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）17班谢怡沁 </td>
+					<td align="left" valign="middle">
+						030043881017 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1967">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）18班朱虹 </td>
+					<td align="left" valign="middle">
+						030043881018 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1968">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）19班张苹 </td>
+					<td align="left" valign="middle">
+						030043881019 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1969">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）20班白静远 </td>
+					<td align="left" valign="middle">
+						030043881020 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1970">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）21班梁君华 </td>
+					<td align="left" valign="middle">
+						030043881021 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1971">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）22班陈驿 </td>
+					<td align="left" valign="middle">
+						030043881022 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1972">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）23班章健 </td>
+					<td align="left" valign="middle">
+						030043881023 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1973">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）24班杨兆明 </td>
+					<td align="left" valign="middle">
+						030043881024 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1974">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）25班张岚 </td>
+					<td align="left" valign="middle">
+						030043881025 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1975">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）26班戴朝晖 </td>
+					<td align="left" valign="middle">
+						030043881026 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1976">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）27班薛瑜 </td>
+					<td align="left" valign="middle">
+						030043881027 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1977">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）28班蔡俏兰 </td>
+					<td align="left" valign="middle">
+						030043881028 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1978">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）29班金焱 </td>
+					<td align="left" valign="middle">
+						030043881029 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1979">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）30班陈驿 </td>
+					<td align="left" valign="middle">
+						030043881030 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1980">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）31班章健 </td>
+					<td align="left" valign="middle">
+						030043881031 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1981">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）32班张岚 </td>
+					<td align="left" valign="middle">
+						030043881032 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1982">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）33班杨兆明 </td>
+					<td align="left" valign="middle">
+						030043881033 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1983">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）34班薛清 </td>
+					<td align="left" valign="middle">
+						030043881034 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1984">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）35班王伟 </td>
+					<td align="left" valign="middle">
+						030043881035 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1985">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）36班谢怡沁 </td>
+					<td align="left" valign="middle">
+						030043881036 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1986">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）37班朱虹 </td>
+					<td align="left" valign="middle">
+						030043881037 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1987">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）38班张苹 </td>
+					<td align="left" valign="middle">
+						030043881038 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1988">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）39班白静远 </td>
+					<td align="left" valign="middle">
+						030043881039 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1989">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）40班梁君华 </td>
+					<td align="left" valign="middle">
+						030043881040 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1990">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）41班蔡俏兰 </td>
+					<td align="left" valign="middle">
+						030043881041 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1991">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）42班金焱 </td>
+					<td align="left" valign="middle">
+						030043881042 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1992">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）43班张岚 </td>
+					<td align="left" valign="middle">
+						030043881043 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1993">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						B级（1）44班戴朝晖 </td>
+					<td align="left" valign="middle">
+						030043881044 </td>
+					<td align="left" valign="middle">
+						大学英语B级（1） </td>
+
+					<td align="left" valign="middle">
+
+
+
+					</td>
+				</tr>
+				<tr>
+					<td align="center" valign="middle" bgcolor="#e8e8e8">
+						<input type="radio" name="CID" value="1411">
+
+
+
+					</td>
+					<td align="left" valign="middle">
+						2013四级 </td>
+					<td align="left" valign="middle">
+						20130001 </td>
+					<td align="left" valign="middle">
+						张岚英语视听说2 </td>
+
+					<td align="left" valign="middle">
+					</td>
+				</tr>
+			</table>
+			<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<input type="submit" value="注册班级" class="btn btn-large btn-info btn-block ">
+			</div>
+		</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

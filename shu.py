@@ -7,8 +7,11 @@ import sys
 import string
 import re
 import requests
+# from flask_admin import Admin
 app = Flask(__name__)
 
+# admin = Admin(app, name='microblog', template_mode='bootstrap3')
+ 
 def general_login(site,user,pwd): #不使用验证码登录的网站的通用登录方法
     if site == 'pe':#根据相应网站确定相应的postData
         postData={'UNumber':user,'Upwd':pwd,'USnumber':u'上海大学'}
@@ -163,14 +166,26 @@ def bus():
 def map():
     resp = make_response(render_template('map.html'))
     return resp
+@app.route('/peex')
+def peex():
+    resp = make_response(render_template('peex.html'))
+    return resp
+@app.route('/pemap')
+def pemap():
+    resp = make_response(render_template('pemap.html'))
+    return resp
 @app.route('/tel')
 def tel():
     resp = make_response(render_template('tel.html'))
     return resp
+@app.route('/wish/<page>', methods=['POST', 'GET'])
 
-@app.route('/login/<check>/<site>', methods=['POST', 'GET'])
-#check变量代表此接口是否有验证码
-#site变量代表发生此接口是哪个接口
+# def wish(page):
+#     if request.method == 'GET':
+#         r = None
+#         resp = make_response(render_template('wish.html',r=r))
+#     else:
+@app.route('/login/<check>/<site>', methods=['POST', 'GET'])#check变量代表此接口是否有验证码site变量代表发生此接口是哪个接口
 def login(site,check):
     error = None
     if check != 'vali':
