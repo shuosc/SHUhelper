@@ -178,8 +178,19 @@ def pemap():
 def tel():
     resp = make_response(render_template('tel.html'))
     return resp
-@app.route('/wish/<page>', methods=['POST', 'GET'])
-
+@app.route('/med')
+def med():
+    resp = make_response(render_template('med.html'))
+    return resp
+@app.route('/jszxjf')
+def jszxjf():
+    resp = make_response(render_template('jszxjf.html'))
+    return resp
+@app.route('/jszxkcdy')
+def jszxkcdy():
+    resp = make_response(render_template('jszxkcdy.html'))
+    return resp
+# @app.route('/wish/<page>', methods=['POST', 'GET'])
 # def wish(page):
 #     if request.method == 'GET':
 #         r = None
