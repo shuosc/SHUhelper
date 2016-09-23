@@ -46,17 +46,21 @@ def general_login(site,user,pwd): #不使用验证码登录的网站的通用登
     except:
         return False
     else:
-        #根据不同site进行不同的文本处理
-        if site == 'pe':
-            content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)<tr>\s+<td colspan="13">',string,flags=0).group(0)
-            content = re.sub(r'<table cellpadding="3" cellspacing="1" class="table_bg">','<table class="table table-hover">',content)
-        elif site == 'finold':
-            content = re.search(r'<table id="Table1" cellspacing="0" cellpadding="0" width="759" align="center" border="0">([\s\S]*)</table>',string,flags=0).group(0)
-            content = re.sub(r'<span id="Tuition1_Label2">([\s\S]*)</select>', "", content)
-            content = re.sub(r"<font color='red'>([\s\S]*?)</font>", "", content)
-        elif site == 'lehu':
-            content = re.search(r'<span id="ctl00_Contentplaceholder1_Label1">([\s\S]*)</form>',string,flags=0).group(0)
-        return content
+        try:
+            #根据不同site进行不同的文本处理
+            if site == 'pe':
+                # content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)<tr>\s+<td colspan="13">',string,flags=0).group(0)
+                content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>',string,flags=0).group(0)
+                content = re.sub(r'<table cellpadding="3" cellspacing="1" class="table_bg">','<table class="table  table-striped table-hover table-bordered table-condensed">',content)
+            elif site == 'finold':
+                content = re.search(r'<table id="Table1" cellspacing="0" cellpadding="0" width="759" align="center" border="0">([\s\S]*)</table>',string,flags=0).group(0)
+                content = re.sub(r'<span id="Tuition1_Label2">([\s\S]*)</select>', "", content)
+                content = re.sub(r"<font color='red'>([\s\S]*?)</font>", "", content)
+            elif site == 'lehu':
+                content = re.search(r'<span id="ctl00_Contentplaceholder1_Label1">([\s\S]*)</form>',string,flags=0).group(0)
+            return content
+        except:
+            return False
     return False
 
 def finquest():
@@ -85,7 +89,7 @@ def finlogin(cookies,user,pwd,check):
         r = s.get('http://xssf.shu.edu.cn:8100/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryRefundRecord',timeout=10)
         refundrecord = re.search(r'(<table([\s\S]*)</table>)',r.text,flags=0).group(0)
         string = personinfo+u'<legend></legend><legend>缴费情况</legend>'+paymentcondition+u'<legend>缴费记录</legend>'+chargerecord+u'<legend>退费记录</legend>'+refundrecord+u'<legend></legend>'
-        string = re.sub(r'<table class="tblList tblInLine">','<table class="table table-hover">',string)
+        string = re.sub(r'<table class="tblList tblInLine">','<table class="table  table-striped table-hover table-bordered table-condensed">',string)
     except:
         return False
     else:
@@ -111,7 +115,7 @@ def phylogin(cookies,phyhash,user,pwd,check):
         r = s.post('http://www.phylab.shu.edu.cn/openexp/index.php/Public/checkLogin/',data=postData,timeout=10,cookies=cookies)
         r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/main',timeout=10,cookies=cookies)
         string = re.search(r'(<TABLE([\s\S]*?)</TABLE>)',r.text,flags=0).group(0)
-        string = re.sub(r'<TABLE id="checkList" class="list" cellpadding=0 cellspacing=0 >','<table class="table table-hover" cellpadding="0" cellspacing="0" >',string)
+        string = re.sub(r'<TABLE id="checkList" class="list" cellpadding=0 cellspacing=0 >','<table class="table  table-striped table-hover table-bordered table-condensed" >',string)
         string = re.sub(r'<input type="submit" name="submit1"','<input type="submit" name="submit1" class="btn btn-large btn-info" ',string)
     except:
         return False

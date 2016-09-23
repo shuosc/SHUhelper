@@ -29,6 +29,12 @@
                         <a href="/">首页</a>
                     </li>
                     <li>
+                        <a href="http://ask.shuhelper.com">上大问答</a>
+                    </li>
+                    <li>
+                        <a href="http://wiki.shuhelper.com ">上大百科</a>
+                    </li>
+                    <li>
                         <a href="https://cosformula.github.io/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
                     </li>
                     <li>
@@ -39,7 +45,7 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <h1 class="text-center"> {% block h %}Welcome{% endblock %}</h1>
@@ -54,21 +60,20 @@
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 					×
 				</button>
-                    <h4>
+                    <h4 class="text-center">
                         警告!
-                    </h4> {{ error|safe }}
+                    </h4>
+                    <p class="text-center"> {{ error|safe }}</p>
                 </div>
             </div>
         </div>
         {% endif %}
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    {% block body %} {% endblock %}
-                </div>
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                {% block body %} {% endblock %}
             </div>
-            <br/><br/>
         </div>
+        <br/><br/>
     </div>
 
 
@@ -78,28 +83,11 @@
   height: 60px;
   background-color: #f5f5f5;">
         <div class="container">
-            <p class="text-muted" vertical-align= "middle"><br/>网站持续更新中，目前还很简陋，未来将加入更加功能。&nbsp;有任何批评/建议/请致 formula@dumbrabbit.com。&nbsp;也请关注<a href="https://cosformula.github.io/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
-            </p>
+            <p class="text-muted" vertical-align="middle"><br/>网站持续更新中，目前还很简陋，未来将加入更加功能。&nbsp;有任何问题、建议请直接在这里评论</p>
         </div>
     </footer>
 </body>
-<script type="text/javascript" src="http://cdn.css.net/files/jquery/2.0.3/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="http://cdn.css.net/files/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-    var duoshuoQuery = {
-        short_name: "shutools"
-    };
-    (function() {
-        var ds = document.createElement('script');
-        ds.type = 'text/javascript';
-        ds.async = true;
-        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-        ds.charset = 'UTF-8';
-        (document.getElementsByTagName('head')[0] ||
-            document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-</script>
+{% block script %}{% endblock %}
 <script type="text/javascript">
     function validate_required(field, alerttxt) {
         with(field) {
@@ -135,5 +123,7 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+<script type="text/javascript" src="http://cdn.css.net/files/jquery/2.0.3/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="http://cdn.css.net/files/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 </html>

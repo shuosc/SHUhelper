@@ -1,691 +1,200 @@
-{% extends "layout.html" %} 课外活动{% block title %}{% endblock %} {% block h %}课外活动{% endblock %} {% block body %}
-<div class="span6">
-    <table class="table table-bordered table-responsive " >
+{% extends "layout.html" %} {% block title %}课外活动{% endblock %} {% block h %}课外活动{% endblock %} {% block body %}
+<!--<div class="table-responsive">-->
+    <table class="table table-striped table-hover table-bordered table-condensed">
 
-            <tbody align="center">
-              <tr>
-                <td >序号</td>
-                <td >项目</td>
-                <td >时间/地点</td>
-                <td >一</td>
-                <td >二</td>
-                <td >三</td>
-                <td >四</td>
-                <td >五</td>
-                <td >限制人数/批</td>
-              </tr>
-              <tr>
-               
-                <td >1</td>
-                <td >篮球<br>
-                荷式篮球</td>
-                <td >C区风雨操场<br>
-                15:45-17:15</td>
-                <td  colspan="4">15:45-17:15</td>
-                <td >15:00-16:30</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >2</td>
-                <td >排  球</td>
-                <td >C区风雨操场<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td  colspan="3">15:45-17:15</td>
-                <td >----</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >3</td>
-                <td >男生足球</td>
-                <td >J区足球场<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td  colspan="3">15:45-17:15</td>
-                <td >15:00-16:30</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >4</td>
-                <td >羽毛球</td>
-                <td >体育馆内场<br>
-                15:45-17:15</td>
-                <td  colspan="4">15:45-17:15</td>
-                <td >13:30-15:00</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >5</td>
-                <td >乒乓球</td>
-                <td >训练馆乒乓房<br>
-                15:45-17:15</td>
-                <td  colspan="4">15:45-17:15</td>
-                <td >15:00-16:30</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >6</td>
-                <td >网  球</td>
-                <td >E区网球场<br>
-                15:45-17:15</td>
-                <td  colspan="4">15:45-17:15</td>
-                <td >15:00-16:30</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >7</td>
-                <td >女生操舞类</td>
-                <td >训练馆X107<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td  colspan="3">15:45-17:15</td>
-                <td >----</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >8</td>
-                <td >女生瑜珈<br>
-                养生普拉提</td>
-                <td >训练馆X106<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td  colspan="2">15:45-17:15</td>
-                <td >----</td>
-                <td >----</td>
-                <td >35</td>
-              </tr>
-              <tr>
-                
-                <td >9</td>
-                <td >游泳达标测试</td>
-                <td >游泳馆<br>
-                15:45-16:30</td>
-                <td  colspan="4">15:45-16:30</td>
-                <td >13:30-14:15</td>
-                <td >50</td>
-              </tr>
-              <tr>
-                
-                <td >10</td>
-                <td >游  泳</td>
-                <td >游泳馆<br>
-                15:45-17:15</td>
-                <td  colspan="4">15:45-17:15</td>
-                <td >13:30-15:00</td>
-                <td >100</td>
-              </tr>
-              <tr>
-                
-                <td >11</td>
-                <td >武  术</td>
-                <td >训练馆2楼<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td  colspan="3">15:45-17:15</td>
-                <td >----</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >12</td>
-                <td >旱地冰球</td>
-                <td >训练馆2楼<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td >----</td>
-                <td >15:45-17:15</td>
-                <td >----</td>
-                <td >----</td>
-                <td >35</td>
-              </tr>
-              <tr>
-                
-                <td >13</td>
-                <td >跆拳道</td>
-                <td >体育馆2楼南侧<br>
-                15:45-17:15</td>
-                <td >15:45-17:15</td>
-                <td >----</td>
-                <td >----</td>
-                <td >15:45-17:15</td>
-                <td >----</td>
-                <td >60</td>
-              </tr>
-              <tr>
-                
-                <td >14</td>
-                <td >击  剑</td>
-                <td >体育馆2楼北侧<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td >----</td>
-                <td >15:45-17:15</td>
-                <td >----</td>
-                <td >15:00-16:30</td>
-                <td >35</td>
-              </tr>
-              <tr>
-                
-                <td >15</td>
-                <td >攀  岩</td>
-                <td >C区攀岩墙<br>
-                15:45-17:15</td>
-                <td >----</td>
-                <td >----</td>
-                <td >----</td>
-                <td >15:45-17:15</td>
-                <td >----</td>
-                <td >35</td>
-              </tr>
-              <tr>
-                
-                <td >16</td>
-                <td >高尔夫球    </td>
-                <td >J区南侧<br>
-                15:45-17:15</td>
-                <td  colspan="4">15:45-16:30</td>
-                <td >----</td>
-                <td >60</td>
-              </tr>
-            </tbody>
-</table>
- <!--<table  cellspacing="0" cellpadding="0" width="100%">
-		<tbody><tr>
-			<td>
-			
-		</td>
-		</tr>
-		<tr>
-			<td align="center"></td>
-		</tr>
-		<tr>
-			<td>
-			
-		</td>
-		</tr>
-		<tr>
-			<td id="dnn_ctr56027_ArtDetail_zoom" valign="top" align="left"><span id="dnn_ctr56027_ArtDetail_lblArticle" class="ArticleContent"><div align="center">
-<table class="table table-hover" style="WIDTH: 506.25pt; BORDER-COLLAPSE: collapse; MARGIN-LEFT: 4.65pt" align="center">
-    <tbody>
-        <tr style="HEIGHT: 14.25pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">校区</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">序号</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">项目</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">时间/地点</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">一</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 51.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="68">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">二</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">三</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 61.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">四</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">五</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">限制</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">&nbsp;&nbsp;&nbsp;&nbsp;</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">人数/批</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">宝山</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">1</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">篮球</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">荷式篮球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">C</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">区风雨操场</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 231.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:00-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">2</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">排 &nbsp;球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">C</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">区风雨操场</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 170pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="226" colspan="3">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">3</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">男生足球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">J</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">区足球场</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 170pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="226" colspan="3">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:00-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">4</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">羽毛球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">体育馆内场</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 231.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">13:30-15:00</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">5</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">乒乓球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">训练馆乒乓房</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 231.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:00-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">6</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">网 &nbsp;球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">E</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">区网球场</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 231.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:00-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">7</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">女生操舞类</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">训练馆X107</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 170pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="226" colspan="3">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">8</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">女生瑜珈</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">养生普拉提</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">训练馆X106</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 108.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="144" colspan="2">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">35</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">9</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">游泳达标测试</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; BORDER-BOTTOM-COLOR: #f0f0f0; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">游泳馆</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-16:30</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 231.65pt; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; BORDER-BOTTOM-COLOR: #f0f0f0; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">13:30-14:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; BORDER-BOTTOM-COLOR: #f0f0f0; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">50</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">游 &nbsp;泳</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 74.3pt; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; BORDER-BOTTOM-COLOR: #f0f0f0; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">游泳馆</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 231.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">13:30-15:00</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; BORDER-BOTTOM-COLOR: #f0f0f0; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">100</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">10</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">武 &nbsp;术</span></strong></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">训练馆2楼</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 170pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="226" colspan="3">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">11</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">旱地冰球</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">训练馆2楼</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 51.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="68">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-TOP: rgb(0,0,0) 1pt solid; BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">35</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">12</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">跆拳道</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">体育馆2楼南侧</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 51.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="68">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">13</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">击 &nbsp;剑</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">体育馆2楼北侧</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 51.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="68">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:00-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">35</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">14</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">攀 &nbsp;岩</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">C区攀岩墙</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.65pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 51.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="68">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 61.7pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="82">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">35</span></strong></div>
-            </td>
-        </tr>
-        <tr style="HEIGHT: 30.75pt">
-            <td style="BORDER-TOP: rgb(0,0,0) 0.5pt solid; BORDER-RIGHT: rgb(0,0,0) 1pt solid; WIDTH: 25.2pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; BORDER-LEFT: rgb(0,0,0) 1.5pt solid; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="33">
-            <div style="TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong>&nbsp;</strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 15.35pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="20">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 63.85pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="85">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">高尔夫球 &nbsp;&nbsp;&nbsp;</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 74.3pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="99">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">J</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">区南侧</span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal"><br></span></strong><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-17:15</span></strong></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 231.65pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="308" colspan="4">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">15:45-16:30</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 56.6pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="75">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><span style="FONT-SIZE: 10pt; COLOR: rgb(0,0,0); FONT-STYLE: normal">----</span></div>
-            </td>
-            <td style="BORDER-RIGHT: rgb(0,0,0) 1.5pt solid; BORDER-TOP-COLOR: #f0f0f0; WIDTH: 39.3pt; BORDER-BOTTOM: rgb(0,0,0) 1.5pt solid; BORDER-LEFT-COLOR: #f0f0f0; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-RIGHT: 0.75pt; BACKGROUND-COLOR: transparent" valign="middle" width="52">
-            <div style="VERTICAL-ALIGN: middle; TEXT-ALIGN: center; MARGIN: 0pt" align="center"><strong><span style="FONT-SIZE: 10pt; FONT-WEIGHT: bold; COLOR: rgb(0,0,0); FONT-STYLE: normal">60</span></strong></div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-</div>
-</span></td>
-		</tr>
-		<tr>
-			<td align="right">
-			
-		</td>
-		</tr>
-		<tr style="display:none">
-			<td>
-			<hr>
-		</td>
-		</tr>
-		<tr>
-			<td></td>
-		</tr>
-	</tbody></table>   -->
-</div>
+        <tbody align="center">
+            <tr>
+                <td>序号</td>
+                <td>项目</td>
+                <td>时间/地点</td>
+                <td>一</td>
+                <td>二</td>
+                <td>三</td>
+                <td>四</td>
+                <td>五</td>
+                <td>限制人数/批</td>
+            </tr>
+            <tr>
+
+                <td>1</td>
+                <td>篮球<br> 荷式篮球
+                </td>
+                <td>C区风雨操场<br> 15:45-17:15
+                </td>
+                <td colspan="4">15:45-17:15</td>
+                <td>15:00-16:30</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>2</td>
+                <td>排  球</td>
+                <td>C区风雨操场<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td colspan="3">15:45-17:15</td>
+                <td>----</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>3</td>
+                <td>男生足球</td>
+                <td>J区足球场<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td colspan="3">15:45-17:15</td>
+                <td>15:00-16:30</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>4</td>
+                <td>羽毛球</td>
+                <td>体育馆内场<br> 15:45-17:15
+                </td>
+                <td colspan="4">15:45-17:15</td>
+                <td>13:30-15:00</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>5</td>
+                <td>乒乓球</td>
+                <td>训练馆乒乓房<br> 15:45-17:15
+                </td>
+                <td colspan="4">15:45-17:15</td>
+                <td>15:00-16:30</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>6</td>
+                <td>网  球</td>
+                <td>E区网球场<br> 15:45-17:15
+                </td>
+                <td colspan="4">15:45-17:15</td>
+                <td>15:00-16:30</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>7</td>
+                <td>女生操舞类</td>
+                <td>训练馆X107<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td colspan="3">15:45-17:15</td>
+                <td>----</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>8</td>
+                <td>女生瑜珈<br> 养生普拉提
+                </td>
+                <td>训练馆X106<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td colspan="2">15:45-17:15</td>
+                <td>----</td>
+                <td>----</td>
+                <td>35</td>
+            </tr>
+            <tr>
+
+                <td>9</td>
+                <td>游泳达标测试</td>
+                <td>游泳馆<br> 15:45-16:30
+                </td>
+                <td colspan="4">15:45-16:30</td>
+                <td>13:30-14:15</td>
+                <td>50</td>
+            </tr>
+            <tr>
+
+                <td>10</td>
+                <td>游  泳</td>
+                <td>游泳馆<br> 15:45-17:15
+                </td>
+                <td colspan="4">15:45-17:15</td>
+                <td>13:30-15:00</td>
+                <td>100</td>
+            </tr>
+            <tr>
+
+                <td>11</td>
+                <td>武  术</td>
+                <td>训练馆2楼<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td colspan="3">15:45-17:15</td>
+                <td>----</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>12</td>
+                <td>旱地冰球</td>
+                <td>训练馆2楼<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td>----</td>
+                <td>15:45-17:15</td>
+                <td>----</td>
+                <td>----</td>
+                <td>35</td>
+            </tr>
+            <tr>
+
+                <td>13</td>
+                <td>跆拳道</td>
+                <td>体育馆2楼南侧<br> 15:45-17:15
+                </td>
+                <td>15:45-17:15</td>
+                <td>----</td>
+                <td>----</td>
+                <td>15:45-17:15</td>
+                <td>----</td>
+                <td>60</td>
+            </tr>
+            <tr>
+
+                <td>14</td>
+                <td>击  剑</td>
+                <td>体育馆2楼北侧<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td>----</td>
+                <td>15:45-17:15</td>
+                <td>----</td>
+                <td>15:00-16:30</td>
+                <td>35</td>
+            </tr>
+            <tr>
+
+                <td>15</td>
+                <td>攀  岩</td>
+                <td>C区攀岩墙<br> 15:45-17:15
+                </td>
+                <td>----</td>
+                <td>----</td>
+                <td>----</td>
+                <td>15:45-17:15</td>
+                <td>----</td>
+                <td>35</td>
+            </tr>
+            <tr>
+
+                <td>16</td>
+                <td>高尔夫球    </td>
+                <td>J区南侧<br> 15:45-17:15
+                </td>
+                <td colspan="4">15:45-16:30</td>
+                <td>----</td>
+                <td>60</td>
+            </tr>
+        </tbody>
+    </table>
+<!--</div>-->
 {% endblock %}
