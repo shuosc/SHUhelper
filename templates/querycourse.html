@@ -1,0 +1,90 @@
+{% extends "layout.html" %} {% block links %} {% endblock %} {% block title %}课程查询评价系统{% endblock %} {% block h %}课程查询评价系统{% endblock
+%}{% block body %}
+
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<form class="form-inline" role="form" method="post">
+			<div class="form-group">
+				<label for="name">课程号</label>
+				<input type="text" class="form-control" name="cid">
+			</div>
+			<div class="form-group">
+				<label for="name">课程名</label>
+				<input type="text" class="form-control" name="cname">
+			</div>
+			<div class="form-group">
+				<label for="name">教师名</label>
+				<input type="text" class="form-control" name="tname">
+			</div>
+			<button type="submit" class="btn btn-default btn-lg">查询</button>
+		</form>
+	</div>
+</div>
+<ul>
+	<li><h4>查询到相应课程后，点击相应课程，可以进入课程评价页面。</h4></li>
+	<li><h4>课程评价需要大家共同来完善，看完别人写的评价不要忘记评价一下自己上过的课哦。</h4></li>
+	<li><h4>请注意，查询仅显示前一百条记录</h4></li>
+</ul>
+<div class="row clearfix">
+	<div class="col-md-12 column table-responsive" >
+		<table class="table table-hover table-condensed table-bordered">
+			<thead>
+				<tr>
+					<th>
+						课程号
+					</th>
+					<th>
+						课程名
+					</th>
+					<th>
+						教师号
+					</th>
+					<th>
+						教师名
+					</th>
+					<th>
+						上课时间
+					</th>
+					<th>
+						校区
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for course in courses %}
+				<tr onclick="window.open('course/{{ course.courseuid }}/{{ course.teachid }}','_self')" style="cursor:pointer">
+					<td>
+						{{ course.courseuid }}
+					</td>
+					<td>
+						{{ course.coursename }}
+					</td>
+					<td>
+						{{ course.teachid }}
+					</td>
+					<td>
+						{{ course.teachname }}
+					</td>
+					<td>
+						{{ course.coursetime }}
+					</td>
+					<td>
+						{{ course.campus }}
+					</td>
+
+				</tr>
+				{% else %}
+				<tr>
+					<td colspan="6" align="center">没有满足条件的课程！</td>
+				</tr>
+				{% endfor %}
+
+
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="col-md-4 column">
+</div>
+</div>
+{% endblock %}

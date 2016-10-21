@@ -1,0 +1,49 @@
+{% extends "layout.html" %} {% block title %}关于体育查询的若干说明{% endblock %} {% block h %}关于体育查询的若干说明{% endblock %}{% block body
+%}
+<div class="row">
+	<div class="col-md-4 column">
+	</div>
+	<div class="col-md-4 column">
+		</br>
+        <p>首先感谢大家的支持，在这里查晨跑的越来越多了。</p>
+		</br>
+		<p>最近体育学院服务器炸的比较频繁，导致这里也无法查询晨跑和课外活动。首先要说明的是：这不是这个网站坏掉了。</p>
+		</br>
+		<p>因为这个网站晨跑查询的工作原理是模拟登陆<a href="http://202.120.127.149:8989/spims/login/index.jsp">http://202.120.127.149:8989/spims/login/index.jsp</a>，再对上面的数据进行抓取呈现到这里（直接访问有兼容性问题）。所以，这里的晨跑查询工作正不正常完全依赖于体育学院服务器炸没炸。。。</p>
+		</br>
+		<p>但是根据已有经验观察，体育学院的服务器炸和恢复都好像没有什么规律，在体育学院换新系统之前，这个问题可能会一直存在。我们已经在研究，是否可能以缓存的形式将数据保存到这里的服务器，再定时刷新，以避免体育学院一崩就一点都没法看的情况。</p>
+		</br>
+		<p>着急有查晨跑的同学，可以尝试关注 <strong>上海大学</strong> 官方微信，不过微信只能查到晨跑，查不到课外活动记录，所以想查课外活动的同学还是请耐心等待体育学院那边系统恢复。</p>
+
+		</br>
+		<p>PS:根据通知，<strong>第五周</strong>没有刷晨跑记录的同学，学校可以减免一次(目前在查询记录里还看不到，不过应该会减免的)。<br/>PS2:晨跑记录和课外活动记录可能有较长延迟才会显示，具体哪些项目哪天刷的会延迟这个也感觉很看脸。。不放心的话多刷几次吧。。。<br/>
+		</p>
+		  </br>
+        <p><em>shuhelper</em>近期可能会有比较大的升级，继续贯彻便民的思路，带来更多大家可能关心的功能（选课助手、表白墙...），请继续关注。</p>
+		  </br>
+        <p>上海大学问答社区已经上线，请至<a href="http://ask.shuhelper.cn/">http://ask.shuhelper.cn/</a>访问。</p>
+		  </br>
+        <p>最后请记住我们的新域名 <a href="http://shuhelper.cn/">shuhelper.cn</a> </p>
+        <div class="ds-thread" data-thread-key="aboutpe" data-title="关于体育查询的若干说明" data-url="http://shuhelper.cn/aboutpe"></div>
+	</div>
+	<div class="col-md-4 column">
+	</div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    var duoshuoQuery = {
+        short_name: "shutools"
+    };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] ||
+            document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+{% endblock %}

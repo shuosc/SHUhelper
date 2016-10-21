@@ -1,17 +1,26 @@
 #coding=utf-8
-from flask import Flask,url_for
-from flask import make_response
-from flask import request
-from flask import render_template
+from flask import Flask, request, session, g, redirect, url_for, abort, \
+     render_template, flash, make_response
+from sqlite3 import dbapi2 as sqlite3
 import sys 
 import string
 import re
 import requests
+import os
 # from flask_admin import Admin
 app = Flask(__name__)
 
 # admin = Admin(app, name='microblog', template_mode='bootstrap3')
- 
+
+
+# configuration
+app.config.update(dict(
+    DATABASE=os.path.join(app.root_path, 'course.db'),
+    DEBUG=False,
+    SECRET_KEY='shuhelper',
+    USERNAME='admin',
+    PASSWORD='default'
+))
 def general_login(site,user,pwd): #不使用验证码登录的网站的通用登录方法
     if site == 'pe':#根据相应网站确定相应的postData
         postData={'UNumber':user,'Upwd':pwd,'USnumber':u'上海大学'}
@@ -152,8 +161,13 @@ def nhceroute():
 
 @app.route('/')
 def index():
-    
-    resp = make_response(render_template('index.html'))
+    error = u'<a href="/aboutpe">关于体育查询的几点说明</a>'
+    resp = make_response(render_template('index.html',error=error))
+    return resp
+
+@app.route('/aboutpe')
+def aboutpe():
+    resp = make_response(render_template('aboutpe.html'))
     return resp
 
 @app.route('/cal')
@@ -194,17 +208,82 @@ def jszxjf():
 def jszxkcdy():
     resp = make_response(render_template('jszxkcdy.html'))
     return resp
-# @app.route('/wish/<page>', methods=['POST', 'GET'])
-# def wish(page):
-#     if request.method == 'GET':
-#         r = None
-#         resp = make_response(render_template('wish.html',r=r))
-#     else:
+
+
+def connect_db():
+    """Connects to the specific database."""
+    rv = sqlite3.connect(app.config['DATABASE'])
+    rv.row_factory = sqlite3.Row
+    return rv
+
+
+def init_db():
+    """Initializes the database."""
+    db = get_db()
+    with app.open_resource('schema.sql', mode='r') as f:
+        db.cursor().executescript(f.read())
+    db.commit()
+
+def get_db():
+    """Opens a new database connection if there is none yet for the
+    current application context.
+    """
+    if not hasattr(g, 'sqlite_db'):
+        g.sqlite_db = connect_db()
+    return g.sqlite_db
+
+
+@app.teardown_appcontext
+def close_db(error):
+    """Closes the database again at the end of the request."""
+    if hasattr(g, 'sqlite_db'):
+        g.sqlite_db.close()
+
+
+
+def query_db(query, args=(), one=False):
+    """Queries the database and returns a list of dictionaries."""
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    return (rv[0] if rv else None) if one else rv
+
+
+def get_user_id(username):
+    """Convenience method to look up the id for a username."""
+    rv = query_db('select user_id from user where username = ?',
+                  [username], one=True)
+    return rv[0] if rv else None
+
+def course_query(cid,cname,tname,tid):
+    db = get_db()
+    cur = db.execute('select * from courses where courseuid like "%%%s%%" and coursename like "%%%s%%" and teachname like "%%%s%%" and teachid like "%%%s%%" limit 0,200' % (cid,cname,tname,tid))
+    courses = cur.fetchall()
+    return courses
+
+@app.route('/querycourse', methods=['POST', 'GET'])
+def querycourse():
+    if request.method == 'POST':
+        courses = course_query(request.form['cid'],request.form['cname'],request.form['tname'],'')
+        resp = make_response(render_template('querycourse.html',courses=courses))
+    elif request.method == 'GET':
+        resp = make_response(render_template('querycourse.html'))
+    return resp
+
+@app.route('/course/<courseid>/<teacherid>')
+def coursepage(courseid,teacherid):
+    course = course_query(courseid,'','',teacherid)
+    if len(course)>=1:
+        resp = make_response(render_template('coursepage.html',course=course[0]))
+    else:
+        resp = make_response(render_template('coursepage.html',course=course))
+    return resp
+
 @app.route('/login/<check>/<site>', methods=['POST', 'GET'])#check变量代表此接口是否有验证码site变量代表发生此接口是哪个接口
 def login(site,check):
     error = None
     if check != 'vali':
         check = None
+
     if request.method == 'POST':
         if site == 'pe' or site =='finold' or site == 'lehu':
             r = general_login(site,request.form['username'],request.form['password'])
@@ -221,12 +300,18 @@ def login(site,check):
             r = nhce(request.form['username'],request.form['password'],request.form['CID'])
         else:
             return render_template('index.html', error=error)
+        
         if r != False:
             return render_template(site+'.html', r=r)
         else:
-            error = u'登录失败！可能是账户密码错误或服务器宕机'
+            if site == 'pe':
+                error = u'如果您的账号密码没填错的话，体育学院服务器又炸啦233...请过一段时间再试试'
+            else:
+                error = u'登录失败！可能是账户密码错误或服务器宕机'
             return render_template('login.html', error=error , check=check)
     elif request.method == 'GET':
+        if site == 'pe':
+            error = u'<a href="/aboutpe">关于体育查询的几点说明</a>'
         if site == 'fin':
             r,cookies = finquest()
             error = u'请注意！若未修改过密码，初始密码为身份证后六位或学号后六位！！'
@@ -249,6 +334,6 @@ def login(site,check):
     return render_template('index.html', error=error)
 
 if __name__ == '__main__':
-    app.debug = True
+   # app.debug = True
     app.run(host='0.0.0.0')
 

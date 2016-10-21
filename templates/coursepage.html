@@ -1,0 +1,137 @@
+{% extends "layout.html" %} {% block links %} {% endblock %} {% block title %}{{ course.coursename }}详细信息{% endblock %} {% block h %}{{ course.coursename }}详细信息{% endblock
+%}{% block body %}
+<div class="row clearfix">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<table class="table table-hover table-bordered">
+
+				<tbody>
+					<tr>
+						<th>
+							课程号
+						</th>
+						<td>
+							{{ course.courseuid }}
+						</td>
+					</tr>
+					<tr class="success">
+						<th>
+							课程名
+						</th>
+						<td>
+							{{ course.coursename }}
+						</td>
+					</tr>
+					<tr >
+						<th>
+							学分
+						</th>
+						<td>
+							{{ course.credit }}
+						</td>
+
+					</tr>
+					<tr class="info" >
+						<th>
+							教师号
+						</th>
+						<td>
+							{{ course.teachid }}
+						</td>
+
+					</tr>
+					<tr >
+						<th>
+							教师名
+						</th>
+						<td>
+							{{ course.teachname }}
+						</td>
+					</tr>
+					<tr class="success">
+						<th>
+							课程时间
+						</th>
+						<td>
+							{{ course.coursetime }}
+						</td>
+					</tr>
+					<tr >
+						<th>
+							课堂容量
+						</th>
+						<td>
+							{{ course.capacity }}
+						</td>
+					</tr>
+					<tr class="info">
+						<th>
+							校区
+						</th>
+						<td>
+							{{ course.campus }}
+						</td>
+					</tr>
+					<tr >
+						<th>
+							答疑时间
+						</th>
+						<td>
+							{{ course.qtime }}
+						</td>
+					</tr>
+					<tr class="success">
+						<th>
+							答疑地点
+						</th>
+						<td>
+							{{ course.qplace }}
+						</td>
+					</tr>
+					<tr >
+						<th>
+							课程描述
+						</th>
+						<td>
+
+						</td>
+					</tr>
+					<tr class="info">
+						<th>
+							考核方式
+						</th>
+						<td>
+
+						</td>
+					</tr>
+					<tr>
+						<th>
+							课程评价
+						</th>
+						<td>
+							请在下方评论框中评论
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</div>
+<div class="ds-thread" data-thread-key="{{ course.courseuid }}_{{ course.teachid }}" data-title="{{ course.courseuid }}_{{ course.teachid }}"
+	data-url="http://shuhelper.cn/course/{{ course.courseuid }}/{{ course.teachid }}"></div>
+{% endblock %} {% block script %}
+<script type="text/javascript">
+    var duoshuoQuery = {
+        short_name: "shutools"
+    };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] ||
+            document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script> {% endblock %}
