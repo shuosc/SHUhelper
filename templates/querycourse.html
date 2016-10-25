@@ -1,5 +1,5 @@
-{% extends "layout.html" %} {% block links %} {% endblock %} {% block title %}课程查询评价系统{% endblock %} {% block h %}课程查询评价系统{% endblock
-%}{% block body %}
+{% extends "layout.html" %} {% block links %} {% endblock %} {% block title %}课程查询评价系统{% endblock %} {% block h %}课程查询评价系统{%
+endblock %}{% block body %}
 
 <div class="row clearfix">
 	<div class="col-md-12 column">
@@ -21,12 +21,19 @@
 	</div>
 </div>
 <ul>
-	<li><h4>查询到相应课程后，点击相应课程，可以进入课程评价页面。</h4></li>
-	<li><h4>课程评价需要大家共同来完善，看完别人写的评价不要忘记评价一下自己上过的课哦。</h4></li>
-	<li><h4>请注意，查询仅显示前一百条记录</h4></li>
+	<li>
+		<h4>查询到相应课程后，点击相应课程，可以进入课程评价页面。</h4>
+	</li>
+	<li>
+		<h4>课程评价需要大家共同来完善，看完别人写的评价不要忘记评价一下自己上过的课哦。</h4>
+	</li>
+	<li>
+		<h4>请注意，查询仅显示前一百条记录</h4>
+	</li>
 </ul>
+
 <div class="row clearfix">
-	<div class="col-md-12 column table-responsive" >
+	<div class="col-md-12 column table-responsive">
 		<table class="table table-hover table-condensed table-bordered">
 			<thead>
 				<tr>
@@ -84,7 +91,37 @@
 		</table>
 	</div>
 </div>
+<div class="row clearfix">
+	<div class="col-md-12 column">
+		<h3 >热评课程</h3>
+		<!-- 多说热评文章 start -->
+		<div class="ds-top-threads" data-range="monthly" data-num-items="5">123</div>
+		<!-- 多说热评文章 end -->
+		<h3>最新评论</h3>
+		<!-- 多说最新评论 start -->
+		<div class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1"
+			data-excerpt-length="70"></div>
+		<!-- 多说最新评论 end -->
+	</div>
+</div>
+
 <div class="col-md-4 column">
 </div>
 </div>
+{% endblock %} {% block script %}
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"shutools"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+
 {% endblock %}

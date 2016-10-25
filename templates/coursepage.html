@@ -118,9 +118,10 @@
 	</div>
 
 </div>
-<div class="ds-thread" data-thread-key="{{ course.courseuid }}_{{ course.teachid }}" data-title="{{ course.courseuid }}_{{ course.teachid }}"
+<div class="ds-thread" data-thread-key="course_{{ course.courseuid }}_{{ course.teachid }}" data-title="{{ course.coursename }}_{{ course.teachname }}"
 	data-url="http://shuhelper.cn/course/{{ course.courseuid }}/{{ course.teachid }}"></div>
 {% endblock %} {% block script %}
+
 <script type="text/javascript">
     var duoshuoQuery = {
         short_name: "shutools"

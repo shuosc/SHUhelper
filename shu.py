@@ -38,7 +38,7 @@ def general_login(site,user,pwd): #不使用验证码登录的网站的通用登
         return False
     
     s = requests.session()#session初始化
-    #根据不同site发出不同的网络请求
+    #根据不同site发出不同的网络请求 
     try:
         if site == 'pe':
             r = s.get('http://202.120.127.149:8989/spims/login/index.jsp',timeout=10)
