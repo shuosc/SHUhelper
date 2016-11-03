@@ -1,8 +1,8 @@
-# 上海大学便民查询系统 (SHUhelper) (Version 0.3.0)
+# 上海大学便民查询系统 (SHUhelper) (Version 0.3.3)
 
 ## 简介
 
-网站基于python flask 框架开发，python版本2.7.13。
+网站基于python flask 框架开发，python版本3.x。
 实例:(http://shuhelper.cn)
 开发博客:(https://cosformula.github.io/)
 ## 使用

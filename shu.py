@@ -1,3 +1,4 @@
+#! python3
 #coding=utf-8
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response
@@ -7,11 +8,10 @@ import string
 import re
 import requests
 import os
-# from flask_admin import Admin
+import ssl
+import base64
+
 app = Flask(__name__)
-
-# admin = Admin(app, name='microblog', template_mode='bootstrap3')
-
 
 # configuration
 app.config.update(dict(
@@ -58,7 +58,6 @@ def general_login(site,user,pwd): #不使用验证码登录的网站的通用登
         try:
             #根据不同site进行不同的文本处理
             if site == 'pe':
-                # content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)<tr>\s+<td colspan="13">',string,flags=0).group(0)
                 content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>',string,flags=0).group(0)
                 content = re.sub(r'<table cellpadding="3" cellspacing="1" class="table_bg">','<table class="table  table-striped table-hover table-bordered table-condensed">',content)
             elif site == 'finold':
@@ -76,8 +75,8 @@ def finquest():
     from PIL import Image
     from io import BytesIO
     s = requests.Session()
-    r = s.get('http://xssf.shu.edu.cn:8100/SFP_Share/Home/CheckImgCode',timeout=10)
-    return BytesIO(r.content).getvalue().encode('base64') , s.cookies
+    r = s.get('http://xssf.shu.edu.cn:8100/SFP_Share/Home/CheckImgCode',timeout=10,stream=True)
+    return base64.b64encode(r.raw.read()).decode('utf-8'), s.cookies
 
 def finlogin(cookies,user,pwd,check):
     postData={'userName':user,
@@ -110,8 +109,8 @@ def phyquest():
     s = requests.Session()
     r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/login/',timeout=10)
     phyhash = re.search(r'<input type="hidden" name="__hash__" value="([\s\S]*)" />',r.text,flags=0).group(1)
-    r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/verify/',timeout=10)
-    return BytesIO(r.content).getvalue().encode('base64') , s.cookies , phyhash
+    r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/verify/',timeout=10,stream=True)
+    return base64.b64encode(r.raw.read()).decode('utf-8'),  s.cookies , phyhash
 
 def phylogin(cookies,phyhash,user,pwd,check):
     postData={'_hash_':phyhash,
@@ -161,13 +160,18 @@ def nhceroute():
 
 @app.route('/')
 def index():
-    error = u'<a href="/aboutpe">关于体育查询的几点说明</a>'
+    error = u'友情推广|欢迎加入学盟社答疑互助群 QQ群：532318200'
     resp = make_response(render_template('index.html',error=error))
     return resp
 
 @app.route('/aboutpe')
 def aboutpe():
     resp = make_response(render_template('aboutpe.html'))
+    return resp
+
+@app.route('/article/<article>')
+def articles(article):
+    resp = make_response(render_template(article+'.html'))
     return resp
 
 @app.route('/cal')
@@ -262,16 +266,17 @@ def course_query(cid,cname,tname,tid):
 
 @app.route('/querycourse', methods=['POST', 'GET'])
 def querycourse():
+    error = u'<a href="http://shuhelper.cn/article/2016_fall_1">2016秋季学期第一轮选课数据分析报告</a>'
     if request.method == 'POST':
         courses = course_query(request.form['cid'],request.form['cname'],request.form['tname'],'')
-        resp = make_response(render_template('querycourse.html',courses=courses))
+        resp = make_response(render_template('querycourse.html',courses=courses,error=error))
     elif request.method == 'GET':
-        resp = make_response(render_template('querycourse.html'))
+        resp = make_response(render_template('querycourse.html',error=error))
     return resp
 
-@app.route('/course/<courseid>/<teacherid>')
-def coursepage(courseid,teacherid):
-    course = course_query(courseid,'','',teacherid)
+@app.route('/course/<coursename>/<tname>')
+def coursepage(coursename,tname):
+    course = course_query('',coursename,tname,'')
     if len(course)>=1:
         resp = make_response(render_template('coursepage.html',course=course[0]))
     else:
@@ -306,12 +311,13 @@ def login(site,check):
         else:
             if site == 'pe':
                 error = u'如果您的账号密码没填错的话，体育学院服务器又炸啦233...请过一段时间再试试'
+                return render_template('login.html', error=error , check=check)
             else:
-                error = u'登录失败！可能是账户密码错误或服务器宕机'
-            return render_template('login.html', error=error , check=check)
+                flash(u'登录失败！可能是账户密码错误或服务器宕机')
+                return redirect(url_for('login',site=site,check=check))
     elif request.method == 'GET':
         if site == 'pe':
-            error = u'<a href="/aboutpe">关于体育查询的几点说明</a>'
+            error = u'<a href="/aboutpe">关于体育查询的几点说明</a><br/>'
         if site == 'fin':
             r,cookies = finquest()
             error = u'请注意！若未修改过密码，初始密码为身份证后六位或学号后六位！！'
@@ -334,6 +340,5 @@ def login(site,check):
     return render_template('index.html', error=error)
 
 if __name__ == '__main__':
-   # app.debug = True
+    app.debug = True
     app.run(host='0.0.0.0')
-

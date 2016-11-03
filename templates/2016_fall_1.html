@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html class="theme theme-white">
+
+<head>
+	<meta charset="utf-8">
+	<title>SHUhelper|2016秋季学期第一轮选课数据分析报告</title>
+	<link href="https://www.zybuluo.com/static/assets/template-theme-white.css" rel="stylesheet" media="screen">
+	<style type="text/css">
+		#wmd-preview h1 {
+			color: #0077bb;
+			/* 将标题改为蓝色 */
+		}
+	</style>
+</head>
+
+<body class="theme theme-white">
+	<div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;">
+		<div id="MathJax_SVG_Hidden"></div>
+		<svg>
+			<defs id="MathJax_SVG_glyphs">
+				<path id="MJMAIN-3D" stroke-width="1" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path>
+				<path id="MJMAIN-2F" stroke-width="1" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path>
+				<path id="MJMAIN-2217" stroke-width="1" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path>
+				<path id="MJMAIN-31" stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path>
+				<path id="MJMAIN-30" stroke-width="1" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path>
+			</defs>
+		</svg>
+	</div>
+	<div id="wmd-preview" class="wmd-preview wmd-preview-full-reader">
+		<div class="md-section-divider"></div>
+		<div class="md-section-divider"></div>
+		<h1 data-anchor-id="faev" id="shuhelper2016秋季学期第一轮选课数据分析报告">SHUhelper|2016秋季学期第一轮选课数据分析报告</h1>
+		<hr>
+		<div class="md-section-divider"></div>
+		<h2 data-anchor-id="60bf" id="序言">序言</h2>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="10w8" id="版权声明">版权声明</h3>
+		<p data-anchor-id="bvc2">本报告由<a href="http://shuhelper.cn" target="_blank">shuhelper.cn</a>出品，未经许可不得转载。</p>
+		<pre data-anchor-id="zv4n"><code>邮箱联系：cosformula@t.shu.edu.cn
+</code></pre>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="urjv" id="名词解释">名词解释</h3>
+		<p data-anchor-id="51w4"><code>门</code>：唯一的课程编号构成一门课程。 <br>
+			<code>班次</code>：一门课程可能有不同的老师上，或者同样的老师在不同时间上，构成了不同的班级。一门课程中所有班的数量称为总班次。 <br>
+			<code>人次</code>：课程的总选课人数。 <br>
+			<code>选课率</code>：<span class="MathJax_Preview"></span><span class="MathJax_SVG" id="MathJax-Element-1-Frame" role="textbox"
+				aria-readonly="true" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 -771.9033013280564 12700.722666666668 1043.8066026561128" style="width: 29.444ex; height: 2.444ex; vertical-align: -0.778ex; margin: 1px 0px;"><g stroke="black" fill="black" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">选</text><g transform="translate(765,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">课</text></g><g transform="translate(1530,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">率</text></g><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-3D" x="2574" y="0"></use><g transform="translate(3630,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">选</text></g><g transform="translate(4395,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">课</text></g><g transform="translate(5161,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">人</text></g><g transform="translate(5926,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">数</text></g><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-2F" x="6692" y="0"></use><g transform="translate(7192,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">课</text></g><g transform="translate(7957,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">程</text></g><g transform="translate(8723,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">容</text></g><g transform="translate(9488,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(47.839333333333336) matrix(1 0 0 -1 0 0)">量</text></g><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-2217" x="10476" y="0"></use><g transform="translate(11199,0)"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-31"></use><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-30" x="500" y="0"></use><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-30" x="1001" y="0"></use></g></g></svg></span>
+			<script type="math/tex" id="MathJax-Element-1">选课率=选课人数/课程容量*100</script>%，一定程度上反映了本课程选课的难易度。</p>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="ivja" id="统计方法">统计方法</h3>
+		<p data-anchor-id="piss">数据来自选课系统，使用python爬虫定期抓取数据，统计数据截至25日晚十点，包括宝山、嘉定、延长校区。使用<code>EXCEL</code>及<code>魔镜</code>进行数据分析。</p>
+		<p data-anchor-id="6e2j"><strong>活动课</strong>与<strong>形势与政策</strong>在部分统计图表中不予考虑。</p>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="pgrv" id="概览">概览</h3>
+		<p data-anchor-id="l49x">本次选课概况如下：</p>
+		<ul data-anchor-id="dz5p">
+			<li><code>30+</code>个学院/机构开课</li>
+			<li><code>1800+</code>个不同的教师为大家开课 </li>
+			<li><code>1600+</code>门不同的课程</li>
+			<li><code>3700+</code>个班</li>
+			<li><code>13000+</code>人选课（不包括大四及以上）</li>
+			<li><code>150000+</code>人次选课</li>
+			<li><code>170000+</code>人次课程总最大容量</li>
+		</ul>
+		<div class="md-section-divider"></div>
+		<h2 data-anchor-id="7k18" id="热门课程教师标签云概览">热门课程、教师标签云概览</h2>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="5rp1" id="热门通识课一览">热门通识课一览</h3>
+		<pre data-anchor-id="say1"><code>仅考虑选课人数大于100的课程，若本门课程开了多个班，选课人数累加，颜色代表不同类。
+</code></pre>
+		<p data-anchor-id="tmcc"><img src="http://static.zybuluo.com/cosformula/vhubis5bmz68jrwe9p334nxm/image_1b0386h53ni51e6n15lvcnc14n134.png" alt="image_1b0386h53ni51e6n15lvcnc14n134.png-198.6kB"
+				title=""></p>
+		<blockquote data-anchor-id="h1g4" class="white-blockquote">
+			<p><strong>爱情心理解读</strong>以<strong>800+</strong>的选课人数遥遥领先，成为标签云上一个不可忽略的存在。 <br> 不过要说明的是，因为这门课太火爆，本学期共开设了四个班。
+			</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="hvnq" id="单课程选课率较大的通识课一览">单课程选课率较大的通识课一览</h3>
+		<pre data-anchor-id="weeo"><code>选课率=选课人数/课程容量*100%，一定程度上反映了本课程选课的难易度。
+本项指标在一门课开多个班的情况下，分班计数。
+</code></pre>
+		<p data-anchor-id="na6x"><img src="http://static.zybuluo.com/cosformula/dpc31xg4w1rxrh7l8zm5expx/image_1b037ojt5envhka6s71kba1vot2n.png" alt="image_1b037ojt5envhka6s71kba1vot2n.png-193.8kB"
+				title=""></p>
+		<blockquote data-anchor-id="kvpi" class="white-blockquote">
+			<p>在这项统计里，<strong>经典华语电影</strong>一枝独秀，非常难选，<strong>爱情心理解读</strong>则因开了四个班而被挤到了次要的位置，不过表现依然抢眼，说是第一受欢迎的通识课程也不为过。</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="h3oi" id="热门老师一览">热门老师一览</h3>
+		<pre data-anchor-id="5vhw"><code>选课人数大于150，计算该老师所开的所有课程的总选课人数
+</code></pre>
+		<p data-anchor-id="9x4s"><img src="http://static.zybuluo.com/cosformula/il6gjg98qyoavhfffq8r0pxp/image_1b038e74a1dis18kthgfo9f1brn3h.png" alt="image_1b038e74a1dis18kthgfo9f1brn3h.png-363.7kB"
+				title=""></p>
+		<blockquote data-anchor-id="lias" class="white-blockquote">
+			<p><strong>陆瑜芳</strong>老师以<strong>爱情心理解读</strong>的火爆，在这里的大小也遥遥领先。</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h2 data-anchor-id="100r" id="通识课专题">通识课专题</h2>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="3m0e" id="概述">概述</h3>
+		<p data-anchor-id="4hin">本分析报告中通识课包括：</p>
+		<table data-anchor-id="x37y" class="table table-striped-white table-bordered">
+			<thead>
+				<tr>
+					<th style="text-align:center;">项目</th>
+					<th style="text-align:center;">课程数量</th>
+					<th style="text-align:center;">课程班次</th>
+					<th style="text-align:center;">课程容量</th>
+					<th style="text-align:center;">选课人次</th>
+					<th>选课率</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align:center;">理学工学类</td>
+					<td style="text-align:center;">59</td>
+					<td style="text-align:center;">70</td>
+					<td style="text-align:center;">6520</td>
+					<td style="text-align:center;">3733</td>
+					<td>57%</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">人文社科类</td>
+					<td style="text-align:center;">99</td>
+					<td style="text-align:center;">118</td>
+					<td style="text-align:center;">11380</td>
+					<td style="text-align:center;">8626</td>
+					<td>75%</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">经济管理类</td>
+					<td style="text-align:center;">49</td>
+					<td style="text-align:center;">56</td>
+					<td style="text-align:center;">5500</td>
+					<td style="text-align:center;">4284</td>
+					<td>77%</td>
+				</tr>
+			</tbody>
+		</table>
+		<blockquote data-anchor-id="fxiw" class="white-blockquote">
+			<p>简单从分析结果看，人文社科类通识课与经济管理类通识课都十分火爆，选课率都非常高。 <br> 而理学工学类通识课则较为惨淡，虽然开课比经管类多，但是选课率及选课人数都是最少的。
+			</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="sjl0" id="最受欢迎的通识课top10">最受欢迎的通识课TOP10</h3>
+		<pre data-anchor-id="0o44"><code>筛选通识类课程，只通过选课人数排序，一门课程有多个班视作一个班考虑。颜色代表不同的课程类别。
+</code></pre>
+		<p data-anchor-id="u8lf"><img src="http://static.zybuluo.com/cosformula/xrkyn5ynsm0y2t3paeakwf0f/image_1b03c5k1k3381hpv87947f1adv6c.png" alt="image_1b03c5k1k3381hpv87947f1adv6c.png-56.2kB"
+				title=""></p>
+		<pre data-anchor-id="mbtw"><code>排名详情
+1. 爱情心理解读
+2. 化妆品透视
+3. 霓裳之舞
+4. 经典华语电影
+5. 电影中的音乐
+6. 危机公关
+7. 职场人际关系处理
+8. 3D打印
+9. 中国饮食文化
+10. 好莱坞电影
+</code></pre>
+		<blockquote data-anchor-id="ji7n" class="white-blockquote">
+			<p>又是<strong>爱情心理解读</strong>以<code>947</code>人的绝对优势领跑（即便开了四个班），唯有第二名第三名第四名加起来才能比得上。<strong>化妆品透视</strong>与<strong>霓裳之舞</strong>分别为第二、第三名，随后的七名相差不大，均为<code>230</code>~<code>300</code>人。
+				<br> 另外，十大通选课中，人文社科类有6门课上榜，理学工学类有2门上榜，经济管理类有2门上榜。这与之前分析的结果相同。
+			</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="ajl2" id="最难选的通识课排名top10">最难选的通识课排名TOP10</h3>
+		<pre data-anchor-id="n1a6"><code>筛选通识类课程，根据选课率排序，一门课程有多个班取平均值考虑，颜色代表不同的课程类别。
+</code></pre>
+		<p data-anchor-id="sj8p"><img src="http://static.zybuluo.com/cosformula/g0g98qrx9rruc42pcqcuuso9/image_1b03dnc0e5eufofe3m160c1sot76.png" alt="image_1b03dnc0e5eufofe3m160c1sot76.png-55.2kB"
+				title=""></p>
+		<pre data-anchor-id="1vpm"><code>排名详情
+1. 经典华语电影
+2. 电影中的音乐
+3. 生命的奥秘
+4. 竞争与情报
+5. 危机公关
+6. 文学经典与现代人生
+7. 职场人际关系处理
+8. 爱情心理解读
+9. 中国饮食文化
+10. 理解中国社会
+</code></pre>
+		<blockquote data-anchor-id="g7jo" class="white-blockquote">
+			<p>（<strong>爱情心理解读</strong>终于不是第一了）在这个榜单里，<strong>经典华语电影</strong>以169分的优势领先第二名<strong>电影中的音乐</strong>。<strong>生命的奥秘</strong>作为唯一上榜的理工类通识课名列第三，实属不易。</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="jnjs" id="通识课大类平均选课排名">通识课大类平均选课排名</h3>
+		<pre data-anchor-id="su8i"><code>筛选通识类课程，该项数据代表各类课程的平均每门选课人数
+</code></pre>
+		<p data-anchor-id="im0u"><img src="http://static.zybuluo.com/cosformula/gdp39m1b6gh003t3ph5avf50/image_1b03ddq1g1qein8sc69j391nnn6p.png" alt="image_1b03ddq1g1qein8sc69j391nnn6p.png-51.5kB"
+				title=""></p>
+		<pre data-anchor-id="izg7"><code>从左到右分别是 经管类核通、人文社科类核通、理工类核通、经管类通识、人文社科类通识、理工类通识
+</code></pre>
+		<blockquote data-anchor-id="rigu" class="white-blockquote">
+			<p>在这个排名中，仍然显示了理工类通识遭冷落的现状。</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h2 data-anchor-id="5oa5" id="新生研讨课专题">新生研讨课专题</h2>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="fw29" id="概述-1">概述</h3>
+		<p data-anchor-id="bq5v">本分析报告中新生研讨课包括： <br>
+			<code>19</code>个学院或机构的老师开设新生研讨课。 <br>
+			<code>16</code>人平均每门人数 <br>
+			<code>30</code>容量 <br>
+			<code>162</code>门课程 <br>
+			<code>2632</code>总选课人次 </p>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="s1wz" id="研讨课人数最多top10">研讨课人数最多TOP10</h3>
+		<p data-anchor-id="n7sk"><img src="http://static.zybuluo.com/cosformula/p2fbqv1k16eo8mxroighamjd/image_1b03arpc9s9ahesita4i411g94o.png" alt="image_1b03arpc9s9ahesita4i411g94o.png-81.8kB"
+				title=""></p>
+		<pre data-anchor-id="b019"><code>排名详情
+1. 自杀研究
+2. 冲突还是合作？——重复博弈的演化
+3. 心理素质与人生
+4. 时间的辩白
+5. 沟通让我们生活更轻松
+6. 书里书外的经济学
+7. 视觉文化入门
+8. 癌症与纳米药物
+9. 香精香料学
+10. 走进达·芬奇的艺术世界
+</code></pre>
+		<blockquote data-anchor-id="dizq" class="white-blockquote">
+			<p>研讨课热门的前十名理学院独占五席，十分抢眼，热门课程中除了有对自然科学方面药物与香精香科学的科普性课程，也有贴近同学们自身关于艺术，关于生活，关于沟通和自我认知的课程。</p>
+
+			<p>其中最热门的莫过文学院开设的“自杀研究”，课程开设两个班，人数上限为60人，却共有268人选择了该课程，选课率简直爆棚，超500%，远超第二名。无论是因为展示+论文的考核形式还是对于自我与生命的思考，都是这门课程如此热门的原因。</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="6c2q" id="开设新生研讨课数量学院top10">开设新生研讨课数量学院TOP10</h3>
+		<table data-anchor-id="c9o4" class="table table-striped-white table-bordered">
+			<thead>
+				<tr>
+					<th style="text-align:center;">排名</th>
+					<th>学院</th>
+					<th style="text-align:center;">数量</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="text-align:center;">1</td>
+					<td>理学院</td>
+					<td style="text-align:center;">25</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">2</td>
+					<td>材料科学与工程学院</td>
+					<td style="text-align:center;">18</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">3</td>
+					<td>机电工程与自动化学院</td>
+					<td style="text-align:center;">16</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">4</td>
+					<td>管理学院</td>
+					<td style="text-align:center;">15</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">5</td>
+					<td>通信与信息工程学院</td>
+					<td style="text-align:center;">10</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">5</td>
+					<td>社会科学学院</td>
+					<td style="text-align:center;">8</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">5</td>
+					<td>社会学院</td>
+					<td style="text-align:center;">7</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;">5</td>
+					<td>上海电影学院</td>
+					<td style="text-align:center;">7</td>
+				</tr>
+			</tbody>
+		</table>
+		<blockquote data-anchor-id="q9vb" class="white-blockquote">
+			<p>理学院以25门新生研讨课强势占领首位，开设课程中覆盖数学、物理学、化学各大方向，包括热门的“时间的辩白”、“癌症与纳米药物”等，综合选课率保持在72.8%，最热门课程选课率达到510%。材料学院紧随其次开设18门研讨课，选课率维持在50%上下</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h2 data-anchor-id="19vp" id="其他">其他</h2>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="jkar" id="最热门的教师top10">最热门的教师TOP10</h3>
+		<pre data-anchor-id="4pgu"><code>根据选课人数排序。
+</code></pre>
+		<p data-anchor-id="bbsq"><img src="http://static.zybuluo.com/cosformula/8njc7a1c4tkgr4lovcy8flrp/image_1b03fcgt7vdh1ob416fq1grddt080.png" alt="image_1b03fcgt7vdh1ob416fq1grddt080.png-42.7kB"
+				title=""></p>
+		<pre data-anchor-id="hcsd"><code>排名详情
+1. 陆瑜芳（爱情心理解读）
+2. 王琍（毛概）
+3. 许静仪（毛概）
+4. Rosalind·Oliver（英语选修课）
+5. 庄伟明（计算机技术系列课程）
+6. 黄圣平（社会学院专业课）
+7. 李梁（危机公关、中近纲）
+8. 张军英（计算机技术系列课程）
+9. Ding·Dong（英语选修课系列）
+10. 万思东（英语选修课系列）
+</code></pre>
+		<div class="md-section-divider"></div>
+		<h3 data-anchor-id="9qik" id="哪个学院的专业课最难选top10">哪个学院的专业课最难选TOP10</h3>
+		<pre data-anchor-id="i95l"><code>筛选各个学院的专业课，根据选课率排序，取平均值考虑，颜色代表不同的学院。
+</code></pre>
+		<p data-anchor-id="2425"><img src="http://static.zybuluo.com/cosformula/p4j24lr2y1oap98ah2itfr0y/image_1b03ekh3018fv1kvdk6kcukkql7j.png" alt="image_1b03ekh3018fv1kvdk6kcukkql7j.png-49.3kB"
+				title=""></p>
+		<pre data-anchor-id="7u3i"><code>从左到右分别是 通信学院、广告系、悉商、外语学院、图情档、美术学院、法学院、计算机学院、生科院、电影学院
+</code></pre>
+		<blockquote data-anchor-id="fd8b" class="white-blockquote">
+			<p>总体来说差别不大，不过看得出在前三名 通信、广告及悉商中，存在选课竞争激烈的情况，不过总体而言大部分学院都在100%以下。</p>
+		</blockquote>
+		<div class="md-section-divider"></div>
+		<h2 data-anchor-id="8rvx" id="鸣谢">鸣谢</h2>
+		<p data-anchor-id="g0l3">这是第一次选课数据分析报告，时间仓促难免有疏漏，也没有完全分析出更详尽的数据请谅解。</p>
+		<p data-anchor-id="uwt3">如果您有想在之后的报告中看到的内容，请在评论框中评论，我们会认真考虑您的建议。</p>
+		<p data-anchor-id="ybcm"><img src="http://static.zybuluo.com/cosformula/gzuo2yjsvsxl2978ue1asjm4/image_1b03bg1nuskee61u0f1m41h3m55.png" alt="image_1b03bg1nuskee61u0f1m41h3m55.png-1181.2kB"
+				title=""></p>
+		<div class="ds-thread" data-thread-key="2016_fall_1" data-title="2016秋季学期第一轮选课数据分析报告" data-url="http://shuhelper.cn/article/2016_fall_1"></div>
+
+	</div>
+
+</body>
+<script type="text/javascript">
+    var duoshuoQuery = {
+        short_name: "shutools"
+    };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';
+        ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] ||
+            document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?5f62af81821bb9a9be944d6417680e48";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</html>

@@ -59,7 +59,7 @@ endblock %}{% block body %}
 			</thead>
 			<tbody>
 				{% for course in courses %}
-				<tr onclick="window.open('course/{{ course.courseuid }}/{{ course.teachid }}','_self')" style="cursor:pointer">
+				<tr onclick="window.open('course/{{ course.coursename }}/{{ course.teachname }}','_self')" style="cursor:pointer">
 					<td>
 						{{ course.courseuid }}
 					</td>
@@ -93,26 +93,22 @@ endblock %}{% block body %}
 </div>
 <div class="row clearfix">
 	<div class="col-md-12 column">
-		<h3 >热评课程</h3>
+		<h3>热评课程</h3>
 		<!-- 多说热评文章 start -->
-		<div class="ds-top-threads" data-range="monthly" data-num-items="5">123</div>
+		<div class="ds-top-threads" data-range="monthly" data-num-items="10"></div>
 		<!-- 多说热评文章 end -->
 		<h3>最新评论</h3>
 		<!-- 多说最新评论 start -->
-		<div class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1"
+		<div class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1"
 			data-excerpt-length="70"></div>
 		<!-- 多说最新评论 end -->
 	</div>
 </div>
 
-<div class="col-md-4 column">
-</div>
-</div>
+<div class="col-md-4 column"></div>
 {% endblock %} {% block script %}
-
-<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 <script type="text/javascript">
-var duoshuoQuery = {short_name:"shutools"};
+var duoshuoQuery = {short_name:"shuhelpercourse"};
 	(function() {
 		var ds = document.createElement('script');
 		ds.type = 'text/javascript';ds.async = true;
@@ -121,7 +117,5 @@ var duoshuoQuery = {short_name:"shutools"};
 		(document.getElementsByTagName('head')[0] 
 		 || document.getElementsByTagName('body')[0]).appendChild(ds);
 	})();
-	</script>
-<!-- 多说公共JS代码 end -->
-
+	</script> 
 {% endblock %}
