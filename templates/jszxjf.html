@@ -1,15 +1,11 @@
 {% extends "layout.html" %} {% block title %}计算机机房安排表{% endblock %} {% block h %}计算机机房安排表{% endblock %} {% block body %}
+<div class="section container">
+    <h1>计算机机房安排C楼</h1>
+    <img class="responsive-img materialboxed" src="{{ url_for('static', filename='computerC.png') }}">
+</div>
+<div class="section container">
+    <h1>计算机机房安排D楼</h1>
+    <img class="responsive-img materialboxed" src="{{ url_for('static', filename='computerD.png') }}">
+</div>
 
-<div class="row" align="center">
-    <div class="col-md-12 column">
-        <h1>计算机机房安排C楼</h1>
-        <img alt="map" class="img-responsive" src="{{ url_for('static', filename='computerC.png') }}" />
-    </div>
-</div>
-<div class="row" align="center">
-    <div class="col-md-12 column">
-        <h1>计算机机房安排D楼</h1>
-        <img alt="map" class="img-responsive" src="{{ url_for('static', filename='computerD.png') }}" />
-    </div>
-</div>
 {% endblock %}
