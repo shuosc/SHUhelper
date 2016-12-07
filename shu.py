@@ -6,10 +6,8 @@ from werkzeug.contrib.cache import SimpleCache
 from sqlite3 import dbapi2 as sqlite3
 import sys
 import string
-import re
 import requests
 import os
-import ssl
 import base64
 from sites import *
 app = Flask(__name__)
@@ -109,7 +107,7 @@ def coursepage(coursename, tname):
 
 @app.route('/')
 def index():
-    error = u'开学啦~'
+    error = u'拳不离手，曲不离口。'
     resp = make_response(render_template('index.html', error=error))
     return resp
 

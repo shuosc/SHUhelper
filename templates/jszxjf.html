@@ -1,18 +1,15 @@
-{% extends "layout.html" %}
-{% block title %}计算机机房安排表{% endblock %}
-{% block h %}计算机机房安排表{% endblock %}
-{% block body %}
+{% extends "layout.html" %} {% block title %}计算机机房安排表{% endblock %} {% block h %}计算机机房安排表{% endblock %} {% block body %}
 
-	<div class="row" align="center">
-		<div class="col-md-12 column">
-			<h1>计算机机房安排C楼</h1>
-			<img alt="map" class="img-responsive" src="http://ww4.sinaimg.cn/large/006lLFLogw1f7y39rzr4sj31cu2bse1c.jpg" />
-		</div>
-	</div>
-	<div class="row" align="center">
-		<div class="col-md-12 column">
-			<h1>计算机机房安排D楼</h1>
-			<img alt="map" class="img-responsive" src="http://ww4.sinaimg.cn/large/006lLFLogw1f7y39tun3vj30yq28f1bo.jpg" />
-		</div>
-	</div>
+<div class="row" align="center">
+    <div class="col-md-12 column">
+        <h1>计算机机房安排C楼</h1>
+        <img alt="map" class="img-responsive" src="{{ url_for('static', filename='computerC.png') }}" />
+    </div>
+</div>
+<div class="row" align="center">
+    <div class="col-md-12 column">
+        <h1>计算机机房安排D楼</h1>
+        <img alt="map" class="img-responsive" src="{{ url_for('static', filename='computerD.png') }}" />
+    </div>
+</div>
 {% endblock %}

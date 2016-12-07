@@ -1,4 +1,4 @@
-# 上海大学便民查询系统 (SHUhelper) (Version 0.4.0)
+# 上海大学便民查询系统 (SHUhelper) (Version 0.5.0)
 
 ## 简介
 

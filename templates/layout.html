@@ -1,142 +1,84 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="http://cdn.css.net/files/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://cdn.css.net/files/bootstrap/3.3.5/css/bootstrap-theme.css" rel="stylesheet">
-    <!--<link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">-->
-    <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }} ">-->
-    <!--<script src="{{ url_for('static', filename='scripts.js') }}"></script>-->
-    {% block links %}{% endblock %}
-    <title>{% block title %}Welcome{% endblock %} |简陋的上海大学便民查询系统</title>
-</head>
+    <head>
+        <link type="text/css" rel="stylesheet" href="http://cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css" media="screen,projection" />
+        <link href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" /> {% block links %}{% endblock %}
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <title>{% block title %}Welcome{% endblock %} |简陋的上海大学便民查询系统</title>
+    </head>
+    <style>
+        html {
+            font-family: GillSans, Calibri, Trebuchet, sans-serif;
+        }
+    </style>
 
-<body>
-    <nav class="navbar navbar-default navbar-static-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-					</button> <a class="navbar-brand" href="#">简陋的上海大学便民查询系统</a>
-            </div>
+    <body>
+        <header>
+            <ul id="dropdown1" class="dropdown-content">
+                <li><a href="/articles">文章归档</a></li>
+                <li><a href="http://blog.shuhelper.cn/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a></li>
+            </ul>
+            <nav>
+                <div class="nav-wrapper  light-blue">
+                    <div class="container">
+                        <a href="/" class="brand-logo">SHUhelper.cn</a>
+                    </div>
+                    <ul id="nav-mobile" class="right">
+                        <li><a class="dropdown-button" href="#!" data-activates="dropdown1">其他<i class="material-icons right">arrow_drop_down</i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <div class="container ">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="divider"></div>
+                        <div class="section">
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li class="active">
-                        <a href="/">首页</a>
-                    </li>
-                    <li>
-                        <a href="http://ask.shuhelper.com">上大问答</a>
-                    </li>
-                    <li>
-                        <a href="http://blog.shuhelper.cn/2016/09/02/%E7%AE%80%E9%99%8B%E7%9A%84%E4%B8%8A%E6%B5%B7%E5%A4%A7%E5%AD%A6%E4%BE%BF%E6%B0%91%E6%9F%A5%E8%AF%A2%E7%B3%BB%E7%BB%9F/">开发博客</a>
-                    </li>
-                </ul>
+                            <h5 class="center-align "><b>{% block h %}Welcome{% endblock %}</b></h5>
 
-            </div>
-        </div>
-    </nav>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h1 class="text-center"> {% block h %}Welcome{% endblock %}</h1>
-            </div>
-        </div>
-        {% with messages = get_flashed_messages() %} {% if messages %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-dismissable alert-success">
-
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-					×
-				</button>
-                    <h4 class="text-center">
-
-                    </h4>
-                    <p class="text-center">
-                        {% for message in messages %} {{ message | safe }} <br/> {% endfor %}
-                    </p>
+                        </div>
+                        {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+                        <div class="divider"></div>
+                        <div class="section">
+                            <div class="card-panel pink lighten-3">
+                                <span class="white-text  text-darken-5">
+                                <h6 class="center-align "><b>{{ message | safe }}</b></h6>
+                            </span>
+                            </div>
+                        </div>{% endfor %} {% endif %} {% endwith %} {% block body %} {% endblock %}
+                    </div>
                 </div>
             </div>
-        </div>
-        {% endif %} {% endwith %} {% if error %}
-        <div class="row">
-            <div class="col-md-12">
-                <div class="alert alert-dismissable alert-success">
-
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-					×
-				</button>
-                    <h4 class="text-center">
-
-                    </h4>
-                    <p class="text-center">
-                        {% for message in get_flashed_messages() %} {{ message | safe }} <br/> {% endfor %} {{ error | safe }}
-                    </p>
+        </main>
+        <footer class="page-footer light-blue ">
+            <div class="container center ">
+                <p class="grey-text text-lighten-4 ">自强不息 先天下之忧而忧 后天下之乐而乐</p>
+            </div>
+            <div class="footer-copyright ">
+                <div class="container center ">
+                    © 2016 SHUhelper.cn
+                    <!--<a class="grey-text text-lighten-4 right " href="#! ">More Links</a>-->
                 </div>
             </div>
-        </div>
-        {% endif %}
-        <div class="row">
-            <div class="col-md-12 table-responsive">
-                {% block body %} {% endblock %}
-            </div>
-        </div>
-        <br/><br/>
-    </div>
+        </footer>
+    </body>
 
+    {% block script %}{% endblock %}
 
-    <footer style="
-  bottom: 0;
-  width: 100%;
-  height: 80px;
-  background-color: #f5f5f5;">
-        <div class="container">
-            <p class="text-muted" align="center" vertical-align="middle"><br/>网站持续更新中，目前还很简陋，未来将加入更加功能。&nbsp;有任何问题、建议请直接在这里评论<br/><a href="http://www.miitbeian.gov.cn">晋ICP备16008840号</a></p>
-        </div>
-    </footer>
-</body>
-{% block script %}{% endblock %}
-<script type="text/javascript">
-    function validate_required(field, alerttxt) {
-        with(field) {
-            if (value == null || value == "") {
-                alert(alerttxt);
-                return false
-            } else {
-                return true
-            }
-        }
-    }
-
-    function validate_form(thisform) {
-        with(thisform) {
-            if (validate_required(username, "用户名不能为空") == false) {
-                username.focus();
-                return false
-            }
-            if (validate_required(password, "密码不能为空") == false) {
-                password.focus();
-                return false
-            }
-        }
-        return true
-    }
-</script>
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "//hm.baidu.com/hm.js?5f62af81821bb9a9be944d6417680e48";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-<script type="text/javascript" src="http://cdn.css.net/files/jquery/2.0.3/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="http://cdn.css.net/files/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?5f62af81821bb9a9be944d6417680e48";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <script type="text/javascript " src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js "></script>
+    <script type="text/javascript " src="http://cdn.bootcss.com/materialize/0.97.8/js/materialize.min.js "></script>
 
 </html>

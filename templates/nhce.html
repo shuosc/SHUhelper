@@ -1,1387 +1,3176 @@
 ﻿{% extends "layout.html" %} {% block title %}登陆{% endblock %} {% block h %}登陆{% endblock %} {% block body %}
 
 <div class="row">
-	<div class="span6">
-		<script>
-			function checkRadio() {
-		var inputs = document.getElementsByTagName('input');
-		var checked = [];
-		for (var i = 0; i < inputs.length; i++) {
-			if (inputs[i].type === 'radio' && inputs[i].checked) {
-				checked.push(i + 1);
-			}
-		}
-        if (checked.length==0)
-		{   
-            alert(checked + '请选择一个班级！');
-            return false
-        }
-	}
-	</script>
-	<!--checkRadio(this)&&validate_form(thisform)-->
-		<form class="form-horizontal" onsubmit="return validate_form(this)&&checkRadio(this)" method="post" >
-			<div class="form-group">
+    <div class="span6">
+        <script>
+            function checkRadio() {
+                var inputs = document.getElementsByTagName('input');
+                var checked = [];
+                for (var i = 0; i < inputs.length; i++) {
+                    if (inputs[i].type === 'radio' && inputs[i].checked) {
+                        checked.push(i + 1);
+                    }
+                }
+                if (checked.length == 0) {
+                    alert(checked + '请选择一个班级！');
+                    return false
+                }
+            }
+        </script>
+        <!--checkRadio(this)&&validate_form(thisform)-->
+        <form class="form-horizontal" onsubmit="return validate_form(this)&&checkRadio(this)" method="post">
+            <div class="form-group">
 
-			<label for="inputEmail3" class="col-sm-2 control-label">
+                <label for="inputEmail3" class="col-sm-2 control-label">
 						一卡通账号
 					</label>
-			<div class="col-sm-10">
-				<input type="username" class="form-control" name="username" />
-			</div>
-		</div>
-		<div class="form-group">
+                <div class="col-sm-10">
+                    <input type="username" class="form-control" name="username" />
+                </div>
+            </div>
+            <div class="form-group">
 
-			<label for="inputPassword3" class="col-sm-2 control-label">
+                <label for="inputPassword3" class="col-sm-2 control-label">
 						密码
 					</label>
-			<div class="col-sm-10">
-				<input type="password" class="form-control" name="password" />
-			</div>
-		</div>
-			<table class="table table-hover">
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1994">
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" name="password" />
+                </div>
+            </div>
+            <table class="table table-hover">
+                <tbody>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2088">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1044班白静远 </td>
+                        <td align="left" valign="middle">
+                            030043801044 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2088_16" id="License_2088_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2088_30" id="License_2088_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2018">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）1班姚兴凤 </td>
+                        <td align="left" valign="middle">
+                            030043831001 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2018_40" id="License_2018_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2020">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）2班陈方红 </td>
+                        <td align="left" valign="middle">
+                            030043831002 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）1班姚兴凤 </td>
-					<td align="left" valign="middle">
-						030043821001 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                        <td align="left" valign="middle">
 
-					<td align="left" valign="middle">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2020_40" id="License_2020_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2021">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）3班吴羊 </td>
+                        <td align="left" valign="middle">
+                            030043831003 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
-					</td>
-					</input>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1995">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2021_40" id="License_2021_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2022">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）4班张新玲 </td>
+                        <td align="left" valign="middle">
+                            030043831004 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）2班陈方红 </td>
-					<td align="left" valign="middle">
-						030043821002 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2022_40" id="License_2022_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					<td align="left" valign="middle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2023">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）5班王晓莹 </td>
+                        <td align="left" valign="middle">
+                            030043831005 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2023_40" id="License_2023_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1996">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2024">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）6班白岸杨 </td>
+                        <td align="left" valign="middle">
+                            030043831006 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2024_40" id="License_2024_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）3班吴羊 </td>
-					<td align="left" valign="middle">
-						030043821003 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2025">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）7班雷远旻 </td>
+                        <td align="left" valign="middle">
+                            030043831007 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					<td align="left" valign="middle">
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2025_40" id="License_2025_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2026">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）8班陈方红 </td>
+                        <td align="left" valign="middle">
+                            030043831008 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1997">
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2026_40" id="License_2026_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2027">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）9班张新玲 </td>
+                        <td align="left" valign="middle">
+                            030043831009 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）4班张新玲 </td>
-					<td align="left" valign="middle">
-						030043821004 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                        <td align="left" valign="middle">
 
-					<td align="left" valign="middle">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2027_40" id="License_2027_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2028">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）10班王晓莹 </td>
+                        <td align="left" valign="middle">
+                            030043831010 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1998">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2028_40" id="License_2028_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2029">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）11班白岸杨 </td>
+                        <td align="left" valign="middle">
+                            030043831011 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）5班王晓莹 </td>
-					<td align="left" valign="middle">
-						030043821005 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2029_40" id="License_2029_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					<td align="left" valign="middle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2030">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）12班吴羊 </td>
+                        <td align="left" valign="middle">
+                            030043831012 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2030_40" id="License_2030_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1999">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2031">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）13班姚兴凤 </td>
+                        <td align="left" valign="middle">
+                            030043831013 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2031_40" id="License_2031_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）6班白岸杨 </td>
-					<td align="left" valign="middle">
-						030043821006 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2032">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）14班赵春华 </td>
+                        <td align="left" valign="middle">
+                            030043831014 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					<td align="left" valign="middle">
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2032_40" id="License_2032_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2033">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）15班吴羊 </td>
+                        <td align="left" valign="middle">
+                            030043831015 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2000">
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2033_40" id="License_2033_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2034">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）16班陈方红 </td>
+                        <td align="left" valign="middle">
+                            030043831016 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）7班姚兴凤 </td>
-					<td align="left" valign="middle">
-						030043821007 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                        <td align="left" valign="middle">
 
-					<td align="left" valign="middle">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2034_40" id="License_2034_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2035">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）17班赵春华 </td>
+                        <td align="left" valign="middle">
+                            030043831017 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2001">
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2035_40" id="License_2035_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2036">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）18班王晓莹 </td>
+                        <td align="left" valign="middle">
+                            030043831018 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）8班陈方红 </td>
-					<td align="left" valign="middle">
-						030043821008 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2036_40" id="License_2036_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					<td align="left" valign="middle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2037">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）19班沈力 </td>
+                        <td align="left" valign="middle">
+                            030043831019 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2037_40" id="License_2037_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2002">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2038">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）20班雷远旻 </td>
+                        <td align="left" valign="middle">
+                            030043831020 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2038_40" id="License_2038_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）9班张新玲 </td>
-					<td align="left" valign="middle">
-						030043821009 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2039">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）21班姚兴凤 </td>
+                        <td align="left" valign="middle">
+                            030043831021 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					<td align="left" valign="middle">
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2039_40" id="License_2039_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2040">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）22班赵春华 </td>
+                        <td align="left" valign="middle">
+                            030043831022 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
 
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2003">
+                        <td align="left" valign="middle">
 
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2040_40" id="License_2040_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2041">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）23班沈力 </td>
+                        <td align="left" valign="middle">
+                            030043831023 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2041_40" id="License_2041_40" size="35" value="">
+		  -->
 
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）10班王晓莹 </td>
-					<td align="left" valign="middle">
-						030043821010 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2042">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2）24班张新玲 </td>
+                        <td align="left" valign="middle">
+                            030043831024 </td>
+                        <td align="left" valign="middle">
+                            大学英语A级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新标准大学英语 视听说教程 2 </font>
+
+
+                                            <!-- 
+		   <br>请输入验证码：
+		  <input type="text" name="License_2042_40" id="License_2042_40" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2043">
+
 
-					<td align="left" valign="middle">
 
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1001班薛清 </td>
+                        <td align="left" valign="middle">
+                            030043891001 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2043_16" id="License_2043_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2043_30" id="License_2043_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2045">
+
 
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2004">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）11班白岸杨 </td>
-					<td align="left" valign="middle">
-						030043821011 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2005">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）12班雷远旻 </td>
-					<td align="left" valign="middle">
-						030043821012 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2006">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）13班吴羊 </td>
-					<td align="left" valign="middle">
-						030043821013 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2007">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）14班陈方红 </td>
-					<td align="left" valign="middle">
-						030043821014 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2008">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）15班赵春华 </td>
-					<td align="left" valign="middle">
-						030043821015 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2009">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）16班王晓莹 </td>
-					<td align="left" valign="middle">
-						030043821016 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2010">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）17班雷远旻 </td>
-					<td align="left" valign="middle">
-						030043821017 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2011">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）18班姚兴凤 </td>
-					<td align="left" valign="middle">
-						030043821018 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2012">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）19班雷远旻 </td>
-					<td align="left" valign="middle">
-						030043821019 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2013">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）20班沈力 </td>
-					<td align="left" valign="middle">
-						030043821020 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2014">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）21班赵春华 </td>
-					<td align="left" valign="middle">
-						030043821021 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2015">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						大学英语A级（1）22班赵春华 </td>
-					<td align="left" valign="middle">
-						030043821022 </td>
-					<td align="left" valign="middle">
-						大学英语A级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1950">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）1班薛清 </td>
-					<td align="left" valign="middle">
-						030043881001 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1951">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）2班王伟 </td>
-					<td align="left" valign="middle">
-						030043881002 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1952">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）3班谢怡沁 </td>
-					<td align="left" valign="middle">
-						030043881003 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1953">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）4班朱虹 </td>
-					<td align="left" valign="middle">
-						030043881004 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1954">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）5班张苹 </td>
-					<td align="left" valign="middle">
-						030043881005 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1955">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）6班白静远 </td>
-					<td align="left" valign="middle">
-						030043881006 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="2016">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）7班梁君华 </td>
-					<td align="left" valign="middle">
-						030043881007 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1957">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）8班金焱 </td>
-					<td align="left" valign="middle">
-						030043881008 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1958">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）9班蔡俏兰 </td>
-					<td align="left" valign="middle">
-						030043881009 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1959">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）10班薛瑜 </td>
-					<td align="left" valign="middle">
-						030043881010 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1960">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）11班陈驿 </td>
-					<td align="left" valign="middle">
-						030043881011 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1961">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）12班章健 </td>
-					<td align="left" valign="middle">
-						030043881012 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1962">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）13班杨兆明 </td>
-					<td align="left" valign="middle">
-						030043881013 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1963">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）14班戴朝晖 </td>
-					<td align="left" valign="middle">
-						030043881014 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1964">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）15班薛清 </td>
-					<td align="left" valign="middle">
-						030043881015 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1965">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）16班王伟 </td>
-					<td align="left" valign="middle">
-						030043881016 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1966">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）17班谢怡沁 </td>
-					<td align="left" valign="middle">
-						030043881017 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1967">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）18班朱虹 </td>
-					<td align="left" valign="middle">
-						030043881018 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1968">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）19班张苹 </td>
-					<td align="left" valign="middle">
-						030043881019 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1969">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）20班白静远 </td>
-					<td align="left" valign="middle">
-						030043881020 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1970">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）21班梁君华 </td>
-					<td align="left" valign="middle">
-						030043881021 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1971">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）22班陈驿 </td>
-					<td align="left" valign="middle">
-						030043881022 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1972">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）23班章健 </td>
-					<td align="left" valign="middle">
-						030043881023 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1973">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）24班杨兆明 </td>
-					<td align="left" valign="middle">
-						030043881024 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1974">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）25班张岚 </td>
-					<td align="left" valign="middle">
-						030043881025 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1975">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）26班戴朝晖 </td>
-					<td align="left" valign="middle">
-						030043881026 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1976">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）27班薛瑜 </td>
-					<td align="left" valign="middle">
-						030043881027 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1977">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）28班蔡俏兰 </td>
-					<td align="left" valign="middle">
-						030043881028 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1978">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）29班金焱 </td>
-					<td align="left" valign="middle">
-						030043881029 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1979">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）30班陈驿 </td>
-					<td align="left" valign="middle">
-						030043881030 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1980">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）31班章健 </td>
-					<td align="left" valign="middle">
-						030043881031 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1981">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）32班张岚 </td>
-					<td align="left" valign="middle">
-						030043881032 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1982">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）33班杨兆明 </td>
-					<td align="left" valign="middle">
-						030043881033 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1983">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）34班薛清 </td>
-					<td align="left" valign="middle">
-						030043881034 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1984">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）35班王伟 </td>
-					<td align="left" valign="middle">
-						030043881035 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1985">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）36班谢怡沁 </td>
-					<td align="left" valign="middle">
-						030043881036 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1986">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）37班朱虹 </td>
-					<td align="left" valign="middle">
-						030043881037 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1987">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）38班张苹 </td>
-					<td align="left" valign="middle">
-						030043881038 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1988">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）39班白静远 </td>
-					<td align="left" valign="middle">
-						030043881039 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1989">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）40班梁君华 </td>
-					<td align="left" valign="middle">
-						030043881040 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1990">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）41班蔡俏兰 </td>
-					<td align="left" valign="middle">
-						030043881041 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1991">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）42班金焱 </td>
-					<td align="left" valign="middle">
-						030043881042 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1992">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）43班张岚 </td>
-					<td align="left" valign="middle">
-						030043881043 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1993">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						B级（1）44班戴朝晖 </td>
-					<td align="left" valign="middle">
-						030043881044 </td>
-					<td align="left" valign="middle">
-						大学英语B级（1） </td>
-
-					<td align="left" valign="middle">
-
-
-
-					</td>
-				</tr>
-				<tr>
-					<td align="center" valign="middle" bgcolor="#e8e8e8">
-						<input type="radio" name="CID" value="1411">
-
-
-
-					</td>
-					<td align="left" valign="middle">
-						2013四级 </td>
-					<td align="left" valign="middle">
-						20130001 </td>
-					<td align="left" valign="middle">
-						张岚英语视听说2 </td>
-
-					<td align="left" valign="middle">
-					</td>
-				</tr>
-			</table>
-			<div class="form-group">
-			<div class="col-sm-offset-2 col-sm-10">
-				<input type="submit" value="注册班级" class="btn btn-large btn-info btn-block ">
-			</div>
-		</div>
-		</form>
-	</div>
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1002班王伟 </td>
+                        <td align="left" valign="middle">
+                            030043891002 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2045_16" id="License_2045_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2045_30" id="License_2045_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2046">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1003班谢怡沁 </td>
+                        <td align="left" valign="middle">
+                            030043891003 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2046_16" id="License_2046_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2046_30" id="License_2046_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2047">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1004班朱虹 </td>
+                        <td align="left" valign="middle">
+                            030043891004 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2047_16" id="License_2047_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2047_30" id="License_2047_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2048">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1005班张苹 </td>
+                        <td align="left" valign="middle">
+                            030043891005 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2048_16" id="License_2048_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2048_30" id="License_2048_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2049">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1006班白静远 </td>
+                        <td align="left" valign="middle">
+                            030043891006 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2049_16" id="License_2049_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2049_30" id="License_2049_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2050">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1007班梁君华 </td>
+                        <td align="left" valign="middle">
+                            030043891007 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2050_16" id="License_2050_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2050_30" id="License_2050_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2060">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1017班王伟 </td>
+                        <td align="left" valign="middle">
+                            030043891007 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2060_16" id="License_2060_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2060_30" id="License_2060_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2051">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1008班蔡俏兰 </td>
+                        <td align="left" valign="middle">
+                            030043891008 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2051_16" id="License_2051_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2051_30" id="License_2051_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2052">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1009班陈驿 </td>
+                        <td align="left" valign="middle">
+                            030043891009 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2052_16" id="License_2052_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2052_30" id="License_2052_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2053">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1010班章健 </td>
+                        <td align="left" valign="middle">
+                            030043891010 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2053_16" id="License_2053_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2053_30" id="License_2053_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2054">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1011班杨兆明 </td>
+                        <td align="left" valign="middle">
+                            030043891011 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2054_16" id="License_2054_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2054_30" id="License_2054_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2055">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1012班金焱 </td>
+                        <td align="left" valign="middle">
+                            030043891012 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2055_16" id="License_2055_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2055_30" id="License_2055_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2056">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1013班戴朝晖 </td>
+                        <td align="left" valign="middle">
+                            030043891013 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2056_16" id="License_2056_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2056_30" id="License_2056_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2057">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1014班戴朝晖 </td>
+                        <td align="left" valign="middle">
+                            030043891014 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2057_16" id="License_2057_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2057_30" id="License_2057_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2058">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1015班薛瑜 </td>
+                        <td align="left" valign="middle">
+                            030043891015 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2058_16" id="License_2058_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2058_30" id="License_2058_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2059">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1016班薛清 </td>
+                        <td align="left" valign="middle">
+                            030043891016 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2059_16" id="License_2059_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2059_30" id="License_2059_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2061">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1018班谢怡沁 </td>
+                        <td align="left" valign="middle">
+                            030043891018 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2061_16" id="License_2061_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2061_30" id="License_2061_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2062">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1019班朱虹 </td>
+                        <td align="left" valign="middle">
+                            030043891019 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2062_16" id="License_2062_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2062_30" id="License_2062_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2063">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1020班张苹 </td>
+                        <td align="left" valign="middle">
+                            030043891020 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2063_16" id="License_2063_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2063_30" id="License_2063_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2064">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1021班白静远 </td>
+                        <td align="left" valign="middle">
+                            030043891021 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2064_16" id="License_2064_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2064_30" id="License_2064_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2065">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1022班梁君华 </td>
+                        <td align="left" valign="middle">
+                            030043891022 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2065_16" id="License_2065_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2065_30" id="License_2065_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2066">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1023班陈驿 </td>
+                        <td align="left" valign="middle">
+                            030043891023 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2066_16" id="License_2066_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2066_30" id="License_2066_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2067">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1024班章健 </td>
+                        <td align="left" valign="middle">
+                            030043891024 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2067_16" id="License_2067_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2067_30" id="License_2067_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2068">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1025班杨兆明 </td>
+                        <td align="left" valign="middle">
+                            030043891025 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2068_16" id="License_2068_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2068_30" id="License_2068_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2070">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1026班张岚 </td>
+                        <td align="left" valign="middle">
+                            030043891026 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2070_16" id="License_2070_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2070_30" id="License_2070_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2071">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1027班戴朝晖 </td>
+                        <td align="left" valign="middle">
+                            030043891027 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2071_16" id="License_2071_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2071_30" id="License_2071_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2072">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1028班薛瑜 </td>
+                        <td align="left" valign="middle">
+                            030043891028 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2072_16" id="License_2072_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2072_30" id="License_2072_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2073">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1029班蔡俏兰 </td>
+                        <td align="left" valign="middle">
+                            030043891029 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2073_16" id="License_2073_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2073_30" id="License_2073_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2074">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1030班金焱 </td>
+                        <td align="left" valign="middle">
+                            030043891030 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2074_16" id="License_2074_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2074_30" id="License_2074_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2075">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1031班陈驿 </td>
+                        <td align="left" valign="middle">
+                            030043891031 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2075_16" id="License_2075_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2075_30" id="License_2075_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2076">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1032班章健 </td>
+                        <td align="left" valign="middle">
+                            030043891032 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2076_16" id="License_2076_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2076_30" id="License_2076_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2077">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1033班张岚 </td>
+                        <td align="left" valign="middle">
+                            030043891033 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2077_16" id="License_2077_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2077_30" id="License_2077_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2078">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1034班杨兆明 </td>
+                        <td align="left" valign="middle">
+                            030043891034 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2078_16" id="License_2078_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2078_30" id="License_2078_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2079">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1035班薛清 </td>
+                        <td align="left" valign="middle">
+                            030043891035 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2079_16" id="License_2079_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2079_30" id="License_2079_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2080">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1036班王伟 </td>
+                        <td align="left" valign="middle">
+                            030043891036 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2080_16" id="License_2080_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2080_30" id="License_2080_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2081">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1037班张岚 </td>
+                        <td align="left" valign="middle">
+                            030043891037 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2081_16" id="License_2081_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2081_30" id="License_2081_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2082">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1038班谢怡沁 </td>
+                        <td align="left" valign="middle">
+                            030043891038 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2082_16" id="License_2082_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2082_30" id="License_2082_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2083">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1039班朱虹 </td>
+                        <td align="left" valign="middle">
+                            030043891039 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2083_16" id="License_2083_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2083_30" id="License_2083_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2084">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1040班张苹 </td>
+                        <td align="left" valign="middle">
+                            030043891040 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2084_16" id="License_2084_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2084_30" id="License_2084_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2085">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1041班蔡俏兰 </td>
+                        <td align="left" valign="middle">
+                            030043891041 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2085_16" id="License_2085_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2085_30" id="License_2085_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2086">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1042班梁君华 </td>
+                        <td align="left" valign="middle">
+                            030043891042 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2086_16" id="License_2086_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2086_30" id="License_2086_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2087">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2）1043班金焱 </td>
+                        <td align="left" valign="middle">
+                            030043891043 </td>
+                        <td align="left" valign="middle">
+                            大学英语B级（2） </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 读写教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2087_16" id="License_2087_16" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <font color="green">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2087_30" id="License_2087_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2089">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            社区学院1001 </td>
+                        <td align="left" valign="middle">
+                            1001 </td>
+                        <td align="left" valign="middle">
+                            社区学院 </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 视听说教程(第二版) 1 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_2089_29" id="License_2089_29" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="2017">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            社区学院 </td>
+                        <td align="left" valign="middle">
+                            1001 </td>
+                        <td align="left" valign="middle">
+                            社区学院 </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 视听说教程(第二版) 3 </font>
+
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" valign="middle" bgcolor="#e8e8e8">
+                            <input type="radio" name="CID" value="1411">
+
+
+
+                        </td>
+                        <td align="left" valign="middle">
+                            2013四级 </td>
+                        <td align="left" valign="middle">
+                            20130001 </td>
+                        <td align="left" valign="middle">
+                            张岚英语视听说2 </td>
+
+                        <td align="left" valign="middle">
+
+                            <table width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <font color="blue">
+                                                新视野大学英语 视听说教程(第二版) 2 </font>
+
+
+                                            <!-- 
+		  <br>验证码过期，请输入新的验证码：
+		  <input type="text" name="License_1411_30" id="License_1411_30" size="35" value="">
+		  -->
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <input type="submit" value="注册班级" class="btn btn-large btn-info btn-block ">
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

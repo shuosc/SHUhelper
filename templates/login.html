@@ -1,47 +1,60 @@
 ﻿{% extends "layout.html" %} {% block title %}登陆{% endblock %} {% block h %}登陆{% endblock %} {% block body %}
-
-<div class="col-md-2">
-</div>
-<div class="col-md-7">
-    <form class="form-horizontal" role="form" onsubmit="return validate_form(this)" method="post">
-        <div class="form-group">
-
-            <label for="inputEmail3" class="col-sm-2 control-label">
-						一卡通账号
-					</label>
-            <div class="col-sm-10">
-                <input type="username" class="form-control" name="username" />
+<div class="row">
+    <form class="col s12" role="form" onsubmit="return validate_form(this)" method="post">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="first_name" type="text" class="validate" name="username">
+                <label for="first_name">一卡通账号</label>
             </div>
         </div>
-        <div class="form-group">
-
-            <label for="inputPassword3" class="col-sm-2 control-label">
-						密码
-					</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" name="password" />
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" type="password" class="validate" name="password">
+                <label for="password">密码</label>
             </div>
         </div>{% if check %}
-        <div class="form-group">
-
-            <label for="inputPassword3" class="col-sm-2 control-label">	<img src="data:image/gif;base64,{{ r| safe }}"/>
-								验证码
-					</label>
-            <div class="col-sm-10">
+        <div class="row">
+            <div class="input-field col s2">
+                <img src="data:image/gif;base64,{{ r| safe }}" />
+            </div>
+            <div class="input-field col s10">
                 <input id="inputCheck" name="check" type="text" />
+                <label for="inputCheck" class="col-sm-2 control-label">	验证码</label>
             </div>
         </div>
-
         {% endif %}
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <input type="submit" value="登录" class="btn btn-large btn-info btn-block ">
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="submit" value="登录" class="waves-effect waves-light btn">
             </div>
         </div>
     </form>
 </div>
-<div class="col-md-2">
-</div>
+{% endblock %} {% block script %}
+<script type="text/javascript">
+    function validate_required(field, alerttxt) {
+        with(field) {
+            if (value == null || value == "") {
+                alert(alerttxt);
+                return false
+            } else {
+                return true
+            }
+        }
+    }
 
+    function validate_form(thisform) {
+        with(thisform) {
+            if (validate_required(username, "用户名不能为空") == false) {
+                username.focus();
+                return false
+            }
+            if (validate_required(password, "密码不能为空") == false) {
+                password.focus();
+                return false
+            }
+        }
+        return true
+    }
+</script>
 {% endblock %}
