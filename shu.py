@@ -22,7 +22,7 @@ app.config.update(dict(
 ))
 cache = SimpleCache()
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-dailywords = [u"不是世界变得无聊，而是你变成了无聊的人",
+DAILY_WORDS = [u"不是世界变得无聊，而是你变成了无聊的人",
 u"DON'T PANIC",
 u"总而言之，不论发生了什么，只要还没死，人生就还没有结束－－人生仍会继续。也不会出现什么片尾曲或者STAFF字幕之类的东西",
 u"我们信守这些不言自明的真理：人人生而平等",
@@ -67,7 +67,7 @@ def randwords():
     import random
     import string
 
-    return random.choice(dailywords)
+    return random.choice(DAILY_WORDS)
 
 def connect_db():
     """Connects to the specific database."""
@@ -117,7 +117,7 @@ def close_db(error):
         g.sqlite_db.close()
 
 @app.route('/querycourse', methods=['POST', 'GET'])
-def querycourse():
+def query_course():
     flash(u'<a class="white-text" href="http://shuhelper.cn/article/2016_fall_1">2016秋季学期第一轮选课数据分析报告</a>')
     if request.method == 'POST':
         courses = course_query(request.form['cid'],request.form['cname'],request.form['tname'],'')
@@ -132,7 +132,7 @@ def querycourse():
 #     r = s.get('http://card.lehu.shu.edu.cn/CardTradeDetail.aspx',timeout=30)
 #     string = r.text
 @app.route('/course/<coursename>/<tname>')
-def coursepage(coursename, tname):
+def course_page(coursename, tname):
     course = course_query('', coursename, tname, '')
     if len(course) >= 1:
         resp = make_response(render_template('coursepage.html', course=course[0]))
@@ -154,18 +154,18 @@ def login(site, check):
         usr = request.form['username']
         pwd = request.form['password']
         if check == 'vali':
-            checkcode = request.form['check']
+            check_code = request.form['check']
         else:
-            checkcode = None
+            check_code = None
         if '_hash_' in session:
             other = session['_hash_']
         else:
             other = None
         s = cache.get(session[site])
-        s = general_login(s, site, usr, pwd, checkcode, other)
+        s = general_login(s, site, usr, pwd, check_code, other)
         # return s
         if s != False:
-            r = getcontent(site, s)
+            r = get_content(site, s)
             if r != False:
                 cache.set(session[site], s, timeout = 300)
                 cache.set(session[site]+'islogin',True,timeout = 300)
@@ -182,15 +182,15 @@ def login(site, check):
     elif request.method == 'GET':
         if site in session and cache.get(session[site]) is not None and cache.get(session[site]+'islogin'):
             s = cache.get(session[site])
-            r = getcontent(site, s)
+            r = get_content(site, s)
             return render_template(site+'.html', r=r)
         else:
             session[site] = randsession()
             s = requests.Session()
             if check == 'vali':
-                r, s, phyhash = getCAPTCHA(site, s)
-                if phyhash !=  None:
-                    session['_hash_'] = phyhash
+                r, s, phy_hash = get_CAPTCHA(site, s)
+                if phy_hash !=  None:
+                    session['_hash_'] = phy_hash
             if site == 'pe':
                 flash(u'<a class="white-text" href="/aboutpe">关于体育查询的几点说明</a><br/>')
             elif site == 'fin':
@@ -204,7 +204,7 @@ def login(site, check):
     return render_template('index.html')
 
 @app.route('/nhce', methods=['POST', 'GET'])
-def nhceroute():
+def nhce_route():
     if request.method == 'POST':
         r = nhce(request.form['username'], request.form['password'], request.form['CID'])
         if r != False:

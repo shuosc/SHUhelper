@@ -46,7 +46,7 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
         return s
     else:
         return False
-def getcontent(site, s):
+def get_content(site, s):
     try:
         if site == 'pe':
             r = s.get('http://202.120.127.149:8989/spims/exercise.do?method=seacheload',timeout=10)
@@ -86,7 +86,7 @@ def getcontent(site, s):
         return content
     except:
         return False
-def getCAPTCHA(site, s):
+def get_CAPTCHA(site, s):
     from PIL import Image
     from io import BytesIO
     phyhash = None
