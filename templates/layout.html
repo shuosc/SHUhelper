@@ -2,19 +2,23 @@
 <html>
 
     <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link type="text/css" rel="stylesheet" href="http://cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css" media="screen,projection" />
         <link href="http://cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" /> {% block links %}{% endblock %}
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <title>{% block title %}Welcome{% endblock %} |简陋的上海大学便民查询系统</title>
+        <style>
+            html {
+                font-family: GillSans, Calibri, Trebuchet, sans-serif;
+            }
+        </style>
+
     </head>
-    <style>
-        html {
-            font-family: GillSans, Calibri, Trebuchet, sans-serif;
-        }
-    </style>
 
     <body>
+
+
         <header>
             <ul id="dropdown1" class="dropdown-content">
                 <li><a href="/articles">文章归档</a></li>
@@ -32,7 +36,7 @@
             </nav>
         </header>
         <main>
-            <div class="container ">
+            <div class="container">
                 <div class="row">
                     <div class="col s12">
 
@@ -65,10 +69,9 @@
             </div>
         </footer>
     </body>
-
-    {% block script %}{% endblock %}
-
-    <script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/materialize/0.97.8/js/materialize.js"></script>
+    <script type="text/javascript">
         var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
@@ -77,7 +80,7 @@
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
-    <script type="text/javascript " src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js "></script>
-    <script type="text/javascript " src="http://cdn.bootcss.com/materialize/0.97.8/js/materialize.min.js "></script>
+    {% block script %}{% endblock %}
+
 
 </html>
