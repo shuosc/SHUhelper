@@ -197,6 +197,8 @@ def login(site, check):
                 flash(u'请注意！若未修改过密码，初始密码为身份证后六位或学号后六位！！')
             elif site == 'phylab':
                 flash(u'请注意！若未修改过密码，初始密码为学号！！')
+            elif site == 'cj':
+                flash(u'请注意！登录炒鸡慢，要等将近四十秒。')
             cache.set(session[site], s, timeout=300)
             cache.set(session[site] + 'islogin', False, timeout=300)
             resp = make_response(render_template('login.html', r=r,check=(check == 'vali')))

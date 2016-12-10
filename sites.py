@@ -23,6 +23,11 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
         'pwd':pwd,
         'ktextbox':check,
         'hidCheckCode':''}
+    elif site == 'cj':
+        postData={'url':'',
+        'txtUserNo':user,
+        'txtPassword':pwd,
+        'txtValidateCode':check,}
     else:
         return False
     try:
@@ -40,13 +45,17 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
             r = s.post('http://xssf.shu.edu.cn:8100/SFP_Share/?Length=5',data = postData, timeout=10)
             r = s.get('http://xssf.shu.edu.cn:8100/SFP_Share/', timeout = 10)
             success = r.text.find(u'错误') == -1 and r.text.find(u'不正确') == -1
+        elif site == 'cj':
+            r = s.post('http://cj.shu.edu.cn/',data = postData,timeout=60)
+            r = s.get('http://cj.shu.edu.cn/Home/StudentIndex',timeout=10)
+            success = r.text.find(u'首页') != -1
     except:
         return False
     if success:
         return s
     else:
         return False
-def get_content(site, s):
+def get_content(site, s, option=''):
     try:
         if site == 'pe':
             r = s.get('http://202.120.127.149:8989/spims/exercise.do?method=seacheload',timeout=10)
@@ -83,6 +92,10 @@ def get_content(site, s):
             + u'<legend>退费记录</legend>'+refundrecord+u'<legend></legend>'
             content = re.sub(r'<table class="tblList tblInLine">',\
             '<table class="table  table-striped table-hover table-bordered table-condensed">',content)
+        elif site == 'cj':
+            r = s.get('http://cj.shu.edu.cn/StudentPortal/ScoreQuery',timeout=20)
+            string = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
+            content = string
         return content
     except:
         return False
@@ -96,6 +109,10 @@ def get_CAPTCHA(site, s):
         r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/login/',timeout=10)
         phyhash = re.search(r'<input type="hidden" name="__hash__" value="([\s\S]*)" />',r.text,flags=0).group(1)
         r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/verify/',timeout=10,stream=True)
+    elif site == 'cj':
+        r = s.get('http://cj.shu.edu.cn/',timeout=10,stream=True)
+        r = s.get('http://cj.shu.edu.cn/User/GetValidateCode?%20%20+%20GetTimestamp()',timeout=10,stream=True)
+
     return base64.b64encode(r.raw.read()).decode('utf-8'), s, phyhash
 def nhce(user,pwd,cid):
     # nhce111
