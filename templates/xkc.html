@@ -1,0 +1,12 @@
+{% extends "layout.html" %} {% block links %} {% endblock %} {% block title %}本学期课表查询{% endblock %} {% block h %}课表查询{% endblock %}{% block body %}
+<style>
+    table {
+        border-collapse: collapse;
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>{{ r|safe }} {% endblock %}
