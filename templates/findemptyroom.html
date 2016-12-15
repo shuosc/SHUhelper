@@ -1,0 +1,107 @@
+{% extends "layout.html" %} {% block title %}寻找空闲教室{% endblock %} {% block h %}寻找空闲教室{% endblock %} {% block body %}
+<div class="divider"></div>
+<div class="section">
+    <h5 class="center-align">{{ status | safe }}空教室情况如下</h5>
+</div>
+<div class="divider"></div>
+<div class="section">
+    {{ time }}
+</div>
+<div class="divider"></div>
+<div class="section">
+    <div class="card-panel white">
+        <span class="blue-text text-darken-3 center-align">
+            {% if classrooms %}
+                {% for classroom in classrooms %}
+                    {{ classroom | safe }},
+                {% endfor %}
+            {% else %} 
+           <h6> 所在时段没有任何可用教室呢。。</h6>
+            {% endif %}
+        </span>
+    </div>
+</div>
+<div class="divider"></div>
+<div class="section">
+    <h5 class="center-align ">查询其他时间的空教室</h5>
+</div>
+
+<div class="divider"></div>
+<div class="section">
+    <form method="post">
+        <div class="input-field">
+            <select name="week">
+                <option value="1">第1周</option>
+                <option value="2">第2周</option>
+                <option value="3">第3周</option>
+                <option value="4">第4周</option>
+                <option value="5">第5周</option>
+                <option value="6">第6周</option>
+                <option value="7">第7周</option>
+                <option value="8">第8周</option>
+                <option value="9">第9周</option>
+                <option value="10">第10周</option>
+             </select>
+            <label>选择周</label>
+        </div>
+        <div class="input-field">
+            <select name="day">
+                <option value="1">周一</option>
+                <option value="2">周二</option>
+                <option value="3">周三</option>
+                <option value="4">周四</option>
+                <option value="5">周五</option>
+                
+            </select>
+            <label>选择周几</label>
+        </div>
+        <div class="input-field">
+            <select name="time">
+                <option value="1">第1节课</option>
+                <option value="2">第2节课</option>
+                <option value="3">第3节课</option>
+                <option value="4">第4节课</option>
+                <option value="5">第5节课</option>
+                <option value="6">第6节课</option>
+                <option value="7">第7节课</option>
+                <option value="8">第8节课</option>
+                <option value="9">第9节课</option>
+                <option value="10">第10节课</option>
+                <option value="11">第11节课</option>
+                <option value="12">第12节课</option>
+                <option value="13">第13节课</option>
+            </select>
+            <label>选择时间点</label>
+        </div>
+        <!--<div class="input-field">
+                                    <select name="roomtype">
+                                    <option value="1">任意</option>
+                                    <option value="2">普通教室</option>
+                                    <option value="3">阶梯教室</option>
+                                </select>
+                                    <label>选择教室类型</label>
+                                </div>
+                                <div class="input-field">
+                                    <select name="building">
+                                    <option value="0">任意</option>
+                                    <option value="1">A楼</option>
+                                    <option value="2">B楼</option>
+                                    <option value="3">C楼</option>
+                                    <option value="4">D楼</option>
+                                    <option value="5">E楼</option>
+                                    <option value="6">F楼</option>
+                                    <option value="7">G楼</option>
+
+                                </select>
+                                    <label>选择教室楼号</label>-->
+        <button class="btn waves-effect waves-light" type="submit" name="action">查询空教室
+            <i class="material-icons right">send</i>
+        </button>
+    </form>
+</div> {% endblock %} {% block script %}
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
+{% endblock %}

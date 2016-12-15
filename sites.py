@@ -55,10 +55,10 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
             r = s.get('http://cj.shu.edu.cn/Home/StudentIndex',timeout=10)
             success = r.text.find(u'首页') != -1
         elif site == 'xkc':
-            r = s.post('http://xk.shu.edu.cn/',data = postData,timeout=60)
+            r = s.post('http://xk.autoisp.shu.edu.cn/',data = postData,timeout=60)
             success = r.text.find(u'首页') != -1
         elif site == 'xkl':
-            r = s.post('http://xk.shu.edu.cn:8080/',data = postData,timeout=60)
+            r = s.post('http://xk.autoisp.shu.edu.cn:8080/',data = postData,timeout=60)
             success = r.text.find(u'首页') != -1
     except:
         return False
@@ -109,11 +109,11 @@ def get_content(site, s, option=''):
             string = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
             content = string
         elif site == 'xkc': # 使用([\s\S]*)以贪婪匹配
-            r = s.get('http://xk.shu.edu.cn/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
+            r = s.get('http://xk.autoisp.shu.edu.cn/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
             string = re.search(r'<table class="tbllist">([\s\S]*)</table>',r.text,flags=0).group(0)
             content = string
         elif site == 'xkl':
-            r = s.get('http://xk.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
+            r = s.get('http://xk.autoisp.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
             string = re.search(r'<table class="tbllist">([\s\S]*)</table>',r.text,flags=0).group(0)
             content = string
         return content
@@ -194,13 +194,19 @@ def get_binary_json_from_course_table(content,week):
                 time_table[day][i] = data
     return json.dumps(time_table) 
 
-# def detect_conflict(data):
-#     time_list_raw = list_init()
-#     for time_list in data:
-#         for col in time_list:
-#             for blocks in col:
-#                 if blocks['isempty']==False:
-#                     time_list_raw[]
+def detect_conflict(data):
+    time_list_raw = list_init()
+    for time_list in data:
+        j=0
+        i=0
+        for col in time_list:
+            for blocks in col:
+                if blocks['isempty']==False:
+                    time_list_raw[j][i]=time_list_raw[j][i]+1
+                    i=i+1
+            j=j+1
+    return time_list_raw
+
 
 def list_init():
     list_raw = [[],[],[],[],[]]
@@ -226,11 +232,11 @@ def get_CAPTCHA(site, s):
         r = s.get('http://cj.shu.edu.cn/',timeout=20)
         r = s.get('http://cj.shu.edu.cn/User/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
     elif site == 'xkc':
-        r = s.get('http://xk.shu.edu.cn/',timeout=20)
-        r = s.get('http://xk.shu.edu.cn/Login/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
+        # r = s.get('http://xk.autoisp.shu.edu.cn/',timeout=20)
+        r = s.get('http://xk.autoisp.shu.edu.cn/Login/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
     elif site == 'xkl':
-        r = s.get('http://xk.shu.edu.cn:8080',timeout=20)
-        r = s.get('http://xk.shu.edu.cn:8080/Login/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
+        # r = s.get('http://xk.autoisp.shu.edu.cn:8080',timeout=20)
+        r = s.get('http://xk.autoisp.shu.edu.cn:8080/Login/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
 
     return base64.b64encode(r.raw.read()).decode('utf-8'), s, phyhash
 def nhce(user,pwd,cid):

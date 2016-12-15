@@ -11,10 +11,13 @@ import os
 import base64
 from sites import *
 from config import *
-
+import random
+import emptyroom
+import schooltime
 cache = SimpleCache()
 
 def randsession():
+    """生成随机sessoin"""
     import random
     import string
     seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=-"
@@ -24,11 +27,6 @@ def randsession():
     salt = ''.join(sa)
     return salt
 
-def randwords():
-    import random
-    import string
-
-    return random.choice(DAILY_WORDS)
 
 def connect_db():
     """Connects to the specific database."""
@@ -66,6 +64,7 @@ def get_user_id(username):
     return rv[0] if rv else None
 
 def course_query(cid,cname,tname,tid):
+    """数据库查询接口"""
     db = get_db()
     cur = db.execute('select * from courses where courseuid like "%%%s%%" and coursename like "%%%s%%" and teachname like "%%%s%%" and teachid like "%%%s%%" limit 0,200' % (cid,cname,tname,tid))
     courses = cur.fetchall()
@@ -79,6 +78,7 @@ def close_db(error):
 
 @app.route('/querycourse', methods=['POST', 'GET'])
 def query_course():
+    """查询课程逻辑"""
     flash(u'<a class="white-text" href="http://shuhelper.cn/article/2016_fall_1">2016秋季学期第一轮选课数据分析报告</a>')
     if request.method == 'POST':
         courses = course_query(request.form['cid'],request.form['cname'],request.form['tname'],'')
@@ -103,9 +103,45 @@ def course_page(coursename, tname):
 
 @app.route('/')
 def index():
-    flash(randwords())
+    flash(random.choice(DAILY_WORDS))
     resp = make_response(render_template('index.html'))
     return resp
+
+@app.route('/findfreetime', methods=['POST', 'GET'])
+def findfreetime():
+    time_lists = []
+    if request.method == 'POST':
+        for studentno in request.form['studentno']:
+            if(cache.get(studentno) is None):
+                flash(u'学号为%s的同学五分钟内未在本系统查询过课表，本次查询失败')
+            else:
+                time_lists.append(cache.get(studentno))
+        solution = detect_conflict(time_lists)
+        return make_response(render_template('findfreetime.html'), r = solution)
+    elif request.method == 'GET':
+        return make_response(render_template('findfreetime.html'))
+    return make_response(render_template('findfreetime.html'))
+
+
+@app.route('/findemptyroom', methods=['POST', 'GET'])
+def findemptyroom():
+    classrooms = []
+    if request.method == 'POST':
+        week = int(request.form['week'])
+        day = int(request.form['day'])
+        time = int(request.form['time'])
+        classrooms = emptyroom.get_emptyroom(week,day,time)
+        flash(u'您当前输入的查询参数是，第%d周，星期%d，第%d节'% (week, day, time))
+        return make_response(render_template('findemptyroom.html' ,classrooms = classrooms, status = u"您查询的时间"))
+
+    elif request.method == 'GET':
+        week = schooltime.this_week()
+        day = schooltime.this_day()
+        time = schooltime.this_class()
+        flash(u'当前时间是，第%d周，星期%d，第%d节'% (week, day, time))
+        classrooms = emptyroom.get_emptyroom_now()
+        return make_response(render_template('findemptyroom.html' ,classrooms = classrooms, status = u"现在的"))
+    return make_response(render_template('findemptyroom.html'))
 
 
 @app.route('/login/<check>/<site>', methods=['POST', 'GET'])#check变量代表此接口是否有验证码site变量代表发生此接口是哪个接口

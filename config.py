@@ -1,4 +1,5 @@
 # configuration
+# coding=utf-8
 from flask import Flask
 import os
 app = Flask(__name__)
@@ -9,7 +10,7 @@ app.config.update(dict(
     USERNAME='admin',
     PASSWORD='default'
 ))
-app.secret_key = 'secret_key'
+app.secret_key = u'secret_key'
 DAILY_WORDS = [u"不是世界变得无聊，而是你变成了无聊的人",
 u"DON'T PANIC",
 u"总而言之，不论发生了什么，只要还没死，人生就还没有结束－－人生仍会继续。也不会出现什么片尾曲或者STAFF字幕之类的东西",
