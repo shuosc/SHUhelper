@@ -25,9 +25,9 @@
             </div>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>都有空吗？(即将上线)<a href="#" class="secondary-content">进入<i class="material-icons">send</i></a></div>
+            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>都有空吗？<span class="red-text">（新）</span><a href="/findfreetime/member" class="secondary-content">进入<i class="material-icons">send</i></a></div>
             <div class="collapsible-body">
-                <p>输入最多十个人的学号，根据课表找出大家都有空的时间，社团/课堂小组决定讨论时间的好助手。(提前放出来让你们期待一下)</p>
+                <p>输入最多十个人的学号，根据课表找出大家都有空的时间，社团/课堂小组决定讨论时间的好助手。(已正式上线，有BUG请反馈)</p>
             </div>
         </li>
         <li>
@@ -250,6 +250,45 @@
 </div>
 <div class="divider"></div>
 <div class="section">
+    <!--<div id="SOHUCS"></div>
+    <script type="text/javascript">
+        (function() {
+            var appid = 'cysFDE0lC';
+            var conf = 'prod_4c1e62dd599d20dfa3c77f589dcc18b1';
+            var width = window.innerWidth || document.documentElement.clientWidth;
+            if (width < 960) {
+                window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+            } else {
+                var loadJs = function(d, a) {
+                    var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+                    var b = document.createElement("script");
+                    b.setAttribute("type", "text/javascript");
+                    b.setAttribute("charset", "UTF-8");
+                    b.setAttribute("src", d);
+                    if (typeof a === "function") {
+                        if (window.attachEvent) {
+                            b.onreadystatechange = function() {
+                                var e = b.readyState;
+                                if (e === "loaded" || e === "complete") {
+                                    b.onreadystatechange = null;
+                                    a()
+                                }
+                            }
+                        } else {
+                            b.onload = a
+                        }
+                    }
+                    c.appendChild(b)
+                };
+                loadJs("https://changyan.sohu.com/upload/changyan.js", function() {
+                    window.changyan.api.config({
+                        appid: appid,
+                        conf: conf
+                    })
+                });
+            }
+        })();
+    </script>-->
     <div class="ds-thread" data-thread-key="index" data-title="首页" data-url="http://www.shuhelper.cn"></div>
 </div>
 
@@ -268,12 +307,12 @@
             document.getElementsByTagName('body')[0]).appendChild(ds);
     })();
 </script>
-<script>
+<!--<script>
     function myFunction() {
         $("#h01").html("Hello jQuery")
     }
     $(document).ready(myFunction);
-</script>
+</script>-->
 <!--<script type="text/javascript">
     $(document).ready(function() {
         $('.collapsible').collapsible();

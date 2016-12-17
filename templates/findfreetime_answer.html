@@ -1,0 +1,34 @@
+{% extends "layout.html" %} {% block title %}查询结果{% endblock %} {% block h %}查询结果{% endblock %}{% block body %}
+<div class="section">
+    <div class="card-panel white">
+        <span class="blue-text text-darken-3 center-align">
+             <h6 class="center-align"><b>您的小组代号为{{ code }}，目前有{{ count }}人已录入课表</b></h6>
+        </span>
+    </div>
+</div>
+<div class="divider"> </div>
+<div class="section">
+    <table class="centered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>一</th>
+                <th>二</th>
+                <th>三</th>
+                <th>四</th>
+                <th>五</th>
+            </tr>
+        </thead>
+        {% for row in r %}
+        <tr>
+            <th>{{ loop.index }}</th>
+            {% for col in row %} {% if col==0 %}
+            <td class="green lighten-2 white-text">{{ col }}</td>
+            {% else %}
+            <td>{{ col }}</td>
+            {% endif %} {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

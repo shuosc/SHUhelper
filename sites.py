@@ -1,8 +1,9 @@
-#! python3
+#!/usr/bin/env python3
 #coding=utf-8
 import re
 import requests
 import base64
+import time
 from bs4 import BeautifulSoup
 def general_login(s, site, user, pwd, check = None, other = None): #网站的通用登录方法
     if site == 'pe':#根据相应网站确定相应的postData
@@ -56,17 +57,25 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
             success = r.text.find(u'首页') != -1
         elif site == 'xkc':
             r = s.post('http://xk.autoisp.shu.edu.cn/',data = postData,timeout=60)
-            success = r.text.find(u'首页') != -1
+            if r.text.find(u'验证码错误') != -1:
+                success = 'error_vali'
+            elif r.text.find(u'帐号或密码错误')!=-1:
+                success = 'error_pwd'
+            elif r.text.find(u'首页') != -1:
+                success = True
+            else:
+                success = False
         elif site == 'xkl':
             r = s.post('http://xk.autoisp.shu.edu.cn:8080/',data = postData,timeout=60)
-            success = r.text.find(u'首页') != -1
+            if r.text.find(u'验证码错误') != -1:
+                success = 'vali_error'
+            elif r.text.find(u'首页') != -1:
+                success = True
+            else:
+                success = False
     except:
         return False
-    if success:
-        return s
-    else:
-        return False
-        # return r.text
+    return success , s
 def get_content(site, s, option=''):
     try:
         if site == 'pe':
@@ -109,117 +118,23 @@ def get_content(site, s, option=''):
             string = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
             content = string
         elif site == 'xkc': # 使用([\s\S]*)以贪婪匹配
+            time.sleep(2)
             r = s.get('http://xk.autoisp.shu.edu.cn/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
+            s.get('http://xk.autoisp.shu.edu.cn/Login/Logout')
             string = re.search(r'<table class="tbllist">([\s\S]*)</table>',r.text,flags=0).group(0)
             content = string
+            # except:
+            #     return r.text
         elif site == 'xkl':
+            time.sleep(2)
             r = s.get('http://xk.autoisp.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
             string = re.search(r'<table class="tbllist">([\s\S]*)</table>',r.text,flags=0).group(0)
             content = string
         return content
     except:
         return False
-def get_json_from_course_table(content):
-    import json
-    table =re.search(r'<table class="tbllist">([\s\S]*?)</table>',content,flags=0).group(0)
-    soup = BeautifulSoup(table,"html.parser")
-    table = soup.find("table")
-    course_list = []
-    for row in table.findAll("tr")[2:]:
-        cells = row.findAll("td")[1:]
-        data = {
-        'courseno':cells[0].get_text(strip=True),
-        'coursename':cells[1].get_text(strip=True),
-        'teachno':cells[2].get_text(strip=True),
-        'teachname':cells[3].get_text(strip=True),
-        'credit':cells[4].get_text(strip=True),
-        'coursetime':cells[5].get_text(strip=True),
-        'courseplace':cells[6].get_text(strip=True),
-        'campus':cells[7].get_text(strip=True),
-        'qtime':cells[8].get_text(strip=True),
-        'qplace':cells[9].get_text(strip=True)
-        }
-        course_list.append(data)
-    return json.dumps(course_list)
-def get_binary_json_from_course_table(content,week):
-    import json
-    cn_num={
-        u'一':1,
-        u'二':2,
-        u'三':3,
-        u'四':4,
-        u'五':5,
-    }
-    time_table=[[],[],[],[],[]]
-    data={
-    'isempty':True,
-    'coursename':coursename
-    }
-    for days in time_table:
-        for i in range(1,14):
-            days.append(data)
-    table =re.search(r'<table class="tbllist">([\s\S]*?)</table>',content,flags=0).group(0)
-    soup = BeautifulSoup(table,"html.parser")
-    table = soup.find("table")
-    for row in table.findAll("tr")[2:]:
-        cells = row.findAll("td")[1:]
-        coursename=cells[1].get_text(strip=True)
-        coursetime=cells[5].get_text(strip=True)
-        while(True):
-            data={
-            'isempty':True,
-            'coursename':coursename
-            }
-            time = re.search(r'([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468)\)|\((?:([0-9]+),([0-9]+)\u5468)\))*',coursetime,flags=0)
-            coursetime = re.sub(r'([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468)\)|\((?:([0-9]+),([0-9]+)\u5468)\))*','',coursetime,1)
-            if time == None:
-                break
-            day = cn_num[time.group(1)]
-            start = int(time.group(2))
-            end = int(time.group(3))
-            if time.group(4)!=None:
-                if time.group(4) == u'单':
-                    if week%2==1:
-                        data['isempty']=False
-                else:
-                    if week%2==0:
-                        data['isempty']=False
-            elif time.group(5)!=None:
-                if week<=int(time.group(5)) and week>=int(time.group(4)):
-                    data['isempty']=False
-            elif time.group(7)!=None:
-                if week==int(time.group(7)) or week==int(time.group(8)):
-                    data['isempty']=False
-            for i in range(start,end):
-                time_table[day][i] = data
-    return json.dumps(time_table) 
 
-def detect_conflict(data):
-    time_list_raw = list_init()
-    for time_list in data:
-        j=0
-        i=0
-        for col in time_list:
-            for blocks in col:
-                if blocks['isempty']==False:
-                    time_list_raw[j][i]=time_list_raw[j][i]+1
-                    i=i+1
-            j=j+1
-    return time_list_raw
-
-
-def list_init():
-    list_raw = [[],[],[],[],[]]
-    data={
-    'isempty':True,
-    'coursename':coursename
-    }
-    for days in list_raw:
-        for i in range(1,14):
-            days.append(data)
-    return list_raw
-def get_CAPTCHA(site, s):
-    from PIL import Image
+def get_CAPTCHA(site,s):
     from io import BytesIO
     phyhash = None
     if site == 'fin':
@@ -232,11 +147,10 @@ def get_CAPTCHA(site, s):
         r = s.get('http://cj.shu.edu.cn/',timeout=20)
         r = s.get('http://cj.shu.edu.cn/User/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
     elif site == 'xkc':
-        # r = s.get('http://xk.autoisp.shu.edu.cn/',timeout=20)
-        r = s.get('http://xk.autoisp.shu.edu.cn/Login/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
+        r = s.get('http://xk.autoisp.shu.edu.cn/Login/GetValidateCode?GetTimestamp()',timeout=20,stream=True)
+        # time.sleep(5)
     elif site == 'xkl':
-        # r = s.get('http://xk.autoisp.shu.edu.cn:8080',timeout=20)
-        r = s.get('http://xk.autoisp.shu.edu.cn:8080/Login/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
+        r = s.get('http://xk.autoisp.shu.edu.cn:8080/Login/GetValidateCode?GetTimestamp()',timeout=20,stream=True)
 
     return base64.b64encode(r.raw.read()).decode('utf-8'), s, phyhash
 def nhce(user,pwd,cid):

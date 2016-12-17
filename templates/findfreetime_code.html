@@ -1,0 +1,18 @@
+﻿{% extends "layout.html" %} {% block title %}查询结果{% endblock %} {% block h %}查询结果{% endblock %} {% block body %}
+<div class="row">
+    <form class="col s12" role="form" onsubmit="return validate_form(this)" method="post">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="first_name" type="text" class="validate" name="code">
+                <label for="first_name">小组代号</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action">查询
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

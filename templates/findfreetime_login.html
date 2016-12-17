@@ -1,0 +1,88 @@
+﻿{% extends "layout.html" %} {% block title %}登陆{% endblock %} {% block h %}登陆{% endblock %} {% block body %}
+<div class="row">
+    <form class="col s12" role="form" onsubmit="return validate_form(this)" method="post">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="first_name" type="text" class="validate" name="code">
+                <label for="first_name">小组代号</label>
+            </div>
+        </div>
+        <div class="input-field">
+            <select name="week">
+                <option value="1">第1周</option>
+                <option value="2">第2周</option>
+                <option value="3">第3周</option>
+                <option value="4">第4周</option>
+                <option value="5">第5周</option>
+                <option value="6">第6周</option>
+                <option value="7">第7周</option>
+                <option value="8">第8周</option>
+                <option value="9">第9周</option>
+                <option value="10">第10周</option>
+             </select>
+            <label>选择周</label>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="first_name" type="text" class="validate" name="username">
+                <label for="first_name">一卡通账号</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="password" type="password" class="validate" name="password">
+                <label for="password">密码</label>
+            </div>
+        </div>{% if check %}
+        <div class="row">
+            <div class="input-field col s2">
+                <img src="data:image/gif;base64,{{ r| safe }}" />
+            </div>
+            <div class="input-field col s10">
+                <input id="inputCheck" name="check" type="text" />
+                <label for="inputCheck" class="col-sm-2 control-label">	验证码</label>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="input-field col s12">
+                <button class="btn waves-effect waves-light" type="submit" name="action">登录
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %} {% block script %}
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
+<script type="text/javascript">
+    function validate_required(field, alerttxt) {
+        with(field) {
+            if (value == null || value == "") {
+                alert(alerttxt);
+                return false
+            } else {
+                return true
+            }
+        }
+    }
+
+    function validate_form(thisform) {
+        with(thisform) {
+            if (validate_required(username, "用户名不能为空") == false) {
+                username.focus();
+                return false
+            }
+            if (validate_required(password, "密码不能为空") == false) {
+                password.focus();
+                return false
+            }
+        }
+        return true
+    }
+</script>
+{% endblock %}

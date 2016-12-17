@@ -1,4 +1,4 @@
-#! python3
+#!/usr/bin/env python3
 #coding=utf-8
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response,send_from_directory
@@ -14,6 +14,7 @@ from config import *
 import random
 import emptyroom
 import schooltime
+import findfreetime
 cache = SimpleCache()
 
 def randsession():
@@ -107,21 +108,104 @@ def index():
     resp = make_response(render_template('index.html'))
     return resp
 
-@app.route('/findfreetime', methods=['POST', 'GET'])
-def findfreetime():
-    time_lists = []
-    if request.method == 'POST':
-        for studentno in request.form['studentno']:
-            if(cache.get(studentno) is None):
-                flash(u'学号为%s的同学五分钟内未在本系统查询过课表，本次查询失败')
-            else:
-                time_lists.append(cache.get(studentno))
-        solution = detect_conflict(time_lists)
-        return make_response(render_template('findfreetime.html'), r = solution)
-    elif request.method == 'GET':
-        return make_response(render_template('findfreetime.html'))
-    return make_response(render_template('findfreetime.html'))
+# @app.route('/findfreetime', methods=['POST', 'GET'])
+# def findfreetime_index():
+#     time_lists = []
+#     if request.method == 'POST':
+#         for studentno in request.form['studentno']:
+#             if(cache.get(studentno) is None):
+#                 # flash(u'学号为%s的同学五分钟内未在本系统查询过课表，本次查询失败')
+#             else:
+#                 time_lists.append(cache.get(studentno))
+#         solution = detect_conflict(time_lists)
+#         return make_response(render_template('findfreetime.html'), r = solution)
+#     elif request.method == 'GET':
+#         return make_response(render_template('findfreetime.html'))
+#     return make_response(render_template('findfreetime.html'))
 
+
+@app.route('/findfreetime/member', methods=['POST', 'GET'])
+def findfreetime_member():
+    r = None 
+    site = 'fft'
+    check = 'vali'
+    if request.method == 'POST':
+        week = int(request.form['week'])
+        code = request.form['code']
+        usr = request.form['username']
+        if usr == '15122265' or usr == '15121604':
+            flash(u'钱宜文炒鸡可爱')
+            pass
+        pwd = request.form['password']
+        check_code = request.form['check']
+        s = cache.get(session[site])
+        status,s = general_login(s, 'xkc', usr, pwd, check_code, None)
+        if status == True:
+            r = get_content('xkc', s)
+            if r != False:
+                if cache.get(code) is None:
+                    members=set()
+                    members.add(usr)
+                    cache.set(code,members,timeout = 500)
+                else:
+                    members = set(cache.get(code))
+                    members.add(usr)
+                    cache.set(code,members,timeout = 500)
+                    flash(u"测试代码")
+                flash(u'您已以%s的身份在%s小组中成功录入课表' % (usr,code))
+                flash(u'若您是组织者，请点击<a href="/findfreetime/answer" class="waves-effect waves-light btn">这里</a>查看结果')
+                cache.set(session[site], s, timeout = 500)
+                cache.set(session[site]+'user', usr, timeout = 500)
+                time_list = findfreetime.get_binary_json_from_course_table(r,week)
+                cache.set(code+usr, time_list, timeout = 500)
+                cache.set(session[site]+'islogin',True,timeout = 500)
+                return render_template('xkc.html', r=r)
+            else:
+                cache.set(session[site]+'islogin',False,timeout = 500)
+                flash(u'服务器内容解析出错')
+                flash(r)
+        elif status =='error_vali':
+            flash(u'验证码错误')
+        elif status =='error_pwd':
+            flash(u'用户名或密码错误')
+        else:
+            flash(u'登录失败！可能是账户密码错误或服务器宕机')
+        return redirect(url_for('findfreetime_member'))
+    elif request.method == 'GET':
+        flash(u'和组员输入同样的数字(建议五位),进入同一个小组')
+        session[site] = randsession()
+        while cache.get(session[site]) is not None:
+            session[site] = randsession()
+        s = requests.Session()
+        r, s, phy_hash = get_CAPTCHA('xkc',s)
+        cache.set(session[site], s, timeout=500)
+        cache.set(session[site] + 'islogin', False, timeout=500)
+        resp = make_response(render_template('findfreetime_login.html', r=r,check=(check == 'vali')))
+        return resp
+    return render_template('findfreetime_login.html')
+
+@app.route('/findfreetime/answer', methods=['POST', 'GET'])
+def findfreetime_answer():
+    if request.method == 'POST':
+        code = request.form['code']
+        data = []
+        if cache.get(code) is not None:
+            for members in cache.get(code):
+                data.append(cache.get(code+members))
+            count = len(cache.get(code))
+            raw_list =  findfreetime.detect_conflict(data)
+            Traverse_list = [([1] * 5) for i in range(0,13)]
+            for j in range(0,5):
+                for i in range(0,13):
+                    Traverse_list[i][j]=raw_list[j][i]
+            return render_template('findfreetime_answer.html',code=code,r=Traverse_list,count=count)
+        else:
+            flash(u'还没有任何人将课表录入您输入的小组代码，请检查小组代码是否有误')
+            return render_template('findfreetime_code.html')
+    elif request.method == 'GET':
+        flash(u'输入组织代码查看结果')
+        return render_template('findfreetime_code.html')
+    
 
 @app.route('/findemptyroom', methods=['POST', 'GET'])
 def findemptyroom():
@@ -149,6 +233,8 @@ def login(site, check):
     r = None
     if request.method == 'POST':
         usr = request.form['username']
+        if usr == '15122265' or usr == '15121604':
+            flash(u'钱宜文炒鸡可爱')
         pwd = request.form['password']
         if check == 'vali':
             check_code = request.form['check']
@@ -158,13 +244,8 @@ def login(site, check):
             other = session['_hash_']
         else:
             other = None
-        s = cache.get(session[site])
-        s = general_login(s, site, usr, pwd, check_code, other)
-        # return s
-        if s != False:
-            # if site =='xkc':
-            #     flash(s)
-            #     return redirect(url_for('login',site=site,check=check))
+        status,s = general_login(cache.get(session[site]), site, usr, pwd, check_code, other)
+        if status == True:
             r = get_content(site, s)
             if r != False:
                 cache.set(session[site], s, timeout = 300)
@@ -173,6 +254,10 @@ def login(site, check):
             else:
                 cache.set(session[site]+'islogin',False,timeout = 300)
                 flash(u'服务器内容解析出错')
+        elif status == 'error_vali':
+                flash(u'验证码错误！')
+        elif status =='error_pwd':
+            flash(u'用户名或密码错误')
         else:
             if site == 'pe':
                 flash(u'如果您的账号密码没填错的话，体育学院服务器又炸啦233...请过一段时间再试试')
@@ -190,7 +275,7 @@ def login(site, check):
                 session[site] = randsession()
             s = requests.Session()
             if check == 'vali':
-                r, s, phy_hash = get_CAPTCHA(site, s)
+                r, s, phy_hash = get_CAPTCHA(site,s)
                 if phy_hash !=  None:
                     session['_hash_'] = phy_hash
             if site == 'pe':
@@ -203,7 +288,7 @@ def login(site, check):
                 flash(u'请注意！登录炒鸡慢，要等将近四十秒。')
             cache.set(session[site], s, timeout=300)
             cache.set(session[site] + 'islogin', False, timeout=300)
-            resp = make_response(render_template('login.html', r=r,check=(check == 'vali')))
+            resp = make_response(render_template('login.html', r=r,check=(check == 'vali' or check =='valia')))
         return resp
     return render_template('index.html')
 
@@ -233,5 +318,5 @@ def tools(tools):
     return resp
 
 if __name__ == '__main__':
-    # app.debug = True
+    app.debug = True
     app.run(host='0.0.0.0')
