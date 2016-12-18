@@ -1,5 +1,10 @@
-#!/usr/bin/env python3
-#coding=utf-8
+"""
+Routes and views for the flask application.
+"""
+
+from datetime import datetime
+from flask import render_template
+from SHUhelper import app
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response,send_from_directory
 from werkzeug.contrib.cache import SimpleCache
@@ -9,12 +14,12 @@ import string
 import requests
 import os
 import base64
-from sites import *
-from config import *
+from SHUhelper.sites import *
+from SHUhelper.config import *
 import random
-import emptyroom
-import schooltime
-import findfreetime
+import SHUhelper.emptyroom
+import SHUhelper.schooltime
+import SHUhelper.findfreetime
 cache = SimpleCache()
 
 def randsession():
@@ -156,7 +161,7 @@ def findfreetime_member():
                 flash(u'若您是组织者，请点击<a href="/findfreetime/answer" class="waves-effect waves-light btn">这里</a>查看结果')
                 cache.set(session[site], s, timeout = 500)
                 cache.set(session[site]+'user', usr, timeout = 500)
-                time_list = findfreetime.get_binary_json_from_course_table(r,week)
+                time_list = SHUhelper.findfreetime.get_binary_json_from_course_table(r,week)
                 cache.set(code+usr, time_list, timeout = 500)
                 cache.set(session[site]+'islogin',True,timeout = 500)
                 return render_template('xkc.html', r=r)
@@ -193,7 +198,7 @@ def findfreetime_answer():
             for members in cache.get(code):
                 data.append(cache.get(code+members))
             count = len(cache.get(code))
-            raw_list =  findfreetime.detect_conflict(data)
+            raw_list =  SHUhelper.findfreetime.detect_conflict(data)
             Traverse_list = [([1] * 5) for i in range(0,13)]
             for j in range(0,5):
                 for i in range(0,13):
@@ -214,16 +219,16 @@ def findemptyroom():
         week = int(request.form['week'])
         day = int(request.form['day'])
         time = int(request.form['time'])
-        classrooms = emptyroom.get_emptyroom(week,day,time)
+        classrooms = SHUhelper.emptyroom.get_emptyroom(week,day,time)
         flash(u'您当前输入的查询参数是，第%d周，星期%d，第%d节'% (week, day, time))
         return make_response(render_template('findemptyroom.html' ,classrooms = classrooms, status = u"您查询的时间"))
 
     elif request.method == 'GET':
-        week = schooltime.this_week()
-        day = schooltime.this_day()
-        time = schooltime.this_class()
+        week = SHUhelper.schooltime.this_week()
+        day = SHUhelper.schooltime.this_day()
+        time = SHUhelper.schooltime.this_class()
         flash(u'当前时间是，第%d周，星期%d，第%d节'% (week, day, time))
-        classrooms = emptyroom.get_emptyroom_now()
+        classrooms = SHUhelper.emptyroom.get_emptyroom_now()
         return make_response(render_template('findemptyroom.html' ,classrooms = classrooms, status = u"现在的"))
     return make_response(render_template('findemptyroom.html'))
 
@@ -316,7 +321,3 @@ def favicon():
 def tools(tools):
     resp = make_response(render_template(tools+'.html'))
     return resp
-
-if __name__ == '__main__':
-    app.debug = True
-    app.run(host='0.0.0.0')

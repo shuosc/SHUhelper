@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ProfilingTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectTarget>
+    <TargetProject>db12dc32-68d6-464b-99f7-49f6611402c7</TargetProject>
+    <FriendlyName>SHUhelper</FriendlyName>
+  </ProjectTarget>
+</ProfilingTarget>

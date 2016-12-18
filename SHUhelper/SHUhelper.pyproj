@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>db12dc32-68d6-464b-99f7-49f6611402c7</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{789894c7-04a9-4a11-a6b5-3f4435165112};{1b580a1a-fdb3-4b32-83e1-6407eb2722e6};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>runserver.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <LaunchProvider>Web launcher</LaunchProvider>
+    <OutputPath>.</OutputPath>
+    <StaticUriPattern>^/static/.*</StaticUriPattern>
+    <StaticUriRewrite>^/$(MSBuildProjectName)/static/.*</StaticUriRewrite>
+    <PythonWsgiHandler>$(MSBuildProjectName).app</PythonWsgiHandler>
+    <Name>SHUhelper</Name>
+    <RootNamespace>SHUhelper</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="runserver.py" />
+    <Compile Include="SHUhelper\config.py" />
+    <Compile Include="SHUhelper\emptyroom.py" />
+    <Compile Include="SHUhelper\findfreetime.py" />
+    <Compile Include="SHUhelper\schooltime.py" />
+    <Compile Include="SHUhelper\sites.py" />
+    <Compile Include="SHUhelper\__init__.py" />
+    <Compile Include="SHUhelper\views.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SHUhelper\" />
+    <Folder Include="SHUhelper\static\" />
+    <Folder Include="SHUhelper\templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="requirements.txt" />
+    <Content Include="SHUhelper\classroomdata.json" />
+    <Content Include="SHUhelper\classrooms.txt" />
+    <Content Include="SHUhelper\course.db" />
+    <Content Include="SHUhelper\README.md" />
+    <Content Include="SHUhelper\static\baoshanpe.jpg" />
+    <Content Include="SHUhelper\static\bus1.jpg" />
+    <Content Include="SHUhelper\static\bus2.jpg" />
+    <Content Include="SHUhelper\static\bus3.jpg" />
+    <Content Include="SHUhelper\static\bus4.jpg" />
+    <Content Include="SHUhelper\static\bus5.jpg" />
+    <Content Include="SHUhelper\static\bus6.jpg" />
+    <Content Include="SHUhelper\static\bus7.jpg" />
+    <Content Include="SHUhelper\static\bus8.jpg" />
+    <Content Include="SHUhelper\static\center2d.jpg" />
+    <Content Include="SHUhelper\static\computerC.png" />
+    <Content Include="SHUhelper\static\computerD.png" />
+    <Content Include="SHUhelper\static\fall.png" />
+    <Content Include="SHUhelper\static\favicon.ico" />
+    <Content Include="SHUhelper\static\freelab.png" />
+    <Content Include="SHUhelper\static\peex.jpg" />
+    <Content Include="SHUhelper\static\spring.png" />
+    <Content Include="SHUhelper\static\summer.png" />
+    <Content Include="SHUhelper\static\winter.png" />
+    <Content Include="SHUhelper\templates\2016_fall_1.html" />
+    <Content Include="SHUhelper\templates\about.html" />
+    <Content Include="SHUhelper\templates\aboutpe.html" />
+    <Content Include="SHUhelper\templates\aboutus.html" />
+    <Content Include="SHUhelper\templates\articles.html" />
+    <Content Include="SHUhelper\templates\bus.html" />
+    <Content Include="SHUhelper\templates\cal.html" />
+    <Content Include="SHUhelper\templates\cardsurplus.html" />
+    <Content Include="SHUhelper\templates\cj.html" />
+    <Content Include="SHUhelper\templates\contact.html" />
+    <Content Include="SHUhelper\templates\coursepage.html" />
+    <Content Include="SHUhelper\templates\fin.html" />
+    <Content Include="SHUhelper\templates\findemptyroom.html" />
+    <Content Include="SHUhelper\templates\findfreetime_answer.html" />
+    <Content Include="SHUhelper\templates\findfreetime_code.html" />
+    <Content Include="SHUhelper\templates\findfreetime_login.html" />
+    <Content Include="SHUhelper\templates\finold.html" />
+    <Content Include="SHUhelper\templates\freelab.html" />
+    <Content Include="SHUhelper\templates\index.html" />
+    <Content Include="SHUhelper\templates\jszxjf.html" />
+    <Content Include="SHUhelper\templates\jszxkcdy.html" />
+    <Content Include="SHUhelper\templates\layout.html" />
+    <Content Include="SHUhelper\templates\lehu.html" />
+    <Content Include="SHUhelper\templates\login.html" />
+    <Content Include="SHUhelper\templates\map.html" />
+    <Content Include="SHUhelper\templates\materialize.html" />
+    <Content Include="SHUhelper\templates\med.html" />
+    <Content Include="SHUhelper\templates\nhce.html" />
+    <Content Include="SHUhelper\templates\openschedule.html" />
+    <Content Include="SHUhelper\templates\pe.html" />
+    <Content Include="SHUhelper\templates\peex.html" />
+    <Content Include="SHUhelper\templates\pemap.html" />
+    <Content Include="SHUhelper\templates\phylab.html" />
+    <Content Include="SHUhelper\templates\querycourse.html" />
+    <Content Include="SHUhelper\templates\tel.html" />
+    <Content Include="SHUhelper\templates\xkc.html" />
+    <Content Include="SHUhelper\templates\xkl.html" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Web.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
