@@ -4,4 +4,9 @@
     <TargetProject>db12dc32-68d6-464b-99f7-49f6611402c7</TargetProject>
     <FriendlyName>SHUhelper</FriendlyName>
   </ProjectTarget>
+  <Reports>
+    <Report>
+      <Filename>C:\Users\infke\AppData\Local\Temp\SHUhelper_20161218.vsp</Filename>
+    </Report>
+  </Reports>
 </ProfilingTarget>
