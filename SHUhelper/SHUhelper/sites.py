@@ -38,41 +38,52 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
         if site == 'pe':
             r = s.get('http://202.120.127.149:8989/spims/login/index.jsp',timeout = 30)
             r = s.post('http://202.120.127.149:8989/spims/login.do?method=toLogin',data = postData, timeout = 30)
-            success = r.headers['Content-Length'] == '784'
+            if(r.headers['Content-Length'] == '784'):
+                success = 'success'
         elif site == 'lehu':
             r = s.post('http://passport.lehu.shu.edu.cn/ShowOrgUserInfo.aspx',data = postData,timeout = 30)
-            success = r.text != u'1|password|一卡通账号不存在或密码错误！'
+            if r.text != u'1|password|一卡通账号不存在或密码错误！':
+                success = 'success'
         elif site == 'phylab':
             r = s.post('http://www.phylab.shu.edu.cn/openexp/index.php/Public/checkLogin/',data = postData,timeout=10)
-            success = r.text.find(u'false') != -1
+            if r.text.find(u'false') != -1 :
+                 success = 'success'
         elif site == 'fin':
             r = s.post('http://xssf.shu.edu.cn:8100/SFP_Share/?Length=5',data = postData, timeout=10)
             r = s.get('http://xssf.shu.edu.cn:8100/SFP_Share/', timeout = 10)
-            success = r.text.find(u'错误') == -1 and r.text.find(u'不正确') == -1
+            if r.text.find(u'错误') == -1 and r.text.find(u'不正确') == -1:
+                success = 'success'
         elif site == 'cj':
             r = s.post('http://cj.shu.edu.cn/',data = postData,timeout=60)
             r = s.get('http://cj.shu.edu.cn/Home/StudentIndex',timeout=10)
-            success = r.text.find(u'首页') != -1
+            if r.text.find(u'首页') != -1:
+                success = 'success'
         elif site == 'xkc':
             r = s.post('http://xk.autoisp.shu.edu.cn/',data = postData,timeout=60)
             if r.text.find(u'验证码错误') != -1:
                 success = 'error_vali'
             elif r.text.find(u'帐号或密码错误')!=-1:
                 success = 'error_pwd'
+            elif r.text.find(u'教学评估') != -1:
+                success = 'error_cj'
             elif r.text.find(u'首页') != -1:
-                success = True
+                success = 'success'
             else:
-                success = False
+                success = 'error'
         elif site == 'xkl':
             r = s.post('http://xk.autoisp.shu.edu.cn:8080/',data = postData,timeout=60)
             if r.text.find(u'验证码错误') != -1:
-                success = 'vali_error'
+                success = 'error_vali'
+            elif r.text.find(u'帐号或密码错误')!=-1:
+                success = 'error_pwd'
+            elif r.text.find(u'教学评估') != -1:
+                success = 'error_cj'
             elif r.text.find(u'首页') != -1:
-                success = True
+                success = 'success'
             else:
-                success = False
+                success = 'error'
     except:
-        return False
+        return 'error',s
     return success , s
 def get_content(site, s, option=''):
     try:
@@ -119,14 +130,14 @@ def get_content(site, s, option=''):
             time.sleep(2)
             r = s.get('http://xk.autoisp.shu.edu.cn/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
             s.get('http://xk.autoisp.shu.edu.cn/Login/Logout')
-            string = re.search(r'<table class="tbllist">([\s\S]*)</table>',r.text,flags=0).group(0)
+            string = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
             content = string
             # except:
             #     return r.text
         elif site == 'xkl':
             time.sleep(2)
             r = s.get('http://xk.autoisp.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable',timeout=20)
-            string = re.search(r'<table class="tbllist">([\s\S]*)</table>',r.text,flags=0).group(0)
+            string = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
             content = string
         return content
     except:

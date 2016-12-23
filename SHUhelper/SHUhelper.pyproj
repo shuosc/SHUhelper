@@ -66,9 +66,11 @@
     <Content Include="SHUhelper\static\favicon.ico" />
     <Content Include="SHUhelper\static\freelab.png" />
     <Content Include="SHUhelper\static\peex.jpg" />
+    <Content Include="SHUhelper\static\shuhelperxmas.jpg" />
     <Content Include="SHUhelper\static\spring.png" />
     <Content Include="SHUhelper\static\summer.png" />
     <Content Include="SHUhelper\static\winter.png" />
+    <Content Include="SHUhelper\templates\2016-christmas.html" />
     <Content Include="SHUhelper\templates\2016_fall_1.html" />
     <Content Include="SHUhelper\templates\about.html" />
     <Content Include="SHUhelper\templates\aboutpe.html" />
@@ -87,9 +89,11 @@
     <Content Include="SHUhelper\templates\findfreetime_login.html" />
     <Content Include="SHUhelper\templates\finold.html" />
     <Content Include="SHUhelper\templates\freelab.html" />
+    <Content Include="SHUhelper\templates\index - normal.html" />
     <Content Include="SHUhelper\templates\index.html" />
     <Content Include="SHUhelper\templates\jszxjf.html" />
     <Content Include="SHUhelper\templates\jszxkcdy.html" />
+    <Content Include="SHUhelper\templates\layout - normal.html" />
     <Content Include="SHUhelper\templates\layout.html" />
     <Content Include="SHUhelper\templates\lehu.html" />
     <Content Include="SHUhelper\templates\login.html" />

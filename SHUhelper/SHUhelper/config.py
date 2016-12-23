@@ -3,6 +3,10 @@ cofig there
 '''
 import os
 from SHUhelper import app
+from werkzeug.contrib.cache import MemcachedCache
+#from werkzeug.contrib.cache import SimpleCache
+#cache = SimpleCache()
+CACHE = MemcachedCache(['127.0.0.1:11211'])
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'course.db'),
                        DEBUG=False,
                        SECRET_KEY='shuhelper',

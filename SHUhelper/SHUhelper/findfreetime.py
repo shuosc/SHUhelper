@@ -2,19 +2,19 @@ import re
 from bs4 import BeautifulSoup
 
 def detect_conflict(data):
-    time_list_raw = [[],[],[],[],[]]
+    time_list_raw = [[], [], [], [], []]
     for days in time_list_raw:
-        for i in range(0,13):
+        for i in range(0, 13):
             days.append(0)
     for time_list in data:
-        for j in range(0,5):
-            for i in range(0,13):
+        for j in range(0, 5):
+            for i in range(0, 13):
                 if time_list[j][i] == 0:
                     time_list_raw[j][i] = time_list_raw[j][i]+1
     return time_list_raw
 
 def list_init():
-    time_table = [[],[],[],[],[]]
+    time_table = [[], [], [], [], []]
     for days in time_table:
         for i in range(0,13):
             days.append(1)
