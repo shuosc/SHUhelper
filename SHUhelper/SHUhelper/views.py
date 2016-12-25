@@ -8,6 +8,7 @@ from SHUhelper import app
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response,send_from_directory
 from sqlite3 import dbapi2 as sqlite3
+from jinja2 import Environment, DictLoader
 import sys
 import string
 import requests
@@ -17,9 +18,10 @@ from SHUhelper.sites import *
 from SHUhelper.config import *
 import random
 import SHUhelper.emptyroom
+import SHUhelper.hello
 import SHUhelper.schooltime 
 import SHUhelper.findfreetime
-
+import SHUhelper.database
 
 def randsession():
     """生成随机sessoin"""
@@ -106,11 +108,23 @@ def course_page(coursename, tname):
         resp = make_response(render_template('coursepage.html', course=course))
     return resp
 
-@app.route('/')
+@app.route('/', methods=['POST', 'GET'])
 def index():
     #flash(random.choice(DAILY_WORDS))
-    flash(u'<i class="material-icons ">notifications_active</i><b>Merry Christmas!</b><i class="material-icons ">notifications_active</i>')
-    resp = make_response(render_template('index.html'))
+    flash(u'<a href="/article/2016-christmas" class="white-text"><i class="material-icons ">notifications_active</i><b>Merry Christmas! <i class="material-icons ">notifications_active</i><br/>您收到一封来自SHUhelper的感谢信>>></b></a>')
+    comment = None
+    form = SHUhelper.hello.CommentForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        comment = SHUhelper.database.Comment(postid='index',
+                                             username=form.username.data,
+                                             comment=form.comment.data,
+                                             time=datetime.now())
+        SHUhelper.database.db.session.add(comment)
+        SHUhelper.database.db.session.commit()
+        flash('Your comment has been published.')
+        return redirect(url_for('index'))
+    comments = SHUhelper.database.Comment.query.filter_by(postid='index').order_by(comment.id.desc()).all()
+    resp = make_response(render_template('index.html', form=form,comments=comments))
     return resp
 
 # @app.route('/findfreetime', methods=['POST', 'GET'])

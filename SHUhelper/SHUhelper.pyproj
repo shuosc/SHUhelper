@@ -21,6 +21,7 @@
     <IsWindowsApplication>False</IsWindowsApplication>
     <InterpreterId>{2af0f10d-7135-4994-9156-5d01c9c11b7e}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,8 +34,14 @@
   <ItemGroup>
     <Compile Include="runserver.py" />
     <Compile Include="SHUhelper\config.py" />
+    <Compile Include="SHUhelper\database.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SHUhelper\emptyroom.py" />
     <Compile Include="SHUhelper\findfreetime.py" />
+    <Compile Include="SHUhelper\hello.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SHUhelper\schooltime.py" />
     <Compile Include="SHUhelper\sites.py" />
     <Compile Include="SHUhelper\__init__.py" />

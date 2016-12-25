@@ -28,7 +28,7 @@
             <nav>
                 <div class="nav-wrapper  light-blue">
                     <div class="container">
-                        <a href="/" class="brand-logo">SHUhelper.cn</a>
+                        <a href="/" class="brand-logo"><i class="material-icons">home</i>SHUhelper.cn</a>
                     </div>
                     <ul id="nav-mobile" class="right">
                         <li><a class="dropdown-button" href="#!" data-activates="dropdown1"><i class="material-icons">dehaze</i></a></li>
@@ -50,9 +50,9 @@
                         <div class="divider"></div>
                         <div class="section">
                             <div class="card-panel light-blue">
-                                <span class="white-text  text-darken-5">
-                                <h6 class="center-align "><b>{{ message | safe }}</b></h6>
-                            </span>
+                               
+                                <h6 class="center-align "><b><span class="white-text  text-darken-5">{{ message | safe }}</span></b></h6>
+                            
                             </div>
                         </div>{% endfor %} {% endif %} {% endwith %} {% block body %} {% endblock %}
                     </div>
@@ -70,9 +70,13 @@
             </div>
         </footer>
     </body>
-    <script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
-    <script type="text/javascript" src="//cdn.bootcss.com/materialize/0.97.8/js/materialize.js"></script>
-    <script type="text/javascript">
+   
+
+
+</html>
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/materialize/0.97.8/js/materialize.js"></script>
+<script type="text/javascript">
         var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
@@ -80,8 +84,5 @@
             var s = document.getElementsByTagName("script")[0];
             s.parentNode.insertBefore(hm, s);
         })();
-    </script>
+</script>
     {% block script %}{% endblock %}
-
-
-</html>

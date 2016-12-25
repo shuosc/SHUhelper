@@ -3,16 +3,35 @@ cofig there
 '''
 import os
 from SHUhelper import app
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.contrib.cache import MemcachedCache
-#from werkzeug.contrib.cache import SimpleCache
-#cache = SimpleCache()
-CACHE = MemcachedCache(['127.0.0.1:11211'])
+from werkzeug.contrib.cache import SimpleCache
+#CACHE = MemcachedCache(['127.0.0.1:11211'])
+from flask import Flask
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'course.db'),
                        DEBUG=False,
                        SECRET_KEY='shuhelper',
                        USERNAME='admin',
                        PASSWORD='default'))
 app.secret_key = u'key'
+class DevlopmentConfig(Config):
+    DEBUG = True;
+    CACHE = SimpleCache()
+
+class ProductionConfig(Config):
+    CACHE = MemcachedCache(['127.0.0.1:11211'])
+
+class TesingConfig(Config):
+    pass
+
+config = {
+    'development' : DevlopmentConfig,
+    'tesing' : TesingConfig,
+    'prooduction' : ProductionConfig,
+    'default' : DevlopmentConfig
+    }
+
 DAILY_WORDS = [u"在正午的阳光之下,正洋溢着春天的甜美芬芳 (咦明明是冬天",
                u"再见并不意味着分别，那是还会相见的约定 ",
                u"凋零飘落的花瓣 缤纷化作细雪之时",
