@@ -245,3 +245,6 @@ ModelManifest.xml
 .fake/
 /SHUhelper/SHUhelper/__pycache__
 /SHUhelper/env
+/SHUhelper/SHUhelper/data.sqlite
+/SHUhelper/migrations/versions/__pycache__
+/SHUhelper/migrations/__pycache__

@@ -1,0 +1,53 @@
+{% extends "layout.html" %} {% block title %}学生会入口{% endblock %} {% block h %}SHUhelper X SHUSU{% endblock %} {% block body %}
+<div class="container">
+    <div class="divider"></div>
+    <div class="section">
+        <div class="row">
+            <div class="col s6">
+                <a href="/login/novali/pe">
+                    <div>
+                        <div class="center"><i class="material-icons blue-text">directions_run</i></div>
+                        <div class="center black-text">体育查询</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col s6">
+                <a href="/tel">
+                    <div class="center"><i class="material-icons blue-text">account_box</i>
+                    </div>
+                    <div class="center black-text">校园黄页</div>
+                </a>
+            </div>
+        </div>
+        <div class="divider"></div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <a href="/login/vali/cj">
+                <div class="center"><i class="material-icons blue-text">school</i>
+                </div>
+                <div class="center black-text">成绩查询</div>
+            </a>
+        </div>
+        <div class="col s6">
+            <a href="/login/vali/xkc">
+                <div class="center"><i class="material-icons blue-text">chrome_reader_mode</i>
+                </div>
+                <div class="center black-text">课表查询</div>
+            </a>
+        </div>
+    </div>
+    <div class="section">
+        <div class="col s12">
+            <div class="card horizontal">
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <p class="center-align">SHUhelper<img class="responsive-img" width="36" src="{{ url_for('static', filename='logo36.png') }}"></p>
+                        <p class="center-align">SHUSU<img class="responsive-img" width="50" src="{{ url_for('static', filename='107.png') }}">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

@@ -33,15 +33,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="runserver.py" />
+    <Compile Include="SHUhelper\admin.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SHUhelper\config.py" />
-    <Compile Include="SHUhelper\database.py">
+    <Compile Include="SHUhelper\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SHUhelper\models.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SHUhelper\emptyroom.py" />
     <Compile Include="SHUhelper\findfreetime.py" />
-    <Compile Include="SHUhelper\hello.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="SHUhelper\schooltime.py" />
     <Compile Include="SHUhelper\sites.py" />
     <Compile Include="SHUhelper\__init__.py" />
@@ -96,11 +99,9 @@
     <Content Include="SHUhelper\templates\findfreetime_login.html" />
     <Content Include="SHUhelper\templates\finold.html" />
     <Content Include="SHUhelper\templates\freelab.html" />
-    <Content Include="SHUhelper\templates\index - normal.html" />
     <Content Include="SHUhelper\templates\index.html" />
     <Content Include="SHUhelper\templates\jszxjf.html" />
     <Content Include="SHUhelper\templates\jszxkcdy.html" />
-    <Content Include="SHUhelper\templates\layout - normal.html" />
     <Content Include="SHUhelper\templates\layout.html" />
     <Content Include="SHUhelper\templates\lehu.html" />
     <Content Include="SHUhelper\templates\login.html" />
@@ -115,6 +116,7 @@
     <Content Include="SHUhelper\templates\phylab.html" />
     <Content Include="SHUhelper\templates\querycourse.html" />
     <Content Include="SHUhelper\templates\tel.html" />
+    <Content Include="SHUhelper\templates\ulogin.html" />
     <Content Include="SHUhelper\templates\xkc.html" />
     <Content Include="SHUhelper\templates\xkl.html" />
   </ItemGroup>

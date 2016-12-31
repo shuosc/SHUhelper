@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block title %}登陆{% endblock %} {% block h %}登陆{% endblock %} {% block body %}
+
+<div class="divider"></div>
+<div class="section input-field">
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="input-field col s6">
+            {{ form.email() }}
+            {{ form.email.label }}
+        </div>
+        <div class="input-field col s12">
+            {{ form.password.label }}
+            {{ form.password }}
+        </div>
+        <div class="input-field col s12">
+            <button class="btn waves-effect waves-light" type="submit" name="action">
+                提交
+            </button>
+        </div>
+    </form>
+
+</div>
+{% endblock %}

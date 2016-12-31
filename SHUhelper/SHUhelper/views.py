@@ -1,7 +1,6 @@
 """
 Routes and views for the flask application.
 """
-
 from datetime import datetime
 from flask import render_template
 from SHUhelper import app
@@ -18,10 +17,51 @@ from SHUhelper.sites import *
 from SHUhelper.config import *
 import random
 import SHUhelper.emptyroom
-import SHUhelper.hello
+import SHUhelper.forms
 import SHUhelper.schooltime 
 import SHUhelper.findfreetime
-import SHUhelper.database
+from SHUhelper.models import db, Comment, User, Words, User
+from flask_admin import Admin
+from flask_admin.contrib import sqla
+from flask_admin.contrib.sqla import ModelView
+from flask_admin.contrib.fileadmin import FileAdmin
+from flask_login import login_user
+import flask_login
+import flask_admin 
+from flask_admin import helpers, expose
+class SHUModelView(ModelView):
+    def is_accessible(self):
+        return flask_login.current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('ulogin', next=request.url))
+class SHUFileAdmin(FileAdmin):
+    def is_accessible(self):
+        return flask_login.current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('ulogin', next=request.url))
+
+admin = Admin(app, name='SHUhelper', template_mode='bootstrap3')
+admin.add_view(SHUModelView(User, db.session))
+admin.add_view(SHUModelView(Comment, db.session))
+admin.add_view(SHUModelView(Words, db.session))
+path = os.path.join(os.path.dirname(__file__), 'static')
+admin.add_view(SHUFileAdmin(path, '/static/', name='Static Files'))
+
+@app.route('/ulogin', methods=['POST', 'GET'])
+def ulogin():
+    from SHUhelper.forms import LoginForm
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user is not None and user.verify_password(form.password.data):
+            login_user(user, False)
+            return redirect(request.args.get('next') or url_for('admin.index'))
+        flash('Invalid username or password')
+    return render_template('ulogin.html', form=form)
 
 def randsession():
     """生成随机sessoin"""
@@ -110,20 +150,19 @@ def course_page(coursename, tname):
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    #flash(random.choice(DAILY_WORDS))
-    flash(u'<a href="/article/2016-christmas" class="white-text"><i class="material-icons ">notifications_active</i><b>Merry Christmas! <i class="material-icons ">notifications_active</i><br/>您收到一封来自SHUhelper的感谢信>>></b></a>')
+    DAILY_WORDS = Words.query.filter_by(visible=True).all()
     comment = None
-    form = SHUhelper.hello.CommentForm()
+    form = SHUhelper.forms.CommentForm()
     if request.method == 'POST' and form.validate_on_submit():
-        comment = SHUhelper.database.Comment(postid='index',
-                                             username=form.username.data,
-                                             comment=form.comment.data,
-                                             time=datetime.now())
-        SHUhelper.database.db.session.add(comment)
-        SHUhelper.database.db.session.commit()
-        flash('Your comment has been published.')
+        comment = Comment(postid='index',
+                          username=form.username.data,
+                          comment=form.comment.data,
+                          time=datetime.now())
+        db.session.add(comment)
+        db.session.commit()
         return redirect(url_for('index'))
-    comments = SHUhelper.database.Comment.query.filter_by(postid='index').order_by(comment.id.desc()).all()
+    flash(random.choice(DAILY_WORDS).content)
+    comments = Comment.query.filter_by(postid='index').order_by(Comment.id.desc()).all()
     resp = make_response(render_template('index.html', form=form,comments=comments))
     return resp
 
@@ -152,9 +191,7 @@ def findfreetime_member():
         week = int(request.form['week'])
         code = request.form['code']
         usr = request.form['username']
-        if usr == '15122265' or usr == '15121604':
-            flash(u'钱宜文炒鸡可爱')
-            pass
+
         pwd = request.form['password']
         check_code = request.form['check']
         s = CACHE.get(session[site])
@@ -254,8 +291,6 @@ def login(site, check):
     r = None
     if request.method == 'POST':
         usr = request.form['username']
-        if usr == '15122265' or usr == '15121604':
-            flash(u'钱宜文炒鸡可爱')
         pwd = request.form['password']
         if check == 'vali':
             check_code = request.form['check']
