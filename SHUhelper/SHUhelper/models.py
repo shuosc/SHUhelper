@@ -49,3 +49,10 @@ class Courses(db.Model):
     content_from = db.Column(db.String(200))
     visible = db.Column(db.Boolean, default=True)
     time = db.Column(db.DateTime, default=datetime.now())
+
+class Students(db.Model):
+    __tablename__ = 'students'
+    id = db.Column(db.Integer, primary_key=True)
+    students_id = db.Column(db.String(200))
+    login_site = db.Column(db.String(200))
+    time = db.Column(db.DateTime, default=datetime.now())

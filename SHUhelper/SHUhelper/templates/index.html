@@ -1,4 +1,5 @@
 {% extends "layout.html" %} {% block title %}首页{% endblock %} {% block h %}首页{% endblock %} {% block body %}
+
 <div class="section">
     <ul class="collapsible blue-text text-darken-2" data-collapsible="accordion">
         <li class="">
@@ -14,9 +15,9 @@
             </div>
         </li>
         <li>
-            <div class="collapsible-header "><i class="material-icons">keyboard_arrow_down</i>问答社区<a href="http://ask.shuhelper.cn/" class="secondary-content">进入<i class="material-icons">send</i></a></div>
+            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>排课助手<span class="red-text">（新）</span><a href="http://xk.shuhelper.cn/" class="secondary-content">进入<i class="material-icons">send</i></a></div>
             <div class="collapsible-body ">
-                <p>采用成熟的框架部署，但是估计很长时间里都会没人用。</p>
+                <p>排课助手，没有针对手机端进行适配，请使用电脑访问</p>
             </div>
         </li>
         <li>
@@ -29,6 +30,12 @@
             <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>都有空吗？<span class="red-text">（新）</span><a href="/findfreetime/member" class="secondary-content">进入<i class="material-icons">send</i></a></div>
             <div class="collapsible-body">
                 <p>输入最多十个人的学号，根据课表找出大家都有空的时间，社团/课堂小组决定讨论时间的好助手。(已正式上线，有BUG请反馈)</p>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>纸飞机<span class="red-text">（新）</span><a href="/paperplane" class="secondary-content">进入<i class="material-icons">send</i></a></div>
+            <div class="collapsible-body ">
+                <p>写下某个人的学号和想对TA说的话，TA在登录SHUhelper的时候就可以看到。</p>
             </div>
         </li>
         <li>
@@ -110,15 +117,15 @@
             </div>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>本学期课表查询<a href="/login/vali/xkc" class="secondary-content">进入<i class="material-icons">send</i></a></div>
+            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>冬季学期课表查询<a href="/login/vali/xkc" class="secondary-content">进入<i class="material-icons">send</i></a></div>
             <div class="collapsible-body ">
-                <p>你的课表。。信息来自本学期选课系统(xk.autoisp.shu.edu.cn),如果登不上请去cj.shu.edu.cn完成教学评估</p>
+                <p>冬季学期的课表。。信息来自本学期选课系统(xk.autoisp.shu.edu.cn),如果登不上请去cj.shu.edu.cn完成教学评估</p>
             </div>
         </li>
         <li>
-            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>上学期课表查询<a href="/login/vali/xkl" class="secondary-content">进入<i class="material-icons">send</i></a></div>
+            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>春季学期课表查询<a href="/login/vali/xkl" class="secondary-content">进入<i class="material-icons">send</i></a></div>
             <div class="collapsible-body ">
-                <p>你上学期的课表。。信息来自本学期选课系统(xk.autoisp.shu.edu.cn:8080),一般没人用这个吧？</p>
+                <p>春季学期的课表。。信息来自本学期选课系统(xk.autoisp.shu.edu.cn:8080),一般没人用这个吧？</p>
             </div>
         </li>
         <li>
@@ -209,25 +216,6 @@
 </div>
 <div class="divider"></div>
 <div class="section">
-
-    <ul class="collapsible blue-text text-darken-2" data-collapsible="expandable">
-        <li>
-            <div class="collapsible-header ">
-                <i class="material-icons ">filter_drama</i>
-                <h4>其他</h4>
-            </div>
-        </li>
-        <li>
-            <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>NHCE班级注册<a href="/nhce" class="secondary-content">进入<i class="material-icons">send</i></a></div>
-            <div class="collapsible-body ">
-                <p>针对大一NHCE换浏览器才可以登陆的问题，做了这个小功能。请注意默认密码不是一卡通密码。</p>
-            </div>
-        </li>
-    </ul>
-
-</div>
-<div class="divider"></div>
-<div class="section">
     <ul class="collapsible blue-text text-darken-2" data-collapsible="expandable">
         <li>
             <div class="collapsible-header ">
@@ -244,7 +232,7 @@
         <li>
             <div class="collapsible-header"><i class="material-icons">keyboard_arrow_down</i>秋季学期选课系统<a href="http://xk.shu.edu.cn:8080/" class="secondary-content">进入<i class="material-icons">send</i></a></div>
             <div class="collapsible-body ">
-                <p>16-17秋季学期选课系统</p>
+                <p>16-17春季学期选课系统</p>
             </div>
         </li>
         <li>
@@ -267,7 +255,9 @@
         {% for comment in comments %}
         <li>
             <div class="collapsible-header active">{{ comment.username }}说:<span class="grey-text secondary-content">{{ comment.time }}</span></div>
-            <div class="collapsible-body"><p>{{ comment.comment }}</p></div>
+            <div class="collapsible-body">
+                <p>{{ comment.comment }}</p>
+            </div>
         </li>
         {% endfor %}
     </ul>
@@ -277,12 +267,10 @@
     <form method="post">
         {{ form.hidden_tag() }}
         <div class="input-field col s6">
-            {{ form.username() }}
-            {{ form.username.label }}
+            {{ form.username() }} {{ form.username.label }}
         </div>
         <div class="input-field col s12">
-            {{ form.comment.label }}
-            {{ form.comment(id='textarea1',class='materialize-textarea') }}
+            {{ form.comment.label }} {{ form.comment(id='textarea1',class='materialize-textarea') }}
         </div>
         <div class="input-field col s12">
             <button class="btn waves-effect waves-light" type="submit" name="action">
@@ -300,18 +288,28 @@
 <!-- Modal Structure -->
 <div id="modal1" class="modal">
     <div class="modal-content black-text">
-        <h4 class="center-align">网站公告</h4>
-        <p>马上就放假啦~好好学习吧！</p>
+        <h4 class="center-align">新年快乐</h4>
+        <blockquote>整个十二月就仿佛是奇迹一般。</blockquote>
+        <p>2016年将要过去，我们所在的蔚蓝星球又完成了对太阳的一次公转XD</p>
+        <p>感谢你们这一年来的努力，对整个世界来说那或许只是一点点努力，但它确实让我们的世界变得更美好了一点点。 </p>
+        <p>感谢你们这一年来的陪伴，尽管我们或许不曾相识，但我们确实都以不同的方式联系着彼此。</p>
+        <p>请在来年也继续努力，因为总有些神奇的时候，会有人发现你那令人在意的特别之处，你的努力也会得到应有的报答和认同。</p>
+        <p>请在来年也继续陪伴彼此，因为可能仅仅是一个温暖的微笑就能点亮某个人的一天。</p>
+        <p>毕竟我们已经失去了过去，未来是我们仅剩的。</p>
+        <p>2016年辛苦了，愿我们都能和喜欢的人一同度过更加精彩的2017。</p>
+        <p><b> 新年快乐。</b></p>
+        <p class="right-align"> ——<b>爱你的formula</b></p>
+        <p class="right-align"> ——<b>爱你们的SHUhelper开发委员会</b></p>
     </div>
     <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">关闭窗口</a>
+        <a href="/article/2016-newyear" class="modal-action modal-close waves-effect waves-green btn-flat">查看原文</a><a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">关闭窗口</a>
     </div>
 </div>
 
 
 {% endblock %} {% block script %}
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
         $('.modal').modal();
     });

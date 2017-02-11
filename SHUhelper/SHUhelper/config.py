@@ -8,7 +8,8 @@ from werkzeug.contrib.cache import MemcachedCache
 from werkzeug.contrib.cache import SimpleCache
 from flask_login import LoginManager
 from flask_script import Manager
-CACHE = MemcachedCache(['127.0.0.1:11211'])
+# CACHE = MemcachedCache(['127.0.0.1:11211'])
+CACHE = SimpleCache()
 from flask import Flask
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'course.db'),

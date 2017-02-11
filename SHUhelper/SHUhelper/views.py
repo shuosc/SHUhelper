@@ -20,7 +20,7 @@ import SHUhelper.emptyroom
 import SHUhelper.forms
 import SHUhelper.schooltime 
 import SHUhelper.findfreetime
-from SHUhelper.models import db, Comment, User, Words, User
+from SHUhelper.models import db, Comment, User, Words,Students
 from flask_admin import Admin
 from flask_admin.contrib import sqla
 from flask_admin.contrib.sqla import ModelView
@@ -48,6 +48,7 @@ admin = Admin(app, name='SHUhelper', template_mode='bootstrap3')
 admin.add_view(SHUModelView(User, db.session))
 admin.add_view(SHUModelView(Comment, db.session))
 admin.add_view(SHUModelView(Words, db.session))
+admin.add_view(SHUModelView(Students, db.session))
 path = os.path.join(os.path.dirname(__file__), 'static')
 admin.add_view(SHUFileAdmin(path, '/static/', name='Static Files'))
 
@@ -60,7 +61,7 @@ def ulogin():
         if user is not None and user.verify_password(form.password.data):
             login_user(user, False)
             return redirect(request.args.get('next') or url_for('admin.index'))
-        flash('Invalid username or password')
+        flash('Invalid username or password','card')
     return render_template('ulogin.html', form=form)
 
 def randsession():
@@ -126,7 +127,7 @@ def close_db(error):
 @app.route('/querycourse', methods=['POST', 'GET'])
 def query_course():
     """查询课程逻辑"""
-    flash(u'<a class="white-text" href="http://shuhelper.cn/article/2016_fall_1">2016秋季学期第一轮选课数据分析报告</a>')
+    flash(u'<a class="white-text" href="http://shuhelper.cn/article/2016_fall_1">2016秋季学期第一轮选课数据分析报告</a>','card')
     if request.method == 'POST':
         courses = course_query(request.form['cid'],request.form['cname'],request.form['tname'],'')
         resp = make_response(render_template('querycourse.html',courses=courses))
@@ -161,25 +162,11 @@ def index():
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('index'))
-    flash(random.choice(DAILY_WORDS).content)
+    flash(random.choice(DAILY_WORDS).content,'card')
+    flash('啊要上学了好难过#欢迎关注我们的微信公众号 搜索:shuhelper','toast')
     comments = Comment.query.filter_by(postid='index').order_by(Comment.id.desc()).all()
     resp = make_response(render_template('index.html', form=form,comments=comments))
     return resp
-
-# @app.route('/findfreetime', methods=['POST', 'GET'])
-# def findfreetime_index():
-#     time_lists = []
-#     if request.method == 'POST':
-#         for studentno in request.form['studentno']:
-#             if(cache.get(studentno) is None):
-#                 # flash(u'学号为%s的同学五分钟内未在本系统查询过课表，本次查询失败')
-#             else:
-#                 time_lists.append(cache.get(studentno))
-#         solution = detect_conflict(time_lists)
-#         return make_response(render_template('findfreetime.html'), r = solution)
-#     elif request.method == 'GET':
-#         return make_response(render_template('findfreetime.html'))
-#     return make_response(render_template('findfreetime.html'))
 
 
 @app.route('/findfreetime/member', methods=['POST', 'GET'])
@@ -195,6 +182,11 @@ def findfreetime_member():
         pwd = request.form['password']
         check_code = request.form['check']
         s = CACHE.get(session[site])
+        student = Students(students_id=usr,
+                           login_site='findfreetime',
+                           time=datetime.now())
+        db.session.add(student)
+        db.session.commit()
         status,s = general_login(s, 'xkc', usr, pwd, check_code, None)
         if status == 'success':
             r = get_content('xkc', s)
@@ -207,9 +199,8 @@ def findfreetime_member():
                     members = set(CACHE.get(code))
                     members.add(usr)
                     CACHE.set(code,members,timeout = 500)
-                    flash(u"测试代码")
-                flash(u'您已以%s的身份在%s小组中成功录入课表' % (usr,code))
-                flash(u'若您是组织者，请点击<a href="/findfreetime/answer" class="waves-effect waves-light btn">这里</a>查看结果')
+                flash(u'您已以%s的身份在%s小组中成功录入课表' % (usr,code),'card')
+                flash(u'若您是组织者，请点击<a href="/findfreetime/answer" class="waves-effect waves-light btn">这里</a>查看结果','card')
                 CACHE.set(session[site], s, timeout = 500)
                 CACHE.set(session[site]+'user', usr, timeout = 500)
                 time_list = SHUhelper.findfreetime.get_binary_json_from_course_table(r,week)
@@ -218,19 +209,18 @@ def findfreetime_member():
                 return render_template('xkc.html', r=r)
             else:
                 CACHE.set(session[site]+'islogin',False,timeout = 500)
-                flash(u'服务器内容解析出错')
-                flash(r)
+                flash(u'服务器内容解析出错','card')
         elif status =='error_vali':
-            flash(u'验证码错误')
+            flash(u'验证码错误','card')
         elif status =='error_pwd':
-            flash(u'用户名或密码错误')
+            flash(u'用户名或密码错误','card')
         elif status =='error_cj':
-            flash(u'您尚未完全完成教学评估！\n在浏览器中打开<a href="http://cj.shu.edu.cn" class="white-text"> http://cj.shu.edu.cn </a> 转至教学评估网站。请注意军事技能或军事理论是否评估')
+            flash(u'您尚未完全完成教学评估！\n在浏览器中打开<a href="http://cj.shu.edu.cn" class="white-text"> http://cj.shu.edu.cn </a> 转至教学评估网站。请注意军事技能或军事理论是否评估','card')
         else:
-            flash(u'登录失败！可能是账户密码错误或服务器宕机')
+            flash(u'登录失败！可能是账户密码错误或服务器宕机','card')
         return redirect(url_for('findfreetime_member'))
     elif request.method == 'GET':
-        flash(u'和组员输入同样的数字(建议五位),进入同一个小组')
+        flash(u'和组员输入同样的数字(建议五位),进入同一个小组','card')
         session[site] = randsession()
         while CACHE.get(session[site]) is not None:
             session[site] = randsession()
@@ -258,10 +248,10 @@ def findfreetime_answer():
                     Traverse_list[i][j]=raw_list[j][i]
             return render_template('findfreetime_answer.html',code=code,r=Traverse_list,count=count)
         else:
-            flash(u'还没有任何人将课表录入您输入的小组代码，请检查小组代码是否有误')
+            flash(u'还没有任何人将课表录入您输入的小组代码，请检查小组代码是否有误','card')
             return render_template('findfreetime_code.html')
     elif request.method == 'GET':
-        flash(u'输入组织代码查看结果')
+        flash(u'输入组织代码查看结果','card')
         return render_template('findfreetime_code.html')
     
 
@@ -273,14 +263,14 @@ def findemptyroom():
         day = int(request.form['day'])
         time = int(request.form['time'])
         classrooms = SHUhelper.emptyroom.get_emptyroom(week,day,time)
-        flash(u'您当前输入的查询参数是，第%d周，星期%d，第%d节'% (week, day, time))
+        flash(u'您当前输入的查询参数是，第%d周，星期%d，第%d节'% (week, day, time),'card')
         return make_response(render_template('findemptyroom.html' ,classrooms = classrooms, status = u"您查询的时间"))
 
     elif request.method == 'GET':
         week = SHUhelper.schooltime.this_week()
         day = SHUhelper.schooltime.this_day()
         time = SHUhelper.schooltime.this_class()
-        flash(u'当前时间是，第%d周，星期%d，第%d节'% (week, day, time))
+        flash(u'当前时间是，第%d周，星期%d，第%d节'% (week, day, time),'card')
         classrooms = SHUhelper.emptyroom.get_emptyroom_now()
         return make_response(render_template('findemptyroom.html' ,classrooms = classrooms, status = u"现在的"))
     return make_response(render_template('findemptyroom.html'))
@@ -292,6 +282,30 @@ def login(site, check):
     if request.method == 'POST':
         usr = request.form['username']
         pwd = request.form['password']
+        if usr == 'angelina':
+            return 'mdzz'
+        try:
+            int(usr)
+        except:
+            flash('登录失败！可能是账户密码错误或服务器宕机','card')
+            return redirect(url_for('login',site=site,check=check))
+            
+        student = Students(students_id=usr,
+                           login_site=site,
+                           time=datetime.now())
+        db.session.add(student)
+        db.session.commit()
+
+        if usr == '15121604':
+            flash('欢迎尊贵的SHUhelper SVIP登录','toast')
+        if usr == '15122265':
+            flash('欢迎钱爸爸登录，耶','toast')
+        if usr == '15120993':
+            flash('欢迎伟龙爸爸登录','toast')
+        if usr =='16122415':
+            flash('欢迎佩瑶女儿登录','toast')
+        if usr =='16122622':
+            flash('欢迎佩璇女儿登录','toast')
         if check == 'vali':
             check_code = request.form['check']
         else:
@@ -310,16 +324,16 @@ def login(site, check):
                 return render_template(site+'.html', r=r)
             else:
                 CACHE.set(session[site]+'islogin',False,timeout = 300)
-                flash(u'服务器内容解析出错')
+                flash(u'服务器内容解析出错','card')
         elif status == 'error_vali':
-                flash(u'验证码错误！')
+                flash(u'验证码错误！','card')
         elif status =='error_pwd':
-            flash(u'用户名或密码错误')
+            flash(u'用户名或密码错误','card')
         else:
             if site == 'pe':
-                flash(u'如果您的账号密码没填错的话，体育学院服务器又炸啦233...请过一段时间再试试')
+                flash(u'如果您的账号密码没填错的话，体育学院服务器又炸啦233...请过一段时间再试试','toast')
             else:
-                flash(u'登录失败！可能是账户密码错误或服务器宕机')
+                flash(u'登录失败！可能是账户密码错误或服务器宕机','card')
         return redirect(url_for('login',site=site,check=check))
     elif request.method == 'GET':
         if site in session and CACHE.get(session[site]) is not None and CACHE.get(session[site]+'islogin'):
@@ -337,13 +351,13 @@ def login(site, check):
                 if phy_hash !=  None:
                     session['_hash_'] = phy_hash
             if site == 'pe':
-                flash(u'<a class="white-text" href="/aboutpe">关于体育查询的几点说明</a><br/>')
+                flash(u'<a class="white-text" href="/aboutpe">关于体育查询的几点说明</a><br/>','card')
             elif site == 'fin':
-                flash(u'请注意！若未修改过密码，初始密码为身份证后六位或学号后六位！！')
+                flash(u'请注意！若未修改过密码，初始密码为身份证后六位或学号后六位！！','card')
             elif site == 'phylab':
-                flash(u'请注意！若未修改过密码，初始密码为学号！！')
+                flash(u'请注意！若未修改过密码，初始密码为学号！！','card')
             elif site == 'cj':
-                flash(u'请注意！登录炒鸡慢，要等将近四十秒。')
+                flash(u'请注意！登录炒鸡慢，要等将近四十秒。','card')
             CACHE.set(session[site], s, timeout=300)
             CACHE.set(session[site] + 'islogin', False, timeout=300)
             resp = make_response(render_template('login.html', r=r,check=(check == 'vali' or check =='valia')))
@@ -374,3 +388,11 @@ def favicon():
 def tools(tools):
     resp = make_response(render_template(tools+'.html'))
     return resp
+
+@app.route('/baidu-verify-536C3DC984.txt')
+def verify():
+    return '85c04123f2acd58ef6a067543f20d359'
+
+@app.route('/12500000001.txt')
+def tverify():
+    return 'hello'

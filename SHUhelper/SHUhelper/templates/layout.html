@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" /> {% block links %}{% endblock %}
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
         <link rel="apple-touch-icon" href="/static/logo114.png">
-        <title>{% block title %}Welcome{% endblock %} |简陋的上海大学便民查询系统</title>
+        <title>{% block title %}Welcome{% endblock %} |SHUhelper</title>
         <style>
             html {
                 font-family: GillSans, Calibri, Trebuchet, sans-serif;
@@ -29,14 +29,14 @@
                     <ul class="right hide-on-med-and-down">
                         <li><a href="/">返回首页</a></li>
                         <li><a href="/articles">文章归档</a></li>
-                        <li><a href="http://blog.shuhelper.cn/">开发博客</a></li>
-                        <li><a href="/aboutus">关于我们</a></li>
+                        <li><a href="http://blog.shuhelper.cn/2016/09/02/shuhelper-web/">开发博客</a></li>
+                        <li><a href="/aboutus">赞助我们</a></li>
                     </ul>
                     <ul class="side-nav" id="mobile-demo">
                         <li><a href="/">返回首页</a></li>
                         <li><a href="/articles">文章归档</a></li>
-                        <li><a href="http://blog.shuhelper.cn/">开发博客</a></li>
-                        <li><a href="/aboutus">关于我们</a></li>
+                        <li><a href="http://blog.shuhelper.cn/2016/09/02/shuhelper-web/">开发博客</a></li>
+                        <li><a href="/aboutus">赞助我们</a></li>
                     </ul>
                 </div>
             </nav>
@@ -51,7 +51,7 @@
                             <h5 class="center-align "><b>{% block h %}Welcome{% endblock %}</b></h5>
 
                         </div>
-                        {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+                        {% with messages = get_flashed_messages(category_filter=["card"]) %} {% if messages %} {% for message in messages %}
                         <div class="divider"></div>
                         <div class="section">
                             <div class="card-panel light-blue darken-2">
@@ -66,11 +66,11 @@
         </main>
         <footer class="page-footer light-blue">
             <div class="container center ">
-                <p class="grey-text text-lighten-4 ">爱你们哟❤</p>
+                <p class="grey-text text-lighten-4 "><img src="/static/built-with-love.svg"></p>
             </div>
             <div class="footer-copyright">
                 <div class="container center">
-                    © 2016 SHUhelper.cn <a class="white-text" href="http://www.miitbeian.gov.cn/">晋ICP备16008840号</a>
+                    © 2016-2017 SHUhelper.cn <a class="white-text" href="http://www.miitbeian.gov.cn/">晋ICP备16008840号</a>
                 </div>
             </div>
         </footer>
@@ -91,4 +91,9 @@
 <script>
     $(".button-collapse").sideNav();
 </script>
-{% block script %}{% endblock %}
+{% with messages = get_flashed_messages(category_filter=["toast"]) %} {% if messages %} {% for message in messages %}
+<script>
+    $(".button-collapse").sideNav();
+    Materialize.toast('{{ message | safe }}', 4000);
+</script>
+{% endfor %} {% endif %} {% endwith %} {% block script %}{% endblock %}
