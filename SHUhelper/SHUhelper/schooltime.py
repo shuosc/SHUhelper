@@ -2,7 +2,7 @@ import time
 def this_week():
     #start_week = -
     #return int(time.strftime("%W"))-start_week
-    return 6
+    return 7
 
 def this_day():
     return int(time.strftime("%w"))
