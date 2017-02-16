@@ -35,7 +35,7 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
     else:
         return False
     try:
-        success = 'false'
+        success = 'error'
         if site == 'pe':
             r = s.get('http://202.120.127.149:8989/spims/login/index.jsp',timeout = 30)
             r = s.post('http://202.120.127.149:8989/spims/login.do?method=toLogin',data = postData, timeout = 30)
