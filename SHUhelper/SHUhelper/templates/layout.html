@@ -13,6 +13,15 @@
             html {
                 font-family: GillSans, Calibri, Trebuchet, sans-serif;
             }
+            
+            .nav-fixed {
+                position: fixed;
+                right: 0;
+                left: 0;
+                top: 0;
+                margin-bottom: 0px;
+                z-index: 997;
+            }
         </style>
 
     </head>
@@ -21,8 +30,7 @@
 
 
         <header>
-            <div class="navbar-fixed">
-            <nav>
+            <nav class="nav-fixed">
                 <div class="nav-wrapper light-blue">
                     <a href="/" class="brand-logo">SHUhelper.cn</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -32,15 +40,14 @@
                         <li><a href="http://blog.shuhelper.cn/2016/09/02/shuhelper-web/">开发博客</a></li>
                         <li><a href="/aboutus">赞助我们</a></li>
                     </ul>
-                    <ul class="side-nav" id="mobile-demo">
-                        <li><a href="/">返回首页</a></li>
-                        <li><a href="/articles">文章归档</a></li>
-                        <li><a href="http://blog.shuhelper.cn/2016/09/02/shuhelper-web/">开发博客</a></li>
-                        <li><a href="/aboutus">赞助我们</a></li>
-                    </ul>
                 </div>
             </nav>
-            </div>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="/">返回首页</a></li>
+                <li><a href="/articles">文章归档</a></li>
+                <li><a href="http://blog.shuhelper.cn/2016/09/02/shuhelper-web/">开发博客</a></li>
+                <li><a href="/aboutus">赞助我们</a></li>
+            </ul>
         </header>
         <main>
             <div class="container">
@@ -90,11 +97,12 @@
     })();
 </script>
 <script>
-    $(".button-collapse").sideNav();
+    $(document).ready(function() {
+        $(".button-collapse").sideNav();
+    })
 </script>
 {% with messages = get_flashed_messages(category_filter=["toast"]) %} {% if messages %} {% for message in messages %}
 <script>
-    $(".button-collapse").sideNav();
     Materialize.toast('{{ message | safe }}', 4000);
 </script>
 {% endfor %} {% endif %} {% endwith %} {% block script %}{% endblock %}

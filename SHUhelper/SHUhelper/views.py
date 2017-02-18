@@ -160,12 +160,13 @@ def index():
                           comment=form.comment.data,
                           time=datetime.now())
         db.session.add(comment)
+
         db.session.commit()
         return redirect(url_for('index'))
     flash(random.choice(DAILY_WORDS).content,'card')
     flash('#欢迎关注我们的微信公众号 搜索:shuhelper','toast')
     comments = Comment.query.filter_by(postid='index').order_by(Comment.id.desc()).all()
-    resp = make_response(render_template('index.html', form=form,comments=comments))
+    resp = make_response(render_template('index.html', form=form,comments=comments[0:10]))
     return resp
 
 
