@@ -3,6 +3,7 @@ import requests
 import base64
 import time
 from bs4 import BeautifulSoup
+from SHUhelper.models import db,CourseTest
 def general_login(s, site, user, pwd, check = None, other = None): #网站的通用登录方法
     if site == 'pe':#根据相应网站确定相应的postData
         postData={'UNumber':user,
@@ -23,7 +24,7 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
         'pwd':pwd,
         'ktextbox':check,
         'hidCheckCode':''}
-    elif site == 'cj':
+    elif site == 'cjg' or site == 'cjt':
         postData={'url':'',
         'txtUserNo':user,
         'txtPassword':pwd,
@@ -54,7 +55,7 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
             r = s.get('http://xssf.shu.edu.cn:8100/SFP_Share/', timeout = 10)
             if r.text.find(u'错误') == -1 and r.text.find(u'不正确') == -1:
                 success = 'success'
-        elif site == 'cj':
+        elif site == 'cjg' or site == 'cjt':#成绩查询
             r = s.post('http://cj.shu.edu.cn/',data = postData,timeout=60)
             r = s.get('http://cj.shu.edu.cn/Home/StudentIndex',timeout=10)
             if r.text.find(u'首页') != -1:
@@ -87,6 +88,42 @@ def general_login(s, site, user, pwd, check = None, other = None): #网站的通
         return 'error',s
     return success , s
 def get_content(site, s, option=''):
+    if site == 'cjt':
+        r = s.post('http://cj.shu.edu.cn/StudentPortal/CtrlStudentEnroll',data = {'academicTermID':'20162'},timeout=10)
+        soup = BeautifulSoup( r.text,"html.parser")
+        table = soup.find("table")
+        row = table.findAll("tr")
+        courselist = []
+        for row in table.findAll("tr")[2:]:
+            cells = row.findAll("td")
+            course = {
+                'courseno' : cells[0].get_text(strip=True),
+                'coursename' : cells[1].get_text(strip=True),
+                'teachno' : cells[2].get_text(strip=True),
+                'teachename' : cells[3].get_text(strip=True),
+                'date' : cells[4].get_text(strip=True),
+                'time' : cells[5].get_text(strip=True),
+                'place' : cells[6].get_text(strip=True),
+                'delay' : cells[7].get_text(strip=True),
+                'note' : cells[8].get_text(strip=True)
+            }
+            courselist.append(course)
+            item = CourseTest.query.filter_by(courseno=course['courseno']).filter_by(teachno=course['teachno']).first()
+            if item is None:
+                item = CourseTest(courseno=course['courseno'],
+                            coursename=course['coursename'],
+                            teachno=course['teachno'],
+                            teachename=course['teachename'],
+                            date=course['date'],
+                            time=course['time'],
+                            place=course['place'],
+                            delay=course['delay'],
+                            note=course['note']
+                            )
+                db.session.add(item)
+        db.session.commit()
+        content = courselist
+        return content
     try:
         if site == 'pe':
             r = s.get('http://202.120.127.149:8989/spims/exercise.do?method=seacheload',timeout=10)
@@ -123,7 +160,7 @@ def get_content(site, s, option=''):
             + u'<legend>退费记录</legend>'+refundrecord+u'<legend></legend>'
             content = re.sub(r'<table class="tblList tblInLine">',\
             '<table class="table  table-striped table-hover table-bordered table-condensed">',content)
-        elif site == 'cj':
+        elif site == 'cjg':
             r = s.get('http://cj.shu.edu.cn/StudentPortal/ScoreQuery',timeout=20)
             string = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
             content = string
@@ -153,7 +190,7 @@ def get_CAPTCHA(site,s):
         r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/login/',timeout=10)
         phyhash = re.search(r'<input type="hidden" name="__hash__" value="([\s\S]*)" />',r.text,flags=0).group(1)
         r = s.get('http://www.phylab.shu.edu.cn/openexp/index.php/Public/verify/',timeout=10,stream=True)
-    elif site == 'cj':
+    elif site == 'cjt' or site =='cjg':
         r = s.get('http://cj.shu.edu.cn/',timeout=20)
         r = s.get('http://cj.shu.edu.cn/User/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
     elif site == 'xkc':

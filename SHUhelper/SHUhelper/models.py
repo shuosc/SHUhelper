@@ -56,3 +56,16 @@ class Students(db.Model):
     students_id = db.Column(db.String(200))
     login_site = db.Column(db.String(200))
     time = db.Column(db.DateTime, default=datetime.now())
+
+class CourseTest(db.Model):
+    __tablename__ = 'tests'
+    id = db.Column(db.Integer, primary_key=True)
+    courseno = db.Column(db.String(30))
+    coursename = db.Column(db.String(30))
+    teachno = db.Column(db.String(30))
+    teachename = db.Column(db.String(30))
+    date = db.Column(db.String(30))
+    time = db.Column(db.String(30))
+    place = db.Column(db.String(30))
+    delay = db.Column(db.String(30))
+    note = db.Column(db.String(30))

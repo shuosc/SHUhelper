@@ -1,0 +1,28 @@
+{% extends "layout.html" %} {% block links %} {% endblock %} {% block title %}本学期考试信息查询{% endblock %} {% block h %}考试查询结果{% endblock %}{% block body %}
+
+<table class="table hover striped bordered">
+    <thead>
+        <tr>
+            <th>课程名</th>
+            <th>教师名</th>
+            <th>日期</th>
+            <th>时间</th>
+            <th>考场</th>
+            <th>缓考</th>
+            <th>备注</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in r %}
+        <tr>
+            <td>{{ course.coursename }}</td>
+            <td>{{ course.teachename }}</td>
+            <td>{{ course.date }}</td>
+            <td>{{ course.time }}</td>
+            <td>{{ course.place }}</td>
+            <td>{{ course.delay }}</td>
+            <td>{{ course.note }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>{% endblock %}
