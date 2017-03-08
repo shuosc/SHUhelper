@@ -127,7 +127,7 @@ def close_db(error):
 @app.route('/querycourse', methods=['POST', 'GET'])
 def query_course():
     """查询课程逻辑"""
-    flash(u'<a class="white-text" href="http://shuhelper.cn/article/2016_fall_1">2016秋季学期第一轮选课数据分析报告</a>','card')
+    flash(u'<a class="white-text" href="http://www.shuhelper.cn/article/2017_spring_1">2017春季学期第一轮选课数据分析报告</a>','card')
     if request.method == 'POST':
         courses = course_query(request.form['cid'],request.form['cname'],request.form['tname'],'')
         resp = make_response(render_template('querycourse.html',courses=courses))

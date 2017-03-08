@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html class="theme theme-white">
+
+    <head>
+        <meta charset="utf-8">
+        <title>SHUhelper|2017春季学期第一轮选课数据分析报告</title>
+        <link href="https://www.zybuluo.com/static/assets/template-theme-white.css" rel="stylesheet" media="screen">
+        <style type="text/css">
+            .wmd-input,
+            .wmd-input:focus,
+            #md-section-helper {
+                font-size: 13px !important;
+                line-height: 22px !important;
+            }
+            
+            #wmd-preview {
+                font-size: 13px !important;
+                line-height: 22px !important;
+            }
+            
+            #wmd-preview h1 {
+                color: #0077bb;
+                /* 将标题改为蓝色 */
+            }
+        </style>
+    </head>
+
+    <body class="theme theme-white">
+        <div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;">
+            <div id="MathJax_SVG_Hidden"></div><svg><defs id="MathJax_SVG_glyphs"><path id="MJMAIN-3D" stroke-width="1" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path><path id="MJMAIN-2F" stroke-width="1" d="M423 750Q432 750 438 744T444 730Q444 725 271 248T92 -240Q85 -250 75 -250Q68 -250 62 -245T56 -231Q56 -221 230 257T407 740Q411 750 423 750Z"></path><path id="MJMAIN-2217" stroke-width="1" d="M229 286Q216 420 216 436Q216 454 240 464Q241 464 245 464T251 465Q263 464 273 456T283 436Q283 419 277 356T270 286L328 328Q384 369 389 372T399 375Q412 375 423 365T435 338Q435 325 425 315Q420 312 357 282T289 250L355 219L425 184Q434 175 434 161Q434 146 425 136T401 125Q393 125 383 131T328 171L270 213Q283 79 283 63Q283 53 276 44T250 35Q231 35 224 44T216 63Q216 80 222 143T229 213L171 171Q115 130 110 127Q106 124 100 124Q87 124 76 134T64 161Q64 166 64 169T67 175T72 181T81 188T94 195T113 204T138 215T170 230T210 250L74 315Q65 324 65 338Q65 353 74 363T98 374Q106 374 116 368T171 328L229 286Z"></path><path id="MJMAIN-31" stroke-width="1" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path id="MJMAIN-30" stroke-width="1" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path></defs></svg></div>
+        <div id="wmd-preview" class="wmd-preview wmd-preview-full-reader">
+            <div class="md-section-divider"></div>
+            <div class="md-section-divider"></div>
+            <h1 data-anchor-id="d62k" id="shuhelper2017春季学期第一轮选课数据分析报告">SHUhelper|2017春季学期第一轮选课数据分析报告</h1>
+            <hr>
+            <h2 align="center"><a href="http://www.shuhelper.cn/">返回SHUhelper</a></h2>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="z0ca" id="序言">序言</h2>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="y07r" id="版权声明">版权声明</h3>
+            <p data-anchor-id="rmt0">本报告由<a href="http://shuhelper.cn" target="_blank">SHUhelper.cn</a>出品，已授权上海大学学生会微信公众号同步发布。</p>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="atzx" id="名词解释">名词解释</h3>
+            <p data-anchor-id="f0mn"><code>门</code>：唯一的课程编号构成一门课程。 <br>
+                <code>班次</code>：一门课程可能有不同的老师上，或者同样的老师在不同时间上，构成了不同的班级。一门课程中所有班的数量称为总班次。 <br>
+                <code>人次</code>：课程的总选课人数。 <br>
+                <code>选课率</code>：<span class="MathJax_Preview"></span><span class="MathJax_SVG" id="MathJax-Element-1-Frame" role="textbox" aria-readonly="true" style="font-size: 100%; display: inline-block;"><svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 -767.2581232551549 13076.60314285714 1034.5162465103099" style="width: 30.429ex; height: 2.429ex; vertical-align: -0.714ex; margin: 1px 0px;"><g stroke="black" fill="black" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">选</text><g transform="translate(799,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">课</text></g><g transform="translate(1599,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">率</text></g><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-3D" x="2676" y="0"></use><g transform="translate(3732,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">选</text></g><g transform="translate(4532,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">课</text></g><g transform="translate(5332,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">人</text></g><g transform="translate(6131,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">数</text></g><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-2F" x="6931" y="0"></use><g transform="translate(7431,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">课</text></g><g transform="translate(8231,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">程</text></g><g transform="translate(9030,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">容</text></g><g transform="translate(9830,0)"><text font-family="STIXGeneral,'Arial Unicode MS',serif" font-style="" font-weight="" stroke="none" transform="scale(61.50771428571428) matrix(1 0 0 -1 0 0)">量</text></g><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-2217" x="10852" y="0"></use><g transform="translate(11575,0)"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-31"></use><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-30" x="500" y="0"></use><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#MJMAIN-30" x="1001" y="0"></use></g></g></svg></span>
+                <script type="math/tex" id="MathJax-Element-1">选课率=选课人数/课程容量*100</script>%，一定程度上反映了本课程选课的难易度。</p>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="ntmd" id="统计方法">统计方法</h3>
+            <p data-anchor-id="yssl">数据来自选课系统，使用Python爬虫定期抓取数据，统计数据截至21日晚十点，包括宝山、嘉定、延长校区。使用<code>EXCEL</code>及<code>魔镜</code>进行数据分析。</p>
+            <p data-anchor-id="4qx6"><strong>活动课</strong>与<strong>形势与政策</strong>与<strong>绑定课程</strong>在部分统计图表中不予考虑。</p>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="rsz4" id="概览">概览</h3>
+            <p data-anchor-id="wo4x">本次选课概况如下：</p>
+            <ul data-anchor-id="7ro7">
+                <li><code>30+</code>个学院/机构开课</li>
+                <li><code>1752</code>个不同的教师为大家开课 </li>
+                <li><code>1715</code>门不同的课程</li>
+                <li><code>3756</code>个班</li>
+                <li><code>13500+</code>人选课（不包括大四及以上）</li>
+                <li><code>151386</code>人次选课</li>
+                <li><code>169119</code>人次课程总最大容量</li>
+            </ul>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="l5mw" id="关键词时间">关键词：时间</h2>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="9e9b" id="选课人数随时间变化">选课人数随时间变化</h3><pre data-anchor-id="8a58"><code>本次选课跨度长达一个星期，本节将从总选课人数随时间变化的角度分析选课结果。
+</code></pre>
+            <p data-anchor-id="md1j"><img src="http://static.zybuluo.com/cosformula/c0cpia42a0lofa8qqnit2nn9/image_1b9iqg32efba11v41j6s16io16hb9.png" alt="image_1b9iqg32efba11v41j6s16io16hb9.png-64.9kB"></p>
+            <blockquote data-anchor-id="nj8r" class="white-blockquote">
+                <p>注：图示是总选课人次和时间的曲线图，选课数据约每半小时更新一次，但是20日早六点至晚十点数据因服务器故障而丢失，故曲线上有一个较为尖锐的凸起。</p>
+            </blockquote>
+            <p data-anchor-id="zji7">正式选课从2月17日开始，从图中可以看出，在2月17日22:40，全校同学的选课进度已经完成了50%，而在2月19日18:50完成了75%，在2月22日2:00左右基本全部完成。</p>
+            <p data-anchor-id="8l23">在每一天各时间段的选课中，又呈现出如下特征，以2月17、18、19、20号为例： <br>
+                <img src="http://static.zybuluo.com/cosformula/0t07ijycusv8twccjbyuh5w4/image_1b9iuth35fhq1egg1ajb1tcnhhim.png" alt="image_1b9iuth35fhq1egg1ajb1tcnhhim.png-30.9kB"></p>
+            <blockquote data-anchor-id="yva2" class="white-blockquote">
+                <p>2月17日选课人次曲线图，本日数据从17:00开始统计</p>
+            </blockquote>
+            <p data-anchor-id="04cb"><img src="http://static.zybuluo.com/cosformula/mhuigo5l3cr2wskucqb2cckb/image_1b9iv0p4q1h9dpj22r9a51odu1g.png" alt="image_1b9iv0p4q1h9dpj22r9a51odu1g.png-10.8kB"></p>
+            <blockquote data-anchor-id="g3x3" class="white-blockquote">
+                <p>2月18日选课人次曲线图，数据从0:00到23:59</p>
+            </blockquote>
+            <p data-anchor-id="2uz3"><img src="http://static.zybuluo.com/cosformula/b4hhfqyg2xc5trmyax4lhvgk/image_1b9iuvi3u6hj1djdvjo181d12kf13.png" alt="image_1b9iuvi3u6hj1djdvjo181d12kf13.png-8.6kB"></p>
+            <blockquote data-anchor-id="a5lg" class="white-blockquote">
+                <p>2月19日选课人次曲线图，数据从0:00到23:59</p>
+            </blockquote>
+            <p data-anchor-id="gwyv"><img src="http://static.zybuluo.com/cosformula/alkx283qtqkcz1soae6zflax/image_1b9ivfqi58cdeifbn1st13441t.png" alt="image_1b9ivfqi58cdeifbn1st13441t.png-6.8kB"></p>
+            <blockquote data-anchor-id="0ai3" class="white-blockquote">
+                <p>2月20日选课人次曲线图，数据从0:00到23:59</p>
+            </blockquote>
+            <p data-anchor-id="ca44">根据时间段选课人数的差距，大致可以分为两个时间段。1:00到8:00,8:00到次日1:00。</p>
+            <p data-anchor-id="b1l4">1:00到8:00选课人数较少，图形上呈平缓的曲线。在每天中8:00到次日1:00的选课人次曲线斜率无明显变化，但随着日期的变化逐渐平缓。这和第一张图所示的选课速率越来越低相符。</p>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="3xci" id="关键词热门">关键词：热门</h2>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="f9hw" id="热门课程教师标签云概览">热门课程、教师标签云概览</h2>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="xjj1" id="热门通识课一览">热门通识课一览</h3><pre data-anchor-id="hwni"><code>仅考虑选课人数大于100的课程，若本门课程开了多个班，选课人数累加，颜色代表不同类。
+</code></pre>
+            <p data-anchor-id="esyg"><img src="http://static.zybuluo.com/cosformula/rf03fguwel240qtr7mqvn3nx/image_1b9j063oil0m18rdp36d6a1jb2n.png" alt="image_1b9j063oil0m18rdp36d6a1jb2n.png-416.2kB"></p>
+            <blockquote data-anchor-id="67zc" class="white-blockquote">
+                <p><strong>爱情心理解读</strong>以<strong>400+</strong>的选课人数领先，但是要说明的是在冬季学期一轮选课中，爱情心理解读曾达到<strong>800+</strong>的选课人数。 <br> 仍然，因为这门课太火爆，本学期还是开设了四个班。
+                </p>
+            </blockquote>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="eowk" id="单课程选课率较大的通识课一览">单课程选课率较大的通识课一览</h3><pre data-anchor-id="40pi"><code>选课率=选课人数/课程容量*100%，一定程度上反映了本课程选课的难易度。
+本项指标在一门课开多个班的情况下，分班计数。
+</code></pre>
+            <p data-anchor-id="cfvu"><img src="http://static.zybuluo.com/cosformula/1bpbhfr78uibu0dcnludmbf5/image_1b9j0ats416us10v5ta71sma1tbs34.png" alt="image_1b9j0ats416us10v5ta71sma1tbs34.png-562kB"></p>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="ehxy" id="热门老师一览">热门老师一览</h3><pre data-anchor-id="0gqf"><code>计算该老师所开的所有课程的总选课人数
+</code></pre>
+            <p data-anchor-id="0xc2"><img src="http://static.zybuluo.com/cosformula/b7o9wkytsi5n2jjf9ycp101m/image_1b9j0hmfs18281j281qbl1j76tbs3h.png" alt="image_1b9j0hmfs18281j281qbl1j76tbs3h.png-243.8kB"></p>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="fdy3" id="关键词核心通识课">关键词：核心通识课</h2>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="7qkb" id="概述">概述</h3>
+            <p data-anchor-id="lh5r">本学期共开设二十门核心通识课，详细开课内容如下表。</p>
+            <table data-anchor-id="ekdo" class="table table-striped-white table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">项目</th>
+                        <th style="text-align:center;">课程数量</th>
+                        <th style="text-align:center;">课程容量</th>
+                        <th style="text-align:center;">选课人次</th>
+                        <th>选课率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:center;">人文社科类</td>
+                        <td style="text-align:center;">9</td>
+                        <td style="text-align:center;">630</td>
+                        <td style="text-align:center;">1086</td>
+                        <td>172%</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">经济管理类</td>
+                        <td style="text-align:center;">2</td>
+                        <td style="text-align:center;">140</td>
+                        <td style="text-align:center;">253</td>
+                        <td>180%</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">理学工学类</td>
+                        <td style="text-align:center;">9</td>
+                        <td style="text-align:center;">630</td>
+                        <td style="text-align:center;">714</td>
+                        <td>113 %</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="g272" id="选课人数前十的核心通识课一览">选课人数前十的核心通识课一览</h3>
+            <p data-anchor-id="j5ni"><img src="http://static.zybuluo.com/cosformula/ke2s2at9i019hdkyu77tufqj/image_1b9j2hqfg1vsg19p915iq1aon1tpu3u.png" alt="image_1b9j2hqfg1vsg19p915iq1aon1tpu3u.png-45.8kB"></p>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="a63j" id="关键词通识课">关键词：通识课</h2>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="nq01" id="概述-1">概述</h3>
+            <p data-anchor-id="5bmc">本分析报告中通识课包括181门通识课，204个班：</p>
+            <p data-anchor-id="az6e">本学期</p>
+            <table data-anchor-id="mw9m" class="table table-striped-white table-bordered">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;">项目</th>
+                        <th style="text-align:center;">课程数量</th>
+                        <th style="text-align:center;">课程班次</th>
+                        <th style="text-align:center;">课程容量</th>
+                        <th style="text-align:center;">选课人次</th>
+                        <th>选课率</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:center;">理学工学类</td>
+                        <td style="text-align:center;">46</td>
+                        <td style="text-align:center;">48</td>
+                        <td style="text-align:center;">4594</td>
+                        <td style="text-align:center;">3024</td>
+                        <td>66%</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">人文社科类</td>
+                        <td style="text-align:center;">93</td>
+                        <td style="text-align:center;">106</td>
+                        <td style="text-align:center;">10270</td>
+                        <td style="text-align:center;">9055</td>
+                        <td>88%</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">经济管理类</td>
+                        <td style="text-align:center;">45</td>
+                        <td style="text-align:center;">52</td>
+                        <td style="text-align:center;">4950</td>
+                        <td style="text-align:center;">4035</td>
+                        <td>82%</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="vuzi" id="最受欢迎的通识课top10">最受欢迎的通识课TOP10</h3><pre data-anchor-id="jkz5"><code>筛选通识类课程，只通过选课人数排序，一门课程有多个班视作一个班考虑。颜色代表不同的课程类别。
+</code></pre>
+            <p data-anchor-id="4se5"><img src="http://static.zybuluo.com/cosformula/hc8mc6de0wpjl2uxqgb0kv5g/image_1b9j49ilb107i1q6f36p6qafu355.png" alt="image_1b9j49ilb107i1q6f36p6qafu355.png-48.3kB"></p>
+            <blockquote data-anchor-id="y8br" class="white-blockquote">
+                <p>爱情心理解读延续了冬季选课时的热度，依然高居通识课榜首，当然这也与它同时开设四个班分不开。而TOP10榜单上也多了很多冬季分析报告上没有的新面孔，比如位列前三的生活中的合同。总体来说TOP10选课人数相差并不大。</p>
+            </blockquote>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="dlmf" id="最难选的通识课排名top10">最难选的通识课排名TOP10</h3><pre data-anchor-id="7map"><code>筛选通识类课程，根据选课率排序，一门课程有多个班取平均值考虑，颜色代表不同的课程类别。
+</code></pre>
+            <p data-anchor-id="szvp"><img src="http://static.zybuluo.com/cosformula/jrk742slbk130smvkpf02dbm/image_1b9j4b5c51snp1m53cafivq3nt5i.png" alt="image_1b9j4b5c51snp1m53cafivq3nt5i.png-49.6kB"></p>
+            <blockquote data-anchor-id="02b3" class="white-blockquote">
+                <p>冬季学期被抢走的“难选”王位，爱情心理解读最终还是抢了回来。这次难选的通识课同时也是选的人多的并没有毛病。</p>
+            </blockquote>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="wogm" id="通识课大类平均选课排名">通识课大类平均选课排名</h3><pre data-anchor-id="qbez"><code>筛选通识类课程，该项数据代表各类课程的平均每门选课人数
+</code></pre>
+            <p data-anchor-id="rgpq"><img src="http://static.zybuluo.com/cosformula/9fjsyhfmfku8z8gzzmh5686p/image_1b9j4edhrv97163mbsg1ueh1kag5v.png" alt="image_1b9j4edhrv97163mbsg1ueh1kag5v.png-48.9kB"></p>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="tx9l" id="关键词英语">关键词：英语</h2>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="o7yu" id="英语必修abc级">英语必修（ABC级）</h3>
+            <p data-anchor-id="1gy8">本学期共开设了<code>103</code>个英语选修班 总容量<code>3412</code>，总选课人数<code>3436</code></p><pre data-anchor-id="xl9v"><code>英语必修最难选的老师TOP10,根据该老师所开所有课程的平均选课率计算。
+</code></pre>
+            <p data-anchor-id="d5eo"><img src="http://static.zybuluo.com/cosformula/xn4ku46dhlof6i2ze42omkz1/image_1b9j6d0s3qr3f0j7tlbid1uue7j.png" alt="image_1b9j6d0s3qr3f0j7tlbid1uue7j.png-39.1kB"></p>
+            <div class="md-section-divider"></div>
+            <h3 data-anchor-id="bs21" id="英语选修">英语选修</h3>
+            <p data-anchor-id="yyo2">本学期共开设了<code>178</code>个英语选修班 总容量<code>2475</code>，总选课人数<code>3002</code></p><pre data-anchor-id="44ea"><code>平均英语选课人数TOP10，根据各门课程的平均选课人数排序。
+</code></pre>
+            <p data-anchor-id="n1jx"><img src="http://static.zybuluo.com/cosformula/6qm5jw79euwxg22vfnykcnga/image_1b9j60vh91bg31l28n9t1u4s1mor6p.png" alt="image_1b9j60vh91bg31l28n9t1u4s1mor6p.png-31.8kB" title="点击查看大图"></p><pre data-anchor-id="li0z"><code>选课人数最多的老师TOP10，根据各老师所开课程的所有选课人数之和排序。
+</code></pre>
+            <p data-anchor-id="yn59"><img src="http://static.zybuluo.com/cosformula/ql6aa5r0q7dk78e5bs8b43jh/image_1b9j65ka21skr1chi101p9fi17a376.png" alt="image_1b9j65ka21skr1chi101p9fi17a376.png-49.4kB"></p>
+            <div class="md-section-divider"></div>
+            <h2 data-anchor-id="u02s" id="鸣谢">鸣谢</h2>
+            <p data-anchor-id="n1oh">这是第二次选课数据分析报告，时间比上次充分一点，但是还是没能找到很好的一套分析方法和指标，加上在数据采集时出现的问题，本次选课数据分析仍然不够完美，还请继续期待下一期的选课报告。</p>
+            <p data-anchor-id="4b14">如果您有想在之后的报告中看到的内容，请在中说明评论，我们会认真考虑您的建议。</p>
+            <h2 align="center"><a href="http://www.shuhelper.cn/">返回SHUhelper</a></h2>
+            <div class="ds-thread" data-thread-key="2017_spring_1" data-title="2017春季学期第一轮选课数据分析报告" data-url="http://www.shuhelper.cn/article/2017_spring_1"></div>
+        </div>
+
+
+
+    </body>
+    <script type="text/javascript">
+        var duoshuoQuery = {
+            short_name: "shutools"
+        };
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';
+            ds.async = true;
+            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] ||
+                document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    </script>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?5f62af81821bb9a9be944d6417680e48";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+</html>
