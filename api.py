@@ -13,6 +13,7 @@ from models import *
 from flask_mongoengine import MongoEngine
 from flask_admin.contrib.mongoengine import ModelView
 import json
+import datetime
 
 app = Flask(__name__)
 app.config['MONGODB_SETTINGS'] = {'DB': 'psyduckdev'}
@@ -98,35 +99,40 @@ def login():
     client = Services()
     client.card_id = post_data['card_id']
     client.password = post_data['password']
-    client.login()
-    if client.is_login:
-        client.get_data()
-        user = User.objects(card_id=post_data['card_id'])
-        if user is None:
-            user = User(name=client.name, username=client.username, card_id=post_data['card_id'],role='student')
+    if client.login() and client.get_data():
+        user = User.objects(card_id=post_data['card_id']).first()
+        if user == None:
+            user = User(name=client.data['name'], nickname=client.data['nickname'], card_id=post_data['card_id'],role='student')
         user.token = token()
         result = {
             'success': True,
             'token': user.token,
             'name': user.name,
-            'username': user.username
+            'nickname': user.nickname
         }
         session['card_id'] = user.card_id
-        CACHE.set(user.token, post_data['card_id'], timeout=0)
+        CACHE.set(user.token, post_data['card_id'], timeout=86400)
         user.save()
     else:
         result = {
             'success': False,
         }
-    return json.dumps(result)
+    return jsonify(result)
 
+@app.route('/accounts/logout')
+def logout():
+    session.pop('card_id', None)
+    return jsonify({
+        'success': True
+    })
 @app.route('/accounts/login-with-token')
 def token_login():
     token = request.args.get('token')
     session['card_id'] = CACHE.get(token)
+    CACHE.set(token, CACHE.get(token), timeout=86400)
     if session['card_id'] != None:
         result = {
-                'success': True,
+            'success': True,
             }
     else:
         result = {
@@ -139,7 +145,7 @@ def token_login():
 def update_account():
     post_data = json.loads(request.get_data().decode('utf-8'))
     card_id = session['card_id']
-    user = User.objects(card_id=post_data['card_id'])
+    user = User.objects(card_id=post_data['card_id']).first()
     user.email = post_data['email']
     user.phone = post_data['phone']
     user.save()
@@ -161,20 +167,27 @@ def get_messages():
     return json.dumps(messages)
 
 @app.route('/queries/<site>')
-def get_query(site, subject):
-    card_id = session['card_id']
-    user = User.objects(card_id=card_id)
-    data = UserData.objects(site=site,user=user)
+def get_query(site):
+    if ('card_id' in session) :
+        card_id = session['card_id']
+    else:
+        return jsonify({
+            'success': False,
+        })
+    user = User.objects(card_id=card_id).first()
+    data = UserData.objects(site=site,user=user).first()
     if data != None:
         result = {
             'success': True,
-            'content':data.content,
-            'date':data.last_modified
+            'card_id': card_id,
+            'content':data.data,
+            'date':data.last_modified.timestamp()
         }
     else:
         result = {
             'success': True,
-            'status':'no records'
+            'status':'no records',
+            'card_id': card_id
         }
     return json.dumps(result)
 
@@ -195,11 +208,10 @@ def refresh_query(site):
         elif site == 'lehu':
             client = Lehu()
         elif site == 'services':
-            client = Services()
+            client = Services() 
         CACHE.set(card_id + site, client, timeout=300)
-        return json.dumps({
-            'status':'success',
-            'sesion': session[site],
+        return jsonify({
+            'success': True,
             'captcha_img':client.captcha_img
         })
     else:
@@ -225,16 +237,19 @@ def refresh_query(site):
         return jsonify(result)
 
 @app.route('/queries/<site>/save', methods=['POST', 'GET'])
-def cache_query_result():
+def cache_query_result(site):
     card_id = session['card_id']
-    try:
-        post_data = json.loads(request.get_data().decode('utf-8'))
-        user = User.objects(card_id=card_id)
+    post_data = json.loads(request.get_data().decode('utf-8'))
+    user = User.objects(card_id=card_id).first()
+    data = UserData.objects(site=site,user=user).first()
+    if data != None:
+        data.data = post_data['data']
+        data.last_modified = datetime.datetime.now
+    else:
         data = UserData(data=post_data['data'], site=site, user=user, last_modified=datetime.datetime.now)
-        data.save()
-        result = {'success':True}
-    except:
-        result = {'success':False}
+    data.save()
+    result = {'success':True}
+    # result = {'success':False}
     return jsonify(result)
 
 @app.route('/news/new')
