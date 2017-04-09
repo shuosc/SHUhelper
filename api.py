@@ -1,38 +1,25 @@
 """
 Define all api
 """
-import os.path as op
 from flask import Flask, session, Response, jsonify, request
-from client import *
 import random
-from werkzeug.contrib.cache import MemcachedCache
-from werkzeug.contrib.cache import SimpleCache
-from flask_admin import Admin
-from flask_admin.contrib.fileadmin import FileAdmin
-from models import *
-from flask_mongoengine import MongoEngine
-from flask_admin.contrib.mongoengine import ModelView
 import json
 import datetime
+from models import *
+from client import *
+from config import CACHE
 
-app = Flask(__name__)
-app.config['MONGODB_SETTINGS'] = {'DB': 'psyduckdev'}
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
-db = MongoEngine()
-db.init_app(app)
-class UserView(ModelView):
-    column_filters = ['card_id']
-    column_searchable_list = ('card_id',)
 
-class MessagesView(ModelView):
-    form_ajax_refs = {
-        'sender': {
-            'fields': ['card_id']
-        },
-        'receiver':{
-            'fields': ['card_id']
-        }
-    }
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_pyfile('config.py')
+
+"""
+admin view start 
+"""
+from flask_admin import Admin
+from admin import *
+import os.path as op
+from flask_admin.contrib.fileadmin import FileAdmin
 
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
 admin.add_view(UserView(User))
@@ -42,10 +29,13 @@ admin.add_view(ModelView(Sweetie))
 admin.add_view(ModelView(Functions))
 path = op.join(op.dirname(__file__), 'static')
 admin.add_view(FileAdmin(path, '/static/', name='Static Files'))
-# admin.add_view(FileAdmin('/', '/source/', name='source code'))
+
+"""
+end adminview defines
+"""
 
 SWEEITE = Sweetie.objects(visible=True)
-CACHE = SimpleCache()
+
 PUBLICATIONS = ['123']
 
 def token():
@@ -61,27 +51,32 @@ def token():
     salt = ''.join(sa)
     return salt
 
-class User_Login():
-    def __init__(self):
-        self.clent = None
-        self.card_id = ''
-        self.session = ''
-        self.token = ''
-
 @app.route('/')
 def test():
+    """
+    just a test
+    """
     return 'hey~it\'s working'
 
 @app.route('/publications')
 def publication():
+    """
+    get publications from db
+    """
     return random.choice(PUBLICATIONS)
 
 @app.route('/sweetie')
 def random_sweetie():
+    """
+    a sweet word, wish you a good day
+    """
     return random.choice(SWEEITE).content
 
 @app.route('/functions')
 def get_functions():
+    """
+    get functions list for index page, havn't enabled now
+    """
     functions = Functions.objects()
     result = []
     for function in functions:
@@ -95,6 +90,9 @@ def get_functions():
 
 @app.route('/accounts/login', methods=['POST'])
 def login():
+    """
+    use services.shu.edu.cn to validate user login
+    """
     post_data = json.loads(request.get_data().decode('utf-8'))
     client = Services()
     client.card_id = post_data['card_id']
@@ -121,16 +119,22 @@ def login():
 
 @app.route('/accounts/logout')
 def logout():
+    """
+    pop the cardID if in session
+    """
     session.pop('card_id', None)
     return jsonify({
         'success': True
     })
 @app.route('/accounts/login-with-token')
 def token_login():
+    """
+    use token to verify user, token expired in 2 days
+    """
     token = request.args.get('token')
-    session['card_id'] = CACHE.get(token)
-    CACHE.set(token, CACHE.get(token), timeout=86400)
-    if session['card_id'] != None:
+    if CACHE.get(token) != None:
+        CACHE.set(token, CACHE.get(token), timeout=86400)
+        session['card_id'] = CACHE.get(token)
         result = {
             'success': True,
             }
@@ -143,6 +147,9 @@ def token_login():
 
 @app.route( '/accounts/update')
 def update_account():
+    """
+    not enabled yet
+    """
     post_data = json.loads(request.get_data().decode('utf-8'))
     card_id = session['card_id']
     user = User.objects(card_id=post_data['card_id']).first()
@@ -156,11 +163,17 @@ def update_account():
 
 @app.route('/accounts/clear')
 def delete_account():
+    """
+    considering
+    """
     # later
     pass
 
 @app.route('/messages')
 def get_messages():
+    """
+    not enabled yet, for private messages and publication and paper airplane and so on...
+    """
     card_id = session['card_id']
     user = User.objects(card_id=card_id)
     messages = Messages.objects(receiver=user)
@@ -168,6 +181,9 @@ def get_messages():
 
 @app.route('/queries/<site>')
 def get_query(site):
+    """
+    get encrypted cached query result from database
+    """
     if ('card_id' in session) :
         card_id = session['card_id']
     else:
@@ -193,6 +209,9 @@ def get_query(site):
 
 @app.route('/queries/<site>/refresh', methods=['POST', 'GET'])
 def refresh_query(site):
+    """
+    update query result if it doesn't exists or expried, use user ID and password and captcha (if there is)
+    """
     card_id = session['card_id']
     if request.method == 'GET':
         if site == 'tiyu':
@@ -238,6 +257,9 @@ def refresh_query(site):
 
 @app.route('/queries/<site>/save', methods=['POST', 'GET'])
 def cache_query_result(site):
+    """
+    save encrypted query result sent from client in database 
+    """
     card_id = session['card_id']
     post_data = json.loads(request.get_data().decode('utf-8'))
     user = User.objects(card_id=card_id).first()
@@ -254,33 +276,57 @@ def cache_query_result(site):
 
 @app.route('/news/new')
 def latest_news():
+    """
+    it will be useful
+    """
     pass
 
 @app.route('/posts')
 def get_posts():
+    """
+    for blog system
+    """
     pass
 
 @app.route('/courses')
 def get_courses():
+    """
+    for course query system
+    """
     pass
 
 @app.route('/services/find-free-time')
 def find_free_time():
+    """
+    for find freetime
+    """
     pass
 
 @app.route('/services/quit')
 def quit_shu():
+    """
+    one key to quit SHU
+    """
     pass
 
 @app.route('/services/classrooms')
 def get_rooms():
+    """
+    a lists show all classrooms and how it's used
+    """
     pass
 
 @app.route('/services/empty-roooms')
 def get_empty_rooms():
+    """
+    as it's name
+    """
     pass
 
 
 if __name__ == '__main__':
+    """
+    here, begins
+    """
     app.debug = True
     app.run()
