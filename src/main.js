@@ -5,13 +5,14 @@ import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
 import Vuex from 'vuex'
-import { WechatPlugin, AlertPlugin, LoadingPlugin, ConfirmPlugin } from 'vux'
+import { WechatPlugin, AlertPlugin, LoadingPlugin, ConfirmPlugin, ToastPlugin } from 'vux'
 import axios from 'axios'
 import state from './state.js'
 // import Home from './components/HelloFromVux'
 // import routes from './router/index.js'
 
 Vue.use(WechatPlugin)
+Vue.use(ToastPlugin)
 // Vue.use(AjaxPlugin)
 Vue.use(AlertPlugin)
 Vue.use(LoadingPlugin)

@@ -5,6 +5,7 @@ import Functions from '@/views/functions'
 import My from '@/views/My'
 import Map from '@/views/Map'
 import Frame from '@/views/Frame'
+import QueryTemplate from '@/views/QueryTemplate'
 import ServiceFrame from '@/views/ServiceFrame'
 Vue.use(Router)
 
@@ -28,6 +29,10 @@ const routes = [{
   path: '/service-frame/:name',
   name: 'Hello',
   component: ServiceFrame
+}, {
+  path: '/query/:name',
+  name: 'Hello',
+  component: QueryTemplate
 }]
 
 export default routes
