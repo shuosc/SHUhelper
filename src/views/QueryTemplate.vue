@@ -18,7 +18,7 @@
 
 <script>
 import { XHeader, ViewBox, Divider, Group, Cell, XButton } from 'vux'
-
+import CryptoJS from '../libs/encryption.js'
 export default {
   components: {
     XHeader,
@@ -51,12 +51,14 @@ export default {
       .then((response) => {
         this.$vux.loading.hide()
         if (response.data.success) {
-          _this.content = response.data.content
           if (response.data.status === 'no records') {
             _this.$vux.alert.show({
               title: '状态',
               content: '数据库中没有查询记录，请点击更新数据'
             })
+          } else {
+            var decrypted = CryptoJS.AES.decrypt(response.data.content, _this.$store.state.account.password)
+            _this.content = decrypted.toString(CryptoJS.enc.Utf8)
           }
         } else {
           _this.$vux.alert.show({
@@ -108,7 +110,7 @@ export default {
     saveToServer () {
       var _this = this
       this.$http.post('/api/queries/' + this.$route.params.name + '/save', {
-        data: this.content,
+        data: CryptoJS.AES.encrypt(this.content, _this.$store.state.account.password).toString(),
         site: this.$route.params.name
       })
       .then((response) => {
@@ -130,8 +132,8 @@ export default {
         text: '少女祈祷中...'
       })
       this.$http.post('/api/queries/' + this.$route.params.name + '/refresh', {
-        'card_id': '15121604',
-        'password': 'ZYq2010',
+        'card_id': this.$store.state.account.card_id,
+        'password': this.$store.state.account.password,
         'captcha': this.captcha
       })
       .then((response) => {

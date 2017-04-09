@@ -158,7 +158,7 @@ export default {
     }
   },
   created: function () {
-    if (localStorage.getItem('loginstate') !== null) {
+    if (localStorage.getItem('loginstate') !== null && this.$store.state.account.token === '') {
       console.log('read from local storage')
       this.verifyToken()
     }
@@ -190,6 +190,8 @@ export default {
             type: 'text',
             text: '已使用缓存登录'
           })
+        } else {
+          _this.logout()
         }
       })
     },
