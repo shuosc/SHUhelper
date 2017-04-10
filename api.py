@@ -8,12 +8,12 @@ import os.path as op
 import random
 
 from flask import Flask, Response, jsonify, request, session
-
-from admin import *
-from client import *
-from config import CACHE
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
+
+from adminview import *
+from client import *
+from config import CACHE
 from models import *
 
 app = Flask(__name__, instance_relative_config=True)
@@ -124,6 +124,8 @@ def logout():
     """
     pop the cardID if in session
     """
+    token = request.args.get('token')
+    CACHE.delete(token)
     session.pop('card_id', None)
     return jsonify({
         'success': True

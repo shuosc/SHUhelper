@@ -1,9 +1,4 @@
-import os.path as op
-from models import *
-from api import admin, admin
-from flask_mongoengine import MongoEngine
 from flask_admin.contrib.mongoengine import ModelView
-from flask_admin import Admin
 
 
 class UserView(ModelView):
