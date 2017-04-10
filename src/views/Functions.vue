@@ -4,7 +4,6 @@
   <x-header slot="header" style="width:100%;position:absolute;left:0;top:0;z-index:100;">SHUhelper 2.0 preview
   <div slot="right" @click="$store.state.account.token != ''?logout():showLoginForm = true">{{$store.state.account.token != ''?'注销':'登录'}}</div>
   </x-header>
-    <scroller lock-x scrollbar-y height="-100" ref="foodscroller">
         <div>
         <marquee style="margin-top:10px;">
           <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)"  style="text-align:center;">现在是预览版，功能还不全哦❤</marquee-item>
@@ -19,7 +18,6 @@
         </div>
         <divider>Powered by SHUhelper</divider>
         </div>
-    </scroller>
     <div slot="bottom">
      <tabbar>
         <tabbar-item selected :link="'/'">
@@ -34,7 +32,7 @@
     </div>
     </view-box>
     <popup v-model="showLoginForm">
-      <div class="popup1">
+      <div class="popup">
         <group label-width="4em" label-margin-right="2em" label-align="right">
           <x-input title="学号" v-model="cardID"></x-input>
           <x-input title="密码" type="password" v-model="password"></x-input>
@@ -104,10 +102,12 @@ export default {
           'url': '/service-frame/findemptyroom'
         }, {
           'tittle': '都有空吗',
-          'icon': 'icon-group'
+          'icon': 'icon-group',
+          'url': 'https://www.shuhelper.cn/findfreetime/member'
         }, {
           'tittle': '一键退学',
-          'icon': 'icon-drivers-license-o'
+          'icon': 'icon-drivers-license-o',
+          'url': 'https://www.shuhelper.cn/login/vali/quit'
         }, {
           'tittle': '尔美西餐厅预定',
           'icon': 'icon-dppj',
@@ -131,11 +131,16 @@ export default {
             'url': '/frame/cal'
           }, {
             'tittle': '课表',
-            'icon': 'icon-course-table'
+            'icon': 'icon-course-table',
+            'url': '/query/xk'
           }, {
             'tittle': '校园地图',
             'icon': 'icon-map-o',
             'url': '/frame/map'
+          }, {
+            'tittle': '体育场馆地图',
+            'icon': 'icon-map',
+            'url': '/frame/pemap'
           }, {
             'tittle': '就医指导',
             'icon': 'icon-yiyuan',
@@ -146,10 +151,16 @@ export default {
             'url': '/frame/bus'
           }, {
             'tittle': '场馆开放',
-            'icon': 'icon-icon'
+            'icon': 'icon-icon',
+            'url': '/frame/serviceschedule'
           }, {
             'tittle': '一卡通余额流水',
-            'icon': 'icon-icon1'
+            'icon': 'icon-icon1',
+            'url': '/query/lehu'
+          }, {
+            'tittle': '财务缴费',
+            'icon': 'icon-money',
+            'url': '/query/fin'
           }, {
             'tittle': '陆续上线中...',
             'icon': 'icon-certificate'
@@ -167,8 +178,9 @@ export default {
   },
   methods: {
     logout () {
+      var token = this.$store.state.account.token
       localStorage.clear()
-      this.$http.get('/api/accounts/logout')
+      this.$http.get('/api/accounts/logout?token=' + token)
       this.$vux.toast.show({
         position: 'bottom',
         type: 'text',
@@ -241,7 +253,7 @@ export default {
     },
     resetScroller () {
       this.$nextTick(() => {
-        this.$refs.cartscroller.reset({
+        this.$refs.scroller.reset({
         })
       })
     }
@@ -257,42 +269,5 @@ export default {
   margin:0 auto;
   border-radius:5px;
   padding-top:10px;
-}
-.title {
-    text-align:left;
-}
-.desc {
-    text-align:left;
-    font-size:10px;
-    color: grey;
-}
-.logo {
-  width: 100px;
-  height: 100px
-}
-.trolley {
-    position:absolute;
-    display:block;
-    width:100%;
-    height:40px;
-    bottom:50px;
-}
-.popup1 {
-  padding-bottom:15px;
-  height:200px;
-}
-.item {
-  border: 1px solid #ececec;
-  margin:0 5px;
-  padding: 5px;
-  font-size: 0.8em;
-  width:25%;
-}
-.box {
-  width:100%;
-  padding-bottom:10px;
-}
-.item-selected {
-  border: 1px solid green;
 }
 </style>

@@ -5,24 +5,36 @@
     </x-header>
       <group title="查询信息" >
         <cell title="信息名" :value="$route.params.name"></cell>
-        <cell title="来源网站" value="value"></cell>
-        <cell title="上次更新日期" value="value"></cell>
+        <cell title="来源网站" :value="$route.params.name"></cell>
+        <cell title="上次更新日期" :value="data.date"></cell>
         <x-button type="primary" style="margin-top:10px;" @click.native="updateData()">更新数据</x-button>
       </group>
       <divider>数据库中的信息</divider>
-      <div style="height:100%;font-size:0.8rem;" v-html="content"></div>
-      <divider v-if="data.status=='no records'">无记录</divider>
+      <div style="height:100%;font-size:0.8rem;" v-html="data.content"></div>
     </view-box>
+    <popup v-model="showCaptcha">
+      <div class="popup">
+        <group label-width="4em" label-margin-right="2em" label-align="right">
+          <img :src="'data:image/gif;base64,' + captcha_img"/>
+          <x-input title="验证码" v-model="captcha"></x-input>
+        </group>
+        <group label-width="4em" label-margin-right="2em" label-align="right">
+          <x-button type="primary" @click.native="postUpdate()">确认</x-button>
+        </group>
+      </div>
+    </popup>
   </div>
 </template>
 
 <script>
-import { XHeader, ViewBox, Divider, Group, Cell, XButton } from 'vux'
+import { XHeader, ViewBox, Divider, Group, Cell, XButton, Popup, XInput } from 'vux'
 import CryptoJS from '../libs/encryption.js'
 export default {
   components: {
     XHeader,
     ViewBox,
+    XInput,
+    Popup,
     Divider,
     Group,
     Cell,
@@ -31,9 +43,15 @@ export default {
   data () {
     return {
       content: '',
-      data: {},
+      data: {
+        site: '',
+        subject: '',
+        content: '',
+        date: ''
+      },
       captcha_img: '',
-      captcha: ''
+      captcha: '',
+      showCaptcha: false
     }
   },
   created: function () {
@@ -57,8 +75,12 @@ export default {
               content: '数据库中没有查询记录，请点击更新数据'
             })
           } else {
+            var date = new Date(response.data.date * 1000)
             var decrypted = CryptoJS.AES.decrypt(response.data.content, _this.$store.state.account.password)
-            _this.content = decrypted.toString(CryptoJS.enc.Utf8)
+            _this.data.content = decrypted.toString(CryptoJS.enc.Utf8)
+            _this.data.site = response.data.site
+            _this.data.subject = response.data.subject
+            _this.data.date = date.getMonth() + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
           }
         } else {
           _this.$vux.alert.show({
@@ -86,6 +108,15 @@ export default {
     },
     updateData () {
       var _this = this
+      if (this.$store.state.account.card_id === '') {
+        this.$vux.alert.show({
+          title: '状态',
+          content: '请先登录',
+          onHide () {
+            _this.$router.replace('/')
+          }
+        })
+      }
       this.$vux.loading.show({
         text: '少女祈祷中...'
       })
@@ -95,6 +126,7 @@ export default {
       var _this = this
       this.$http.get('/api/queries/' + this.$route.params.name + '/refresh')
       .then((response) => {
+        this.$vux.loading.hide()
         if (response.data.success) {
           _this.captcha_img = response.data.captcha_img
           _this.postUpdate()
@@ -104,13 +136,12 @@ export default {
             content: '准备查询失败，服务器故障'
           })
         }
-        this.$vux.loading.hide()
       })
     },
     saveToServer () {
       var _this = this
       this.$http.post('/api/queries/' + this.$route.params.name + '/save', {
-        data: CryptoJS.AES.encrypt(this.content, _this.$store.state.account.password).toString(),
+        data: CryptoJS.AES.encrypt(this.data.content, _this.$store.state.account.password).toString(),
         site: this.$route.params.name
       })
       .then((response) => {
@@ -124,13 +155,14 @@ export default {
     },
     postUpdate () {
       var _this = this
-      if (this.captcha_img !== '' && this.captcha === '') {
-        this.captchaForm = true
-        return
-      }
       this.$vux.loading.show({
         text: '少女祈祷中...'
       })
+      if (this.captcha_img !== '' && this.captcha === '') {
+        this.showCaptcha = true
+        _this.$vux.loading.hide()
+        return
+      }
       this.$http.post('/api/queries/' + this.$route.params.name + '/refresh', {
         'card_id': this.$store.state.account.card_id,
         'password': this.$store.state.account.password,
@@ -138,20 +170,33 @@ export default {
       })
       .then((response) => {
         _this.$vux.loading.hide()
+        _this.showCaptcha = false
         if (response.data.success) {
-          _this.content = response.data.content.data
+          _this.data.content = response.data.content.data
           _this.$vux.alert.show({
             title: '状态',
             content: '成功'
           })
           _this.saveToServer()
-          console.log(_this.data)
         } else {
           _this.$vux.alert.show({
             title: '状态',
             content: '查询失败'
           })
         }
+      })
+      .catch(function (response) {
+        _this.$vux.loading.hide()
+        _this.$vux.alert.show({
+          title: '提示',
+          content: '错误，我也不知道怎么回事',
+          onShow () {
+          },
+          onHide () {
+            console.log(response)
+            _this.$router.replace('/')
+          }
+        })
       })
     }
   }
