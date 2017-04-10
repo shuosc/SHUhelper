@@ -1,14 +1,20 @@
 """
 Define all api
 """
-from flask import Flask, session, Response, jsonify, request
-import random
-import json
+
 import datetime
-from models import *
+import json
+import os.path as op
+import random
+
+from flask import Flask, Response, jsonify, request, session
+
+from admin import *
 from client import *
 from config import CACHE
-
+from flask_admin import Admin
+from flask_admin.contrib.fileadmin import FileAdmin
+from models import *
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('config.py')
@@ -16,10 +22,6 @@ app.config.from_pyfile('config.py')
 """
 admin view start 
 """
-from flask_admin import Admin
-from admin import *
-import os.path as op
-from flask_admin.contrib.fileadmin import FileAdmin
 
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
 admin.add_view(UserView(User))

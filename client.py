@@ -1,13 +1,13 @@
 """
-client class, to simulate a sim client to grab data from remote server.
+client class, to simulate a sim client to grab data and preform actions from remote server.
 V0.1 2017/04/01 By:cosformula
 """
-import requests
-import re
-from bs4 import BeautifulSoup
 import base64
+import re
 import time
 
+import requests
+from bs4 import BeautifulSoup
 
 proxiess = None
 
@@ -17,12 +17,9 @@ class Client(object):
         self.password = ''
         self.captcha_img = ''
         self.captcha = ''
-        self.extra_hash = ''
         self.site = ''
         self.subject = ''
-        self.is_login = False
-        self.is_data_get = False
-        self.s = requests.Session()
+        self.session = requests.Session()
         self.data = ''
     def action(self):
         pass
@@ -45,14 +42,14 @@ class Tiyu(Client):
         postData={'UNumber':self.card_id,
         'Upwd':self.password,
         'USnumber':u'上海大学'}
-        r = self.s.get(self.url_prefix + '/login/index.jsp',timeout = 30,proxies=self.proxies)
-        r = self.s.post(self.url_prefix + '/login.do?method=toLogin',data=postData, timeout = 30,proxies=self.proxies)
+        r = self.session.get(self.url_prefix + '/login/index.jsp',timeout = 30,proxies=self.proxies)
+        r = self.session.post(self.url_prefix + '/login.do?method=toLogin',data=postData, timeout = 30,proxies=self.proxies)
         if(r.headers['Content-Length'] == '784'):
             self.is_login = True
         return True
 
     def get_data(self):
-        r = self.s.get(self.url_prefix + '/exercise.do?method=seacheload',timeout=10,proxies=self.proxies)
+        r = self.session.get(self.url_prefix + '/exercise.do?method=seacheload',timeout=10,proxies=self.proxies)
         string = r.text
         content=re.search(r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>' \
         , string,flags=0).group(0)
@@ -81,20 +78,20 @@ class Services(Client):
             'txtPassword': self.password,
             'btnOk': '提交(Submit)'
         }
-        r = self.s.post('http://services.shu.edu.cn/Login.aspx', data=post_data, headers=self.headers)
+        r = self.session.post('http://services.shu.edu.cn/Login.aspx', data=post_data, headers=self.headers)
         if r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1:
             return True
         return False
 
     def get_data(self):
-        r = self.s.get(self.url_prefix + '/User/userPerInfo.aspx', timeout=10)
+        r = self.session.get(self.url_prefix + '/User/userPerInfo.aspx', timeout=10)
         name = re.search(r'<span id="userName">([\s\S]*?)</span>',r.text,flags=0).group(1)
         nickname = re.search(r'<span id="nickname">([\s\S]*?)</span>',r.text,flags=0).group(1)
         self.data = {
             'name':name,
             'nickname':nickname
         }
-        self.s.get(self.url_prefix + '/User/Logout.aspx')
+        self.session.get(self.url_prefix + '/User/Logout.aspx')
         return True
 
     def to_json(self):

@@ -2,8 +2,11 @@
 define models
 """
 
-from mongoengine import Document, EmailField, StringField, connect, ReferenceField, DateTimeField, BooleanField, EmbeddedDocument, ListField, EmbeddedDocumentField
 import datetime
+
+from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
+                         EmbeddedDocument, EmbeddedDocumentField, ListField,
+                         ReferenceField, StringField, connect)
 
 connect('psyduckdev',host='127.0.0.1',port=27017)
 
@@ -17,7 +20,7 @@ class User(Document):
     role = StringField()
     create_time = DateTimeField(default=datetime.datetime.now)
     def __unicode__(self):
-        return self.card_id
+        return self.card_id + self.name
 
 class UserData(Document):
     data = StringField()
@@ -55,10 +58,8 @@ class Comment(EmbeddedDocument):
     content = StringField()
     name = StringField(max_length=120)
 
-
 class Post(Document):
     title = StringField(max_length=120, required=True)
     author = ReferenceField(User)
     tags = ListField(StringField(max_length=30))
     comments = ListField(EmbeddedDocumentField(Comment))
-

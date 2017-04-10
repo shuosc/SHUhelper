@@ -1,5 +1,4 @@
-from werkzeug.contrib.cache import MemcachedCache
-from werkzeug.contrib.cache import SimpleCache
+from werkzeug.contrib.cache import MemcachedCache, SimpleCache
 
 #for production, use a real MemcacherCache service
 # CACHE = MemcachedCache(['127.0.0.1:11211'])
