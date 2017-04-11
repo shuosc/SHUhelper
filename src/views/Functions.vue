@@ -48,6 +48,32 @@
 <script>
 import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem } from 'vux'
 
+//  {
+//           'group_tittle': '分流专题',
+//           'functions': [{
+//             'tittle': '学院分流QQ群',
+//             'icon': 'icon-graduation-cap',
+//             'url': '/query/tiyu'
+//           }, {
+//             'tittle': '往年分流排名',
+//             'icon': 'icon-kaoshi',
+//             'url': '/query/tiyu'
+//           }, {
+//             'tittle': '分流信息网',
+//             'icon': 'icon-dili',
+//             'url': '/query/tiyu'
+//           }, {
+//             'tittle': '分流政策',
+//             'icon': 'icon-book',
+//             'url': '/query/tiyu'
+//           }]
+// //         },
+//  {
+//             'tittle': '物理实验',
+//             'icon': 'icon-07',
+//             'url': '/query/phylab'
+//           },
+
 export default {
   components: {
     Grid,
@@ -95,7 +121,7 @@ export default {
         'functions': [{
           'tittle': '旧版helper',
           'icon': 'icon-heart-o',
-          'url': 'https://www.shuhelper.cn/'
+          'url': 'https://old.shuhelper.cn/'
         }, {
           'tittle': '空教室查询',
           'icon': 'icon-xiangtongfangjianrenwu',
@@ -103,11 +129,11 @@ export default {
         }, {
           'tittle': '都有空吗',
           'icon': 'icon-group',
-          'url': 'https://www.shuhelper.cn/findfreetime/member'
+          'url': 'https://old.shuhelper.cn/findfreetime/member'
         }, {
           'tittle': '一键退学',
           'icon': 'icon-drivers-license-o',
-          'url': 'https://www.shuhelper.cn/login/vali/quit'
+          'url': 'https://old.shuhelper.cn/login/vali/quit'
         }, {
           'tittle': '尔美西餐厅预定',
           'icon': 'icon-dppj',
@@ -134,6 +160,10 @@ export default {
             'icon': 'icon-course-table',
             'url': '/query/xk'
           }, {
+            'tittle': '成绩',
+            'icon': 'icon-tubiaozhizuomoban',
+            'url': '/query/cj'
+          }, {
             'tittle': '校园地图',
             'icon': 'icon-map-o',
             'url': '/frame/map'
@@ -145,6 +175,10 @@ export default {
             'tittle': '就医指导',
             'icon': 'icon-yiyuan',
             'url': '/frame/med'
+          }, {
+            'tittle': '电话黄页',
+            'icon': 'icon-huangye',
+            'url': '/frame/tel'
           }, {
             'tittle': '校车运行',
             'icon': 'icon-bus',
@@ -165,8 +199,8 @@ export default {
             'tittle': '陆续上线中...',
             'icon': 'icon-certificate'
           }]
-        }]
-    }
+        }
+      ]}
   },
   created: function () {
     if (localStorage.getItem('loginstate') !== null && this.$store.state.account.token === '') {
