@@ -170,7 +170,6 @@ export default {
   },
   created: function () {
     if (localStorage.getItem('loginstate') !== null && this.$store.state.account.token === '') {
-      console.log('read from local storage')
       this.verifyToken()
     }
   },
