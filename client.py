@@ -58,6 +58,9 @@ class Tiyu(Client):
         self.data = content
         return True
 
+    def to_html(self):
+        return self.data
+
     def to_json(self):
         return {
             'type':'html',
@@ -93,6 +96,9 @@ class Services(Client):
         }
         self.session.get(self.url_prefix + '/User/Logout.aspx')
         return True
+    
+    def to_html(self):
+        return self.data
 
     def to_json(self):
         return self.data
@@ -132,7 +138,8 @@ class Fin(Client):
         '<table class="table  table-striped table-hover table-bordered table-condensed">',content)
         self.data = content
         return True
-
+    def to_html(self):
+        return self.data
     def to_json(self):
         return {
             'type':'html',
@@ -154,6 +161,9 @@ class Lehu(Client):
         content = re.search(r'<span id="ctl00_Contentplaceholder1_Label1">([\s\S]*)</form>',r.text,flags=0).group(0)
         self.data = content
         return True
+    def to_html(self):
+        return self.data
+
     def to_json(self):
         return {
             'type':'html',
@@ -189,8 +199,91 @@ class XK(Client):
         self.data = string
         return True
 
+    def to_html(self):
+        return self.data
+
     def to_json(self):
         return {
             'type':'html',
             'data': self.data
+        }
+class Phylab(Client):
+    url_prefix = 'http://www.phylab.shu.edu.cn'
+    def __init__(self):
+        Client.__init__(self)
+        r = self.session.get(self.url_prefix + '/openexp/index.php/Public/login/',timeout=10)
+        self.hash = re.search(r'<input type="hidden" name="__hash__" value="([\s\S]*)" />',r.text,flags=0).group(1)
+        r = self.session.get(self.url_prefix + '/openexp/index.php/Public/verify/',timeout=10,stream=True)
+        self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
+
+    def login(self):
+        post_data={'_hash_':self.hash,
+            'account': self.card_id,
+            'ajax':'1',
+            'password': self.password,
+            'verify': self.captcha}
+        r = self.session.post(self.url_prefix + '/openexp/index.php/Public/checkLogin/',data=post_data,timeout=10)
+        return r.text.find(u'false') != -1
+
+    def get_data(self):
+        r = self.session.get(self.url_prefix + '/openexp/index.php/Public/main',timeout=10)
+        string = re.search(r'(<TABLE([\s\S]*?)</TABLE>)',r.text,flags=0).group(0)
+        string = re.sub(r'<TABLE id="checkList" class="list" cellpadding=0 cellspacing=0 >' \
+        , '<table>',string)
+        self.data = content
+        return True
+
+    def to_html(self):
+        return self.data
+
+class CJ(Client):
+    url_prefix = 'http://cj.shu.edu.cn'
+    def __init__(self):
+        Client.__init__(self)
+        r = self.session.get(self.url_prefix + '/',timeout=20)
+        r = self.session.get(self.url_prefix + '/User/GetValidateCode?%20%20+%20GetTimestamp()',timeout=20,stream=True)
+        self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
+
+    def login(self):
+        post_data={'url':'',
+            'txtUserNo': self.card_id,
+            'txtPassword': self.password,
+            'txtValidateCode': self.captcha}
+        r = self.session.post(self.url_prefix + '/',data=post_data,timeout=60)
+        r = self.session.get(self.url_prefix + '/Home/StudentIndex',timeout=10)
+        return r.text.find(u'首页') != -1
+    
+    def get_data(self):
+        r = self.session.get(self.url_prefix + '/StudentPortal/ScoreQuery',timeout=20)
+        content = re.search(r'<table class="tbllist">([\s\S]*?)</table>',r.text,flags=0).group(0)
+        self.data = content
+        return True
+
+    def to_html(self):
+        return self.data
+
+class ComTest(Client):
+    url_prefix = 'http://ea.cc.shu.edu.cn/login'
+
+    def login(self):
+        self.s = requests.Session()
+        postData={'username':self.card_id,
+        'password':self.password}
+        r = self.s.post(self.url_prefix ,data = postData,timeout = 30,proxies=proxies)
+        if r.text != u'学号或密码错误':
+            self.is_login = True
+        return True
+
+    def get_data(self):
+        string = r.text
+        content = re.search(r'<table class="table table-hover">([\s\S]*)</form>',string,flags=0).group(0)
+        content = re.sub(r'<table class="table table-hover">' \
+        , '<table>',content)
+        self.data = content
+        return True
+
+    def to_json(self):
+        return {
+            'type':'html',
+            'data':self.data
         }

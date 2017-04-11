@@ -173,6 +173,26 @@ def delete_account():
     # later
     pass
 
+
+@app.route('/findemptyroom')
+def findemptyroom():
+    result = {
+        'week': schooltime.this_week(),
+        'day': schooltime.this_day(),
+        'time': schooltime.this_class(),
+        'rooms': emptyroom.get_emptyroom_now()
+    }
+    return jsonify(result)
+
+# @app.route('/findemptyroom/room')
+# def get_room_schedule():
+#     result = {
+#         'room': schooltime.this_week(),
+#         'week': schooltime.this_day(),
+#         'schedule': emptyroom.get_room_schedule(room, week)
+#     }
+#     return jsonify(result)
+
 @app.route('/messages')
 def get_messages():
     """
@@ -226,7 +246,7 @@ def refresh_query(site):
             client = CJ()
         elif site == 'fin':
             client = Fin()
-        elif site == 'Phylab':
+        elif site == 'phylab':
             client = Phylab()
         elif site == 'lehu':
             client = Lehu()
@@ -245,7 +265,10 @@ def refresh_query(site):
             if client.get_data():
                 result = {
                     'success':True,
-                    'content':client.to_json()
+                    'content':{
+                        'type': 'html',
+                        'data': client.to_html()
+                    }
                 }
             else:
                 result = {

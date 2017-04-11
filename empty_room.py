@@ -7,21 +7,20 @@ import os
 import schooltime
 from api import app
 
-CLASSROOM_DICT = {}
 JSON_FILE = open(os.path.join(app.root_path, 'classroomdata.json'))
 CLASSROOM_DICT = json.load(JSON_FILE)
 
-def get_room_schedule(room):
+def get_room_schedule(room, week):
     """
     return a schedule of a given room in this semster
     """
-    return CLASSROOM_DICT[room]
+    return CLASSROOM_DICT[room][week-1]
 
 def is_room_empty(room, week, day, time):
     """
     confirm weather the room is empty at the time
     """
-    return CLASSROOM_DICT[room][week][day][time] == 1
+    return CLASSROOM_DICT[room][week-1][day-1][time-1] == 1
 
 def get_emptyroom_now():
     """
