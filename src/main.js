@@ -22,10 +22,24 @@ Vue.use(Vuex)
 import routes from './router/index.js'
 
 const router = new VueRouter({
-  routes
+  mode: 'history',
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 FastClick.attach(document.body)
+
+/* eslint-disable no-undef */
+
+router.beforeEach((to, from, next) => {
+  _hmt.push(['_trackPageview', to.path])
+  if (document.getElementById('vux_view_box_body') != null) {
+    document.getElementById('vux_view_box_body').scrollTop = 0
+  }
+  next()
+})
 
 Vue.config.productionTip = false
 const store = new Vuex.Store(state)

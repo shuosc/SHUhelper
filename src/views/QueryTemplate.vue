@@ -1,8 +1,5 @@
 <template>
   <div style="height:100%;">
-  <view-box ref="viewBox" body-padding-top="46px" body-padding-bottom="0px">
-    <x-header slot="header" title="SHUhelper 2.0 preview" style="width:100%;position:absolute;left:0;top:0;z-index:100;">
-    </x-header>
       <group title="查询信息" >
         <cell title="信息名" :value="$route.params.name"></cell>
         <cell title="来源网站" :value="$route.params.name"></cell>
@@ -11,12 +8,11 @@
       </group>
       <divider>数据库中的信息</divider>
       <div style="height:100%;font-size:0.8rem;" v-html="data.content"></div>
-    </view-box>
-    <popup v-model="showCaptcha">
+    <popup v-model="showCaptcha" is-transparent height="270px">
       <div class="popup">
         <group label-width="4em" label-margin-right="2em" label-align="right">
-          <img :src="'data:image/gif;base64,' + captcha_img"/>
-          <x-input title="验证码" v-model="captcha"></x-input>
+          
+          <x-input title="验证码" v-model="captcha"><img slot="label" :src="'data:image/gif;base64,' + captcha_img"/></x-input>
         </group>
         <group label-width="4em" label-margin-right="2em" label-align="right">
           <x-button type="primary" @click.native="postUpdate()">确认</x-button>
@@ -27,7 +23,7 @@
 </template>
 
 <script>
-import { XHeader, ViewBox, Divider, Group, Cell, XButton, Popup, XInput } from 'vux'
+import { numberPad, XHeader, ViewBox, Divider, Group, Cell, XButton, Popup, XInput } from 'vux'
 import CryptoJS from '../libs/encryption.js'
 export default {
   components: {
@@ -80,7 +76,12 @@ export default {
             _this.data.content = decrypted.toString(CryptoJS.enc.Utf8)
             _this.data.site = response.data.site
             _this.data.subject = response.data.subject
-            _this.data.date = date.getMonth() + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
+            _this.data.date = date.getMonth() + '/' + date.getDate() + ' ' + numberPad(date.getHours(), 2) + ':' + numberPad(date.getMinutes(), 2)
+            _this.$vux.toast.show({
+              position: 'bottom',
+              type: 'text',
+              text: '读取成功'
+            })
           }
         } else {
           _this.$vux.alert.show({
@@ -146,9 +147,10 @@ export default {
       })
       .then((response) => {
         if (response.data.success) {
-          _this.$vux.alert.show({
-            title: '状态',
-            content: '保存成功'
+          _this.$vux.toast.show({
+            position: 'bottom',
+            type: 'text',
+            text: '保存成功'
           })
         }
       })
@@ -173,10 +175,6 @@ export default {
         _this.showCaptcha = false
         if (response.data.success) {
           _this.data.content = response.data.content.data
-          _this.$vux.alert.show({
-            title: '状态',
-            content: '成功'
-          })
           _this.saveToServer()
         } else {
           _this.$vux.alert.show({

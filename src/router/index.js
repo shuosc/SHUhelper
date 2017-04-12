@@ -7,32 +7,30 @@ import Map from '@/views/Map'
 import Frame from '@/views/Frame'
 import QueryTemplate from '@/views/QueryTemplate'
 import ServiceFrame from '@/views/ServiceFrame'
+import Messageboard from '@/views/Messageboard'
 Vue.use(Router)
 
 const routes = [{
   path: '/',
-  name: 'Hello',
   component: Functions
 }, {
   path: '/my',
-  name: 'Hello',
   component: My
 }, {
   path: '/map',
-  name: 'Hello',
   component: Map
 }, {
   path: '/frame/:name',
-  name: 'Hello',
   component: Frame
 }, {
   path: '/service-frame/:name',
-  name: 'Hello',
   component: ServiceFrame
 }, {
   path: '/query/:name',
-  name: 'Hello',
   component: QueryTemplate
+}, {
+  path: '/messageboard',
+  component: Messageboard
 }]
 
 export default routes
