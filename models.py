@@ -8,7 +8,7 @@ from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
                          EmbeddedDocument, EmbeddedDocumentField, ListField,
                          ReferenceField, StringField, connect)
 
-connect('psyduckdev',host='127.0.0.1',port=27017)
+connect('psyduck',host='127.0.0.1',port=27017)
 
 class User(Document):
     email = EmailField()

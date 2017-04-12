@@ -105,20 +105,16 @@ class Services(Client):
 
 class Fin(Client):
     url_prefix = 'http://xssf.shu.edu.cn:8100'
-    def __init__(self):
-        Client.__init__(self)
-        r = self.session.get(self.url_prefix + '/SFP_Share/Home/CheckImgCode',timeout=10,stream=True)
-        self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
 
     def login(self):
-        post_data={'userName':self.card_id,
-            'pwd':self.password,
-            'ktextbox':self.captcha,
-            'hidCheckCode':''}
-        r = self.session.post(self.url_prefix + '/SFP_Share/?Length=5',data = post_data, timeout=10)
+        post_data={'UserCode':self.card_id,
+            'PwdCode':self.password,
+            'ctl06':'登录',
+            '__EVENTVALIDATION':'/wEWBQLrx5O2DQL3zYGiAQKjwImNCwKOv82uCgKm4dCKDAefRD8TOnrH5ZlFjyHdZXRlFD5OzJ2m8gU8P1hoVlJJ',
+            '__VIEWSTATE': '/wEPDwUJNjE0MDc1MjAwZGTG1q3kkRAJ9ATzejrhLuP50q5cqdYCMkJ8W6SZBc+0cw=='}
+        r = self.session.post('http://xssf.shu.edu.cn:8088/LocalLogin.aspx',data = post_data, timeout=10)
         r = self.session.get(self.url_prefix + '/SFP_Share/', timeout = 10)
-        # print(r.text)
-        return r.text.find(u'错误') == -1 and r.text.find(u'不正确') == -1
+        return r.text.find('回首页') != -1
 
     def get_data(self):
         r = self.session.get(self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_PersonInfo',timeout=10)
