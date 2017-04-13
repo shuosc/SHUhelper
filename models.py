@@ -3,10 +3,9 @@ define models
 """
 
 import datetime
-
 from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
                          EmbeddedDocument, EmbeddedDocumentField, ListField,
-                         ReferenceField, StringField, connect)
+                         ReferenceField, StringField,ImageField, connect)
 
 connect('psyduck',host='127.0.0.1',port=27017)
 
@@ -56,10 +55,22 @@ class CourseData(Document):
 
 class Comment(EmbeddedDocument):
     content = StringField()
-    name = StringField(max_length=120)
+    name = StringField(max_length=450)
+
+class MessageBoard(Document):
+    content = StringField()
+    name = StringField(max_length=20)
+    author = ReferenceField(User)
+    create_time = DateTimeField(default=datetime.datetime.now)
+
+class LoveBoard(Document):
+    content = StringField()
+    name = StringField(max_length=20)
 
 class Post(Document):
     title = StringField(max_length=120, required=True)
+    content = StringField()
+    img = ImageField()
     author = ReferenceField(User)
     tags = ListField(StringField(max_length=30))
     comments = ListField(EmbeddedDocumentField(Comment))

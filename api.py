@@ -22,13 +22,37 @@ app.config.from_pyfile('config.py')
 """
 admin view start 
 """
+from flask_admin.contrib.mongoengine import ModelView
 
-admin = Admin(app, name='microblog', template_mode='bootstrap3')
+
+class UserView(ModelView):
+    column_filters = ['card_id']
+    column_searchable_list = ('card_id',)
+
+class MessagesView(ModelView):
+    form_ajax_refs = {
+        'sender': {
+            'fields': ['card_id']
+        },
+        'receiver':{
+            'fields': ['card_id']
+        }
+    }
+class PostView(ModelView):
+    column_searchable_list = ('title',)
+    form_ajax_refs = {
+        'author': {
+            'fields': ['card_id']
+        }
+    }
+admin = Admin(app, name='SHUhelper', template_mode='bootstrap3')
 admin.add_view(UserView(User))
 admin.add_view(ModelView(UserData))
 admin.add_view(MessagesView(Messages))
 admin.add_view(ModelView(Sweetie))
 admin.add_view(ModelView(Functions))
+admin.add_view(ModelView(MessageBoard))
+admin.add_view(PostView(Post))
 path = op.join(op.dirname(__file__), 'static')
 admin.add_view(FileAdmin(path, '/static/', name='Static Files'))
 
@@ -172,6 +196,23 @@ def delete_account():
     """
     # later
     pass
+
+@app.route('/messageboard',methods=['POST', 'GET'])
+def messageboard():
+    if request.method == 'GET':
+        messages_set = MessageBoard.objects()
+        messages = []
+        for message in messages_set:
+            messages.append({
+                'name':message.name,
+                'content':message.content
+            })
+        return jsonify(messages)
+    else:
+        post_data = json.loads(request.get_data().decode('utf-8'))
+        message = MessageBoard(name=post_data['name'],content=post_data['content'])
+        message.save()
+        return jsonify({'success':True})
 
 
 @app.route('/findemptyroom')
