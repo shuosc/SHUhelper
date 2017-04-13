@@ -1,28 +1,36 @@
 <template>
   <div style="height:100%;">
-    <scroller lock-x scrollbar-y height="-100" ref="foodscroller">
+    <scroller lock-x scrollbar-y height="-100" ref="scroller">
         <div>
         <group title="账号">
-          <cell title="姓名" :value="$store.state.account.name"></cell>
-          <cell title="用户名" :value="$store.state.account.nickname"></cell>
-          <cell title="学号" :value="$store.state.account.card_id"></cell>
-        </group>
-        <group title="设置">
-          <cell title="帮助" value="还没写"></cell>
-          <cell title="关于" value="版本 v2.0.0 Preview"></cell>
-        </group>
-        <divider>BUILT WITH ❤</divider>
+        <box gap="10px 10px">
+            <x-input title="姓名" placeholder="" v-model="name"></x-input>
+            <x-textarea title="留言" v-model="content" placeholder="可以在这里写下您的使用反馈，期望建议等等"></x-textarea>
+            <x-button @click.native=" $vux.confirm.show({
+              title:'确认提交？',
+        onCancel () {},
+        onConfirm () {submit()}
+      })" type="primary">提交</x-button>
+        </box>
+          </group>
+          <divider>网站留言</divider>
+        <div v-for="message in messages">
+        <div style="color:#00868B;font-size:1.2rem;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{message.name}}:</div>
+        <div style="padding:10px;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{message.content}}</div>
+        </div>
+      
         </div>
     </scroller>
   </div>
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem } from 'vux'
+import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem, XTextarea, Box } from 'vux'
 
 export default {
   components: {
     Grid,
+    Box,
     Marquee,
     MarqueeItem,
     GroupTitle,
@@ -45,49 +53,51 @@ export default {
     Radio,
     XInput,
     Checker,
-    CheckerItem
+    CheckerItem,
+    XTextarea
   },
   data () {
     return {
-      value: 1,
-      show: false,
-      activateShow: false,
-      cart: {
-        'isempty': true
-      },
-      cardID: '',
-      password: '',
-      orderTime: '0',
-      now: 0,
-      currentFood: {},
-      selectSpecificationShow: false,
-      functions_groups: [{
-        'group_tittle': '常用功能',
-        'functions': [{
-          'tittle': '体育',
-          'icon': 'ico'
-        }, {
-          'tittle': '体育',
-          'icon': 'ico'
-        }, {
-          'tittle': '体育',
-          'icon': 'ico'
-        }, {
-          'tittle': '体育',
-          'icon': 'ico'
-        }, {
-          'tittle': '体育',
-          'icon': 'ico'
-        }, {
-          'tittle': '体育',
-          'icon': 'ico'
-        }]
-      }]
+      name: '',
+      messages: [],
+      content: '',
+      activateShow: false
     }
+  },
+  created: function () {
+    this.getMessages()
   },
   computed: {
   },
   methods: {
+    resetScroller () {
+      this.$nextTick(() => {
+        this.$refs.scroller.reset({
+        })
+      })
+    },
+    getMessages () {
+      this.$http.get('/api/messageboard')
+      .then((response) => {
+        this.messages = response.data
+        this.resetScroller()
+      })
+    },
+    submit () {
+      this.$http.post('/api/messageboard', {
+        'name': this.name,
+        'content': this.content
+      }).then((response) => {
+        if (response.data.success) {
+          this.$vux.toast.show({
+            position: 'bottom',
+            type: 'text',
+            text: '发送成功'
+          })
+          this.getMessages()
+        }
+      })
+    }
   }
 }
 </script>

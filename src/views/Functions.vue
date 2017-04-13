@@ -1,9 +1,8 @@
 <template>
   <div style="height:100%;">
         <div>
-        <marquee style="margin-top:10px;">
-          <marquee-item v-for="i in 5" :key="i" @click.native="onClick(i)"  style="text-align:center;">现在是预览版，功能还不全哦❤</marquee-item>
-        </marquee>
+        <div  @click="getSweetie()" id="sweetie">{{sweetie}}</div>
+
         <div v-for="group in functions_groups">
           <group-title>{{group.group_tittle}}</group-title>
           <grid>
@@ -11,7 +10,9 @@
               <i slot="icon" style="color:#009ACD;font-size:1.5rem;" :class="'iconfont ' + item.icon"></i>
             </grid-item>
           </grid>
+        </marquee>
         </div>
+        
         <divider>Powered by SHUhelper</divider>
         </div>
   </div>
@@ -89,6 +90,7 @@ export default {
   data () {
     return {
       value: 1,
+      sweetie: '“There are no happy endings. Endings are the saddest part, So just give me a happy middle....And a very happy start.”',
       show: false,
       showLoginForm: false,
       is_login: false,
@@ -123,6 +125,10 @@ export default {
           'tittle': '尔美西餐厅预定',
           'icon': 'icon-dppj',
           'url': 'http://mp.weixin.qq.com/s/nT92e0XVFZHJ8XSpV9qtuQ'
+        }, {
+          'tittle': '留言板',
+          'icon': 'icon-kaoshi',
+          'url': '/messageboard'
         }, {
           'tittle': '陆续上线中...',
           'icon': 'icon-certificate'
@@ -191,10 +197,17 @@ export default {
     if (localStorage.getItem('loginstate') !== null && this.$store.state.account.token === '') {
       this.verifyToken()
     }
+    this.getSweetie()
   },
   computed: {
   },
   methods: {
+    getSweetie () {
+      this.$http.get('/api/sweetie')
+      .then((response) => {
+        this.sweetie = response.data
+      })
+    },
     logout () {
       var token = this.$store.state.account.token
       localStorage.clear()
@@ -236,4 +249,14 @@ export default {
 </script>
 
 <style>
+#sweetie {
+  color:#fff;
+  border-radius: 15px;
+  margin:10px;
+  padding:5px;
+  font-size:0.8rem;
+  background-color:rgba(83,134,139,0.70);
+  text-shadow:0px 0px 0px #000;
+  text-align:center;
+}
 </style>

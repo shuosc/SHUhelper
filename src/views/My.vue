@@ -10,6 +10,7 @@
         <group title="设置">
           <cell title="帮助" value="还没写"></cell>
           <cell title="关于" value="版本 v2.0.0 Preview"></cell>
+          <cell title="微信公众号" value="搜索添加:shuhelper"></cell>
         </group>
         <divider>BUILT WITH ❤</divider>
         </div>
