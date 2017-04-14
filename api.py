@@ -10,7 +10,10 @@ import random
 from flask import Flask, Response, jsonify, request, session
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
+from flask_admin.contrib.mongoengine import ModelView
 
+import empty_room
+import schooltime
 from adminview import *
 from client import *
 from config import CACHE
@@ -22,7 +25,6 @@ app.config.from_pyfile('config.py')
 """
 admin view start 
 """
-from flask_admin.contrib.mongoengine import ModelView
 
 
 class UserView(ModelView):
@@ -200,7 +202,7 @@ def delete_account():
 @app.route('/messageboard',methods=['POST', 'GET'])
 def messageboard():
     if request.method == 'GET':
-        messages_set = MessageBoard.objects()
+        messages_set = MessageBoard.objects().order_by('-create_time')
         messages = []
         for message in messages_set:
             messages.append({
@@ -215,13 +217,32 @@ def messageboard():
         return jsonify({'success':True})
 
 
-@app.route('/findemptyroom')
+@app.route('/classrooms/empty')
 def findemptyroom():
+    week = request.args.get('week')
+    day = request.args.get('day')
+    time = request.args.get('time')
+    if (not week or not day or not time):
+        result = {
+            'week': schooltime.this_week(),
+            'day': schooltime.this_day(),
+            'time': schooltime.this_class(),
+            'rooms': empty_room.get_emptyroom_now()
+        }
+    else:
+        result = {
+            'week': week,
+            'day': day,
+            'time': time,
+            'rooms': empty_room.get_emptyroom(int(week), int(day), int(time))
+        }
+    return jsonify(result)
+
+@app.route('/classrooms/<room>')
+def room_schedule(room):
     result = {
-        'week': schooltime.this_week(),
-        'day': schooltime.this_day(),
-        'time': schooltime.this_class(),
-        'rooms': emptyroom.get_emptyroom_now()
+        'room': room,
+        'schedule': empty_room.get_room_schedule(room)
     }
     return jsonify(result)
 

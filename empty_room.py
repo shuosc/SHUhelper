@@ -10,11 +10,11 @@ from api import app
 JSON_FILE = open(os.path.join(app.root_path, 'classroomdata.json'))
 CLASSROOM_DICT = json.load(JSON_FILE)
 
-def get_room_schedule(room, week):
+def get_room_schedule(room):
     """
     return a schedule of a given room in this semster
     """
-    return CLASSROOM_DICT[room][week-1]
+    return CLASSROOM_DICT.get(room)
 
 def is_room_empty(room, week, day, time):
     """

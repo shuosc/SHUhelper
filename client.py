@@ -153,7 +153,6 @@ class Lehu(Client):
 
     def get_data(self):
         r = self.session.get(self.url_prefix +'/CardTradeDetail.aspx',timeout = 30)
-        print(r.text)
         content = re.search(r'<span id="ctl00_Contentplaceholder1_Label1">([\s\S]*)</form>',r.text,flags=0).group(0)
         self.data = content
         return True
@@ -181,9 +180,7 @@ class XK(Client):
             'txtUserName':self.card_id,
             'txtPassword':self.password,
             'txtValiCode':self.captcha}
-        print(post_data)
         r = self.session.post(self.url_prefix + '/',data=post_data, headers=self.headers, timeout=60)
-        print(r.text)
         # if r.text.find(u'验证码错误') != -1 or r.text.find(u'帐号或密码错误')!=-1 or r.text.find(u'教学评估') != -1:
         return r.text.find('首页')!= -1
 
