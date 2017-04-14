@@ -1,20 +1,22 @@
 <template>
-  <div style="height:100%;">
-        <div>
-        <div  @click="getSweetie()" id="sweetie">{{sweetie}}</div>
-
-        <div v-for="group in functions_groups">
-          <group-title>{{group.group_tittle}}</group-title>
-          <grid>
-            <grid-item style="text-align:center;":link="item.url" :label="item.tittle" v-for="item in group.functions">
-              <i slot="icon" style="color:#009ACD;font-size:1.5rem;" :class="'iconfont ' + item.icon"></i>
-            </grid-item>
-          </grid>
-        </marquee>
-        </div>
-        
-        <divider>Powered by SHUhelper</divider>
-        </div>
+  <div>
+    <div @click="getSweetie()"
+         id="sweetie">{{sweetie}}</div>
+    <div v-for="group in functions_groups">
+      <group-title>{{group.group_tittle}}</group-title>
+      <grid>
+        <grid-item style="text-align:center;"
+                   :link="item.url"
+                   :label="item.tittle"
+                   v-for="item in group.functions">
+          <i slot="icon"
+             style="color:#009ACD;font-size:1.5rem;"
+             :class="'iconfont ' + item.icon"></i>
+        </grid-item>
+      </grid>
+      </marquee>
+    </div>
+    <divider>Powered by SHUhelper</divider>
   </div>
 </template>
 
@@ -87,7 +89,7 @@ export default {
     Checker,
     CheckerItem
   },
-  data () {
+  data() {
     return {
       value: 1,
       sweetie: '“There are no happy endings. Endings are the saddest part, So just give me a happy middle....And a very happy start.”',
@@ -112,7 +114,7 @@ export default {
         }, {
           'tittle': '空教室查询',
           'icon': 'icon-xiangtongfangjianrenwu',
-          'url': '/service-frame/findemptyroom'
+          'url': '/classrooms'
         }, {
           'tittle': '都有空吗',
           'icon': 'icon-group',
@@ -130,68 +132,82 @@ export default {
           'icon': 'icon-kaoshi',
           'url': '/messageboard'
         }, {
+          'tittle': '排课助手(PC)',
+          'icon': 'icon-paw',
+          'url': 'http://xk.shuhelper.cn/'
+        }, {
+          'tittle': '本学期课程查询',
+          'icon': 'icon-book',
+          'url': '/courses'
+        }, {
           'tittle': '陆续上线中...',
           'icon': 'icon-certificate'
-        }]}, {
-          'group_tittle': '常用查询',
-          'functions': [{
-            'tittle': '晨跑课外活动',
-            'icon': 'icon-tiyu2',
-            'url': '/query/tiyu'
-          }, {
-            'tittle': '课外活动时间表',
-            'icon': 'icon-tiyu1',
-            'url': '/frame/activities'
-          }, {
-            'tittle': '校历',
-            'icon': 'icon-rili',
-            'url': '/frame/cal'
-          }, {
-            'tittle': '课表',
-            'icon': 'icon-course-table',
-            'url': '/query/xk'
-          }, {
-            'tittle': '成绩',
-            'icon': 'icon-tubiaozhizuomoban',
-            'url': '/query/cj'
-          }, {
-            'tittle': '校园地图',
-            'icon': 'icon-map-o',
-            'url': '/frame/map'
-          }, {
-            'tittle': '体育场馆地图',
-            'icon': 'icon-map',
-            'url': '/frame/pemap'
-          }, {
-            'tittle': '就医指导',
-            'icon': 'icon-yiyuan',
-            'url': '/frame/med'
-          }, {
-            'tittle': '电话黄页',
-            'icon': 'icon-huangye',
-            'url': '/frame/tel'
-          }, {
-            'tittle': '校车运行',
-            'icon': 'icon-bus',
-            'url': '/frame/bus'
-          }, {
-            'tittle': '场馆开放',
-            'icon': 'icon-icon',
-            'url': '/frame/serviceschedule'
-          }, {
-            'tittle': '一卡通余额流水',
-            'icon': 'icon-icon1',
-            'url': '/query/lehu'
-          }, {
-            'tittle': '财务缴费',
-            'icon': 'icon-money',
-            'url': '/query/fin'
-          }, {
-            'tittle': '陆续上线中...',
-            'icon': 'icon-certificate'
-          }]
-        }
-      ]}
+        }]
+      }, {
+        'group_tittle': '常用查询',
+        'functions': [{
+          'tittle': '晨跑课外活动',
+          'icon': 'icon-tiyu2',
+          'url': '/query/tiyu'
+        }, {
+          'tittle': '课外活动时间表',
+          'icon': 'icon-tiyu1',
+          'url': '/frame/activities'
+        }, {
+          'tittle': '校历',
+          'icon': 'icon-rili',
+          'url': '/frame/cal'
+        }, {
+          'tittle': '课表',
+          'icon': 'icon-course-table',
+          'url': '/query/xk'
+        }, {
+          'tittle': '成绩',
+          'icon': 'icon-tubiaozhizuomoban',
+          'url': '/query/cj'
+        }, {
+          'tittle': '校园地图',
+          'icon': 'icon-map-o',
+          'url': '/frame/map'
+        }, {
+          'tittle': '体育场馆地图',
+          'icon': 'icon-map',
+          'url': '/frame/pemap'
+        }, {
+          'tittle': '就医指导',
+          'icon': 'icon-yiyuan',
+          'url': '/frame/med'
+        }, {
+          'tittle': '电话黄页',
+          'icon': 'icon-huangye',
+          'url': '/frame/tel'
+        }, {
+          'tittle': '校车运行',
+          'icon': 'icon-bus',
+          'url': '/frame/bus'
+        }, {
+          'tittle': '场馆开放',
+          'icon': 'icon-icon',
+          'url': '/frame/serviceschedule'
+        }, {
+          'tittle': '机房开放',
+          'icon': 'icon-desktop',
+          'url': '/frame/freelab'
+        }, {
+          'tittle': '一卡通余额流水',
+          'icon': 'icon-icon1',
+          'url': '/query/lehu'
+        }, {
+          'tittle': '财务缴费',
+          'icon': 'icon-money',
+          'url': '/query/fin'
+        }, {
+          'tittle': '陆续上线中...',
+          'icon': 'icon-certificate'
+        }]
+      }
+      ]
+    }
   },
   created: function () {
     if (localStorage.getItem('loginstate') !== null && this.$store.state.account.token === '') {
@@ -202,13 +218,13 @@ export default {
   computed: {
   },
   methods: {
-    getSweetie () {
+    getSweetie() {
       this.$http.get('/api/sweetie')
-      .then((response) => {
-        this.sweetie = response.data
-      })
+        .then((response) => {
+          this.sweetie = response.data
+        })
     },
-    logout () {
+    logout() {
       var token = this.$store.state.account.token
       localStorage.clear()
       this.$http.get('/api/accounts/logout?token=' + token)
@@ -220,25 +236,25 @@ export default {
       this.$store.commit('clearAccount')
       console.log('logout')
     },
-    verifyToken () {
+    verifyToken() {
       var _this = this
       var token = JSON.parse(localStorage.getItem('loginstate')).token
       this.$http.get('/api/accounts/login-with-token?token=' + token)
-      .then((response) => {
-        if (response.data.success) {
-          var payload = JSON.parse(localStorage.getItem('loginstate'))
-          _this.$store.commit('updateAccount', payload)
-          this.$vux.toast.show({
-            position: 'bottom',
-            type: 'text',
-            text: '已使用缓存登录'
-          })
-        } else {
-          _this.logout()
-        }
-      })
+        .then((response) => {
+          if (response.data.success) {
+            var payload = JSON.parse(localStorage.getItem('loginstate'))
+            _this.$store.commit('updateAccount', payload)
+            this.$vux.toast.show({
+              position: 'bottom',
+              type: 'text',
+              text: '已使用缓存登录'
+            })
+          } else {
+            _this.logout()
+          }
+        })
     },
-    resetScroller () {
+    resetScroller() {
       this.$nextTick(() => {
         this.$refs.scroller.reset({
         })
@@ -250,13 +266,13 @@ export default {
 
 <style>
 #sweetie {
-  color:#fff;
+  color: #fff;
   border-radius: 15px;
-  margin:10px;
-  padding:5px;
-  font-size:0.8rem;
-  background-color:rgba(83,134,139,0.70);
-  text-shadow:0px 0px 0px #000;
-  text-align:center;
+  margin: 10px;
+  padding: 5px;
+  font-size: 0.8rem;
+  background-color: rgba(83, 134, 139, 0.70);
+  text-shadow: 0px 0px 0px #000;
+  text-align: center;
 }
 </style>

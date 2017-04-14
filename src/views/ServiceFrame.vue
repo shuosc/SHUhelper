@@ -1,6 +1,7 @@
 <template>
   <div style="height:100%;">
-    <iframe style="height:100%;width:100%" :src="'https://old.shuhelper.cn/' + $route.params.name"></iframe>
+    <iframe style="height:100%;width:100%"
+            :src="'https://old.shuhelper.cn/' + $route.params.name"></iframe>
   </div>
 </template>
 
@@ -12,7 +13,7 @@ export default {
     XHeader,
     ViewBox
   },
-  data () {
+  data() {
     return {
     }
   },

@@ -8,6 +8,8 @@ import Frame from '@/views/Frame'
 import QueryTemplate from '@/views/QueryTemplate'
 import ServiceFrame from '@/views/ServiceFrame'
 import Messageboard from '@/views/Messageboard'
+import Classrooms from '@/views/Classrooms'
+import Courses from '@/views/Courses'
 Vue.use(Router)
 
 const routes = [{
@@ -31,6 +33,12 @@ const routes = [{
 }, {
   path: '/messageboard',
   component: Messageboard
+}, {
+  path: '/classrooms',
+  component: Classrooms
+}, {
+  path: '/courses',
+  component: Courses
 }]
 
 export default routes

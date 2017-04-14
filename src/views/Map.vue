@@ -1,6 +1,7 @@
 <template>
   <div style="height:100%;">
-    <iframe style="height:100%;width:100%" src="http://static.shuhelper.cn/map.html"></iframe>
+    <iframe style="height:100%;width:100%"
+            src="http://static.shuhelper.cn/map.html"></iframe>
   </div>
 </template>
 
@@ -34,14 +35,14 @@ export default {
     Checker,
     CheckerItem
   },
-  data () {
+  data() {
     return {
     }
   },
   computed: {
   },
   methods: {
-    resetScroller () {
+    resetScroller() {
       this.$nextTick(() => {
         this.$refs.cartscroller.reset({
         })

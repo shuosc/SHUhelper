@@ -1,19 +1,28 @@
 <template>
   <div style="height:100%;">
-    <scroller lock-x scrollbar-y height="-100" ref="foodscroller">
-        <div>
+    <scroller lock-x
+              scrollbar-y
+              height="-100"
+              ref="scroller">
+      <div>
         <group title="账号">
-          <cell title="姓名" :value="$store.state.account.name"></cell>
-          <cell title="用户名" :value="$store.state.account.nickname"></cell>
-          <cell title="学号" :value="$store.state.account.card_id"></cell>
+          <cell title="姓名"
+                :value="$store.state.account.name"></cell>
+          <cell title="用户名"
+                :value="$store.state.account.nickname"></cell>
+          <cell title="学号"
+                :value="$store.state.account.card_id"></cell>
         </group>
         <group title="设置">
-          <cell title="帮助" value="还没写"></cell>
-          <cell title="关于" value="版本 v2.0.0 Preview"></cell>
-          <cell title="微信公众号" value="搜索添加:shuhelper"></cell>
+          <cell title="帮助"
+                value="还没写"></cell>
+          <cell title="关于"
+                value="版本 v2.0.0 Preview"></cell>
+          <cell title="微信公众号"
+                value="搜索添加:shuhelper"></cell>
         </group>
         <divider>BUILT WITH ❤</divider>
-        </div>
+      </div>
     </scroller>
   </div>
 </template>
@@ -48,7 +57,7 @@ export default {
     Checker,
     CheckerItem
   },
-  data () {
+  data() {
     return {
       value: 1,
       show: false,

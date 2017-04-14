@@ -34,6 +34,13 @@ module.exports = {
           pathRewrite: {
               '^/api': ''
           }
+      },
+      '/xk': {
+          target: 'http://xk.shuhelper.cn/api',
+          changeOrigin: true,
+          pathRewrite: {
+              '^/xk': ''
+            }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
