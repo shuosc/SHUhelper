@@ -118,7 +118,7 @@ export default {
         }, {
           'tittle': '都有空吗',
           'icon': 'icon-group',
-          'url': 'https://old.shuhelper.cn/findfreetime/member'
+          'url': '/findfreetime'
         }, {
           'tittle': '一键退学',
           'icon': 'icon-drivers-license-o',

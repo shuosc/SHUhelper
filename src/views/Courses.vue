@@ -14,11 +14,11 @@
         <selector title="校区"
                   :options="['本部','嘉定','延长']"
                   v-model="campus"></selector>
-        <x-button type="primary"
-                  @click.native="(page=1)&&getCourses()">查询</x-button>
       </group>
+      <x-button type="primary"
+                @click.native="(page=1)&&getCourses()">查询</x-button>
       <divider>查询结果</divider>
-      <table style="text-align:center;">
+      <table style="text-align:center;width:100%;">
         <thead>
           <tr style="font-size:0.4rem;background-color: rgba(100, 109, 237, 0.70);">
             <th style="width:50px;">课程号</th>

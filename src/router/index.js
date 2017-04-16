@@ -10,6 +10,8 @@ import ServiceFrame from '@/views/ServiceFrame'
 import Messageboard from '@/views/Messageboard'
 import Classrooms from '@/views/Classrooms'
 import Courses from '@/views/Courses'
+import FindFreeTime from '@/views/FindFreeTime'
+
 Vue.use(Router)
 
 const routes = [{
@@ -39,6 +41,9 @@ const routes = [{
 }, {
   path: '/courses',
   component: Courses
+}, {
+  path: '/findfreetime',
+  component: FindFreeTime
 }]
 
 export default routes
