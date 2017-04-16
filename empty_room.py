@@ -5,7 +5,7 @@ import json
 import os
 
 import schooltime
-from api import app
+from config import app
 
 JSON_FILE = open(os.path.join(app.root_path, 'classroomdata.json'))
 CLASSROOM_DICT = json.load(JSON_FILE)

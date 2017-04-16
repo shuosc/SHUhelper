@@ -16,10 +16,9 @@ import empty_room
 import schooltime
 from adminview import *
 from client import *
-from config import CACHE
+from config import CACHE, app
 from models import *
-
-app = Flask(__name__, instance_relative_config=True)
+import find_free_time
 app.config.from_pyfile('config.py')
 
 """
@@ -255,6 +254,43 @@ def room_schedule(room):
 #     }
 #     return jsonify(result)
 
+
+@app.route('/findfreetime', methods=['POST', 'GET'])
+def findfreetime_member():
+    if request.method == 'POST':
+        usr = session['card_id']
+        post_data = json.loads(request.get_data().decode('utf-8'))
+        schedule = post_data['schedule']
+        week = post_data['week']
+        code = post_data['code']
+        time_list = find_free_time.get_binary_json_from_course_table(schedule,week)
+        time_lists = [] if CACHE.get(code) is None else CACHE.get(code)
+        time_lists.append(time_list)
+        CACHE.set(code, time_lists,timeout = 600)
+        return jsonify({
+                'success':True
+            })
+    elif request.method == 'GET':
+        code = request.args.get('code')
+        if CACHE.get(code) is not None:
+            time_lists = CACHE.get(code)
+            count = len(time_lists)
+            raw_list =  find_free_time.detect_conflict(time_lists)
+            Traverse_list = [([1] * 5) for i in range(0,13)]
+            for j in range(0,5):
+                for i in range(0,13):
+                    Traverse_list[i][j]=raw_list[j][i]
+            return jsonify({
+                'success':True,
+                'answer': Traverse_list,
+                'count': count
+            })
+        else:
+            return jsonify({
+                'success':False
+            })
+
+
 @app.route('/messages')
 def get_messages():
     """
@@ -381,13 +417,6 @@ def get_posts():
 def get_courses():
     """
     for course query system
-    """
-    pass
-
-@app.route('/services/find-free-time')
-def find_free_time():
-    """
-    for find freetime
     """
     pass
 
