@@ -1,10 +1,5 @@
 <template>
-  <scroller lock-x
-            scrollbar-y
-            height="-96"
-            ref="scroller"
-            use-pullup
-            @on-pullup-loading="getCourses()">
+  <div>
     <div>
       <group gutter="0">
         <x-input title="课程名"
@@ -14,36 +9,45 @@
         <selector title="校区"
                   :options="['本部','嘉定','延长']"
                   v-model="campus"></selector>
+        <x-button type="primary"
+                  @click.native="(page=1)&&getCourses()">查询</x-button>
       </group>
-      <x-button type="primary"
-                @click.native="(page=1)&&getCourses()">查询</x-button>
       <divider>查询结果</divider>
-      <table style="text-align:center;width:100%;">
-        <thead>
-          <tr style="font-size:0.4rem;background-color: rgba(100, 109, 237, 0.70);">
-            <th style="width:50px;">课程号</th>
-            <th>课程名</th>
-            <th>教师名</th>
-            <th>课程地点</th>
-            <th>课程时间</th>
-            <th>答疑地点</th>
-            <th>答疑时间</th>
-          </tr>
-        </thead>
-        <tbody style="font-size:0.6rem;background-color: rgba(100, 109, 237, 0.10);">
-          <tr v-for="course in list">
-            <td>{{course.courseno}}</td>
-            <td>{{course.coursename}}</td>
-            <td>{{course.teachname}}</td>
-            <td>{{course.courseplace}}</td>
-            <td>{{course.coursetime}}</td>
-            <td>{{course.qplace}}</td>
-            <td>{{course.qtime}}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
-  </scroller>
+    <scroller lock-x
+              scrollbar-y
+              height="-307"
+              ref="scroller"
+              use-pullup
+              @on-pullup-loading="getCourses()">
+      <div>
+        <table style="text-align:center;width:100%;">
+          <thead>
+            <tr style="font-size:0.4rem;background-color: rgba(100, 109, 237, 0.70);">
+              <th style="width:50px;">课程号</th>
+              <th>课程名</th>
+              <th>教师名</th>
+              <th>课程地点</th>
+              <th>课程时间</th>
+              <th>答疑地点</th>
+              <th>答疑时间</th>
+            </tr>
+          </thead>
+          <tbody style="font-size:0.6rem;background-color: rgba(100, 109, 237, 0.10);">
+            <tr v-for="course in list">
+              <td>{{course.courseno}}</td>
+              <td>{{course.coursename}}</td>
+              <td>{{course.teachname}}</td>
+              <td>{{course.courseplace}}</td>
+              <td>{{course.coursetime}}</td>
+              <td>{{course.qplace}}</td>
+              <td>{{course.qtime}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </scroller>
+  </div>
 </template>
 
 <script>

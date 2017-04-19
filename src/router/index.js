@@ -11,6 +11,7 @@ import Messageboard from '@/views/Messageboard'
 import Classrooms from '@/views/Classrooms'
 import Courses from '@/views/Courses'
 import FindFreeTime from '@/views/FindFreeTime'
+import SUIndex from '@/views/SUIndex'
 
 Vue.use(Router)
 
@@ -44,6 +45,8 @@ const routes = [{
 }, {
   path: '/findfreetime',
   component: FindFreeTime
+}, {
+  path: '/index-su',
+  component: SUIndex
 }]
-
 export default routes
