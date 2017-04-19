@@ -1,25 +1,26 @@
 <template>
-  <div>
+  <scroller lock-x
+            scrollbar-y
+            height="-96"
+            ref="scroller"
+            use-pullup
+            @on-pullup-loading="getCourses()">
     <div>
-      <group gutter="0">
-        <x-input title="课程名"
-                 v-model="coursename"></x-input>
-        <x-input title="教师名"
-                 v-model="teachname"></x-input>
-        <selector title="校区"
-                  :options="['本部','嘉定','延长']"
-                  v-model="campus"></selector>
-        <x-button type="primary"
-                  @click.native="(page=1)&&getCourses()">查询</x-button>
-      </group>
-      <divider>查询结果</divider>
-    </div>
-    <scroller lock-x
-              scrollbar-y
-              height="-307"
-              ref="scroller"
-              use-pullup
-              @on-pullup-loading="getCourses()">
+      <div>
+        <group gutter="0">
+          <x-input title="课程名"
+                   v-model="coursename"></x-input>
+          <x-input title="教师名"
+                   v-model="teachname"></x-input>
+          <selector title="校区"
+                    :options="['本部','嘉定','延长']"
+                    v-model="campus"></selector>
+          <x-button type="primary"
+                    @click.native="(page=1)&&getCourses()">查询</x-button>
+        </group>
+        <divider>查询结果</divider>
+      </div>
+  
       <div>
         <table style="text-align:center;width:100%;">
           <thead>
@@ -46,8 +47,8 @@
           </tbody>
         </table>
       </div>
-    </scroller>
-  </div>
+    </div>
+  </scroller>
 </template>
 
 <script>
