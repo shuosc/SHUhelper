@@ -1,7 +1,7 @@
 """
 define models
 """
-
+from flask_login import UserMixin
 import datetime
 from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
                          EmbeddedDocument, EmbeddedDocumentField, ListField,
@@ -9,7 +9,7 @@ from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
 
 connect('psyduck',host='127.0.0.1',port=27017)
 
-class User(Document):
+class User(UserMixin, Document):
     email = EmailField()
     name = StringField()
     nickname = StringField()

@@ -8,9 +8,6 @@ import os.path as op
 import random
 
 from flask import Flask, Response, jsonify, request, session
-from flask_admin import Admin
-from flask_admin.contrib.fileadmin import FileAdmin
-from flask_admin.contrib.mongoengine import ModelView
 
 import empty_room
 import find_free_time
@@ -18,19 +15,36 @@ import schooltime
 from adminview import *
 from client import *
 from config import CACHE, app
+from flask_admin import Admin
+from flask_admin.contrib.fileadmin import FileAdmin
+from flask_admin.contrib.mongoengine import ModelView
+from flask_login import LoginManager, login_required
+import flask_login
 from models import *
 
+login_manager = LoginManager()
 app.config.from_pyfile('config.py')
+login_manager.init_app(app)
 # mail = Mail(app)
 """
 admin view start 
 """
 
+@login_manager.user_loader
+def load_user(card_id):
+    return User.objects(card_id=card_id)
+
+class PrivateModelView(ModelView):
+    def is_accessible(self):
+        return flask_login.current_user.is_authenticated and flask_login.current_user.role == 'admin'
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login', next=request.url))
+
 class UserView(ModelView):
     column_filters = ['card_id']
     column_searchable_list = ('card_id',)
     can_delete = False
-    can_edit = False
     column_exclude_list = ['open_id', 'phone', 'create_time', 'email']
 
 class UserDataView(ModelView):
@@ -87,6 +101,7 @@ def token():
     return salt
 
 @app.route('/')
+@login_required
 def test():
     """
     just a test
@@ -146,6 +161,7 @@ def login():
         session['card_id'] = user.card_id
         CACHE.set(user.token, post_data['card_id'], timeout=86400)
         user.save()
+        login_user(user)
     else:
         result = {
             'success': False,
@@ -160,6 +176,7 @@ def logout():
     token = request.args.get('token')
     CACHE.delete(token)
     session.pop('card_id', None)
+    logout_user()
     return jsonify({
         'success': True
     })
@@ -170,8 +187,11 @@ def token_login():
     """
     token = request.args.get('token')
     if CACHE.get(token) != None:
-        CACHE.set(token, CACHE.get(token), timeout=86400)
-        session['card_id'] = CACHE.get(token)
+        card_id = CACHE.get(token)
+        CACHE.set(token, card_id, timeout=86400)
+        session['card_id'] = card_id
+        user = User.objects(card_id=card_id.first()
+        login_user(user)
         result = {
             'success': True,
             }
@@ -310,6 +330,7 @@ def get_messages():
     return json.dumps(messages)
 
 @app.route('/queries/<site>')
+@login_required
 def get_query(site):
     """
     get encrypted cached query result from database
@@ -338,6 +359,7 @@ def get_query(site):
     return json.dumps(result)
 
 @app.route('/queries/<site>/refresh', methods=['POST', 'GET'])
+@login_required
 def refresh_query(site):
     """
     update query result if it doesn't exists or expried, use user ID and password and captcha (if there is)
