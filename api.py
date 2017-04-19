@@ -13,22 +13,30 @@ from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.mongoengine import ModelView
 
 import empty_room
+import find_free_time
 import schooltime
 from adminview import *
 from client import *
 from config import CACHE, app
 from models import *
-import find_free_time
-app.config.from_pyfile('config.py')
 
+app.config.from_pyfile('config.py')
+# mail = Mail(app)
 """
 admin view start 
 """
 
-
 class UserView(ModelView):
     column_filters = ['card_id']
     column_searchable_list = ('card_id',)
+    can_delete = False
+    can_edit = False
+    column_exclude_list = ['open_id', 'phone', 'create_time', 'email']
+
+class UserDataView(ModelView):
+    can_edit = False
+    can_create = False
+    column_exclude_list = ['data',]
 
 class MessagesView(ModelView):
     form_ajax_refs = {
@@ -48,7 +56,7 @@ class PostView(ModelView):
     }
 admin = Admin(app, name='SHUhelper', template_mode='bootstrap3')
 admin.add_view(UserView(User))
-admin.add_view(ModelView(UserData))
+admin.add_view(UserDataView(UserData))
 admin.add_view(MessagesView(Messages))
 admin.add_view(ModelView(Sweetie))
 admin.add_view(ModelView(Functions))
@@ -383,7 +391,7 @@ def refresh_query(site):
 @app.route('/queries/<site>/save', methods=['POST', 'GET'])
 def cache_query_result(site):
     """
-    save encrypted query result sent from client in database 
+    save encrypted query result sent from client to database 
     """
     card_id = session['card_id']
     post_data = json.loads(request.get_data().decode('utf-8'))
