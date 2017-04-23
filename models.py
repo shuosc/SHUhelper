@@ -20,6 +20,8 @@ class User(UserMixin, Document):
     create_time = DateTimeField(default=datetime.datetime.now)
     def __unicode__(self):
         return self.card_id + self.name
+    def get_id(self):
+        return self.card_id
 
 class UserData(Document):
     data = StringField()

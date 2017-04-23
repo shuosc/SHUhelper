@@ -7,7 +7,7 @@ import json
 import os.path as op
 import random
 
-from flask import Flask, Response, jsonify, request, session
+from flask import Flask, Response, jsonify, request, session, flash, render_template
 
 import empty_room
 import find_free_time
@@ -18,67 +18,42 @@ from config import CACHE, app
 from flask_admin import Admin
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.mongoengine import ModelView
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, login_user
 import flask_login
+from flask_babelex import Babel
 from models import *
+import adminview as av
+
+
+app.config.from_pyfile('config.py')
 
 login_manager = LoginManager()
-app.config.from_pyfile('config.py')
 login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(card_id):
+    return User.objects(card_id=card_id).first()
+
+babel = Babel(app)
+app.config['BABEL_DEFAULT_LOCALE'] = 'zh_CN'
 # mail = Mail(app)
 """
 admin view start 
 """
-
-@login_manager.user_loader
-def load_user(card_id):
-    return User.objects(card_id=card_id)
-
-class PrivateModelView(ModelView):
-    def is_accessible(self):
-        return flask_login.current_user.is_authenticated and flask_login.current_user.role == 'admin'
-
-    def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('login', next=request.url))
-
-class UserView(ModelView):
-    column_filters = ['card_id']
-    column_searchable_list = ('card_id',)
-    can_delete = False
-    column_exclude_list = ['open_id', 'phone', 'create_time', 'email']
-
-class UserDataView(ModelView):
-    can_edit = False
-    can_create = False
-    column_exclude_list = ['data',]
-
-class MessagesView(ModelView):
-    form_ajax_refs = {
-        'sender': {
-            'fields': ['card_id']
-        },
-        'receiver':{
-            'fields': ['card_id']
-        }
-    }
-class PostView(ModelView):
-    column_searchable_list = ('title',)
-    form_ajax_refs = {
-        'author': {
-            'fields': ['card_id']
-        }
-    }
 admin = Admin(app, name='SHUhelper', template_mode='bootstrap3')
-admin.add_view(UserView(User))
-admin.add_view(UserDataView(UserData))
-admin.add_view(MessagesView(Messages))
-admin.add_view(ModelView(Sweetie))
-admin.add_view(ModelView(Functions))
-admin.add_view(ModelView(MessageBoard))
-admin.add_view(PostView(Post))
+admin.add_view(av.UserView(User))
+admin.add_view(av.UserDataView(UserData))
+admin.add_view(av.MessagesView(Messages))
+admin.add_view(av.BasicPrivateModelView(Sweetie))
+admin.add_view(av.BasicPrivateModelView(Functions))
+admin.add_view(av.BasicPrivateModelView(MessageBoard))
+admin.add_view(av.PostView(Post))
 path = op.join(op.dirname(__file__), 'static')
-admin.add_view(FileAdmin(path, '/static/', name='Static Files'))
-
+admin.add_view(av.BasicPrivateFileAdminView(path, '/static/', name='Static Files'))
+admin.add_link(av.NotAuthenticatedMenuLink(name='登录',
+                                            endpoint='login_view'))
+admin.add_link(av.AuthenticatedMenuLink(name='注销',
+                                         endpoint='logout_view'))
 """
 end adminview defines
 """
@@ -99,6 +74,45 @@ def token():
         sa.append(random.choice(seed))
     salt = ''.join(sa)
     return salt
+
+def validate(card_id, password):
+    client = Services()
+    client.card_id = card_id
+    client.password = password
+    if client.login() and client.get_data():
+        result = {
+            'success': True,
+            'name': client.data['name'],
+            'card_id': card_id
+        }
+    else:
+        result = {
+            'success': False
+        }
+    return result
+
+@app.route('/login', methods=['GET','POST'])
+def login_view():
+    if request.method == 'POST':
+            card_id = request.form['card_id']
+            password = request.form['password']
+            user = User.objects(card_id=card_id).first()
+            result = validate(card_id, password)
+            if result['success']:
+                if user == None or not av.has_auth(user.role, 'basic'):
+                    flash('无权限')
+                    return redirect('/admin')
+                flask_login.login_user(user)
+            else:
+                user = User()
+            return redirect('/admin')
+    else:
+        return redirect(url_for('admin.index'))
+
+@app.route('/logout')
+def logout_view():
+    flask_login.logout_user()
+    return redirect(url_for('admin.index'))
 
 @app.route('/')
 @login_required
@@ -161,7 +175,7 @@ def login():
         session['card_id'] = user.card_id
         CACHE.set(user.token, post_data['card_id'], timeout=86400)
         user.save()
-        login_user(user)
+        flask_login.login_user(user)
     else:
         result = {
             'success': False,
@@ -176,7 +190,7 @@ def logout():
     token = request.args.get('token')
     CACHE.delete(token)
     session.pop('card_id', None)
-    logout_user()
+    flask_login.logout_user()
     return jsonify({
         'success': True
     })
@@ -190,7 +204,7 @@ def token_login():
         card_id = CACHE.get(token)
         CACHE.set(token, card_id, timeout=86400)
         session['card_id'] = card_id
-        user = User.objects(card_id=card_id.first()
+        user = User.objects(card_id=card_id.first())
         login_user(user)
         result = {
             'success': True,
