@@ -1,36 +1,21 @@
 <template>
   <div>
     <group title="查询信息">
-      <cell title="信息名"
-            :value="$route.params.name"></cell>
-      <cell title="来源网站"
-            :value="$route.params.name"></cell>
-      <cell title="上次更新日期"
-            :value="data.date"></cell>
-      <x-button type="primary"
-                style="margin-top:10px;"
-                @click.native="updateData()">更新数据</x-button>
+      <cell title="信息名" :value="$route.params.name"></cell>
+      <cell title="来源网站" :value="$route.params.name"></cell>
+      <cell title="上次更新日期" :value="data.date"></cell>
+      <x-button type="primary" style="margin-top:10px;" @click.native="updateData()">更新数据</x-button>
     </group>
     <divider>数据库中的信息</divider>
-    <div style="font-size:0.8rem;"
-         v-html="data.content"></div>
-    <popup v-model="showCaptcha"
-           is-transparent
-           height="270px">
+    <div style="font-size:0.8rem;" v-html="data.content"></div>
+    <popup v-model="showCaptcha" is-transparent height="270px">
       <div class="popup">
-        <group label-width="4em"
-               label-margin-right="2em"
-               label-align="right">
+        <group label-width="4em" label-margin-right="2em" label-align="right">
   
-          <x-input title="验证码"
-                   v-model="captcha"><img slot="label"
-                 :src="'data:image/gif;base64,' + captcha_img" /></x-input>
+          <x-input title="验证码" v-model="captcha"><img slot="label" :src="'data:image/gif;base64,' + captcha_img" /></x-input>
         </group>
-        <group label-width="4em"
-               label-margin-right="2em"
-               label-align="right">
-          <x-button type="primary"
-                    @click.native="postUpdate()">确认</x-button>
+        <group label-width="4em" label-margin-right="2em" label-align="right">
+          <x-button type="primary" @click.native="postUpdate()">确认</x-button>
         </group>
       </div>
     </popup>
@@ -108,18 +93,28 @@ export default {
             })
           }
         })
-        .catch(function (response) {
+        .catch(function (error) {
           _this.$vux.loading.hide()
-          _this.$vux.alert.show({
-            title: '提示',
-            content: '错误，我也不知道怎么回事',
-            onShow() {
-            },
-            onHide() {
-              console.log(response)
-              _this.$router.replace('/')
-            }
-          })
+          if (error.response.status === 401) {
+            _this.$vux.alert.show({
+              title: '状态',
+              content: '请先登录',
+              onHide() {
+                _this.$router.replace('/')
+              }
+            })
+          } else {
+            _this.$vux.alert.show({
+              title: '提示',
+              content: '错误，我也不知道怎么回事',
+              onShow() {
+              },
+              onHide() {
+                console.log(error)
+                _this.$router.replace('/')
+              }
+            })
+          }
         })
     },
     updateData() {
