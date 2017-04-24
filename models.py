@@ -30,10 +30,16 @@ class UserData(Document):
     last_modified = DateTimeField(default=datetime.datetime.now)
 
 class Messages(Document):
-    tittle = StringField()
+    title = StringField()
     content = StringField()
     sender = ReferenceField(User)
     receiver = ReferenceField(User)
+    is_read = BooleanField(default=False)
+    create_time = DateTimeField(default=datetime.datetime.now)
+
+class WoodsHole(Document):
+    title = StringField()
+    content = StringField()
     create_time = DateTimeField(default=datetime.datetime.now)
 
 class Sweetie(Document):

@@ -58,7 +58,7 @@ admin.add_link(av.AuthenticatedMenuLink(name='注销',
 end adminview defines
 """
 
-SWEEITE = Sweetie.objects(visible=True)
+
 
 PUBLICATIONS = ['123']
 
@@ -122,6 +122,53 @@ def test():
     """
     return 'hey~it\'s working'
 
+@app.route('/messages/<oid>', methods=['GET'])
+@login_required
+def read_message(oid):
+    message = Messages.objects(id=usoider).first()
+    message.is_read = True
+    message.save()
+    return jsonify({'success':True})
+
+@app.route('/messages/inbox', methods=['GET'])
+@login_required
+def get_inbox_messages():
+    """
+    not enabled yet, for private messages and publication and paper airplane and so on...
+    """
+    card_id = current_user.card_id
+    user = User.objects(card_id=card_id).first()
+    messages = Messages.objects(receiver=user)
+    return jsonify(messages)
+
+@app.route('/messages/outbox', methods=['GET'])
+@login_required
+def get_outbox_messages():
+    """
+    not enabled yet, for private messages and publication and paper airplane and so on...
+    """
+    card_id = current_user.card_id
+    user = User.objects(card_id=card_id).first()
+    messages = Messages.objects(sender=user)
+    return jsonify(messages)
+
+@app.route('/messages/new', methods=['POST'])
+@login_required
+def send_message():
+    post_data = json.loads(request.get_data().decode('utf-8'))
+    receiver = User.objects(card_id=post_data['receiver']).first()
+    if receiver == None:
+        return jsonify({
+            'success': False,
+            'status': 'Ta 还未使用过Helper，所以无法向TA传达您的消息。'
+        })
+    sender = User.objects(card_id=current_user.card_id).first()
+    title = post_data['title']
+    content = post_data['content']
+    message = Messages(title=title, content=content, sender=sender, receiver=receiver)
+    message.save()
+    return jsonify({'success': True})
+
 @app.route('/publications')
 def publication():
     """
@@ -134,7 +181,10 @@ def random_sweetie():
     """
     a sweet word, wish you a good day
     """
-    return random.choice(SWEEITE).content
+    if CACHE.get('sweetie') == None:
+        CACHE.set('sweetie', Sweetie.objects(visible=True), timeout=3000)
+    sweetie = CACHE.get('sweetie')
+    return random.choice(sweetie).content
 
 @app.route('/functions')
 def get_functions():
@@ -241,7 +291,7 @@ def delete_account():
     pass
 
 @app.route('/messageboard',methods=['POST', 'GET'])
-def messageboard():
+def message_board():
     if request.method == 'GET':
         messages_set = MessageBoard.objects().order_by('-create_time')
         messages = []
@@ -257,6 +307,23 @@ def messageboard():
         message.save()
         return jsonify({'success':True})
 
+
+@app.route('/woods-hole',methods=['POST', 'GET'])
+def woods_hole():
+    if request.method == 'GET':
+        messages_set = WoodsHole.objects().order_by('-create_time')
+        messages = []
+        for message in messages_set:
+            messages.append({
+                'title':message.title,
+                'content':message.content
+            })
+        return jsonify(messages)
+    else:
+        post_data = json.loads(request.get_data().decode('utf-8'))
+        message = WoodsHole(title=post_data['title'],content=post_data['content'])
+        message.save()
+        return jsonify({'success':True})
 
 @app.route('/classrooms/empty')
 def findemptyroom():
@@ -332,16 +399,6 @@ def findfreetime_member():
                 'success':False
             })
 
-
-@app.route('/messages')
-def get_messages():
-    """
-    not enabled yet, for private messages and publication and paper airplane and so on...
-    """
-    card_id = session['card_id']
-    user = User.objects(card_id=card_id)
-    messages = Messages.objects(receiver=user)
-    return json.dumps(messages)
 
 @app.route('/queries/<site>')
 @login_required
@@ -443,48 +500,12 @@ def cache_query_result(site):
     # result = {'success':False}
     return jsonify(result)
 
-@app.route('/news/new')
-def latest_news():
-    """
-    it will be useful
-    """
-    pass
-
-@app.route('/posts')
-def get_posts():
-    """
-    for blog system
-    """
-    pass
-
-@app.route('/courses')
-def get_courses():
-    """
-    for course query system
-    """
-    pass
-
 @app.route('/services/quit')
 def quit_shu():
     """
     one key to quit SHU
     """
     pass
-
-@app.route('/services/classrooms')
-def get_rooms():
-    """
-    a lists show all classrooms and how it's used
-    """
-    pass
-
-@app.route('/services/empty-roooms')
-def get_empty_rooms():
-    """
-    as it's name
-    """
-    pass
-
 
 if __name__ == '__main__':
     """
