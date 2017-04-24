@@ -204,7 +204,7 @@ def token_login():
         card_id = CACHE.get(token)
         CACHE.set(token, card_id, timeout=86400)
         session['card_id'] = card_id
-        user = User.objects(card_id=card_id.first())
+        user = User.objects(card_id=card_id).first()
         login_user(user)
         result = {
             'success': True,
