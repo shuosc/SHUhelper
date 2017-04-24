@@ -140,6 +140,10 @@ export default {
           'icon': 'icon-book',
           'url': '/courses'
         }, {
+          'tittle': '树洞',
+          'icon': 'icon-shu',
+          'url': '/woods-hole'
+        }, {
           'tittle': '陆续上线中...',
           'icon': 'icon-certificate'
         }]

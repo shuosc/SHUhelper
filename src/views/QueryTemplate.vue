@@ -11,7 +11,6 @@
     <popup v-model="showCaptcha" is-transparent height="270px">
       <div class="popup">
         <group label-width="4em" label-margin-right="2em" label-align="right">
-  
           <x-input title="验证码" v-model="captcha"><img slot="label" :src="'data:image/gif;base64,' + captcha_img" /></x-input>
         </group>
         <group label-width="4em" label-margin-right="2em" label-align="right">

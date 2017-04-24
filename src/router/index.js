@@ -12,6 +12,7 @@ import Classrooms from '@/views/Classrooms'
 import Courses from '@/views/Courses'
 import FindFreeTime from '@/views/FindFreeTime'
 import SUIndex from '@/views/SUIndex'
+import WoodsHole from '@/views/WoodsHole'
 
 Vue.use(Router)
 
@@ -48,5 +49,8 @@ const routes = [{
 }, {
   path: '/index-su',
   component: SUIndex
+}, {
+  path: '/woods-hole',
+  component: WoodsHole
 }]
 export default routes
