@@ -45,6 +45,7 @@ admin.add_view(av.UserView(User))
 admin.add_view(av.UserDataView(UserData))
 admin.add_view(av.MessagesView(Messages))
 admin.add_view(av.BasicPrivateModelView(Sweetie))
+admin.add_view(av.BasicPrivateModelView(WoodsHole))
 admin.add_view(av.BasicPrivateModelView(Functions))
 admin.add_view(av.BasicPrivateModelView(MessageBoard))
 admin.add_view(av.PostView(Post))
@@ -307,7 +308,6 @@ def message_board():
         message.save()
         return jsonify({'success':True})
 
-
 @app.route('/woods-hole',methods=['POST', 'GET'])
 def woods_hole():
     if request.method == 'GET':
@@ -315,8 +315,11 @@ def woods_hole():
         messages = []
         for message in messages_set:
             messages.append({
-                'title':message.title,
-                'content':message.content
+                'id': str(message.id),
+                'content': message.content,
+                'like': message.like,
+                'time': message.create_time,
+                'comments': len(message.comments)
             })
         return jsonify(messages)
     else:
@@ -324,6 +327,33 @@ def woods_hole():
         message = WoodsHole(title=post_data['title'],content=post_data['content'])
         message.save()
         return jsonify({'success':True})
+
+@app.route('/woods-hole/<oid>', methods=['GET', 'POST'])
+def get_or_add_comment(oid):
+    if request.method == 'GET':
+        message = WoodsHole.objects(id=oid).first()
+        result = {
+            'id': str(message.id),
+            'content': message.content,
+            'like': message.like,
+            'time': message.create_time,
+            'comments': [{'name':comment.name, 'content':comment.content} for comment in message.comments]
+        }
+        return jsonify(result)
+    else:
+        post_data = json.loads(request.get_data().decode('utf-8'))
+        message = WoodsHole.objects(id=oid).first()
+        comment = Comment(name=post_data['name'], content=post_data['content'])
+        message.comments.append(comment)
+        message.save()
+        return jsonify({'success': True})
+
+@app.route('/woods-hole/<oid>/like', methods=['GET'])
+def message_like(oid):
+    message = WoodsHole.objects(id=oid).first()
+    message.like += 1
+    message.save()
+    return jsonify({'success': True})
 
 @app.route('/classrooms/empty')
 def findemptyroom():

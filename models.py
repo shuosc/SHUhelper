@@ -1,15 +1,20 @@
 """
 define models
 """
-from flask_login import UserMixin
 import datetime
+
+from flask_login import UserMixin
 from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
-                         EmbeddedDocument, EmbeddedDocumentField, ListField,
-                         ReferenceField, StringField,ImageField, connect)
+                         EmbeddedDocument, EmbeddedDocumentField, ImageField,
+                         IntField, ListField, ReferenceField, StringField,
+                         connect)
 
 connect('psyduck',host='127.0.0.1',port=27017)
 
 class User(UserMixin, Document):
+    """
+    collection of users
+    """
     email = EmailField()
     name = StringField()
     nickname = StringField()
@@ -24,10 +29,18 @@ class User(UserMixin, Document):
         return self.card_id
 
 class UserData(Document):
+    """
+    collection of user data, from query used as cache, data encrpted with aes
+    """
     data = StringField()
     site = StringField()
     user = ReferenceField(User)
     last_modified = DateTimeField(default=datetime.datetime.now)
+
+class Comment(EmbeddedDocument):
+    name = StringField(max_length=20)
+    content = StringField(max_length=450)
+    create_time = DateTimeField(default=datetime.datetime.now)
 
 class Messages(Document):
     title = StringField()
@@ -38,8 +51,10 @@ class Messages(Document):
     create_time = DateTimeField(default=datetime.datetime.now)
 
 class WoodsHole(Document):
-    title = StringField()
-    content = StringField()
+    title = StringField(max_length=20)
+    content = StringField(max_length=450)
+    like = IntField(default=0)
+    comments = ListField(EmbeddedDocumentField(Comment))
     create_time = DateTimeField(default=datetime.datetime.now)
 
 class Sweetie(Document):
@@ -61,9 +76,6 @@ class CourseData(Document):
     #semester = StringField() #16-1 stand for 2016-2017-fall 16-2 for winter semester 
     pass
 
-class Comment(EmbeddedDocument):
-    content = StringField()
-    name = StringField(max_length=450)
 
 class MessageBoard(Document):
     content = StringField()
