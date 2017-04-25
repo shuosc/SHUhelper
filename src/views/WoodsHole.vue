@@ -10,7 +10,7 @@
           <x-textarea title="树洞"
                       v-model="content"
                       placeholder="把心里想的事情说出来没关系的:-)"></x-textarea>
-          <x-button plain  @click.native=" $vux.confirm.show({
+          <x-button plain  @click.native="$vux.confirm.show({
                               title:'确认提交？',
                         onCancel () {},
                         onConfirm () {submit()}
@@ -20,9 +20,16 @@
         <divider>树洞</divider>
       </div>
       <div v-for="message in messages">
-        <div style="background-color:#5f5f5f;color:#ffffff;padding:20px;margin-bottom:15px;margin:10px;border:1px solid #eee;text-align:center;border-radius:15px;text-shadow:0px 0px 0px #9e9e9e;">
-        <p v-for="paragraph in message.content.split('\n')">
-        {{ paragraph }}</p></div>
+        <div id="message" @click="viewDetail(message.id)">
+          <div id="content">
+            <p v-for="paragraph in message.content.split('\n')">
+            {{ paragraph }}</p>
+          </div>
+          <div id="footer">
+            <div style="display:inline;text-align:left;">点赞 : {{ message.like }}    评论数 : {{ message.comments }}</div>
+            <div style="display:inline;float:right;text-align:right;">  发表于 : {{ message.time|formateDate }} </div>
+          </div>
+        </div>
       </div>
     </div>
   </scroller>
@@ -68,12 +75,22 @@ export default {
       activateShow: false
     }
   },
+  filters: {
+    formateDate: function(value) {
+      var date = new Date(value)
+      date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+      return date.getMonth() + '/' + date.getDate() + ' ' + date.toLocaleTimeString()
+    }
+  },
   created: function () {
     this.getMessages()
   },
   computed: {
   },
   methods: {
+    viewDetail(id) {
+      this.$router.push('/woods-hole/' + id)
+    },
     resetScroller() {
       this.$nextTick(() => {
         this.$refs.scroller.reset({
@@ -112,4 +129,25 @@ export default {
 </script>
 
 <style scoped>
+#message{
+  margin:0px 10px 15px 10px;
+  border:1px solid #eee;
+  
+}
+#content{
+  color:#ffffff;
+  text-align:center;
+  padding:30px 20px 30px 20px;
+  background-color: rgba(80, 114, 139, 0.70);
+  border-radius:5px 5px 0px 0px;
+  text-shadow:0px 0px 0px #9e9e9e;
+}
+#footer{
+  text-align:left;   
+  padding: 5px 10px 5px 10px;
+  font-size: 0.8rem;
+  color: #b6b6b6;
+  border-radius:0px 0px 5px 5px;
+  background-color: rgba(250, 250, 250, 1);
+}
 </style>

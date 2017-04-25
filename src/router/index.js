@@ -13,7 +13,7 @@ import Courses from '@/views/Courses'
 import FindFreeTime from '@/views/FindFreeTime'
 import SUIndex from '@/views/SUIndex'
 import WoodsHole from '@/views/WoodsHole'
-
+import WoodsHoleSingle from '@/views/WoodsHoleSingle'
 Vue.use(Router)
 
 const routes = [{
@@ -52,5 +52,8 @@ const routes = [{
 }, {
   path: '/woods-hole',
   component: WoodsHole
+}, {
+  path: '/woods-hole/:id',
+  component: WoodsHoleSingle
 }]
 export default routes
