@@ -1,15 +1,19 @@
 <template>
   <div>
-
-    <div style="text-align:center;margin-top:20px;"><img style="margin-right:10px;" src="/static/logo36.png"><img style="margin-left:10px;" src="/static/107.png"></div>
+  
+    <div style="text-align:center;margin-top:20px;"><img style="margin-right:10px;"
+           src="/static/logo36.png"><img style="margin-left:10px;"
+           src="/static/107.png"></div>
     <divider>SHUhelper X SHUSU</divider>
-    <div v-for="group in functions_groups">
+    <div v-for="group in functions_groups"
+         :key="group.title">
       <group-title>{{group.group_tittle}}</group-title>
       <grid>
         <grid-item style="text-align:center;"
                    :link="item.url"
                    :label="item.tittle"
-                   v-for="item in group.functions">
+                   v-for="item in group.functions"
+                   :key="item.title">
           <i slot="icon"
              style="color:#009ACD;font-size:1.5rem;"
              :class="'iconfont ' + item.icon"></i>

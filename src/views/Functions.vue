@@ -2,13 +2,15 @@
   <div>
     <div @click="getSweetie()"
          id="sweetie">{{sweetie}}</div>
-    <div v-for="group in functions_groups">
+    <div v-for="group in functions_groups"
+         :key="group.title">
       <group-title>{{group.group_tittle}}</group-title>
       <grid>
         <grid-item style="text-align:center;"
                    :link="item.url"
                    :label="item.tittle"
-                   v-for="item in group.functions">
+                   v-for="item in group.functions"
+                   :key="item.title">
           <i slot="icon"
              style="color:#009ACD;font-size:1.5rem;"
              :class="'iconfont ' + item.icon"></i>

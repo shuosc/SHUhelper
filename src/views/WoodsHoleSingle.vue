@@ -11,21 +11,30 @@
           <div style="display:inline;text-align:left;">点赞 : {{ message.like }} 评论数 : {{ message.comments.length }}</div>
           <div style="display:inline;float:right;text-align:right;"> 发表于 : {{ message.time|formateDate }} </div>
         </div>
-        <div @click="like()" style="color:orange;text-align:right;font-size:1rem;margin-right:10px;"><i class="iconfont icon-heart-o"> </i></div>
+        <div @click="like()"
+             style="color:orange;text-align:right;font-size:1rem;margin-right:10px;"><i class="iconfont"
+             :class="{ 
+               'icon-heart-o': !isLiked, 'icon-heart': isLiked }"> </i></div>
       </div>
     </div>
     <div v-for="comment in message.comments">
       <div style="color:#00868B;font-size:1.2rem;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{comment.name}}:</div>
       <div style="padding:10px;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{comment.content}}</div>
     </div>
-    <group gutter="0" title="评论">
-      <x-input title="昵称" placeholder="" v-model="name"></x-input>
-      <x-textarea title="评论" v-model="content" placeholder=""></x-textarea>
+    <group gutter="0"
+           title="评论">
+      <x-input title="昵称"
+               placeholder=""
+               v-model="name"></x-input>
+      <x-textarea title="评论"
+                  v-model="content"
+                  placeholder=""></x-textarea>
       <x-button @click.native=" $vux.confirm.show({
-                                title:'确认提交？',
-                          onCancel () {},
-                          onConfirm () {submit()}
-                        })" type="primary">提交</x-button>
+                                    title:'确认提交？',
+                              onCancel () {},
+                              onConfirm () {submit()}
+                            })"
+                type="primary">提交</x-button>
     </group>
   </div>
 </template>
@@ -67,7 +76,8 @@ export default {
       name: '',
       message: {},
       content: '',
-      activateShow: false
+      activateShow: false,
+      isLiked: false
     }
   },
   filters: {
@@ -91,6 +101,7 @@ export default {
         })
     },
     like() {
+      this.isLiked = true
       this.$http.get('/api/woods-hole/' + this.$route.params.id + '/like')
         .then((response) => {
           if (response.data.success) {

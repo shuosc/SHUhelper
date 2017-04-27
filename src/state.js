@@ -10,11 +10,15 @@ const state = {
     },
     passwords: {
       main: ''
-    }
+    },
+    showLoginForm: false
   },
   mutations: {
     updateToken (state, token) {
       state.token = token
+    },
+    changeLoginFormShow (state) {
+      state.showLoginForm = !state.showLoginForm
     },
     updateAccount (state, payload) {
       state.account.card_id = payload.card_id

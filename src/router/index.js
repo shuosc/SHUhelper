@@ -18,42 +18,84 @@ Vue.use(Router)
 
 const routes = [{
   path: '/',
-  component: Functions
+  component: Functions,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/my',
-  component: My
+  component: My,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/map',
-  component: Map
+  component: Map,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/frame/:name',
-  component: Frame
+  component: Frame,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/service-frame/:name',
-  component: ServiceFrame
+  component: ServiceFrame,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/query/:name',
-  component: QueryTemplate
+  name: 'query',
+  component: QueryTemplate,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/messageboard',
-  component: Messageboard
+  component: Messageboard,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/classrooms',
-  component: Classrooms
+  component: Classrooms,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/courses',
-  component: Courses
+  component: Courses,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/findfreetime',
-  component: FindFreeTime
+  component: FindFreeTime,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/index-su',
-  component: SUIndex
+  component: SUIndex,
+  meta: {
+    keepAlive: false
+  }
 }, {
   path: '/woods-hole',
-  component: WoodsHole
+  name: 'woodshole',
+  component: WoodsHole,
+  meta: {
+    keepAlive: true
+  }
 }, {
   path: '/woods-hole/:id',
-  component: WoodsHoleSingle
+  name: 'woodsholesingle',
+  component: WoodsHoleSingle,
+  meta: {
+    keepAlive: false
+  }
 }]
 export default routes

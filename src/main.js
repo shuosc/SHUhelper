@@ -23,20 +23,34 @@ import routes from './router/index.js'
 
 const router = new VueRouter({
   mode: 'history',
-  routes,
-  scrollBehavior (to, from, savedPosition) {
-    return { x: 0, y: 0 }
-  }
+  routes
+  // scrollBehavior (to, from, savedPosition) {
+  //   console.log(to.path)
+  //   if (to.path === '/') {
+  //     document.getElementById('vux_view_box_body').scrollTop = 0
+  //     return { x: 0, y: 0 }
+  //   } else {
+  //     console.log(savedPosition)
+  //     return savedPosition
+  //   }
+  // }
 })
 
 FastClick.attach(document.body)
 
 /* eslint-disable no-undef */
-
 router.beforeEach((to, from, next) => {
   _hmt.push(['_trackPageview', to.path])
   if (document.getElementById('vux_view_box_body') != null) {
-    document.getElementById('vux_view_box_body').scrollTop = 0
+    // if (from.path === '/') {
+    //   console.log(from, to)
+    //   if (to.path === '/woods-hole') {
+    //     // document.getElementById('xs-container').style.Transform = 'translateY(0px)'
+    //   }
+    // }
+    if (to.path === '/' || to.name === 'query') {
+      document.getElementById('vux_view_box_body').scrollTop = 0
+    }
   }
   next()
 })
