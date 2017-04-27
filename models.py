@@ -6,10 +6,8 @@ import datetime
 from flask_login import UserMixin
 from mongoengine import (BooleanField, DateTimeField, Document, EmailField,
                          EmbeddedDocument, EmbeddedDocumentField, ImageField,
-                         IntField, ListField, ReferenceField, StringField,
-                         connect)
-
-connect('psyduck',host='127.0.0.1',port=27017)
+                         IntField, ListField, ReferenceField, StringField)
+from config import db
 
 class User(UserMixin, Document):
     """
@@ -28,7 +26,7 @@ class User(UserMixin, Document):
     def get_id(self):
         return self.card_id
 
-class UserData(Document):
+class UserData(db.Document):
     """
     collection of user data, from query used as cache, data encrpted with aes
     """
@@ -37,12 +35,12 @@ class UserData(Document):
     user = ReferenceField(User)
     last_modified = DateTimeField(default=datetime.datetime.now)
 
-class Comment(EmbeddedDocument):
+class Comment(db.EmbeddedDocument):
     name = StringField(max_length=20)
     content = StringField(max_length=450)
     create_time = DateTimeField(default=datetime.datetime.now)
 
-class Messages(Document):
+class Messages(db.Document):
     title = StringField()
     content = StringField()
     sender = ReferenceField(User)
@@ -50,29 +48,29 @@ class Messages(Document):
     is_read = BooleanField(default=False)
     create_time = DateTimeField(default=datetime.datetime.now)
 
-class WoodsHole(Document):
+class WoodsHole(db.Document):
     title = StringField(max_length=20)
     content = StringField(max_length=450)
     like = IntField(default=0)
     comments = ListField(EmbeddedDocumentField(Comment))
     create_time = DateTimeField(default=datetime.datetime.now)
 
-class Sweetie(Document):
+class Sweetie(db.Document):
     content = StringField()
     source = StringField()
     visible = BooleanField()
     create_time = DateTimeField(default=datetime.datetime.now)
 
-class Functions(Document):
+class Functions(db.Document):
     tittle = StringField()
     desc = StringField()
     icon = StringField()
     url = StringField()
 
-class SecurityMap(Document):
+class SecurityMap(db.Document):
     pass
 
-class CourseData(Document):
+class CourseData(db.Document):
     #semester = StringField() #16-1 stand for 2016-2017-fall 16-2 for winter semester 
     pass
 

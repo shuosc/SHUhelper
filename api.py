@@ -311,9 +311,10 @@ def message_board():
 @app.route('/woods-hole',methods=['POST', 'GET'])
 def woods_hole():
     if request.method == 'GET':
-        messages_set = WoodsHole.objects().order_by('-create_time')
+        page = int(request.args.get('page'))
+        messages_set = WoodsHole.objects().order_by('-create_time').paginate(page=page, per_page=10)
         messages = []
-        for message in messages_set:
+        for message in messages_set.items :
             messages.append({
                 'id': str(message.id),
                 'content': message.content,
