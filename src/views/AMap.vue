@@ -139,7 +139,8 @@ export default {
         {
           position: [121.393351, 31.3160044],
           type: '',
-          content: '<i style="color:red;"class="iconfont icon-shu"></i>'
+          content: '<i style="color:red;"class="iconfont icon-shu"></i>',
+          text: ''
         }
       ]
     }
