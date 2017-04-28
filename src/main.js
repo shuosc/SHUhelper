@@ -8,6 +8,7 @@ import Vuex from 'vuex'
 import { WechatPlugin, AlertPlugin, LoadingPlugin, ConfirmPlugin, ToastPlugin } from 'vux'
 import axios from 'axios'
 import state from './state.js'
+import AMap from 'vue-amap'
 // import Home from './components/HelloFromVux'
 // import routes from './router/index.js'
 
@@ -19,6 +20,8 @@ Vue.use(LoadingPlugin)
 Vue.use(ConfirmPlugin)
 Vue.use(VueRouter)
 Vue.use(Vuex)
+Vue.use(AMap)
+
 import routes from './router/index.js'
 
 const router = new VueRouter({
@@ -34,6 +37,11 @@ const router = new VueRouter({
   //     return savedPosition
   //   }
   // }
+})
+
+AMap.initAMapApiLoader({
+  key: 'ba598ea13544001f281ce6891dbd259a',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 })
 
 FastClick.attach(document.body)

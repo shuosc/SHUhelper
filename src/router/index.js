@@ -14,6 +14,8 @@ import FindFreeTime from '@/views/FindFreeTime'
 import SUIndex from '@/views/SUIndex'
 import WoodsHole from '@/views/WoodsHole'
 import WoodsHoleSingle from '@/views/WoodsHoleSingle'
+import AMap from '@/views/AMap'
+import MetaMap from '@/views/MetaMap'
 Vue.use(Router)
 
 const routes = [{
@@ -94,6 +96,20 @@ const routes = [{
   path: '/woods-hole/:id',
   name: 'woodsholesingle',
   component: WoodsHoleSingle,
+  meta: {
+    keepAlive: false
+  }
+}, {
+  path: '/amap',
+  name: 'amap',
+  component: AMap,
+  meta: {
+    keepAlive: false
+  }
+}, {
+  path: '/mmap',
+  name: 'mmap',
+  component: MetaMap,
   meta: {
     keepAlive: false
   }
