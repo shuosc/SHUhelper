@@ -6,8 +6,7 @@
              :map-manager="amapManager"
              :plugin="plugin"
              :events="events">
-      <el-amap-info-window 
-                           :position="window.position"
+      <el-amap-info-window :position="window.position"
                            :content="window.content"
                            :events="window.events"
                            :visible="window.open"></el-amap-info-window>
@@ -20,46 +19,47 @@
                       :position="marker.position"
                       :events="marker.events"
                       :visible="marker.visible"
-                      :draggable="marker.draggable"></el-amap-marker>
+                      :draggable="marker.draggable"
+                      :content="marker.content"
+                      :key="marker.oid"></el-amap-marker>
     </el-amap>
     <button type="button"
             name="button"
             @click="addMarker">添加安全事件</button>
     <button @click="window.open=!window.open">window</button>
-      <popup :value="showAddForm"
-             height="400px"
-             @on-hide="showAddForm=false">
-        <group>
-          <x-input title="事件标题"
-                   v-model="submitForm.title"
-                   placeholder="简要描述事件"></x-input>
-          <selector title="事件类型"
-                    v-model="submitForm.type"
-                    :options="types"></selector>
-          <datetime v-model="submitForm.datetime"
-                    title="发生时间"
-                    format="YYYY-MM-DD HH:mm"
-                    year-row="{value}年"
-                    month-row="{value}月"
-                    day-row="{value}日"
-                    hour-row="{value}点"
-                    minute-row="{value}分"
-                    confirm-text="完成"
-                    cancel-text="取消"></datetime>
-          <x-input title="经纬度"
-                   v-model="submitForm.Location"
-                   disabled></x-input>
-          <x-input title="详细地点"
-                   v-model="submitForm.detailedLocation"
-                   placeholder="如某楼某层某教室或某某路"></x-input>
-          <x-textarea title="详情描述"
-                      v-model="submitForm.detail"
-                      placeholder="关于事件更详细的描述"></x-textarea>
-          <x-button type="primary"
-                    @click.native="submit">提交</x-button>
-  
-        </group>
-      </popup>
+    <popup :value="showAddForm"
+           height="400px"
+           @on-hide="showAddForm=false">
+      <group>
+        <x-input title="事件标题"
+                 v-model="submitForm.title"
+                 placeholder="简要描述事件"></x-input>
+        <selector title="事件类型"
+                  v-model="submitForm.type"
+                  :options="types"></selector>
+        <datetime v-model="submitForm.datetime"
+                  title="发生时间"
+                  format="YYYY-MM-DD HH:mm"
+                  year-row="{value}年"
+                  month-row="{value}月"
+                  day-row="{value}日"
+                  hour-row="{value}点"
+                  minute-row="{value}分"
+                  confirm-text="完成"
+                  cancel-text="取消"></datetime>
+        <x-input title="经纬度"
+                 v-model="submitForm.Location"
+                 disabled></x-input>
+        <x-input title="详细地点"
+                 v-model="submitForm.detailedLocation"
+                 placeholder="如某楼某层某教室或某某路"></x-input>
+        <x-textarea title="详情描述"
+                    v-model="submitForm.detail"
+                    placeholder="关于事件更详细的描述"></x-textarea>
+        <x-button type="primary"
+                  @click.native="submit">提交</x-button>
+      </group>
+    </popup>
   </div>
 </template>
 <script>
@@ -78,17 +78,18 @@ export default {
       submitForm: {
         title: '',
         type: '',
-        location: [],
+        position: [],
         datetime: undefined,
         detail: '',
         detailedLocation: ''
       },
       window: {
         position: [121.393351, 31.3160044],
-        content: 'Hi! I am here!',
-        open: true,
+        content: '<p>标题：Hi! I am here!</p><p>事件分类：Hi! I am here!</p><p>发生时间：Hi! I am here!</p><p>详细地点：Hi! I am here!</p><p>事件详情：Hi! I am here!</p>',
+        open: false,
         events: {
-          close() {
+          'close': () => {
+            this.window.open = false
             console.log('close infowindow')
           }
         }
@@ -121,31 +122,41 @@ export default {
         },
         content: '<i style="color:red;"class="iconfont icon-shu"></i>'
       },
-      currentMarker: {
-        visible: false,
-        position: [121.393351, 31.3160044],
-        draggable: true,
-        events: {
-          click: () => {
-            this.showAddForm = true
-          },
-          dragend: (e) => {
-            this.firstMarker.position = [e.lnglat.lng, e.lnglat.lat]
-          }
-        },
-        content: '<i style="color:red;"class="iconfont icon-shu"></i>'
-      },
+      currentMarkerOid: '',
       markers: [
         {
+          oid: '',
+          visible: true,
           position: [121.393351, 31.3160044],
           type: '',
           content: '<i style="color:red;"class="iconfont icon-shu"></i>',
+          events: {
+            click: () => {
+              this.onMarkerClick('')
+            }
+          },
           text: ''
         }
-      ]
+      ],
+      markEvents: {
+        '01': {
+          'title': '',
+          'datetime': '',
+          'position': '',
+          'detailedLocation': '',
+          'type': '',
+          'detail': ''
+        }
+      }
     }
   },
   methods: {
+    onMarkerClick: function (oid) {
+      this.currentMarkerOid = oid
+      this.window.position = this.markEvents.oid.position
+      this.window.content = this.markEvents.oid.content
+      this.window.open = true
+    },
     getMap: function () {
       console.log(this.amapManager.getMap())
       console.log(this.center)

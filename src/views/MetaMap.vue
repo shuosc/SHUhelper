@@ -13,7 +13,8 @@
       <el-amap-marker v-for="marker in markers"
                       :position="marker.position"
                       :visible="marker.visible"
-                      :content="marker.content"></el-amap-marker>
+                      :content="marker.content"
+                      :key="marker.oid"></el-amap-marker>
     </el-amap>
     <button @click="changeDisplayType('')">changeDisplayType</button>
   </div>
