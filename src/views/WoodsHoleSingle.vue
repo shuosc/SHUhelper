@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-for="comment in message.comments">
-      <div style="color:#00868B;font-size:1.2rem;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{comment.name}}:</div>
+      <div style="color:#00868B;font-size:1.2rem;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{comment.name==''?'匿名用户':comment.name}}:</div>
       <div style="padding:10px;margin-right:10px;margin-left:10px;border-bottom:1px solid #eee;">{{comment.content}}</div>
     </div>
     <group gutter="0"
@@ -40,36 +40,16 @@
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem, XTextarea, Box } from 'vux'
+import { Group, Divider, Scroller, XTextarea, XButton, XInput } from 'vux'
 
 export default {
   components: {
-    Grid,
-    Box,
-    Marquee,
-    MarqueeItem,
-    GroupTitle,
-    GridItem,
     Group,
-    Cell,
-    Tabbar,
-    TabbarItem,
-    XHeader,
     Divider,
-    Card,
-    XNumber,
-    FlexboxItem,
-    Flexbox,
-    XImg,
     Scroller,
-    ViewBox,
+    XTextarea,
     XButton,
-    Popup,
-    Radio,
-    XInput,
-    Checker,
-    CheckerItem,
-    XTextarea
+    XInput
   },
   data() {
     return {

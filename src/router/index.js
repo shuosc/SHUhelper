@@ -10,12 +10,9 @@ import ServiceFrame from '@/views/ServiceFrame'
 import Messageboard from '@/views/Messageboard'
 import Classrooms from '@/views/Classrooms'
 import Courses from '@/views/Courses'
-import FindFreeTime from '@/views/FindFreeTime'
-import SUIndex from '@/views/SUIndex'
 import WoodsHole from '@/views/WoodsHole'
 import WoodsHoleSingle from '@/views/WoodsHoleSingle'
-import AMap from '@/views/AMap'
-import MetaMap from '@/views/MetaMap'
+// import AMap from '@/views/AMap'
 Vue.use(Router)
 
 const routes = [{
@@ -75,13 +72,17 @@ const routes = [{
   }
 }, {
   path: '/findfreetime',
-  component: FindFreeTime,
+  component: function (resolve) {
+    require(['@/views/FindFreeTime.vue'], resolve)
+  },
   meta: {
     keepAlive: false
   }
 }, {
   path: '/index-su',
-  component: SUIndex,
+  component: function (resolve) {
+    require(['@/views/SUIndex.vue'], resolve)
+  },
   meta: {
     keepAlive: false
   }
@@ -102,14 +103,18 @@ const routes = [{
 }, {
   path: '/security-map',
   name: 'security-map',
-  component: AMap,
+  component: function (resolve) {
+    require(['@/views/AMap.vue'], resolve)
+  },
   meta: {
     keepAlive: false
   }
 }, {
   path: '/mmap',
   name: 'mmap',
-  component: MetaMap,
+  component: function (resolve) {
+    require(['@/views/MetaMap.vue'], resolve)
+  },
   meta: {
     keepAlive: false
   }

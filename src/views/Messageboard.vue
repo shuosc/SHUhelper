@@ -31,35 +31,15 @@
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem, XTextarea, Box } from 'vux'
+import { Group, Divider, Scroller, XButton, XInput, XTextarea } from 'vux'
 
 export default {
   components: {
-    Grid,
-    Box,
-    Marquee,
-    MarqueeItem,
-    GroupTitle,
-    GridItem,
     Group,
-    Cell,
-    Tabbar,
-    TabbarItem,
-    XHeader,
     Divider,
-    Card,
-    XNumber,
-    FlexboxItem,
-    Flexbox,
-    XImg,
     Scroller,
-    ViewBox,
     XButton,
-    Popup,
-    Radio,
     XInput,
-    Checker,
-    CheckerItem,
     XTextarea
   },
   data() {

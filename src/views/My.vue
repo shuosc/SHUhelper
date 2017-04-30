@@ -17,7 +17,7 @@
           <cell title="帮助"
                 value="用户体验棒到不需要写帮助"></cell>
           <cell title="关于"
-                value="版本 V2.2.0"></cell>
+                value="版本 V2.2.1"></cell>
           <cell title="微信公众号"
                 value="搜索添加:shuhelper"></cell>
         </group>
@@ -28,34 +28,14 @@
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem } from 'vux'
+import { Group, Cell, Scroller, Divider } from 'vux'
 
 export default {
   components: {
-    Grid,
-    Marquee,
-    MarqueeItem,
-    GroupTitle,
-    GridItem,
     Group,
     Cell,
-    Tabbar,
-    TabbarItem,
-    XHeader,
-    Divider,
-    Card,
-    XNumber,
-    FlexboxItem,
-    Flexbox,
-    XImg,
     Scroller,
-    ViewBox,
-    XButton,
-    Popup,
-    Radio,
-    XInput,
-    Checker,
-    CheckerItem
+    Divider
   },
   data() {
     return {

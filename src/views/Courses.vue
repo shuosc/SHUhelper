@@ -52,36 +52,16 @@
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem, XTable, Selector } from 'vux'
+import { Group, Divider, XButton, Scroller, Selector, XInput } from 'vux'
 
 export default {
   components: {
-    Grid,
-    Marquee,
-    MarqueeItem,
-    XTable,
-    GroupTitle,
-    GridItem,
     Group,
-    Cell,
-    Tabbar,
-    TabbarItem,
-    XHeader,
-    Divider,
-    Card,
-    XNumber,
-    FlexboxItem,
-    Flexbox,
-    XImg,
-    Scroller,
-    Selector,
-    ViewBox,
-    XButton,
-    Popup,
-    Radio,
     XInput,
-    Checker,
-    CheckerItem
+    Divider,
+    XButton,
+    Selector,
+    Scroller
   },
   data() {
     return {

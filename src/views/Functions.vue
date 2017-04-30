@@ -9,21 +9,21 @@
         <grid-item style="text-align:center;"
                    :link="item.url"
                    :label="item.tittle"
-                   v-for="item in group.functions" v-if="item.visiable"
+                   v-for="item in group.functions"
+                   v-if="item.visiable"
                    :key="item.title">
           <i slot="icon"
              style="color:#009ACD;font-size:1.5rem;"
              :class="'iconfont ' + item.icon"></i>
         </grid-item>
       </grid>
-      </marquee>
     </div>
     <divider>Powered by SHUhelper</divider>
   </div>
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem } from 'vux'
+import { Divider, Grid, GridItem, GroupTitle } from 'vux'
 
 //  {
 //           'group_tittle': '分流专题',
@@ -67,29 +67,9 @@ import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexb
 export default {
   components: {
     Grid,
-    Marquee,
-    MarqueeItem,
     GroupTitle,
     GridItem,
-    Group,
-    Cell,
-    Tabbar,
-    TabbarItem,
-    XHeader,
-    Divider,
-    Card,
-    XNumber,
-    FlexboxItem,
-    Flexbox,
-    XImg,
-    Scroller,
-    ViewBox,
-    XButton,
-    Popup,
-    Radio,
-    XInput,
-    Checker,
-    CheckerItem
+    Divider
   },
   data() {
     return {

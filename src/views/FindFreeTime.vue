@@ -58,12 +58,10 @@
 </template>
 
 <script>
-import { numberPad, XHeader, ViewBox, Divider, Group, Cell, XButton, Popup, XInput, Selector } from 'vux'
+import { numberPad, Divider, Group, Cell, XButton, Popup, XInput, Selector } from 'vux'
 import CryptoJS from '../libs/encryption.js'
 export default {
   components: {
-    XHeader,
-    ViewBox,
     XInput,
     Popup,
     Divider,

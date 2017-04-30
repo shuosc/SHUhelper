@@ -6,13 +6,9 @@
 </template>
 
 <script>
-import { XHeader, ViewBox } from 'vux'
 
 export default {
-  components: {
-    XHeader,
-    ViewBox
-  },
+  components: {},
   data() {
     return {
     }

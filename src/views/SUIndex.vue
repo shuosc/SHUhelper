@@ -24,8 +24,7 @@
 </template>
 
 <script>
-import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexbox, FlexboxItem, XImg, Scroller, ViewBox, XButton, Popup, Radio, XInput, Checker, CheckerItem, Grid, GridItem, GroupTitle, Marquee, MarqueeItem } from 'vux'
-
+import { Divider, Grid, GridItem, GroupTitle } from 'vux'
 //  {
 //           'group_tittle': '分流专题',
 //           'functions': [{
@@ -68,29 +67,9 @@ import { Group, Cell, Tabbar, TabbarItem, XHeader, Divider, Card, XNumber, Flexb
 export default {
   components: {
     Grid,
-    Marquee,
-    MarqueeItem,
     GroupTitle,
     GridItem,
-    Group,
-    Cell,
-    Tabbar,
-    TabbarItem,
-    XHeader,
-    Divider,
-    Card,
-    XNumber,
-    FlexboxItem,
-    Flexbox,
-    XImg,
-    Scroller,
-    ViewBox,
-    XButton,
-    Popup,
-    Radio,
-    XInput,
-    Checker,
-    CheckerItem
+    Divider
   },
   data() {
     return {
