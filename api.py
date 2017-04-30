@@ -45,6 +45,7 @@ admin.add_view(av.UserView(User))
 admin.add_view(av.UserDataView(UserData))
 admin.add_view(av.MessagesView(Messages))
 admin.add_view(av.BasicPrivateModelView(Sweetie))
+admin.add_view(av.BasicPrivateModelView(SecurityMap))
 admin.add_view(av.BasicPrivateModelView(WoodsHole))
 admin.add_view(av.BasicPrivateModelView(Functions))
 admin.add_view(av.BasicPrivateModelView(MessageBoard))
@@ -355,6 +356,41 @@ def message_like(oid):
     message.like += 1
     message.save()
     return jsonify({'success': True})
+
+@app.route('/security-map/latest')
+def get_latest_security_events():
+    now = datetime.datetime.now()
+    timedelta = datetime.timedelta(days=30)
+    events = SecurityMap.objects(event_time__gte=now-timedelta)
+    result = {}
+    for event in events:
+        position = event.position
+        result[str(event.id)]={
+            'id': str(event.id),
+            'title': event.title,
+            'type': event.event_type,
+            'position': [float(position.lng), float(position.lat)],
+            'datetime': event.event_time,
+            'detail': event.detail,
+            'detailedLocation': event.detailed_location,
+        }
+        print(event.event_time)
+    return jsonify(result)
+
+@app.route('/security-map/new', methods=['POST'])
+def add_new_security_evnet():
+    post_data = json.loads(request.get_data().decode('utf-8'))
+    position = Position(lng=str(post_data['position'][0]),
+                                lat=str(post_data['position'][1]))
+    new_event = SecurityMap(title=post_data['title'], 
+                            event_type=post_data['event_type'], 
+                            position=position,
+                            event_time=post_data['datetime'], 
+                            detail=post_data['detail'], 
+                            detailed_location=post_data['detailed_location'])
+    new_event.save()
+    return jsonify({'success':True})
+
 
 @app.route('/classrooms/empty')
 def findemptyroom():

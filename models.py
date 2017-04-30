@@ -67,8 +67,19 @@ class Functions(db.Document):
     icon = StringField()
     url = StringField()
 
+class Position(db.EmbeddedDocument):
+    lng = StringField(max_length=20)
+    lat = StringField(max_length=20)
+
 class SecurityMap(db.Document):
-    pass
+    title = StringField(max_length=40)
+    event_type = StringField(max_length=20)
+    position = EmbeddedDocumentField(Position)
+    event_time = DateTimeField()
+    detailed_location = StringField(max_length=100)
+    detail = StringField(max_length=450)
+    create_time = DateTimeField(default=datetime.datetime.now)
+    meta = {'strict': False}
 
 class CourseData(db.Document):
     #semester = StringField() #16-1 stand for 2016-2017-fall 16-2 for winter semester 
