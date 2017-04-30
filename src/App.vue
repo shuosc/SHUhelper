@@ -6,7 +6,7 @@
               body-padding-bottom="50px">
       <x-header slot="header"
                 :left-options="{showBack:$route.path!='/' && $route.path!='/my' }"
-                style="width:100%;position:absolute;left:0;top:0;z-index:100;">SHUhelper 2.0
+                style="width:100%;position:absolute;left:0;top:0;z-index:100;">SHUhelper 2.2
         <div slot="right"
              @click="$store.state.account.token != ''?logout():$store.commit('changeLoginFormShow')">{{$store.state.account.token != ''?'注销':'登录'}}</div>
       </x-header>

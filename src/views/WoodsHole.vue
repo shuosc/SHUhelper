@@ -86,7 +86,7 @@ export default {
     formateDate: function (value) {
       var date = new Date(value)
       date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
-      return date.getMonth() + '/' + date.getDate() + ' ' + date.toLocaleTimeString()
+      return (date.getMonth() + 1) + '/' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
     }
   },
   created: function () {

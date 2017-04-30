@@ -1073,7 +1073,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .amap-page-container {
   height: 90%;
 }

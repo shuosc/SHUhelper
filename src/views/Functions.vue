@@ -9,7 +9,7 @@
         <grid-item style="text-align:center;"
                    :link="item.url"
                    :label="item.tittle"
-                   v-for="item in group.functions"
+                   v-for="item in group.functions" v-if="item.visiable"
                    :key="item.title">
           <i slot="icon"
              style="color:#009ACD;font-size:1.5rem;"
@@ -112,104 +112,134 @@ export default {
         'functions': [{
           'tittle': '旧版helper',
           'icon': 'icon-heart-o',
-          'url': 'https://old.shuhelper.cn/'
+          'url': 'https://old.shuhelper.cn/',
+          'visiable': false
         }, {
           'tittle': '空教室查询',
           'icon': 'icon-xiangtongfangjianrenwu',
-          'url': '/classrooms'
+          'url': '/classrooms',
+          'visiable': true
         }, {
           'tittle': '都有空吗',
           'icon': 'icon-group',
-          'url': '/findfreetime'
+          'url': '/findfreetime',
+          'visiable': true
         }, {
           'tittle': '一键退学',
           'icon': 'icon-drivers-license-o',
-          'url': 'https://old.shuhelper.cn/login/vali/quit'
+          'url': 'https://old.shuhelper.cn/login/vali/quit',
+          'visiable': false
         }, {
           'tittle': '尔美西餐厅预定',
           'icon': 'icon-dppj',
-          'url': 'http://mp.weixin.qq.com/s/nT92e0XVFZHJ8XSpV9qtuQ'
+          'url': 'http://mp.weixin.qq.com/s/nT92e0XVFZHJ8XSpV9qtuQ',
+          'visiable': true
         }, {
           'tittle': '留言板',
           'icon': 'icon-kaoshi',
-          'url': '/messageboard'
+          'url': '/messageboard',
+          'visiable': true
         }, {
           'tittle': '排课助手(PC)',
           'icon': 'icon-paw',
-          'url': 'http://xk.shuhelper.cn/'
+          'url': 'http://xk.shuhelper.cn/',
+          'visiable': true
         }, {
           'tittle': '本学期课程查询',
           'icon': 'icon-book',
-          'url': '/courses'
+          'url': '/courses',
+          'visiable': true
         }, {
           'tittle': '树洞',
           'icon': 'icon-shu',
-          'url': '/woods-hole'
+          'url': '/woods-hole',
+          'visiable': true
+        }, {
+          'tittle': '校园安全地图',
+          'icon': 'icon-baoan-copy',
+          'url': '/security-map',
+          'visiable': true
         }, {
           'tittle': '陆续上线中...',
-          'icon': 'icon-certificate'
+          'icon': 'icon-certificate',
+          'visiable': true
         }]
       }, {
         'group_tittle': '常用查询',
         'functions': [{
           'tittle': '晨跑课外活动',
           'icon': 'icon-tiyu2',
-          'url': '/query/tiyu'
+          'url': '/query/tiyu',
+          'visiable': true
         }, {
           'tittle': '课外活动时间表',
           'icon': 'icon-tiyu1',
-          'url': '/frame/activities'
+          'url': '/frame/activities',
+          'visiable': true
         }, {
           'tittle': '校历',
           'icon': 'icon-rili',
-          'url': '/frame/cal'
+          'url': '/frame/cal',
+          'visiable': true
         }, {
           'tittle': '课表',
           'icon': 'icon-course-table',
-          'url': '/query/xk'
+          'url': '/query/xk',
+          'visiable': true
         }, {
           'tittle': '成绩',
           'icon': 'icon-tubiaozhizuomoban',
-          'url': '/query/cj'
+          'url': '/query/cj',
+          'visiable': true
         }, {
           'tittle': '校园地图',
           'icon': 'icon-map-o',
-          'url': '/frame/map'
+          'url': '/frame/map',
+          'visiable': true
         }, {
           'tittle': '体育场馆地图',
           'icon': 'icon-map',
-          'url': '/frame/pemap'
+          'url': '/frame/pemap',
+          'visiable': true
         }, {
           'tittle': '就医指导',
           'icon': 'icon-yiyuan',
-          'url': '/frame/med'
+          'url': '/frame/med',
+          'visiable': true
         }, {
           'tittle': '电话黄页',
           'icon': 'icon-huangye',
-          'url': '/frame/tel'
+          'url': '/frame/tel',
+          'visiable': true
         }, {
           'tittle': '校车运行',
           'icon': 'icon-bus',
-          'url': '/frame/bus'
+          'url': '/frame/bus',
+          'visiable': true
         }, {
           'tittle': '场馆开放',
           'icon': 'icon-icon',
-          'url': '/frame/serviceschedule'
+          'url': '/frame/serviceschedule',
+          'visiable': true
         }, {
           'tittle': '机房开放',
           'icon': 'icon-desktop',
-          'url': '/frame/freelab'
+          'url': '/frame/freelab',
+          'visiable': true
         }, {
           'tittle': '一卡通余额流水',
           'icon': 'icon-icon1',
-          'url': '/query/lehu'
+          'url': '/query/lehu',
+          'visiable': true
         }, {
           'tittle': '财务缴费',
           'icon': 'icon-money',
-          'url': '/query/fin'
+          'url': '/query/fin',
+          'visiable': true
         }, {
           'tittle': '陆续上线中...',
-          'icon': 'icon-certificate'
+          'icon': 'icon-certificate',
+          'visiable': true
         }]
       }
       ]

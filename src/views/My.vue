@@ -15,9 +15,9 @@
         </group>
         <group title="设置">
           <cell title="帮助"
-                value="还没写"></cell>
+                value="用户体验棒到不需要写帮助"></cell>
           <cell title="关于"
-                value="版本 v2.0.0 Preview"></cell>
+                value="版本 V2.2.0"></cell>
           <cell title="微信公众号"
                 value="搜索添加:shuhelper"></cell>
         </group>

@@ -100,8 +100,8 @@ const routes = [{
     keepAlive: false
   }
 }, {
-  path: '/amap',
-  name: 'amap',
+  path: '/security-map',
+  name: 'security-map',
   component: AMap,
   meta: {
     keepAlive: false
