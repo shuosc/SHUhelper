@@ -4,9 +4,7 @@
       <v-flex xs12 sm6 offset-sm3 class="pa-0">
         <v-card>
           <v-list two-line>
-            <div v-for="conversation in conversations" :key="conversation" @click.native="$router.push(`/conversation/${conversation.id}`)">
-              <!-- <v-subheader v-if="item.header" v-text="item.header"></v-subheader> -->
-              <!-- <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider> -->
+            <div v-for="(conversation,index) in conversations" :key="conversation.conversation" @click.native="$router.push(`/conversation/${conversation.id}`)">
               <v-list-tile avatar :to="`/conversation/${conversation.conversation}`" v-bind:key="conversation.title">
                 <v-list-tile-avatar>
                   <img v-bind:src="`//static.shuhelper.cn/${conversation.toUser.avatar}`">

@@ -21,7 +21,7 @@ from mongoengine import connect
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
     configure_app(app, config)
-    connect(**app.config['MONGODB_SETTINGS'])
+    # connect(**app.config['MONGODB_SETTINGS'])
     app.signals = {}
     app.update_func = {}
     app.client = {}
@@ -100,7 +100,7 @@ def configure_celery_app(app, celery):
 def configure_blueprints(app):
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(conversations, url_prefix='/conversations')
-    app.register_blueprint(uplwoad, url_prefix='/upload')
+    app.register_blueprint(upload, url_prefix='/upload')
     app.register_blueprint(feeds, url_prefix='/feeds')
     app.register_blueprint(events, url_prefix='/events')
     app.register_blueprint(index, url_prefix='/index')

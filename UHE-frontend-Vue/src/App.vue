@@ -1,33 +1,31 @@
 <template>
-  <v-app light fill-height toolbar fixed-footer style="height:100%;">
-  
+  <v-app light fill-height toolbar style="height:100%;">
     <v-toolbar fixed dense>
-  
       <v-btn icon @click.prevent="back">
         <v-icon>arrow_back</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click.native="$store.commit('showLoginDialog')">
+      <v-btn icon @click.native="onProfileClick">
         <v-icon>perm_identity</v-icon>
       </v-btn>
       <v-btn icon>
         <v-icon>search</v-icon>
       </v-btn>
     </v-toolbar>
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflow:'scroll'}" ref="container" @scroll="handleScroll">
-      <v-container fluid style="padding:0px;height:100%;" >
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}">
+      <div :style="{height:'100%',overflow:'scroll'}" ref="container" @scroll="handleScroll">
         <v-slide-y-transition mode="out-in">
           <router-view></router-view>
         </v-slide-y-transition>
-      </v-container>
-    </main>     
-     <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
-        <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)" :value="nav.url===$route.path">
-          <span>{{nav.name}}</span>
-          <v-icon>{{nav.icon}}</v-icon>
-        </v-btn>
-      </v-bottom-nav>
+      </div>
+    </main>
+    <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
+      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)" :value="nav.url===$route.path">
+        <span>{{nav.name}}</span>
+        <v-icon>{{nav.icon}}</v-icon>
+      </v-btn>
+    </v-bottom-nav>
     <login> </login>
     <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
       {{ snackbar.text }}
@@ -75,7 +73,7 @@ export default {
     // window.addEventListener('scroll', this.handleScroll)
     this.verifyToken()
   },
-  mounted() {
+  mounted () {
     // this.$refs.container.addEventListener('scroll', this.handleScroll)
     // console.log('mounted', this.$refs)
   },
@@ -89,23 +87,37 @@ export default {
     }
   },
   methods: {
+    onProfileClick () {
+      // console.log(this.$store.state.user.cardID)
+      if (this.$store.state.user.cardID !== '') {
+        this.$router.push(`/profile/${this.$store.state.user.cardID}`)
+      } else {
+        this.$store.commit('showLoginDialog')
+      }
+    },
     handleScroll () {
+      let container = this.$refs.container
       if (this.$route.meta.unableBottomNavgation) {
         this.$store.commit('hideBottomNavgation')
-      } else {
-        if (this.$refs.container.scrollTop === 0) {
-          this.$store.commit('showBottomNavgation')
-          return
-        }
-        if (this.scrollY <= this.$refs.container.scrollTop) {
-          if (this.$store.state.ui.bottomNavigationVisible) {
-            this.$store.commit('hideBottomNavgation')
-          }
-        } else {
-          this.$store.commit('showBottomNavgation')
-        }
+        return
       }
-      this.scrollY = this.$refs.container.scrollTop
+      if (container.scrollTop <= 20) {
+        this.$store.commit('showBottomNavgation')
+        return
+      }
+      if (container.scrollHeight - container.clientHeight - container.scrollTop <= 80) {
+        // console.log(container.scrollTop, container.scrollHeight, container.clientHeight)
+        this.$store.commit('hideBottomNavgation')
+        return
+      }
+      if (this.scrollY < container.scrollTop) {
+        if (this.$store.state.ui.bottomNavigationVisible) {
+          this.$store.commit('hideBottomNavgation')
+        }
+      } else {
+        this.$store.commit('showBottomNavgation')
+      }
+      this.scrollY = container.scrollTop
     },
     back () {
       this.$router.go(-1)

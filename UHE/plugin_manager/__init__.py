@@ -325,7 +325,7 @@ class PluginManager(object):
         for plugin in itervalues(self.plugins):
             with self.app.app_context():
                 plugin.enabled = True
-                plugin.setup()
+                plugin.setup(self.app)
     def install_plugins(self, plugins=None):
         """Installs one or more plugins.
         :param plugins: An iterable with plugins. If no plugins are passed

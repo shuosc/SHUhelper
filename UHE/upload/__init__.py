@@ -3,6 +3,7 @@ from qiniu import Auth, put_file, put_data, BucketManager
 import requests
 from PIL import Image
 from io import BytesIO
+from UHE.utils import make_token
 upload = Blueprint('upload', __name__)
 
 
@@ -19,13 +20,12 @@ def get_avatar(card_id):
     r = requests.get(
         'http://www.tinygraphs.com/squares/{}?theme=frogideas&numcolors=4&fmt=jpg'.format(card_id))
     # i = Image.open(BytesIO(r.content))
-    key = 'avatar_tinygraph_{}.jpg'.format(card_id)
+    key = 'avatar_tinygraph_{}_{}.jpg'.format(card_id, make_token())
     q = Auth(current_app.config["QINIU_ACCESS_KEY"],
              current_app.config["QINIU_SECRET_KEY"])
     bucket = BucketManager(q)
     token = q.upload_token('shuhelper3', key, 3600)
-    ret, info = bucket.delete('shuhelper3', key)
-    print(info)
+    # ret, info = bucket.delete('shuhelper3', key)
     ret, info = put_data(token, key, BytesIO(r.content))
     print(info)
     return key

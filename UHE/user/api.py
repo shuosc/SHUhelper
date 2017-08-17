@@ -103,6 +103,13 @@ def reset_avatar():
     user.save()
     return jsonify(status='ok')
 
+@users.route('/init-avatar/<card_id>')
+def init_avatar(card_id):
+    user = User.objects(card_id=card_id).first()
+    user.avatar = get_avatar(user.card_id)
+    user.save()
+    return jsonify(status='ok')
+
 
 @users.route("/login/", methods=['POST'])
 def login():

@@ -2,19 +2,19 @@ import datetime
 from flask import Blueprint
 from UHE.calendar.models import Activity, Event
 from UHE.plugins import UHEPlugin
-from UHE.extensions import celery, captcha_solver, admin, db,plugin_manager
+from UHE.extensions import celery, captcha_solver, admin, db, plugin_manager
 from flask_admin.contrib.mongoengine import ModelView
 from mongoengine.context_managers import switch_collection
 from bs4 import BeautifulSoup
 import requests
 import re
 import time
-from UHE.plugins.SHU_course.models import Course,CourseOfTerm
+from UHE.plugins.SHU_course.models import Course, CourseOfTerm
 # from celery.contrib.methods import task_method
-__plugin__ = "SHUCourseToCalendar"
+__plugin__ = "SHUEmptyRoom"
 
-
-@app.route('/classrooms/empty')
+empty_room = Blueprint('empty_room', __name__)
+@empty_room.route('/classrooms/empty')
 def findemptyroom():
     week = request.args.get('week')
     day = request.args.get('day')
@@ -35,7 +35,7 @@ def findemptyroom():
         }
     return jsonify(result)
 
-@app.route('/classrooms/<room>')
+@empty_room.route('/classrooms/<room>')
 def room_schedule(room):
     result = {
         'room': room,
@@ -47,7 +47,7 @@ def room_schedule(room):
 class SHUEmptyRoom(UHEPlugin):
     settings_key = 'SHU_calendar'
 
-    def setup(self):
+    def setup(self,app):
         print('setup', __plugin__)
 
     def install(self, app):
@@ -55,6 +55,7 @@ class SHUEmptyRoom(UHEPlugin):
 
         for course in courses:
             pass
+
     def uninstall(self):
         print('uninstall')
         event = Event.objects(

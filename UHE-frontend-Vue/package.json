@@ -20,12 +20,12 @@
     "qiniu-js": "^1.0.21",
     "qiniu.js": "^0.1.2",
     "randomcolor": "^0.5.3",
-    "vue": "^2.3.4",
+    "vue": "^2.4.2",
     "vue-amap": "^0.3.0",
     "vue-calendar-picker": "^1.2.1",
     "vue-momentjs": "^0.1.1",
     "vue-router": "^2.3.1",
-    "vuetify": "^0.14.7",
+    "vuetify": "^0.14.11",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
@@ -84,7 +84,7 @@
     "url-loader": "^0.5.8",
     "vue-loader": "^11.3.4",
     "vue-style-loader": "^2.0.5",
-    "vue-template-compiler": "^2.3.4",
+    "vue-template-compiler": "^2.4.2",
     "webpack": "^2.3.3",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",

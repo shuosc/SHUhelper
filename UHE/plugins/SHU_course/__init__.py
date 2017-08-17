@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from UHE.calendar.models import Activity, Event
 from UHE.extensions import admin, captcha_solver, celery, db
 from UHE.plugins import UHEPlugin
-
+from flask import current_app
 from .models import Course, CourseOfTerm
 
 # from celery.contrib.methods import task_method
@@ -29,7 +29,7 @@ class CourseView(ModelView):
 class SHUCourse(UHEPlugin):
     settings_key = 'SHU_calendar'
 
-    def setup(self):
+    def setup(self,app):
         admin.add_view(
             CourseView(CourseOfTerm, endpoint='course-term-manage'))
         admin.add_view(CourseView(Course, endpoint='course-manage'))
@@ -55,7 +55,6 @@ def get_xk(url):
 
 
 def save_courses(courselist, term):
-    print('save course start')
     for course in courselist:
         course_basic = {
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit')
@@ -76,7 +75,6 @@ def save_courses(courselist, term):
             course_of_term_db = CourseOfTerm(**course_detail)
             course_of_term_db.save()
     print('all done')
-
 
 TERM_INT = {
     '秋': 1,

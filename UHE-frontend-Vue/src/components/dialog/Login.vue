@@ -1,54 +1,29 @@
  <template>
-  <v-layout row
-            justify-center
-            class="ma-0 pa-0">
-    <v-dialog v-model="$store.state.ui.loginDialog"
-              fullscreen
-              transition="dialog-bottom-transition"
-              hide-overlay
-              persistent>
+  <v-layout row justify-center class="ma-0 pa-0">
+    <v-dialog v-model="$store.state.ui.loginDialog" fullscreen transition="dialog-bottom-transition" hide-overlay persistent>
       <v-card>
-        <v-toolbar dark
-                   class="primary">
-          <v-btn icon
-                 @click.native="$store.commit('closeLoginDialog')"
-                 dark>
+        <v-toolbar dark class="primary">
+          <v-btn icon @click.native="$store.commit('closeLoginDialog')" dark>
             <v-icon>close</v-icon>
           </v-btn>
           <v-toolbar-title>登录</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
-        <v-container fluid
-                     class="px-3">
-          <v-layout row
-                    wrap>
+        <v-container fluid class="px-3">
+          <v-layout row wrap>
             <v-flex xs12>
-              <v-text-field label="一卡通"
-                            v-model="cardID"></v-text-field>
+              <v-text-field label="一卡通" v-model="cardID"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="密码"
-                            :append-icon="passwordVisiable ? 'visibility' : 'visibility_off'"
-                            :append-icon-cb="() => (passwordVisiable = !passwordVisiable)"
-                            :type="passwordVisiable ? 'password' : 'text'"
-                            v-model="password"></v-text-field>
+              <v-text-field label="密码" :append-icon="passwordVisiable ? 'visibility' : 'visibility_off'" :append-icon-cb="() => (passwordVisiable = !passwordVisiable)" :type="passwordVisiable ? 'password' : 'text'" v-model="password"></v-text-field>
             </v-flex>
-             <v-flex xs12>
-              <v-checkbox v-bind:label="'记住我'"
-                          hint="不是自己的设备请不要勾选此项"
-                          persistent-hint
-                          v-model="remeberMe"
-                          light></v-checkbox>
-            </v-flex> 
+            <v-flex xs12>
+              <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项" persistent-hint v-model="remeberMe" light></v-checkbox>
+            </v-flex>
             <v-flex xs12>
   
-              <v-btn primary
-                     dark
-                     block
-                     @click.native="login()">
-                <v-progress-circular v-show="loginLoading"
-                                     :indeterminate="loginLoading"
-                                     class="red--text"></v-progress-circular>登录</v-btn>
+              <v-btn primary dark block @click.native="login()">
+                <v-progress-circular v-show="loginLoading" :indeterminate="loginLoading" class="red--text"></v-progress-circular>登录</v-btn>
             </v-flex>
           </v-layout>
         </v-container>

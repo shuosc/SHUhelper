@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-card v-for="feed in feeds" :key="feed" class="mt-3">
+    <v-card v-for="(feed,index) in feeds" :key="index" class="mt-3">
       <v-container fluid grid-list-lg class="py-0">
         <v-layout row>
           <v-flex xs2>
-            <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" style="height:100%;" contain></v-card-media>
+            <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media>
           </v-flex>
           <v-flex xs10>
             <div>
@@ -56,8 +56,9 @@
     </v-flex>
     </v-layout>
     </v-container>
-    <v-speed-dial v-model="fab" fixed right direction="top" transition="slide-y-reverse-transition" style="bottom:60px;" v-show="$store.state.ui.bottomNavigationVisible">
-      <v-btn slot="activator" class="blue darken-2" dark fab hover v-model="fab">
+    <!--  -->
+    <v-speed-dial v-model="fab" fixed right direction="top" style="bottom:60px;" transition="slide-y-reverse-transition"  v-show="$store.state.ui.bottomNavigationVisible">
+      <v-btn slot="activator" class="blue darken-2" dark fab v-model="fab">
         <v-icon>add</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
@@ -98,13 +99,13 @@ export default {
       this.$http.get('/api/feeds/')
         .then((response) => {
           this.feeds = response.data
-          console.log(response.data)
+          // console.log(response.data)
           this.loading = false
           // this.$store.commit('showSnackbar', { text: '获取成功' })
         })
         .catch((error) => {
           console.log(error)
-          this.$store.commit('showSnackbar', { text: error })
+          // this.$store.commit('showSnackbar', { text: error })
         })
     },
     closeDialog () {

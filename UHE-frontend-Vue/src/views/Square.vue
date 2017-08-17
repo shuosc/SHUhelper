@@ -11,10 +11,10 @@
         <time-line></time-line>
       </v-tabs-content>
        <v-tabs-content :id="'tab-1'">
-        <time-line></time-line>
+        <activities></activities>
       </v-tabs-content>
        <v-tabs-content :id="'tab-2'">
-        <time-line></time-line>
+        <others></others>
       </v-tabs-content>
     </v-tabs>
   
@@ -22,9 +22,13 @@
 </template>
 <script>
 import TimeLine from './feed/TimeLine'
+import others from '@/views/others'
+import activities from '@/views/activities'
 export default {
   components: {
-    TimeLine
+    TimeLine,
+    others,
+    activities
   },
   data () {
     return {

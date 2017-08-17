@@ -3,7 +3,7 @@ Find Empty Room
 '''
 import json
 import os
-
+import time
 from UHE.utils import this_course, this_term, this_week, this_year
 # from flask import current_app
 
@@ -29,9 +29,9 @@ def get_emptyroom_now():
     """
     uses present time to get a list contain all free rooms
     """
-    week = schooltime.this_week()
-    day = schooltime.this_day()
-    time = schooltime.this_class()
+    week = this_week()
+    day = int(time.strftime("%w"))
+    time = this_course()
     return get_emptyroom(week, day, time)
 
 

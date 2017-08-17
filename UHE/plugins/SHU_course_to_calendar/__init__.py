@@ -17,7 +17,7 @@ __plugin__ = "SHUCourseToCalendar"
 class SHUCourseToCalendar(UHEPlugin):
     settings_key = 'SHU_calendar'
 
-    def setup(self):
+    def setup(self,app):
         print('setup', __plugin__)
 
     def install(self, app):

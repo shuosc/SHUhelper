@@ -16,7 +16,7 @@ def make_token():
     return salt
 
 
-def this_year():
+def this_year(date=datetime.datetime.now()):
     year_event = Activity.objects(
         start__gte=date, end__lte=date, key='year').first()
     if year_event != None:
