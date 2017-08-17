@@ -1,0 +1,93 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "vue-calendar-picker",
+        "scope": null,
+        "escapedName": "vue-calendar-picker",
+        "name": "vue-calendar-picker",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "D:\\desktop\\projects\\shuhelper\\UniversityHelperEngine-core\\UHE-frontend-Vue"
+    ]
+  ],
+  "_cnpm_publish_time": 1495730424297,
+  "_from": "vue-calendar-picker@latest",
+  "_id": "vue-calendar-picker@1.2.1",
+  "_inCache": true,
+  "_location": "/vue-calendar-picker",
+  "_nodeVersion": "7.10.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/vue-calendar-picker-1.2.1.tgz_1495730423173_0.5351878094952554"
+  },
+  "_npmUser": {
+    "name": "franck.freiburger",
+    "email": "public@franck-freiburger.com"
+  },
+  "_npmVersion": "3.10.9",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "vue-calendar-picker",
+    "scope": null,
+    "escapedName": "vue-calendar-picker",
+    "name": "vue-calendar-picker",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npm.taobao.org/vue-calendar-picker/download/vue-calendar-picker-1.2.1.tgz",
+  "_shasum": "9eb9c41da379bb358114e0ab6a66256064033a07",
+  "_shrinkwrap": null,
+  "_spec": "vue-calendar-picker",
+  "_where": "D:\\desktop\\projects\\shuhelper\\UniversityHelperEngine-core\\UHE-frontend-Vue",
+  "author": {
+    "name": "Franck FREIBURGER"
+  },
+  "bugs": {
+    "url": "https://github.com/FranckFreiburger/vue-calendar-picker/issues"
+  },
+  "dependencies": {
+    "date-fns": "^1.28.4"
+  },
+  "description": "calendar component",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "9eb9c41da379bb358114e0ab6a66256064033a07",
+    "size": 11883,
+    "noattachment": false,
+    "tarball": "http://registry.npm.taobao.org/vue-calendar-picker/download/vue-calendar-picker-1.2.1.tgz"
+  },
+  "gitHead": "5208c34c89763a8f55a06cffecd17e8cff26bae9",
+  "homepage": "https://github.com/FranckFreiburger/vue-calendar-picker#readme",
+  "keywords": [
+    "vue2",
+    "calendar",
+    "datetime"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "maintainers": [
+    {
+      "name": "franck.freiburger",
+      "email": "public@franck-freiburger.com"
+    }
+  ],
+  "name": "vue-calendar-picker",
+  "optionalDependencies": {},
+  "publish_time": 1495730424297,
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FranckFreiburger/vue-calendar-picker.git"
+  },
+  "scripts": {},
+  "version": "1.2.1"
+}

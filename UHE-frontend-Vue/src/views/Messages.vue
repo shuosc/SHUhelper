@@ -1,0 +1,71 @@
+<template>
+  <div>
+    <v-layout row class="ma-0">
+      <v-flex xs12 sm6 offset-sm3 class="pa-0">
+        <v-card>
+          <v-list two-line>
+            <div v-for="conversation in conversations" :key="conversation" @click.native="$router.push(`/conversation/${conversation.id}`)">
+              <!-- <v-subheader v-if="item.header" v-text="item.header"></v-subheader> -->
+              <!-- <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider> -->
+              <v-list-tile avatar :to="`/conversation/${conversation.conversation}`" v-bind:key="conversation.title">
+                <v-list-tile-avatar>
+                  <img v-bind:src="`//static.shuhelper.cn/${conversation.toUser.avatar}`">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title v-html="conversation.toUser.name"></v-list-tile-title>
+                  <v-list-tile-sub-title v-html="conversation.lastMessage?conversation.lastMessage.content:''"></v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+              <v-divider v-bind:inset="true"></v-divider>
+            </div>
+          </v-list>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-container v-if="loading">
+      <v-layout align-center>
+        <v-flex xs12 style="text-align:center;">
+          <v-progress-circular indeterminate class="primary--text"></v-progress-circular>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <v-btn dark fixed fab bottom right class="pink" style="bottom:60px;" @click="dialog=true">
+      <v-icon>add</v-icon>
+    </v-btn>
+    <add-conversation :dialog="dialog" @closeDialog="dialog=false" @sendMessageSucceed="getConversations"></add-conversation>
+  </div>
+</template>
+<script>
+import AddConversation from '@/components/dialog/AddConversation'
+export default {
+  components: {
+    AddConversation
+  },
+  data () {
+    return {
+      dialog: false,
+      conversations: [],
+      loading: true
+    }
+  },
+  created () {
+    this.loading = true
+    this.getConversations()
+  },
+  methods: {
+    getConversations () {
+      this.$http.get('/api/conversations/')
+        .then((response) => {
+          this.conversations = response.data
+          this.loading = false
+          if (this.$route.path === '/messages') {
+            setTimeout(this.getConversations, 5000)
+          }
+        })
+    }
+  }
+}
+</script>
+<style lang="stylus">
+
+</style>

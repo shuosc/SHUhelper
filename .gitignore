@@ -1,0 +1,11 @@
+/env
+/.vscode
+/instance/config.py
+/.idea
+*.pyc
+*.rdb
+/UHE-frontend-nuxt
+/UHE-frontend-Vue/static/SHU
+/UHE-frontend-Vue/dist
+celerybeat-schedule.*
+npm-debug.log

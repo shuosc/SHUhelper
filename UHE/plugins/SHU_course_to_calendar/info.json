@@ -1,0 +1,8 @@
+{
+    "identifier": "SHUCourseToCalendar",
+    "name": "SHU Course to calendar",
+    "author": "cosformula",
+    "license": "BSD",
+    "description": "将课程加入日历",
+    "version": "1.0.0"
+}

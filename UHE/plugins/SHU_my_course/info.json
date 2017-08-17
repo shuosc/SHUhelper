@@ -1,0 +1,8 @@
+{
+    "identifier": "SHUMyCourse",
+    "name": "SHU 我的课程",
+    "author": "cosformula",
+    "license": "BSD",
+    "description": "将课程加入日历",
+    "version": "1.0.0"
+}

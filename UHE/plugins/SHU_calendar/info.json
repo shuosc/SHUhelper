@@ -1,0 +1,8 @@
+{
+    "identifier": "SHUCalendar",
+    "name": "SHU Calendar",
+    "author": "cosformula",
+    "license": "BSD",
+    "description": "A Hello World Plugin.",
+    "version": "1.0.0"
+}

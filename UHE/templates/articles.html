@@ -1,0 +1,40 @@
+{% extends "layout.html" %} {% block title %}文章归档{% endblock %} {% block h %}文章归档{% endblock %} {% block body %}
+<div class="row section">
+    <div class="col s12">
+        {% for post in paginated_posts.items %}
+        <div class="card ">
+            <div class="card-image">
+                <img src="/image/{{ post.id }}" style="weight:100%;">
+                <span class="card-title">{{ post.title }}</span>
+            </div>
+            <div class="card-content blue-text darken-3">
+                <p>{{ post.dist }}</p>
+            </div>
+            <div class="card-action">
+                <a href="/post/{{ post.id }}">阅读全文</a>
+            </div>
+        </div>
+        {% endfor %}
+        
+{# Macro for creating navigation links #}
+{% macro render_navigation(pagination, endpoint) %}
+  <ul class="pagination">
+  {% for page in pagination.iter_pages() %}
+    {% if page %}
+      {% if page != pagination.page %}
+      <li class="waves-effect"><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
+      {% else %}
+      <li class="active"><a href="{{ url_for(endpoint, page=page) }}">{{ page }}</a></li>
+      {% endif %}
+    {% else %}
+      <span class=ellipsis>…</span>
+    {% endif %}
+  {% endfor %}
+ </ul>
+{% endmacro %}
+
+<div style="text-align:center;">
+{{ render_navigation(paginated_posts, 'view_posts') }}
+</div>
+
+{% endblock %}

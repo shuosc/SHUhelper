@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link type="text/css" rel="stylesheet" href="//cdn.bootcss.com/materialize/0.97.8/css/materialize.min.css" media="screen,projection" />
+    <link href="//cdn.bootcss.com/material-design-icons/3.0.1/iconfont/material-icons.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> {% block links %}{% endblock %}
+    <title>{% block title %}Welcome{% endblock %} |SHUhelper</title>
+    <style>
+        html {
+            font-family: GillSans, Calibri, Trebuchet, sans-serif;
+        }
+        
+        .nav-fixed {
+            position: fixed;
+            right: 0;
+            left: 0;
+            top: 0;
+            margin-bottom: 0px;
+            z-index: 997;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <header>
+        <nav class="nav-fixed">
+            <div class="nav-wrapper light-blue">
+                <a href="/" class="brand-logo">SHUMSN CMS</a>
+                 <ul class="right">
+                        <a href="/admin">发表</a>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+
+                    <div class="section">
+
+                        <h5 class="center-align "><b>{% block h %}Welcome{% endblock %}</b></h5>
+
+                    </div>
+                    {% with messages = get_flashed_messages(category_filter=["card"]) %} {% if messages %} {% for message in messages %}
+                    <div class="divider"></div>
+                    <div class="section">
+                        <div class="card-panel light-blue darken-2">
+
+                            <h6 class="center-align "><span class="white-text  text-darken-5"><b>{{ message | safe }}</b></span></h6>
+
+                        </div>
+                    </div>{% endfor %} {% endif %} {% endwith %} {% block body %} {% endblock %}
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="page-footer light-blue">
+        <div class="footer-copyright">
+            <div class="container center">
+                © 2016-2017 SHUhelper.cn <a class="white-text" href="http://www.miitbeian.gov.cn/">晋ICP备16008840号</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/jquery/2.1.4/jquery.js"></script>
+<script type="text/javascript" src="//cdn.bootcss.com/materialize/0.97.8/js/materialize.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".button-collapse").sideNav();
+    })
+</script>
+{% with messages = get_flashed_messages(category_filter=["toast"]) %} {% if messages %} {% for message in messages %}
+<script>
+    Materialize.toast('{{ message | safe }}', 4000);
+</script>
+{% endfor %} {% endif %} {% endwith %} {% block script %}{% endblock %}
+
+</html>

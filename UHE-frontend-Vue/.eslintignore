@@ -1,0 +1,5 @@
+build/*.js
+config/*.js
+src/vue-calendar-picker/src/*.js
+src/vue-calendar-picker/src/*.vue
+src/utils.js
