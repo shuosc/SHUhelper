@@ -9,3 +9,4 @@
 /UHE-frontend-Vue/dist
 celerybeat-schedule.*
 npm-debug.log
+yarn.lock

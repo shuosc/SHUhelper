@@ -17,7 +17,7 @@ delta = datetime.timedelta
 class SHUCalendar(UHEPlugin):
     settings_key = 'SHU_calendar'
 
-    def setup(self,app):
+    def setup(self, app):
         self.year = 2017
 
         print('setup', __plugin__)

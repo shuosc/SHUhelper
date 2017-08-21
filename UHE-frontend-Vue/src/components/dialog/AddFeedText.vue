@@ -35,7 +35,7 @@
         <form id="testform" ref="testform" method="post" enctype="multipart/form-data">
           <input name="key" id="key" type="hidden" :value="key">
           <input name="token" type="hidden" :value="token">
-          <input id="userfile" name="file" type="file" @change="upload" />
+          <input id="userfile" name="file" type="file" accept="image/*"  @change="upload" />
           <!-- take photo with phone -->
           <!-- <input id="userfile" name="file" accept="image/*" type="file" /> -->
           <!-- take video with phone -->

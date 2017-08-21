@@ -14,7 +14,7 @@
       </v-btn>
     </v-toolbar>
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}">
-      <div :style="{height:'100%',overflow:'scroll'}" ref="container" @scroll="handleScroll">
+      <div :style="{height:'100%',overflowY:'scroll'}" ref="container" @scroll="handleScroll">
         <v-slide-y-transition mode="out-in">
           <router-view></router-view>
         </v-slide-y-transition>

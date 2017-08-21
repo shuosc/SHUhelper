@@ -25,7 +25,7 @@ def index():
 class SHUMyCourse(UHEPlugin):
     settings_key = 'SHU_calendar'
 
-    def setup(self):
+    def setup(self, app):
         self.app = plugin_manager.app
         self.app.register_blueprint(my_course, url_prefix='/my-course')
 
