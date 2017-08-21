@@ -10,6 +10,7 @@ import state from './state.js'
 import moment from 'moment'
 import VueMomentJS from 'vue-momentjs'
 import AMap from 'vue-amap'
+import VueScroller from 'vue-scroller'
 import {
   parseURL
 } from './utils.js'
@@ -18,6 +19,7 @@ Vue.use(AMap)
 Vue.use(VueMomentJS, moment)
 Vue.use(Vuetify)
 Vue.use(Vuex)
+Vue.use(VueScroller)
 // Vue.use(VueRouter)
 Vue.config.productionTip = false
 

@@ -22,10 +22,11 @@ def get_link_detail():
 class FeedsAPI(MethodView):
     decorators = [login_required]
 
-    def get(self, feed_id=None, page=1):
+    def get(self, feed_id=None):
         if not feed_id:
+            page = int(request.args.get('page', 1))
             paginated_feeds = Feed.objects.paginate(
-                page=page, per_page=20)
+                page=page, per_page=5)
             return jsonify([feed.to_dict() for feed in paginated_feeds.items])
             # return jsonify(paginated_feeds)
         else:
