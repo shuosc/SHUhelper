@@ -16,7 +16,8 @@ import {
 } from './utils.js'
 import VueImg from 'v-img'
 import Toasted from 'vue-toasted'
-
+import VueChatScroll from 'vue-chat-scroll'
+Vue.use(VueChatScroll)
 Vue.use(Toasted)
 Vue.use(VueImg)
 moment.locale('zh-cn')

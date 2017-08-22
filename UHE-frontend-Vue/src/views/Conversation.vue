@@ -1,11 +1,13 @@
 <template>
-  <div style="height:100%;padding-bottom:52px;overflow:scroll;" ref="content">
+  <div style="height:100%;padding-bottom:52px;overflow-y:scroll;"
+    ref="content">
     <v-layout row class="ma-0">
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-list two-line>
             <div v-for="(message,index) in messages" :key="index">
-              <v-list-tile avatar v-bind:key="message.title" href="javascript:;" download target="_blank">
+              <v-list-tile avatar v-bind:key="message.title" href="javascript:;"
+                target="_blank">
                 <v-list-tile-avatar v-if="message.sender.cardID !== $store.state.user.cardID">
                   <img v-bind:src="`//static.shuhelper.cn/${message.sender.avatar}`">
                 </v-list-tile-avatar>
@@ -25,7 +27,8 @@
       <v-container class="px-2 py-0">
         <v-layout row justify-center class="ma-0">
           <v-flex xs9 class="ma-0 py-2">
-            <v-text-field name="input-1" hide-details v-model="content" class="pa-0"></v-text-field>
+            <v-text-field name="input-1" hide-details v-model="content"
+              class="pa-0"></v-text-field>
           </v-flex>
           <v-flex xs3 class="px-0 py-2">
             <v-btn block flat class="indigo--text ma-0" @click.native="sendMessage">发送</v-btn>
@@ -51,12 +54,14 @@ export default {
       content: '',
       messages: [],
       loading: true,
-      scrollByHand: false
+      scrollByHand: false,
+      isPolling: false,
+      newest: null
     }
   },
   created () {
-    // this.getMessages()
-    this.getMessagesPoll()
+    this.getMessages()
+    // setInterval()
   },
   mounted () {
     // let content = this.$refs.content
@@ -68,25 +73,46 @@ export default {
       this.$http.get(`/api/conversations/${this.$route.params.id}`)
         .then((response) => {
           this.messages = response.data.messages
+          this.getMessagesPoll(this.$route.params.id)
+          this.$nextTick(() => {
+            this.scrollBottom()
+          })
+          this.getMessagesPoll()
+          this.loading = false
         })
     },
-    getMessagesPoll () {
-      this.$http.get(`/api/conversations/${this.$route.params.id}`)
+    getMessagesPoll (id) {
+      if (this.isPolling) return
+      this.isPolling = true
+      this.$http.get(`/api/conversations/${id}/unread`)
         .then((response) => {
-          this.messages = response.data.messages
+          this.messages.push(...response.data)
           this.loading = false
+          this.isPolling = false
+          var cardID = this.$store.state.user.cardID
+          function checksender (message) {
+            return message.sender.cardID !== cardID
+          }
+          if (response.data.some(checksender)) {
+            this.$toasted.show('get new', { theme: 'primary', type: 'success', fitToScreen: true, position: 'bottom-center', duration: 1000 })
+          }
           if (!this.scrollByHand) {
             this.$nextTick(() => {
-              this.scrollBottom()
+              this.scrollBottom(id)
             })
           }
-          if (this.$route.path === `/conversation/${this.$route.params.id}`) {
-            setTimeout(this.getMessagesPoll, 3000)
+          if (this.$route.path === `/conversation/${id}`) {
+            setTimeout(() => { this.getMessagesPoll(id) }, 3000)
           }
         })
+        .catch((err) => {
+          console.log(err)
+          setTimeout(() => { this.getMessagesPoll(id) }, 3000)
+        })
     },
-    scrollBottom () {
-      let content = this.$refs.content
+    scrollBottom (id) {
+      if (this.$route.path !== `/conversation/${id}`) return
+      var content = this.$refs.content
       content.scrollTop = content.scrollHeight - content.clientHeight
     },
     sendMessage () {
