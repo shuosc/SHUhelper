@@ -5436,6 +5436,10 @@ uuid@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
+v-img@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/v-img/-/v-img-0.0.8.tgz#a3dd9ebcd5b35f3ec6f9a20f7004026d46dd18f5"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.1.tgz#2804babe712ad3379459acfbe24746ab2c303fbc"
@@ -5483,6 +5487,10 @@ vue-hot-reload-api@^2.0.11:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.1.0.tgz#9ca58a6e0df9078554ce1708688b6578754d86de"
 
+vue-infinite-loading@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/vue-infinite-loading/-/vue-infinite-loading-2.1.3.tgz#638e13b5c3c57acbbbfde75c138eb4815eee6d52"
+
 vue-loader@^11.3.4:
   version "11.3.4"
   resolved "https://registry.yarnpkg.com/vue-loader/-/vue-loader-11.3.4.tgz#65e10a44ce092d906e14bbc72981dec99eb090d2"
@@ -5503,6 +5511,12 @@ vue-loader@^11.3.4:
 vue-momentjs@^0.1.1:
   version "0.1.1"
   resolved "http://registry.npm.taobao.org/vue-momentjs/download/vue-momentjs-0.1.1.tgz#ff22e6b0e71b134629e030cd52d915a2869d8022"
+
+vue-pull-refresh@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vue-pull-refresh/-/vue-pull-refresh-0.2.1.tgz#dd3093082eab047ca6ed11e50b6c338e2430c3cd"
+  dependencies:
+    vue "^2.0.1"
 
 vue-router@^2.3.1:
   version "2.7.0"
@@ -5532,7 +5546,11 @@ vue-template-es2015-compiler@^1.2.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.4.2.tgz#0bc595cda68fc27779568926fcead13553a335df"
 
-vue@^2.2.6, vue@^2.4.2:
+vue-toasted@^1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.12.tgz#742f72ef9fa753907f00c0fd6aad053a6dd9ca93"
+
+vue@^2.0.1, vue@^2.2.6, vue@^2.4.2:
   version "2.4.2"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 

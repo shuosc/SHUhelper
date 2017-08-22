@@ -1,6 +1,6 @@
 <template>
-  <v-app light fill-height toolbar style="height:100%;">
-    <v-toolbar fixed dense>
+  <v-app light toolbar style="height:100%;">
+    <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
       <v-btn icon @click.prevent="back">
         <v-icon>arrow_back</v-icon>
       </v-btn>
@@ -13,12 +13,10 @@
         <v-icon>search</v-icon>
       </v-btn>
     </v-toolbar>
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}">
-      <div :style="{height:'100%',overflowY:'scroll'}" ref="container" @scroll="handleScroll">
-        <v-slide-y-transition mode="out-in">
-          <router-view></router-view>
-        </v-slide-y-transition>
-      </div>
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
+      <v-slide-y-transition mode="out-in">
+        <router-view></router-view>
+      </v-slide-y-transition>
     </main>
     <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
       <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)" :value="nav.url===$route.path">
@@ -146,4 +144,6 @@ export default {
 
 <style lang="stylus">
   @import './stylus/main'
+.fullscreen-v-img
+  z-index:10
 </style>

@@ -14,6 +14,11 @@ import VueScroller from 'vue-scroller'
 import {
   parseURL
 } from './utils.js'
+import VueImg from 'v-img'
+import Toasted from 'vue-toasted'
+
+Vue.use(Toasted)
+Vue.use(VueImg)
 moment.locale('zh-cn')
 Vue.use(AMap)
 Vue.use(VueMomentJS, moment)
@@ -22,7 +27,10 @@ Vue.use(Vuex)
 Vue.use(VueScroller)
 // Vue.use(VueRouter)
 Vue.config.productionTip = false
-
+Vue.toasted.register('default', 'Oops.. Something Went Wrong..', {
+  type: 'error',
+  icon: 'error_outline'
+})
 const store = new Vuex.Store(state)
 router.beforeEach((to, from, next) => {
   if (to.path.match(/http/) !== null) {
