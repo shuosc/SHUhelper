@@ -9,7 +9,7 @@ from UHE.client import Services
 from UHE.extensions import db,celery
 
 class User(UserMixin, db.Document):
-    card_id = StringField()
+    card_id = StringField(primary_key=True)
     open_id = StringField()
     name = StringField(default="未激活")
     username = StringField()

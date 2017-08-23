@@ -8,14 +8,14 @@
             <div v-for="(message,index) in messages" :key="index">
               <v-list-tile avatar v-bind:key="message.title" href="javascript:;"
                 target="_blank">
-                <v-list-tile-avatar v-if="message.sender.cardID !== $store.state.user.cardID">
-                  <img v-bind:src="`//static.shuhelper.cn/${message.sender.avatar}`">
+                <v-list-tile-avatar v-if="message.sender !== $store.state.user.cardID">
+                  <img v-bind:src="`//static.shuhelper.cn/${user[message.sender].avatar}`">
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-sub-title v-html="message.content"></v-list-tile-sub-title>
                 </v-list-tile-content>
-                <v-list-tile-avatar v-if="message.sender.cardID === $store.state.user.cardID">
-                  <img v-bind:src="`//static.shuhelper.cn/${message.sender.avatar}`">
+                <v-list-tile-avatar v-if="message.sender === $store.state.user.cardID">
+                  <img v-bind:src="`//static.shuhelper.cn/${user[message.sender].avatar}`">
                 </v-list-tile-avatar>
               </v-list-tile>
             </div>
@@ -56,7 +56,9 @@ export default {
       loading: true,
       scrollByHand: false,
       isPolling: false,
-      newest: null
+      newest: null,
+      count: 0,
+      user: {}
     }
   },
   created () {
@@ -72,7 +74,10 @@ export default {
     getMessages () {
       this.$http.get(`/api/conversations/${this.$route.params.id}`)
         .then((response) => {
+          this.user[response.data.fromUser.cardID] = response.data.fromUser
+          this.user[response.data.toUser.cardID] = response.data.toUser
           this.messages = response.data.messages
+          this.count = response.data.count
           this.getMessagesPoll(this.$route.params.id)
           this.$nextTick(() => {
             this.scrollBottom()
@@ -84,18 +89,20 @@ export default {
     getMessagesPoll (id) {
       if (this.isPolling) return
       this.isPolling = true
-      this.$http.get(`/api/conversations/${id}/unread`)
+      this.$http.get(`/api/conversations/${id}/after/${this.count}`)
         .then((response) => {
-          this.messages.push(...response.data)
+          this.messages.push(...response.data.messages)
+          console.log(response.data)
+          this.count += response.data.messages.length
           this.loading = false
           this.isPolling = false
-          var cardID = this.$store.state.user.cardID
-          function checksender (message) {
-            return message.sender.cardID !== cardID
-          }
-          if (response.data.some(checksender)) {
-            this.$toasted.show('get new', { theme: 'primary', type: 'success', fitToScreen: true, position: 'bottom-center', duration: 1000 })
-          }
+          // var cardID = this.$store.state.user.cardID
+          // function checksender (message) {
+          //   return message.sender.cardID !== cardID
+          // }
+          // if (response.data.some(checksender)) {
+          //   this.$toasted.show('get new', { theme: 'primary', type: 'success', fitToScreen: true, position: 'bottom-center', duration: 1000 })
+          // }
           if (!this.scrollByHand) {
             this.$nextTick(() => {
               this.scrollBottom(id)
