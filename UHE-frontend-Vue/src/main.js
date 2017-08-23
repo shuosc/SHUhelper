@@ -17,6 +17,16 @@ import {
 import VueImg from 'v-img'
 import Toasted from 'vue-toasted'
 import VueChatScroll from 'vue-chat-scroll'
+import {
+  Button,
+  Cell,
+  Loadmore,
+  InfiniteScroll
+} from 'mint-ui'
+Vue.use(InfiniteScroll)
+Vue.use(Button)
+Vue.use(Cell)
+Vue.use(Loadmore)
 Vue.use(VueChatScroll)
 Vue.use(Toasted)
 Vue.use(VueImg)

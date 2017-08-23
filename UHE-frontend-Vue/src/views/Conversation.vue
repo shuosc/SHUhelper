@@ -82,12 +82,12 @@ export default {
           this.$nextTick(() => {
             this.scrollBottom()
           })
-          this.getMessagesPoll()
           this.loading = false
         })
     },
     getMessagesPoll (id) {
       if (this.isPolling) return
+      if (this.$route.path !== `/conversation/${id}`) return
       this.isPolling = true
       this.$http.get(`/api/conversations/${id}/after/${this.count}`)
         .then((response) => {
@@ -96,10 +96,6 @@ export default {
           this.count += response.data.messages.length
           this.loading = false
           this.isPolling = false
-          // var cardID = this.$store.state.user.cardID
-          // function checksender (message) {
-          //   return message.sender.cardID !== cardID
-          // }
           // if (response.data.some(checksender)) {
           //   this.$toasted.show('get new', { theme: 'primary', type: 'success', fitToScreen: true, position: 'bottom-center', duration: 1000 })
           // }
@@ -108,9 +104,7 @@ export default {
               this.scrollBottom(id)
             })
           }
-          if (this.$route.path === `/conversation/${id}`) {
-            setTimeout(() => { this.getMessagesPoll(id) }, 3000)
-          }
+          setTimeout(() => { this.getMessagesPoll(id) }, 3000)
         })
         .catch((err) => {
           console.log(err)
