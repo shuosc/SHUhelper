@@ -137,7 +137,7 @@ arr-flatten@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/arr-flatten/-/arr-flatten-1.0.1.tgz#e5ffe54d45e19f32f216e91eb99c8ce892bb604b"
 
-array-find-index@^1.0.1:
+array-find-index@^1.0.1, array-find-index@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/array-find-index/-/array-find-index-1.0.2.tgz#df010aa1287e164bbda6f9723b0a96a1ec4187a1"
 
@@ -441,6 +441,10 @@ babel-plugin-check-es2015-constants@^6.22.0:
   resolved "https://registry.yarnpkg.com/babel-plugin-check-es2015-constants/-/babel-plugin-check-es2015-constants-6.22.0.tgz#35157b101426fd2ffd3da3f75c7d1e91835bbf8a"
   dependencies:
     babel-runtime "^6.22.0"
+
+babel-plugin-component@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-component/-/babel-plugin-component-0.10.0.tgz#55d6dbc0f35d7a381931b16ff1ee34ef93085add"
 
 babel-plugin-istanbul@^4.1.1:
   version "4.1.4"
@@ -1097,6 +1101,10 @@ caniuse-lite@^1.0.30000684:
   version "1.0.30000699"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000699.tgz#2a187b737edaa9ebedbbb56edcb53e994eceda0c"
 
+canvas-exif-orientation@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/canvas-exif-orientation/-/canvas-exif-orientation-0.4.0.tgz#b487f3701998a9e879eb104010b2a58115368b6b"
+
 caseless@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
@@ -1398,6 +1406,10 @@ copy-webpack-plugin@^4.0.1:
     lodash "^4.3.0"
     minimatch "^3.0.0"
     node-dir "^0.1.10"
+
+core-image-xhr@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/core-image-xhr/-/core-image-xhr-1.0.3.tgz#9211d7b5c41219af5ab69b9384ca2a47d572b476"
 
 core-js@^2.2.0, core-js@^2.4.0:
   version "2.4.1"
@@ -3598,6 +3610,14 @@ minimist@1.2.0, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
 
+mint-ui@^2.2.9:
+  version "2.2.9"
+  resolved "https://registry.yarnpkg.com/mint-ui/-/mint-ui-2.2.9.tgz#7c9892560ca647abec2e4d660cd8aee41d738017"
+  dependencies:
+    array-find-index "^1.0.2"
+    raf.js "0.0.4"
+    vue-lazyload "^1.0.1"
+
 mkdirp@0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.0.tgz#1d73076a6df986cd9344e15e71fcc05a4c9abf12"
@@ -3781,9 +3801,13 @@ oauth-sign@~0.8.1:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
 
-object-assign@4.1.0, object-assign@^4.0.1, object-assign@^4.1.0:
+object-assign@4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.0.tgz#7a3b3d0e98063d43f4c03f2e8ae6cd51a86883a0"
+
+object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
 
 object-component@0.0.3:
   version "0.0.3"
@@ -4427,6 +4451,10 @@ querystring-es3@^0.2.0:
 querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
+
+raf.js@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/raf.js/-/raf.js-0.0.4.tgz#f15af445d241b27fa7131a57450b67ef9c402fec"
 
 randomatic@^1.1.3:
   version "1.1.6"
@@ -5224,6 +5252,10 @@ text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
+textarea-caret@3.x:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/textarea-caret/-/textarea-caret-3.0.2.tgz#f360c48699aa1abf718680a43a31a850665c2caf"
+
 throttleit@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/throttleit/-/throttleit-1.0.0.tgz#9e785836daf46743145a5984b6268d828528ac6c"
@@ -5436,6 +5468,10 @@ uuid@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
+v-img@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/v-img/-/v-img-0.0.8.tgz#a3dd9ebcd5b35f3ec6f9a20f7004026d46dd18f5"
+
 validate-npm-package-license@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/validate-npm-package-license/-/validate-npm-package-license-3.0.1.tgz#2804babe712ad3379459acfbe24746ab2c303fbc"
@@ -5473,15 +5509,49 @@ vue-amap@^0.3.0:
   dependencies:
     uppercamelcase "^1.1.0"
 
+vue-at@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/vue-at/-/vue-at-2.2.1.tgz#27aa884698e69ccafd53c2ee7fb173a25eb0078c"
+  optionalDependencies:
+    textarea-caret "3.x"
+
 vue-calendar-picker@^1.2.1:
   version "1.2.1"
   resolved "http://registry.npm.taobao.org/vue-calendar-picker/download/vue-calendar-picker-1.2.1.tgz#9eb9c41da379bb358114e0ab6a66256064033a07"
   dependencies:
     date-fns "^1.28.4"
 
+vue-chat-scroll@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vue-chat-scroll/-/vue-chat-scroll-1.2.0.tgz#79d807baa22ed5765e56c2d9bafa3615a6792873"
+  dependencies:
+    vue "^2.1.10"
+
+vue-core-image-upload@^2.3.8:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/vue-core-image-upload/-/vue-core-image-upload-2.3.8.tgz#998092aec771f72712b21bf46362ea21cbfb599b"
+  dependencies:
+    core-image-xhr "^1.0.3"
+    vue "^2.0.5"
+
+vue-croppa@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/vue-croppa/-/vue-croppa-0.2.2.tgz#e6524951b1d9743b8845eb4b76f3f2033513eedd"
+  dependencies:
+    canvas-exif-orientation "^0.4.0"
+    object-assign "^4.1.1"
+
 vue-hot-reload-api@^2.0.11:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.1.0.tgz#9ca58a6e0df9078554ce1708688b6578754d86de"
+
+vue-infinite-loading@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/vue-infinite-loading/-/vue-infinite-loading-2.1.3.tgz#638e13b5c3c57acbbbfde75c138eb4815eee6d52"
+
+vue-lazyload@^1.0.1:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.0.6.tgz#7d5494fc35c35fc84dcc271165b827e309b4e793"
 
 vue-loader@^11.3.4:
   version "11.3.4"
@@ -5503,6 +5573,16 @@ vue-loader@^11.3.4:
 vue-momentjs@^0.1.1:
   version "0.1.1"
   resolved "http://registry.npm.taobao.org/vue-momentjs/download/vue-momentjs-0.1.1.tgz#ff22e6b0e71b134629e030cd52d915a2869d8022"
+
+vue-pull-refresh@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/vue-pull-refresh/-/vue-pull-refresh-0.2.1.tgz#dd3093082eab047ca6ed11e50b6c338e2430c3cd"
+  dependencies:
+    vue "^2.0.1"
+
+vue-rate@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vue-rate/-/vue-rate-1.2.0.tgz#299f050ad28cd5ba296b2f84eb93105b4a39458e"
 
 vue-router@^2.3.1:
   version "2.7.0"
@@ -5532,7 +5612,11 @@ vue-template-es2015-compiler@^1.2.2:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.4.2.tgz#0bc595cda68fc27779568926fcead13553a335df"
 
-vue@^2.2.6, vue@^2.4.2:
+vue-toasted@^1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/vue-toasted/-/vue-toasted-1.1.12.tgz#742f72ef9fa753907f00c0fd6aad053a6dd9ca93"
+
+vue@^2.0.1, vue@^2.0.5, vue@^2.1.10, vue@^2.2.6, vue@^2.4.2:
   version "2.4.2"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 

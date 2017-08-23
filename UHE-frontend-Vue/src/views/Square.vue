@@ -1,7 +1,7 @@
 <template>
-  <div style="height:100%;">
-    <v-tabs light fixed centered  style="height:100%;">
-      <v-tabs-bar slot="activators" class="grey lighten-3" >
+  <div>
+    <v-tabs light centered grow>
+      <v-tabs-bar slot="activators" class="grey lighten-3"  >
         <v-tabs-slider class="primary" ></v-tabs-slider>
         <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
           {{ item }}
@@ -40,7 +40,7 @@ export default {
 </script>
 <style>
 .tabs__items{
-   height:100% !important; 
+   /* height:100% !important;  */
   /* position: static; */
   /* padding-top:40px; */
   /* clear: both; */

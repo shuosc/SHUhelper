@@ -2,7 +2,8 @@ import datetime
 
 import mongoengine
 from flask_login import current_user
-from mongoengine import (BooleanField, DateTimeField, ListField, ReferenceField, StringField)
+from mongoengine import (BooleanField, DateTimeField,
+                         ListField, ReferenceField, StringField)
 
 from UHE.extensions import db
 from UHE.user.models import User
@@ -13,9 +14,9 @@ from UHE.user.models import User
 
 class Message(db.Document):
     sender = ReferenceField(User)
-    message_type = StringField(choices=('system', 'application', 'private'))
+    sort = StringField(choices=('system', 'application', 'private'))
     content = StringField()
-    read_status = BooleanField(default=False)
+    read = BooleanField(default=False)
     created = DateTimeField(default=datetime.datetime.now)
     expire_from = DateTimeField(default=lambda: datetime.datetime(2100, 1, 1))
     meta = {
@@ -24,21 +25,9 @@ class Message(db.Document):
         ],
         'strict': False
     }
-
-    def to_dict(self):
-        return {'sender':
-                {
-                    'name': self.sender.display_name, 'cardID': self.sender.card_id,'avatar':self.sender.avatar
-                },
-                'content': self.content,
-                'messageType': self.message_type,
-                'created': str(self.created),
-                'read': self.read_status
-                }
-
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        if document.message_type == 'private' and document.read_status:
+        if document.sort == 'private' and document.read:
             document.expire_from = datetime.datetime.now()
 
     def __unicode__(self):
@@ -55,14 +44,20 @@ class Conversation(db.Document):
     to_user = ReferenceField(User)
     messages = ListField(ReferenceField(
         Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
+    # unreadmessages = ListField(ReferenceField(
+    #     Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
     meta = {'strict': False}
     conversation_type = StringField(
         choices=('system', 'application', 'private'))
+    # def get_messages(count):
 
     @property
     def first_message(self):
         """Returns the first message object."""
         return self.messages[0]
+
+    def get_unread(self):
+        return [message.to_dict() for message in self.unreadmessages]
 
     @property
     def last_message(self):
@@ -74,6 +69,7 @@ class Conversation(db.Document):
 
     def to_dict_abstract(self):
         data = {}
+        data['id'] = str(self.id)
         data['conversation'] = str(self.id)
         if current_user.id == self.from_user.id:
             data['fromUser'] = self.from_user.to_dict()
@@ -81,10 +77,13 @@ class Conversation(db.Document):
         else:
             data['toUser'] = self.from_user.to_dict()
             data['fromUser'] = self.to_user.to_dict()
-        data['lastMessage'] = self.last_message.to_dict() if self.last_message != None else None
+        # if len(self.unreadmessages) == 0:
+        data['lastMessage'] = self.last_message.to_json() if self.last_message != None else None
+        # else:
+        #     data['unread'] = len(self.unreadmessages)
         return data
 
-    def to_dict_complete(self):
+    def to_dict_detail(self):
         data = {}
         data['conversation'] = str(self.id)
         if current_user.id == self.from_user.id:
@@ -93,7 +92,9 @@ class Conversation(db.Document):
         else:
             data['toUser'] = self.from_user.to_dict()
             data['fromUser'] = self.to_user.to_dict()
-        data['messages'] = [message.to_dict() for message in self.messages]
+        data['messages'] = self.messages[-10:]
+        data['id'] = str(self.id)
+        data['count'] = len(self.messages)
         return data
 
     # @classmethod

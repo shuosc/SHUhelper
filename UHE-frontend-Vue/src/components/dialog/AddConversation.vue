@@ -27,7 +27,7 @@
           <v-container fluid
                        class="pa-0">
             <v-card v-for="user in users"
-                    @click="getConversation(user.card_id)"
+                    @click="getConversation(user._id)"
                     :key="user.card_id">
               <v-card-text>{{ user.name }} </v-card-text>
             </v-card>

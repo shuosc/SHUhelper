@@ -104,6 +104,20 @@ class Activity(db.Document):
     start = DateTimeField(required=True)
     end = DateTimeField(required=True)
     meta = {'ordering': ['start'], 'strict': False}
+    def to_dict(self):
+        return {
+            'args': self.args,
+            'start': self.start.timestamp(),
+            'end': self.end.timestamp(),
+            'title': self.title,
+            'visible': self.visible,
+            'place': self.place,
+            'category': self.category,
+            'place': self.place,
+            'key': self.key,
+            'id': str(self.id),
+            'event_id': str(self.event)
+        }
 
     # def find_schedule_day(self):
     #     now = datetime.datetime.now()

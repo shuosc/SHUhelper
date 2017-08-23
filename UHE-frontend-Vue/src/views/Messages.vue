@@ -3,7 +3,6 @@
   <v-layout row class="ma-0" style="height:100%;">
     <v-flex xs12 sm6 offset-sm3 class="pa-0">
       <v-list two-line style="height:100%;">
-        <scroller :on-infinite="getConversations" style="padding-top: 50px;">
           <div v-for="(conversation,index) in conversations" :key="conversation.conversation" @click.native="$router.push(`/conversation/${conversation.id}`)">
             <v-list-tile avatar :to="`/conversation/${conversation.conversation}`" v-bind:key="conversation.title">
               <v-list-tile-avatar>
@@ -16,7 +15,6 @@
             </v-list-tile>
             <v-divider v-bind:inset="true"></v-divider>
           </div>
-        </scroller>
       </v-list>
       <v-container v-if="loading">
         <v-layout align-center>

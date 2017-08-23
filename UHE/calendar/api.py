@@ -24,14 +24,14 @@ class EventAPI(MethodView):
         if not event_id:
             now = datetime.datetime.now()
             start_text = request.args.get(
-                'start', '{}-{}-{}-{}-{}'.format(now.year, now.month, now.day, 0, 0))
+                'start', now.timestamp())
             end_text = request.args.get(
-                'end', '{}-{}-{}-{}-{}'.format(now.year, now.month, now.day + 1, 0, 0))
-            start = datetime.datetime(*(map(int, start_text.split('-'))))
-            end = datetime.datetime(*(map(int, end_text.split('-'))))
-            events = Activity.objects(
+                'end', now.timestamp())
+            start = datetime.datetime.utcfromtimestamp(int(start_text))
+            end =  datetime.datetime.utcfromtimestamp(int(end_text))
+            activities = Activity.objects(
                 Q(visible='public') & ((Q(start__lte=end) & Q(end__gte=end)) | (Q(start__gte=start) & Q(end__lte=end)))).paginate(page=page, per_page=100)
-            return jsonify(events.items)
+            return jsonify([activity.to_dict() for activity in activities.items])
         else:
             event = Event.objects.get_or_404(id=event_id)
             return jsonify(event)
