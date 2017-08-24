@@ -1,10 +1,12 @@
 import datetime
-from flask import Blueprint
+from flask import Blueprint,jsonify
+from flask_login import current_user
 from UHE.calendar.models import Activity, Event
 from UHE.plugins import UHEPlugin
 from UHE.extensions import celery, captcha_solver, admin, db, plugin_manager
 from flask_admin.contrib.mongoengine import ModelView
 from mongoengine.context_managers import switch_collection
+from UHE.user.models import UserData
 from bs4 import BeautifulSoup
 from UHE.client import XK
 import requests
@@ -17,10 +19,17 @@ __plugin__ = "SHUMyCourse"
 my_course = Blueprint('my_course', __name__)
 
 
-@my_course.route('/')
+@my_course.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'GET':
+        data = UserData.objects(user=current_user.id, identifier=__plugin__).get_or_404()
+        return jsonify(data)
+    else:
+        
 
-    pass
+@celery.task
+def get_course():
+
 
 class SHUMyCourse(UHEPlugin):
     settings_key = 'SHU_calendar'
