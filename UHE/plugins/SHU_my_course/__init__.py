@@ -1,6 +1,6 @@
 import datetime
-from flask import Blueprint,jsonify
-from flask_login import current_user
+from flask import Blueprint, jsonify, request, current_app
+from flask_login import current_user,login_required
 from UHE.calendar.models import Activity, Event
 from UHE.plugins import UHEPlugin
 from UHE.extensions import celery, captcha_solver, admin, db, plugin_manager
@@ -12,6 +12,8 @@ from UHE.client import XK
 import requests
 import re
 import time
+from UHE.client import XK
+import json
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUMyCourse"
 
@@ -20,33 +22,80 @@ my_course = Blueprint('my_course', __name__)
 
 
 @my_course.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     if request.method == 'GET':
-        data = UserData.objects(user=current_user.id, identifier=__plugin__).get_or_404()
+        data = UserData.objects(user=current_user.id,
+                                identifier=__plugin__).get_or_404()
+        return jsonify(json.loads(data.data))
+    else:
+        post_data = request.get_json()
+        user_data = UserData.objects(
+            user=current_user.id, identifier=__plugin__).first()
+        if user_data is None:
+            user_data = UserData(identifier=__plugin__,
+                                 user=current_user.id, status='none')
+            user_data.save()
+        task = get_course.delay(post_data['card_id'], post_data['password'])
+        return jsonify(success=task.id)
+
+
+@my_course.route('/sync', methods=['GET', 'POST'])
+def sync_index():
+    if request.method == 'GET':
+        data = UserData.objects(user=current_user.id,
+                                identifier=__plugin__).get_or_404()
         return jsonify(data)
     else:
-        
+        post_data = request.get_json()
+        user_data = UserData.objects(
+            user=current_user.id, identifier=__plugin__).first()
+        if user_data is None:
+            user_data = UserData(identifier=__plugin__,
+                                 user=current_user.id, status='none')
+            user_data.save()
+        task = get_course(post_data['card_id'], post_data['password'])
+        return jsonify(success='ok')
+
 
 @celery.task
-def get_course():
+def get_course(card_id, password):
+    user_data = UserData.objects(user=card_id, identifier=__plugin__).first()
+    user_data.status = 'pending'
+    user_data.save()
+    try:
+        client = XK(card_id, password)
+        client.captcha = captcha_solver.create(
+            client.captcha_img, site='XK')['Result']
+        print(client.captcha)
+        client.login()
+        client.get_data()
+    except Exception as e:
+        user_data.status = 'failed'
+        user_data.save()
+        print('error')
+        raise e
+        return
+    user_data.data = client.to_json()
+    user_data.status = 'success'
+    user_data.last_modified = datetime.datetime.now()
+    user_data.save()
 
 
 class SHUMyCourse(UHEPlugin):
     settings_key = 'SHU_calendar'
 
     def setup(self, app):
-        self.app = plugin_manager.app
-        self.app.register_blueprint(my_course, url_prefix='/my-course')
+        # self.app = current_app
+        # print(current_app)
+        current_app.register_blueprint(my_course, url_prefix='/my-course')
 
         print('setup', __plugin__)
+        print(current_app.url_map)
 
     def install(self, app):
-        get_xk('http://xk.shu.edu.cn:8080/')
-        get_xk('http://xk.shu.edu.cn/')
+        pass
 
     def uninstall(self):
         print('uninstall')
-        event = Event.objects(
-            identifier="SHU_calendar_%s" % (year)).first()
-        Activity.objects(event=event).delete()
-        event.delete()
+        pass

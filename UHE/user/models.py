@@ -68,7 +68,7 @@ class UserData(db.Document):
     identifier = StringField()
     user = ReferenceField(User)
     last_modified = DateTimeField(default=datetime.datetime.now)
-    need_update = BooleanField()
+    need_update = BooleanField(default=False)
     status = StringField()
     client_id = StringField(default='client_')
 

@@ -24,6 +24,13 @@
 
 ## 依赖
 
+## 预览
+
+![](/doc/screenshot1.jpg)
+![](/doc/screenshot2.jpg)
+![](/doc/screenshot3.jpg)
+![](/doc/screenshot4.jpg)
+
 ## 技术架构
 
 UHE采用前后端分离的思路开发。
@@ -48,3 +55,8 @@ UHE采用前后端分离的思路开发。
 ## 插件
 
 ## 贡献
+
+
+## Powered by
+
+* [上海大学验证码识别服务](https://github.com/shuopensourcecommunity/anti-captcha.shuosc.org) by @EnJiang

@@ -14,8 +14,9 @@
         <div class="taskListSty">
           <div class="task-list-item" v-for="detail in taskDetail[index]" :key="detail" :style="detail.styleObj" @click="showDetail(detail)">
             <div>
-              <h5>{{detail.coursename}}</h5>
+              <h5 >{{detail.coursename}}</h5>
               <p>{{detail.teachname}}</p>
+              <p>@{{detail.place}}</p>
             </div>
           </div>
         </div>
@@ -80,15 +81,18 @@ export default {
 
 <style scoped>
 .schedule {
-  width: 90%;
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
+  padding-left:2rem;
   height: 100%;
 }
 
 .time-ground {
   display: block;
+  padding-left:2rem;
+  /* margin-left:1.5rem; */
   position: absolute;
   left: 0;
   top: 0;
@@ -111,6 +115,7 @@ export default {
 
 .task-ground {
   width: 100%;
+  /* margin-left:1.5rem; */
   height: 100%;
 }
 
@@ -118,7 +123,7 @@ export default {
   float: left;
   width: 20%;
   box-sizing: border-box;
-  border: 1px solid #EAEAEA;
+  /* border: 1px solid #EAEAEA; */
   height: 100%;
 }
 
@@ -144,7 +149,13 @@ export default {
 }
 
 .task-list-item h5 {
+  font-size: 0.9rem;
   color: #E0E7E9;
+  margin-bottom: 0.4rem;
+  padding: 0.1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 ul {
@@ -152,8 +163,9 @@ ul {
 }
 
 .taskListSty {
-  position: absolute;
+  box-sizing: border-box;
+   position: relative; 
   height: 96.2%;
-  width: 20%;
+  width: 100%;
 }
 </style>

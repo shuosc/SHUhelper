@@ -137,7 +137,7 @@ class Plugin(object):
         else:
             return None
 
-    def setup(self,app):  # pragma: no cover
+    def setup(self, app):  # pragma: no cover
         """This method is used to register all things that the plugin wants to
         register.
         """
@@ -326,6 +326,7 @@ class PluginManager(object):
             with self.app.app_context():
                 plugin.enabled = True
                 plugin.setup(self.app)
+
     def install_plugins(self, plugins=None):
         """Installs one or more plugins.
         :param plugins: An iterable with plugins. If no plugins are passed
@@ -334,6 +335,7 @@ class PluginManager(object):
         for plugin in plugins or itervalues(self.plugins):
             with self.app.app_context():
                 plugin.install(self.app)
+
     def uninstall_plugins(self, plugins=None):
         """Uninstalls one or more plugins.
         :param plugins: An iterable with plugins. If no plugins are passed

@@ -1,6 +1,6 @@
 import base64
 
-from flask import Flask
+from flask import Flask,current_app
 from flask_login import current_user
 
 from UHE.admin.views import configure_admin
@@ -104,6 +104,7 @@ def configure_blueprints(app):
     app.register_blueprint(feeds, url_prefix='/feeds')
     app.register_blueprint(events, url_prefix='/events')
     app.register_blueprint(index, url_prefix='/index')
+    # print(app.url_map)
     pass
 
 
@@ -111,9 +112,6 @@ def configure_extensions(app):
     """Configures the extensions."""
     # Flask-BabelEx
     babel.init_app(app)
-
-    # Flask-Plugins
-    plugin_manager.init_app(app)
 
     # Captcha Solver
     captcha_solver.init_app(app)
@@ -140,6 +138,8 @@ def configure_extensions(app):
     allows.init_app(app)
     allows.identity_loader(lambda: current_user)
     login_manager.init_app(app)
+    # Flask-Plugins
+    plugin_manager.init_app(app)
 
     @login_manager.request_loader
     def load_user_from_request(request):

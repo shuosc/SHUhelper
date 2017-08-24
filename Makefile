@@ -24,12 +24,18 @@ test:
 runweb:
 	cd ./UHE-frontend-Vue && yarn dev
 
+buildweb:
+	cd ./UHE-frontend-Vue && yarn build
+
 run:
-	celery -A celery_worker.celery worker --beat --loglevel=info & >celery.log
+	# celery -A celery_worker.celery worker --loglevel=info & >celery.log
 	export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run
 
 runcelery:
 	celery -A celery_worker.celery worker --beat --loglevel=info
+
+stopcelery:
+	pkill -9 -f 'celery worker'
 
 docs:
 	$(MAKE) -C docs html

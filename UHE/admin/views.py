@@ -15,7 +15,7 @@ from UHE.extensions import admin, plugin_manager
 from UHE.feed.models import Feed
 from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
-from UHE.user.models import User
+from UHE.user.models import User,UserData
 
 AUTH = {
     'superadmin': ['users', 'user_data', 'messages', 'posts', 'basic'],
@@ -146,6 +146,7 @@ class PluginView(ModelView):
 
 
 def configure_admin(app):
+    admin.add_view(ModelView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(ModelView(Conversation, endpoint='conversation-manage'))
     admin.add_view(UserView(User, endpoint='user-manage'))

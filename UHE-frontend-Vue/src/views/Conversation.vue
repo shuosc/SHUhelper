@@ -104,11 +104,11 @@ export default {
               this.scrollBottom(id)
             })
           }
-          setTimeout(() => { this.getMessagesPoll(id) }, 3000)
+          setTimeout(() => { this.getMessagesPoll(id) }, 1000)
         })
         .catch((err) => {
           console.log(err)
-          setTimeout(() => { this.getMessagesPoll(id) }, 3000)
+          setTimeout(() => { this.getMessagesPoll(id) }, 1000)
         })
     },
     scrollBottom (id) {

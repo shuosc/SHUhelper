@@ -4,14 +4,16 @@ replace it later
 """
 import requests
 
+
 class Solver():
     def __init__(self):
         pass
-    def init_app(self,app):
-        self.username=app.config["CAPTCHA_SOLVER_USERNAME"]
-        self.password=app.config["CAPTCHA_SOLVER_PASSWORD"]
-        self.soft_id=app.config["CAPTCHA_SOLVER_SOFTID"]
-        self.soft_key=app.config["CAPTCHA_SOLVER_SOFTKEY"]
+
+    def init_app(self, app):
+        self.username = app.config["CAPTCHA_SOLVER_USERNAME"]
+        self.password = app.config["CAPTCHA_SOLVER_PASSWORD"]
+        self.soft_id = app.config["CAPTCHA_SOLVER_SOFTID"]
+        self.soft_key = app.config["CAPTCHA_SOLVER_SOFTKEY"]
         self.base_params = {
             'username': self.username,
             'password': self.password,
@@ -23,16 +25,29 @@ class Solver():
             'Expect': '100-continue',
             'User-Agent': 'ben',
         }
-    def create(self, im,im_type=3040, timeout=60,site=''):
-        params = {
-            'typeid': im_type,
-            'timeout': timeout,
-        }
-        params.update(self.base_params)
-        files = {'image': ('a.jpg', im)}
-        r = requests.post('http://api.ruokuai.com/create.json',
-                          data=params, files=files)
-        return r.json()
+
+    def create(self, im, im_type=3040, timeout=60, site=''):
+        if site == 'XK' or site == 'CJ':
+            params = {
+                'typeid': im_type,
+                'timeout': timeout,
+            }
+            params.update(self.base_params)
+            files = {'captcha': ('captcha.jpg', im)}
+            r = requests.post('https://anti-captcha.shuosc.org/jwc',
+                              data=params, files=files)
+            # print(r.json())
+            return {'Result': r.json()['result']}
+        else:
+            params = {
+                'typeid': im_type,
+                'timeout': timeout,
+            }
+            params.update(self.base_params)
+            files = {'image': ('a.jpg', im)}
+            r = requests.post('http://api.ruokuai.com/create.json',
+                              data=params, files=files)
+            return r.json()
 
     def report_error(self, im_id):
         params = {
