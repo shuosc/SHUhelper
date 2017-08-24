@@ -1,93 +1,18 @@
 <template>
   <v-flex xs12 class="pb-5">
-    <loadmore :top-method="resetFeeds" :bottom-method="loadBottom"
-      @top-status-change="handleTopChange" :bottom-all-loaded="allLoaded"
-      ref="loadmore" v-infinite-scroll="getFeeds" infinite-scroll-distance="10">
-      <v-card v-for="(feed,index) in feeds" :key="index"
-        class="mt-3">
-        <v-container fluid grid-list-lg class="py-0">
-          <v-layout row>
-            <v-flex xs2>
-              <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`"
-                height="2.5rem" contain></v-card-media>
-            </v-flex>
-            <v-flex xs10>
-              <div>
-                <div style="font-size:1.1rem;" class="teal--text">{{feed.user.name}}</div>
-                <div style="font-size:0.5rem;" class="grey--text">
-                  {{$moment(feed.created,'YYYY-MM-DD hh:mm:ss').fromNow()}}
-                </div>
-              </div>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-container class="pb-0 pt-3 px-3">
-          <v-layout row>
-            <v-flex xs12>
-              {{feed.text}}</v-flex>
-          </v-layout>
-        </v-container>
-        <v-container fluid v-if="feed.img.length !== 0" grid-list-sm
-          class="pa-3">
-          <v-layout row wrap>
-            <v-flex xs4 v-for="(img,key) in feed.img" :key="key">
-              <img v-img="{group:index}" :src="`//static.shuhelper.cn/${img}-slim75`"
-                style="object-fit: cover;" alt="lorem"
-                width="100%" height="100%" />
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-container grid-list-lg v-if="feed.linkURL !== ''"
-          style="border-style:solid;border-width:2px;border-color:#eee;"
-          class="pa-0 ma-2">
-          <v-layout row style="min-height:5rem;">
-            <v-flex xs3>
-              <v-card-media v-if="feed.linkImg" src="/static/107.jpg"
-                style="height:100%;" contain></v-card-media>
-              <v-icon x-large v-else style="height:100%;display:flex;"
-                class="blue--text text--darken-2">public</v-icon>
-            </v-flex>
-            <v-flex xs9>
-              <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0"
-                @click="this.window.open(feed.linkURL)">{{feed.linkTitle}}</p>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-card-actions class="white">
-          <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon>favorite</v-icon>
-            <span v-for="people in feed.liked" :key="people.id">{{people}}</span>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>comment</v-icon>{{feed.comments}}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <!-- <v-container slot="top" class="mint-loadmore-top">
-          <v-layout align-center>
-            <v-flex xs12 style="text-align:center;">
-              <span v-show="topStatus !== 'loading'" :class="{ 'rotate': topStatus === 'drop' }">↓</span>
-              <v-progress-circular v-show="topStatus === 'loading'"
-                indeterminate class="primary--text"></v-progress-circular>
-            </v-flex>
-          </v-layout>
-        </v-container> -->
+    <loadmore :top-method="resetFeeds" :bottom-method="loadBottom" @top-status-change="handleTopChange" :bottom-all-loaded="allLoaded" ref="loadmore" v-infinite-scroll="getFeeds" infinite-scroll-distance="10">
+      <feed v-for="(feed,index) in feeds" :key="index" :index="index" :feed="feed" class="mt-3" @onFeedClick="onFeedClick" @onLikeClick="onLikeClick"></feed>
       <v-container slot="bottom">
         <v-layout align-center>
           <v-flex xs12 style="text-align:center;">
-            <v-progress-circular v-show="loading&&!allLoaded"
-              indeterminate class="primary--text"></v-progress-circular>
+            <v-progress-circular v-show="loading&&!allLoaded" indeterminate class="primary--text"></v-progress-circular>
             <span v-show="allLoaded">no more data :)</span>
           </v-flex>
         </v-layout>
       </v-container>
     </loadmore>
-    <v-speed-dial v-model="fab" fixed right direction="top"
-      style="bottom:60px;" transition="slide-y-reverse-transition"
-      v-show="$store.state.ui.bottomNavigationVisible">
-      <v-btn slot="activator" class="blue darken-2" dark
-        fab v-model="fab">
+    <v-speed-dial v-model="fab" fixed right direction="top" style="bottom:60px;" transition="slide-y-reverse-transition" v-show="$store.state.ui.bottomNavigationVisible">
+      <v-btn slot="activator" class="blue darken-2" dark fab v-model="fab">
         <v-icon>add</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
@@ -100,9 +25,12 @@
     </v-speed-dial>
     <add-feed-text :dialog="addTextDialog" @closeDialog="closeDialog"></add-feed-text>
     <add-feed-link :dialog="addLinkDialog" @closeDialog="closeDialog"></add-feed-link>
+    <feed-detail :dialog="FeedDialog" @closeDialog="closeFeedDialog" :feed="feed"> </feed-detail>
   </v-flex>
 </template>
 <script>
+import FeedDetail from '@/components/dialog/FeedDetail'
+import feed from '@/components/feed'
 import AddFeedText from '@/components/dialog/AddFeedText'
 import AddFeedLink from '@/components/dialog/AddFeedLink'
 // import InfiniteLoading from 'vue-infinite-loading'
@@ -113,7 +41,9 @@ export default {
   components: {
     AddFeedText,
     AddFeedLink,
-    Loadmore
+    Loadmore,
+    FeedDetail,
+    feed
   },
   created () {
     // this.resetFeeds()
@@ -127,10 +57,42 @@ export default {
       loading: false,
       page: 1,
       allLoaded: false,
-      topStatus: ''
+      topStatus: '',
+      FeedDialog: false,
+      feed: {}
     }
   },
+  computed: {
+    // liked: function (feed) {
+    //   console.log(feed)
+    //   function checkIn (user) {
+    //     return user._id === this.$store.state.user.cardID
+    //   }
+    //   if (feed.like.findIndex(checkIn) !== -1) {
+    //     return true
+    //   } else {
+    //     return false
+    //   }
+    // }
+  },
   methods: {
+    onLikeClick (index) {
+      let id = this.feeds[index].id
+      this.$http.get(`/api/feeds/${id}/like`)
+      if (this.feeds[index].liked) {
+        this.feeds[index].likecount -= 1
+        this.feeds[index].liked = false
+      } else {
+        this.feeds[index].likecount += 1
+        this.feeds[index].liked = true
+      }
+    },
+    onFeedClick (index) {
+      console.log('onFeedClick')
+      this.feed = this.feeds[index]
+      this.FeedDialog = true
+      console.log(this.feed)
+    },
     handleTopChange (status) {
       this.topStatus = status
     },
@@ -139,7 +101,13 @@ export default {
       this.loading = true
       this.$http.get(`/api/feeds/?page=${this.page}`)
         .then((response) => {
-          this.feeds = this.feeds.concat(response.data)
+          for (let i in response.data) {
+            let feed = response.data[i]
+            feed.liked = feed.like.findIndex((user) => { return user._id === this.$store.state.user.cardID }) !== -1
+            feed.likecount = feed.like.length
+            this.feeds.push(feed)
+            console.log(feed)
+          }
           this.loading = false
           this.allLoaded = false
           this.$refs.loadmore.onTopLoaded()
@@ -167,6 +135,9 @@ export default {
       this.addTextDialog = false
       this.addLinkDialog = false
       this.resetFeeds()
+    },
+    closeFeedDialog () {
+      this.FeedDialog = false
     }
   }
 }

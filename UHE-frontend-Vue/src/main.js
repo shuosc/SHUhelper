@@ -70,6 +70,20 @@ AMap.initAMapApiLoader({
   key: 'ba598ea13544001f281ce6891dbd259a',
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
 })
+axios.interceptors.response.use(function (response) {
+  // Do something with response data
+  return response
+}, function (error) {
+  // console.log('err from interceptor', error)
+  if (error.response.status === 401) {
+    // console.log('401 err', store)
+    store.commit('showSnackbar', {
+      text: `需要先登录`
+    })
+    store.commit('showLoginDialog')
+  }
+  return Promise.reject(error)
+})
 Vue.prototype.$http = axios
 /* eslint-disable no-new */
 new Vue({

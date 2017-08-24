@@ -5,7 +5,17 @@ import re
 from UHE.feed.models import Feed
 from UHE.message.models import Conversation
 import requests
+from bson import ObjectId
 feeds = Blueprint('feeds', __name__)
+
+
+@feeds.route('/<feed_id>/like')
+def like(feed_id):
+    if Feed.objects(id=feed_id,like__nin=[current_user.to_dbref()]).first() is not None:
+        Feed.objects(id=feed_id).update_one(push__like=current_user.to_dbref())
+    else:
+        Feed.objects(id=feed_id).update_one(pull__like=current_user.to_dbref())
+    return jsonify(id=str(feed_id))
 
 
 @feeds.route('/link')

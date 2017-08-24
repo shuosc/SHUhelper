@@ -1,6 +1,7 @@
 import datetime
 
-from mongoengine import (DateTimeField, ListField, ReferenceField, StringField, GenericReferenceField)
+from mongoengine import (DateTimeField, ListField,
+                         ReferenceField, StringField, GenericReferenceField)
 
 # from config import db
 from UHE.extensions import db
@@ -12,7 +13,7 @@ class Comment(db.Document):
     display_name = StringField()
     user = ReferenceField(User)
     content = StringField()
-    liked = ListField(ReferenceField(User),default=lambda:[])
+    liked = ListField(ReferenceField(User), default=lambda: [])
     created = DateTimeField(datetime.datetime.now)
     meta = {
         'ordering': ['-created'],

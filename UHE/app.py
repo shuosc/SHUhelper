@@ -1,6 +1,6 @@
 import base64
 
-from flask import Flask,current_app
+from flask import Flask, current_app
 from flask_login import current_user
 
 from UHE.admin.views import configure_admin
@@ -16,6 +16,7 @@ from UHE.models import Plugin
 from UHE.user.models import User
 from UHE.index import index
 from mongoengine import connect
+from UHE.comment.api import comments
 
 
 def create_app(config=None):
@@ -104,6 +105,7 @@ def configure_blueprints(app):
     app.register_blueprint(feeds, url_prefix='/feeds')
     app.register_blueprint(events, url_prefix='/events')
     app.register_blueprint(index, url_prefix='/index')
+    app.register_blueprint(comments, url_prefix='/comments')
     # print(app.url_map)
     pass
 

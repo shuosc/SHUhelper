@@ -126,16 +126,25 @@ export default {
     },
     verifyToken () {
       var _this = this
-      var token = JSON.parse(localStorage.getItem('loginstate')).token
+      try {
+        var token = JSON.parse(localStorage.getItem('loginstate')).token
+      } catch (err) {
+        console.log(err)
+        // this.$store.commit('showSnackbar', { text: `需要先登录！` })
+        // this.$store.commit('showLoginDialog')
+      }
       this.$http.get(`/api/users/login-with-token/?token=${token}`)
         .then((response) => {
           var payload = JSON.parse(localStorage.getItem('loginstate'))
           _this.$store.commit('updateAccount', payload)
           _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error)
-          _this.$store.commit('showSnackbar', { text: `${error}` })
+          // if (error.data.statue === 401) {
+          //   this.$store.commit('showSnackbar', { text: `需要先登录！` })
+          //   this.$store.commit('showLoginDialog')
+          // }
         })
     }
   }

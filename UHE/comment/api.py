@@ -1,7 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from flask.views import MethodView
 from flask_login import current_user
-
+from bson import ObjectId
 from UHE.comment.models import Comment
 
 comments = Blueprint('comments', __name__)
@@ -9,42 +9,43 @@ comments = Blueprint('comments', __name__)
 
 @comments.route('/<comment_id>/like')
 def like(comment_id):
-    Comment.objects(id=comment_id).update_one(push__liked=current_user.id)
+    Comment.objects(id=comment_id).update_one(push__like=current_user.id)
     return jsonify(id=str(comment_id))
 
 
 class CommentAPI(MethodView):
-    def get(self, comment_id=None, page=1):
-        if not comment_id:
+    def get(self, post_id=None, page=1):
+        if not post_id:
             paginated_comments = Comment.objects.paginate(
                 page=page, per_page=20)
-            return jsonify([comment.to_dict() for comment in paginated_comments])
+            return jsonify(paginated_comments.items)
         else:
-            comment = Comment.objects.get_or_404(id=comment_id)
-            return comment(feed.to_dict())
+            comments = Comment.objects.get_or_404(post=ObjectId(post_id))
+            return jsonify(comments.items)
 
     def post(self):
         args = request.get_json()
-        feed = Feed(user=current_user.id,
-                    feed_type=args['type'], text=args['type'], link=args['link'], img=args['img'])
-        feed.save()
-        return jsonify({'id': feed.id})
+        comment = Comment(user=current_user.id,
+                          display_name=args['name'], content=args['content'])
+        comment.save()
+        return jsonify({'id': comment.id})
 
     def put(self, feed_id):
-        feed = Feed.objects.get_or_404(id=feed_id)
-        args = request.get_json()
-        comments = Comment(user=current_user.id,
-                           content=args['content'], message=pargrams['message'])
-        message.save()
-        conversation.messages.append(message)
-        conversation.save()
+        pass
+        # feed = Feed.objects.get_or_404(id=feed_id)
+        # args = request.get_json()
+        # comments = Comment(user=current_user.id,
+        #                    content=args['content'], message=pargrams['message'])
+        # message.save()
+        # conversation.messages.append(message)
+        # conversation.save()
 
     def delete(self, conversation_id):
         pass
 
 
-comments_view = CommentAPI.as_view('conversation_api')
-convcommentsersations.add_url_rule(
+comments_view = CommentAPI.as_view('comment_api')
+comments.add_url_rule(
     '/', defaults={'comment_id': None}, view_func=comments_view, methods=['GET', ])
 comments.add_url_rule(
     '/', view_func=comments_view, methods=['POST', ])
