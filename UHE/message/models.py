@@ -78,7 +78,7 @@ class Conversation(db.Document):
             data['toUser'] = self.from_user.to_dict()
             data['fromUser'] = self.to_user.to_dict()
         # if len(self.unreadmessages) == 0:
-        data['lastMessage'] = self.last_message.to_json() if self.last_message != None else None
+        data['lastMessage'] = self.last_message if self.last_message != None else None
         # else:
         #     data['unread'] = len(self.unreadmessages)
         return data
