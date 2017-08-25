@@ -10,7 +10,7 @@
           <div>
             <div style="font-size:1.1rem;" class="teal--text">{{feed.user.name}}</div>
             <div style="font-size:0.5rem;" class="grey--text">
-              {{$moment(feed.created,'YYYY-MM-DD hh:mm:ss').fromNow()}}
+              {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
             </div>
           </div>
         </v-flex>

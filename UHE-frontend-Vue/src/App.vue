@@ -13,19 +13,26 @@
         <v-icon>search</v-icon>
       </v-btn>
     </v-toolbar>
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}"
+      id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <router-view></router-view>
       </v-slide-y-transition>
     </main>
     <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
-      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)" :value="nav.url===$route.path">
+      <v-btn flat light v-for="(nav,index) in bottomNavs"
+        :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)"
+        :value="nav.url===$route.path">
         <span>{{nav.name}}</span>
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
     </v-bottom-nav>
     <login> </login>
-    <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
+    <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'"
+      :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'"
+      :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'"
+      :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible"
+      style="bottom:100px;">
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>
     </v-snackbar>

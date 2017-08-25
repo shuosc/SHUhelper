@@ -1,23 +1,33 @@
 <template>
   <div style="height:100%;padding-bottom:52px;overflow-y:scroll;"
-    ref="content">
+    ref="content" @scroll="handleScroll">
     <v-layout row class="ma-0">
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-list two-line>
-            <div v-for="(message,index) in messages" :key="index">
-              <v-list-tile avatar v-bind:key="message.title" href="javascript:;"
-                target="_blank">
-                <v-list-tile-avatar v-if="message.sender !== $store.state.user.cardID">
-                  <img v-bind:src="`//static.shuhelper.cn/${user[message.sender].avatar}`">
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-sub-title v-html="message.content"></v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-list-tile-avatar v-if="message.sender === $store.state.user.cardID">
-                  <img v-bind:src="`//static.shuhelper.cn/${user[message.sender].avatar}`">
-                </v-list-tile-avatar>
-              </v-list-tile>
+            <infinite-loading direction="top" :on-infinite="getMessagesBefore"
+              ref="infiniteLoading"></infinite-loading>
+            <div v-chat-scroll="{always: false}">
+              <div v-for="(message,index) in messages" :key="index">
+                <v-list-tile avatar v-bind:key="message.title">
+                  <v-list-tile-avatar v-show="message.sender.cardID !== $store.state.user.cardID">
+                    <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title class="teal--text" style="font-size:1rem;">{{message.sender.name}}
+                      <span style="font-size:0.8rem;">
+                        {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"]
+                        | moment("MM-DD HH:mm:ss")
+                        }}
+                      </span>
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title v-html="message.content"></v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-avatar v-show="message.sender.cardID === $store.state.user.cardID">
+                    <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
+                  </v-list-tile-avatar>
+                </v-list-tile>
+              </div>
             </div>
           </v-list>
         </v-card>
@@ -36,18 +46,15 @@
         </v-layout>
       </v-container>
     </v-card>
-    <v-container v-if="loading">
-      <v-layout align-center>
-        <v-flex xs12 style="text-align:center;">
-          <v-progress-circular indeterminate class="primary--text"></v-progress-circular>
-        </v-flex>
-      </v-layout>
-    </v-container>
   </div>
 </template>
 <script>
+import InfiniteLoading from 'vue-infinite-loading'
 // import Addmessage from '@/components/dialog/Addmessage'
 export default {
+  components: {
+    InfiniteLoading
+  },
   data () {
     return {
       dialog: false,
@@ -58,11 +65,12 @@ export default {
       isPolling: false,
       newest: null,
       count: 0,
+      start: 0,
       user: {}
     }
   },
   created () {
-    this.getMessages()
+    // this.getMessages()
     // setInterval()
   },
   mounted () {
@@ -71,18 +79,56 @@ export default {
     // console.log(content.scrollTop)
   },
   methods: {
+    handleScroll () {
+      let content = this.$refs.content
+      if (content.scrollTop !== content.scrollHeight - content.clientHeight) {
+        this.scrollByHand = true
+      } else {
+        this.scrollByHand = false
+      }
+      // console.log(content.scrollTop, content.scrollHeight, content.clientHeight)
+    },
+    getMessagesBefore () {
+      if (this.count === 0) {
+        this.getMessages()
+        return
+      }
+      if (this.loading) return
+      if (this.start <= 0) {
+        this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+        return
+      }
+      this.loading = true
+      this.$http.get(`/api/conversations/${this.$route.params.id}/before/${this.start}`)
+        .then((response) => {
+          this.messages.unshift(...response.data.messages)
+          this.loading = false
+          if (this.start === this.count) {
+            this.$nextTick(() => {
+              // this.scrollBottom(id)
+              var content = this.$refs.content
+              content.scrollTop = content.scrollHeight
+            })
+          }
+          this.start -= response.data.messages.length
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+        })
+        .catch((err) => {
+          console.log(err)
+          // setTimeout(() => { this.getMessagesPoll(id) }, 1000)
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
+        })
+    },
     getMessages () {
       this.$http.get(`/api/conversations/${this.$route.params.id}`)
         .then((response) => {
           this.user[response.data.fromUser.cardID] = response.data.fromUser
           this.user[response.data.toUser.cardID] = response.data.toUser
-          this.messages = response.data.messages
-          this.count = response.data.count
-          this.getMessagesPoll(this.$route.params.id)
-          this.$nextTick(() => {
-            this.scrollBottom()
-          })
           this.loading = false
+          this.count = response.data.count
+          this.start = this.count
+          this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+          this.getMessagesPoll(this.$route.params.id)
         })
     },
     getMessagesPoll (id) {
@@ -92,16 +138,13 @@ export default {
       this.$http.get(`/api/conversations/${id}/after/${this.count}`)
         .then((response) => {
           this.messages.push(...response.data.messages)
-          console.log(response.data)
           this.count += response.data.messages.length
-          this.loading = false
           this.isPolling = false
-          // if (response.data.some(checksender)) {
-          //   this.$toasted.show('get new', { theme: 'primary', type: 'success', fitToScreen: true, position: 'bottom-center', duration: 1000 })
-          // }
           if (!this.scrollByHand) {
             this.$nextTick(() => {
-              this.scrollBottom(id)
+              // this.scrollBottom(id)
+              var content = this.$refs.content
+              content.scrollTop = content.scrollHeight
             })
           }
           setTimeout(() => { this.getMessagesPoll(id) }, 1000)
@@ -111,11 +154,6 @@ export default {
           setTimeout(() => { this.getMessagesPoll(id) }, 1000)
         })
     },
-    scrollBottom (id) {
-      if (this.$route.path !== `/conversation/${id}`) return
-      var content = this.$refs.content
-      content.scrollTop = content.scrollHeight - content.clientHeight
-    },
     sendMessage () {
       if (this.content === '') return
       this.$http.put(`/api/conversations/${this.$route.params.id}`, {
@@ -123,7 +161,7 @@ export default {
       })
         .then((response) => {
           this.content = ''
-          this.getMessages()
+          // this.getMessages()
         })
         .catch((error) => {
           this.$store.commit('showSnackbar', { text: '发送失败' + error })

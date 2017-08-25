@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 # from flask_login import current_user.
 from flask.views import MethodView
 from flask_login import current_user, login_required
@@ -18,6 +18,15 @@ def after_messages(conversation_id, start):
     return jsonify(messages=[json.loads(message) for message in messages])
 
 
+@conversations.route('/<conversation_id>/before/<end>')
+def before_messages(conversation_id, end):
+    if int(end) <= 0:
+        abort(404)
+    messages = redis_store.lrange(
+        'conversation_' + conversation_id, int(end) - 10 if int(end) - 10 >= 0 else 0, int(end))
+    return jsonify(messages=[json.loads(message) for message in messages])
+
+
 class ConversationAPI(MethodView):
     decorators = [login_required]
 
@@ -32,7 +41,8 @@ class ConversationAPI(MethodView):
             key = 'conversation_' + str(conversation.id)
             redis_store.delete(key)
             if len(conversation.messages) != 0:
-                redis_store.rpush(key, *[message.to_json() for message in conversation.messages])
+                redis_store.rpush(key, *[json.dumps(message.to_dict())
+                                         for message in conversation.messages])
             return jsonify(conversation.to_dict_detail())
 
     def post(self):
@@ -57,7 +67,8 @@ class ConversationAPI(MethodView):
         message.save()
         Conversation.objects(id=conversation_id).update_one(
             push__messages=message)
-        redis_store.lpush('conversation_' + str(conversation_id), message.to_json())
+        redis_store.rpush('conversation_' + str(conversation_id),
+                          json.dumps(message.to_dict()))
         return jsonify(message=str(message.id))
 
     def delete(self, conversation_id):

@@ -25,6 +25,14 @@ class Message(db.Document):
         ],
         'strict': False
     }
+
+    def to_dict(self):
+        return {
+            'created': str(self.created),
+            'sender': self.sender.to_dict(),
+            'content': self.content
+        }
+
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
         if document.sort == 'private' and document.read:
@@ -92,7 +100,8 @@ class Conversation(db.Document):
         else:
             data['toUser'] = self.from_user.to_dict()
             data['fromUser'] = self.to_user.to_dict()
-        data['messages'] = self.messages[-10:]
+        data['messages'] = [message.to_dict()
+                            for message in self.messages[-10:]]
         data['id'] = str(self.id)
         data['count'] = len(self.messages)
         return data

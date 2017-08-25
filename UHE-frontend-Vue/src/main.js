@@ -7,8 +7,8 @@ import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
 import state from './state.js'
-import moment from 'moment'
-import VueMomentJS from 'vue-momentjs'
+// import moment from 'moment'
+// import VueMomentJS from 'vue-momentjs'
 import AMap from 'vue-amap'
 import VueScroller from 'vue-scroller'
 import {
@@ -24,15 +24,21 @@ import {
   InfiniteScroll
 } from 'mint-ui'
 Vue.use(InfiniteScroll)
+const moment = require('moment')
+require('moment/locale/zh-cn')
+Vue.use(require('vue-moment'), {
+  moment
+})
+
 Vue.use(Button)
 Vue.use(Cell)
 Vue.use(Loadmore)
 Vue.use(VueChatScroll)
 Vue.use(Toasted)
 Vue.use(VueImg)
-moment.locale('zh-cn')
+// moment.locale('zh-cn')
 Vue.use(AMap)
-Vue.use(VueMomentJS, moment)
+// Vue.use(VueMomentJS, moment)
 Vue.use(Vuetify)
 Vue.use(Vuex)
 Vue.use(VueScroller)
