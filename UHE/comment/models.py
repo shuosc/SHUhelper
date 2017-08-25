@@ -10,12 +10,18 @@ from UHE.user.models import User
 
 class Comment(db.Document):
     post = GenericReferenceField()
-    display_name = StringField()
-    user = ReferenceField(User)
-    content = StringField()
-    liked = ListField(ReferenceField(User), default=lambda: [])
-    created = DateTimeField(datetime.datetime.now)
+    user = ReferenceField(User, deref=True)
+    content = StringField(default='')
+    liked = ListField(ReferenceField(User,deref=True), default=lambda: [])
+    created = DateTimeField(default=datetime.datetime.now)
     meta = {
         'ordering': ['-created'],
-        'strict': False
+        'strict': True
     }
+    def to_dict(self):
+        return {
+            'user': self.user.to_dict(),
+            'created': str(self.created),
+            'content': self.content,
+            'id': str(self.id)
+        }

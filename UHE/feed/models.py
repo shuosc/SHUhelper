@@ -12,7 +12,7 @@ class Feed(db.Document):
     created = DateTimeField(default=datetime.datetime.now)
     comments = IntField(default=0)
     feed_type = StringField()  # external-link internal-link imgs text post
-    text = StringField()
+    text = StringField(default='')
     link_URL = StringField()
     link_title = StringField()
     link_img = StringField()
@@ -22,6 +22,8 @@ class Feed(db.Document):
         'ordering': ['-created'],
         'strict': False
     }
+    def __unicode__(self):
+        return self.text
 
     def to_dict(self):
         return {

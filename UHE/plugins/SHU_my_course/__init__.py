@@ -91,7 +91,7 @@ class SHUMyCourse(UHEPlugin):
         current_app.register_blueprint(my_course, url_prefix='/my-course')
 
         print('setup', __plugin__)
-        print(current_app.url_map)
+        # print(current_app.url_map)
 
     def install(self, app):
         pass

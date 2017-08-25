@@ -28,7 +28,7 @@ class User(UserMixin, db.Document):
         return self.card_id
 
     def __unicode__(self):
-        return self.name + self.card_id
+        return self.name + str(self.card_id)
 
     # def to_dict(self):
     #     return {"card_id": self.card_id, "name": self.name, "nickname": self.nickname}
