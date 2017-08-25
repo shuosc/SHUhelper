@@ -252,12 +252,12 @@ export default {
         .catch((err) => {
           if (err.response.status === 404) {
             this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
-            this.$http.post('/api/my-course/sync/', {
+            this.$http.post('/api/my-course/sync', {
               'card_id': this.$store.state.user.cardID,
               'password': this.$store.state.user.password
             })
               .then((response) => {
-                this.courses = response.data
+                this.getCourses()
               })
           } else {
             this.$store.commit('showSnackbar', { text: `更新失败${err.response.status}` })
