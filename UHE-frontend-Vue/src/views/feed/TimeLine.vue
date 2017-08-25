@@ -1,18 +1,17 @@
 <template>
   <v-flex xs12 class="pb-5">
-    <loadmore :top-method="resetFeeds" :bottom-method="loadBottom" @top-status-change="handleTopChange" :bottom-all-loaded="allLoaded" ref="loadmore" v-infinite-scroll="getFeeds" infinite-scroll-distance="10">
-      <feed v-for="(feed,index) in feeds" :key="index" :index="index" :feed="feed" class="mt-3" @onFeedClick="onFeedClick" @onLikeClick="onLikeClick"></feed>
-      <v-container slot="bottom">
-        <v-layout align-center>
-          <v-flex xs12 style="text-align:center;">
-            <v-progress-circular v-show="loading&&!allLoaded" indeterminate class="primary--text"></v-progress-circular>
-            <span v-show="allLoaded">no more data :)</span>
-          </v-flex>
-        </v-layout>
-      </v-container>
+    <loadmore :top-method="resetFeeds" @top-status-change="handleTopChange"
+      ref="loadmore">
+      <feed v-for="(feed,index) in feeds" :key="index"
+        :index="index" :feed="feed" class="mt-3" @onFeedClick="onFeedClick"
+        @onLikeClick="onLikeClick"></feed>
+
     </loadmore>
-    <v-speed-dial v-model="fab" fixed right direction="top" style="bottom:60px;" transition="slide-y-reverse-transition" v-show="$store.state.ui.bottomNavigationVisible">
-      <v-btn slot="activator" class="blue darken-2" dark fab v-model="fab">
+    <v-speed-dial v-model="fab" fixed right direction="top"
+      style="bottom:60px;" transition="slide-y-reverse-transition"
+      v-show="$store.state.ui.bottomNavigationVisible">
+      <v-btn slot="activator" class="blue darken-2" dark
+        fab v-model="fab">
         <v-icon>add</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
@@ -25,7 +24,8 @@
     </v-speed-dial>
     <add-feed-text :dialog="addTextDialog" @closeDialog="closeDialog"></add-feed-text>
     <add-feed-link :dialog="addLinkDialog" @closeDialog="closeDialog"></add-feed-link>
-    <feed-detail :dialog="FeedDialog" @closeDialog="closeFeedDialog" :feed="feed"> </feed-detail>
+    <feed-detail :dialog="FeedDialog" @closeDialog="closeFeedDialog"
+      :feed="feed"> </feed-detail>
   </v-flex>
 </template>
 <script>
@@ -33,7 +33,7 @@ import FeedDetail from '@/components/dialog/FeedDetail'
 import feed from '@/components/feed'
 import AddFeedText from '@/components/dialog/AddFeedText'
 import AddFeedLink from '@/components/dialog/AddFeedLink'
-// import InfiniteLoading from 'vue-infinite-loading'
+import InfiniteLoading from 'vue-infinite-loading'
 // import VuePullRefresh from 'vue-pull-refresh'
 import { Loadmore } from 'mint-ui'
 
@@ -43,7 +43,8 @@ export default {
     AddFeedLink,
     Loadmore,
     FeedDetail,
-    feed
+    feed,
+    InfiniteLoading
   },
   created () {
     // this.resetFeeds()
@@ -59,7 +60,10 @@ export default {
       allLoaded: false,
       topStatus: '',
       FeedDialog: false,
-      feed: {}
+      feed: {
+        user: {},
+        img: []
+      }
     }
   },
   computed: {
@@ -96,6 +100,9 @@ export default {
     handleTopChange (status) {
       this.topStatus = status
     },
+    loadContent () {
+      this.getFeeds()
+    },
     getFeeds () {
       if (this.loading) return
       this.loading = true
@@ -103,11 +110,14 @@ export default {
         .then((response) => {
           for (let i in response.data) {
             let feed = response.data[i]
-            feed.liked = feed.like.findIndex((user) => { return user._id === this.$store.state.user.cardID }) !== -1
+            var cardID = this.$store.state.user.cardID
+            feed.liked = feed.like.findIndex((user) => { return user._id === cardID }) !== -1
             feed.likecount = feed.like.length
             this.feeds.push(feed)
-            console.log(feed)
+            // console.log(feed)
           }
+          this.$emit('loaded')
+          // this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
           this.loading = false
           this.allLoaded = false
           this.$refs.loadmore.onTopLoaded()
@@ -117,6 +127,8 @@ export default {
         .catch((error) => {
           console.log(error)
           this.allLoaded = true
+          // console.log(this.allLoaded)
+          this.$emit('loadingComplete')
           // this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
           this.loading = false
           // this.$store.commit('showSnackbar', { text: error })
@@ -126,9 +138,12 @@ export default {
       console.log('loadBottom')
     },
     resetFeeds () {
+      this.allLoaded = false
       this.feeds = []
       this.page = 1
       this.loading = false
+      this.$emit('loadingReset')
+      // this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
       this.getFeeds()
     },
     closeDialog () {

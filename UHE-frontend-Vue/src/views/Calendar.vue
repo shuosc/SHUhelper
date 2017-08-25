@@ -2,30 +2,74 @@
   <v-tabs light fixed centered>
     <v-tabs-bar slot="activators" class="grey lighten-3">
       <v-tabs-slider class="primary"></v-tabs-slider>
-      <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
+      <v-tabs-item v-for="(item, index) in items" :key="index"
+        :href="'#tab-' + index" class="primary--text">
         {{ item }}
       </v-tabs-item>
     </v-tabs-bar>
     <v-tabs-content :id="'tab-0'" style="height:600px;">
       <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
+      <popup v-model="popupVisible" popup-transition="popup-fade">
+        <v-card style="width:300px;">
+          <v-card-title class="py-0">
+            <h4 class="pa-0 teal--text ma-0" style="text-align:center; font-size:1rem;">{{popupContent.name}}
+              <span class="grey--text" style="font-size:0.8rem;">{{popupContent.no}}
+              </span>
+            </h4>
+          </v-card-title>
+          <!-- <v-chip class="indigo white--text ma-0" small>
+                  <v-avatar>
+                    <v-icon>account_circle</v-icon>
+                  </v-avatar>
+                  {{popupContent.teacher}}
+                </v-chip> -->
+          <!-- <v-divider></v-divider> -->
+          <v-card-text class="pa-2" style="font-size:1rem !important;">
+            <cell title="学分">
+              {{popupContent.credit}}</cell>
+            <cell title="教师名">{{popupContent.teacher}}({{popupContent.teacher_no}})
+            </cell>
+            <cell title="时间">
+              <p class="ma-0" style="font-size:0.8rem;">{{popupContent.time}}</p></cell>
+            <cell title="地点">
+              {{popupContent.place}}</cell>
+            <cell title="答疑时间">
+              {{popupContent.q_time}}</cell>
+            <cell title="答疑地点">
+              {{popupContent.q_place}}</cell>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn flat block class="orange--text">前往课程主页</v-btn>
+            <!-- <v-btn flat class="orange--text">Explore</v-btn> -->
+          </v-card-actions>
+        </v-card>
+      </popup>
     </v-tabs-content>
     <v-tabs-content :id="'tab-1'">
       <!-- <calendar locale="ZH_CN"
-                                                                                                                     </calendar> -->
-      <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
+                                                                                                                                         </calendar> -->
+      <calendar-events locale="ZH_CN" style="height:20rem;"
+        :events="calendarEvents" :selection="calendarSelection"
+        @action="action"></calendar-events>
       <v-card>
         <ul>
-          <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
+          <li v-for="event in calendarEvents" :style="`color:${event.color};`"
+            :key="event"> {{event.title}} </li>
         </ul>
       </v-card>
       <!-- <calendar-range :events="calendarEvents" style="width:100%;display:block;" compact 
-                                                                                                                                                                 :selection="calendarSelection"></calendar-range> -->
+                                     <mt-popup
+                      v-model="popupVisible"
+                      position="bottom">
+                      ...
+                    </mt-popup>                                                                                                                                                :selection="calendarSelection"></calendar-range> -->
     </v-tabs-content>
     <!-- <v-tabs-content v-for="i in items" :key="i" :id="'tab-' + i">                                                                                                                                                   </v-tabs-content> -->
   </v-tabs>
 </template>
 <script>
 import Schedule from '@/components/Schedule'
+import { Popup, Cell } from 'mint-ui'
 // import {convertTimeString} from '@/utils'
 import { calendar, calendarRange, calendarEvents } from '@/vue-calendar-picker'
 const CNNUM = {
@@ -40,10 +84,14 @@ export default {
     Schedule,
     calendar,
     calendarRange,
-    calendarEvents
+    calendarEvents,
+    Popup,
+    Cell
   },
   data () {
     return {
+      popupVisible: false,
+      popupContent: '',
       items: ['课表', '月历'],
       e1: '',
       fab: false,
@@ -160,6 +208,14 @@ export default {
     this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
   },
   methods: {
+    showDetail (obj) {
+      for (let i in this.courses) {
+        if (this.courses[i].no === obj.courseno) {
+          this.popupContent = this.courses[i]
+        }
+      }
+      this.popupVisible = true
+    },
     coursetimeToNum (time) {
       var patt = /([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468)\)|\((?:([0-9]+),([0-9]+)\u5468)\))*/
       var timelist = []
@@ -243,5 +299,13 @@ export default {
   width: 100% !important;
   border-radius: 0.5em;
   padding: 0.5em;
+}
+
+.mint-cell-wrapper {
+  font-size: 1rem;
+}
+
+.mint-cell {
+  min-height: 3rem;
 }
 </style>
