@@ -7,7 +7,7 @@
           <v-list two-line>
             <infinite-loading direction="top" :on-infinite="getMessagesBefore"
               ref="infiniteLoading"></infinite-loading>
-            <div v-chat-scroll="{always: false}">
+            <div>
               <div v-for="(message,index) in messages" :key="index">
                 <v-list-tile avatar v-bind:key="message.title">
                   <v-list-tile-avatar v-show="message.sender.cardID !== $store.state.user.cardID">

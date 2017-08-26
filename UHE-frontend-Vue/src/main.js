@@ -16,7 +16,7 @@ import {
 } from './utils.js'
 import VueImg from 'v-img'
 import Toasted from 'vue-toasted'
-import VueChatScroll from 'vue-chat-scroll'
+// import VueChatScroll from 'vue-chat-scroll'
 import {
   Button,
   Cell,
@@ -33,7 +33,7 @@ Vue.use(require('vue-moment'), {
 Vue.use(Button)
 Vue.use(Cell)
 Vue.use(Loadmore)
-Vue.use(VueChatScroll)
+// Vue.use(VueChatScroll)
 Vue.use(Toasted)
 Vue.use(VueImg)
 // moment.locale('zh-cn')
