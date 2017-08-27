@@ -7,8 +7,6 @@ import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
 import state from './state.js'
-// import moment from 'moment'
-// import VueMomentJS from 'vue-momentjs'
 import AMap from 'vue-amap'
 import VueScroller from 'vue-scroller'
 import {
@@ -16,33 +14,21 @@ import {
 } from './utils.js'
 import VueImg from 'v-img'
 import Toasted from 'vue-toasted'
-// import VueChatScroll from 'vue-chat-scroll'
-import {
-  Button,
-  Cell,
-  Loadmore,
-  InfiniteScroll
-} from 'mint-ui'
+import { InfiniteScroll } from 'mint-ui'
+import _ from 'lodash'
 Vue.use(InfiniteScroll)
 const moment = require('moment')
 require('moment/locale/zh-cn')
 Vue.use(require('vue-moment'), {
   moment
 })
-
-Vue.use(Button)
-Vue.use(Cell)
-Vue.use(Loadmore)
-// Vue.use(VueChatScroll)
+// Vue.use(lodash)
 Vue.use(Toasted)
 Vue.use(VueImg)
-// moment.locale('zh-cn')
 Vue.use(AMap)
-// Vue.use(VueMomentJS, moment)
 Vue.use(Vuetify)
 Vue.use(Vuex)
 Vue.use(VueScroller)
-// Vue.use(VueRouter)
 Vue.config.productionTip = false
 Vue.toasted.register('default', 'Oops.. Something Went Wrong..', {
   type: 'error',
@@ -65,8 +51,8 @@ router.beforeEach((to, from, next) => {
     }
   }
   if (to.matched.some(record => record.meta.unableBottomNavgation)) {
-    store.commit('hideBottomNavgation')
     next()
+    store.commit('hideBottomNavgation')
   } else {
     next()
     store.commit('showBottomNavgation')
@@ -78,6 +64,7 @@ AMap.initAMapApiLoader({
 })
 axios.interceptors.response.use(function (response) {
   // Do something with response data
+  // console.log(response)
   return response
 }, function (error) {
   // console.log('err from interceptor', error)
@@ -91,6 +78,7 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error)
 })
 Vue.prototype.$http = axios
+Vue.prototype.$_ = _
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

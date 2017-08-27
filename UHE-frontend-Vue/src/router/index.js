@@ -13,6 +13,7 @@ import map from '../views/map'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/profile/:id',
@@ -30,12 +31,53 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+        disableBack: true
+      }
     },
     {
       path: '/square',
       name: 'Square',
-      component: Square
+      component: Square,
+      meta: {
+        disableBack: true
+      },
+      children: [
+        {
+          path: 'feed-detail/:id',
+          component: function (resolve) {
+            require(['@/components/dialog/FeedDetail.vue'], resolve)
+          },
+          meta: {
+            dialog: true
+          }
+        },
+        {
+          path: 'feed-add-link',
+          component: function (resolve) {
+            require(['@/components/dialog/AddFeedLink.vue'], resolve)
+          },
+          meta: {
+            dialog: true
+          }
+        },
+        {
+          path: 'feed-add-text',
+          component: function (resolve) {
+            require(['@/components/dialog/AddFeedText.vue'], resolve)
+          },
+          meta: {
+            dialog: true
+          }
+        },
+        {
+          path: 'others',
+          component: function (resolve) {
+            require(['@/views/others.vue'], resolve)
+          }
+        }
+      ]
     }, {
       path: '/security-map',
       name: 'security-map',
@@ -50,12 +92,18 @@ export default new Router({
     {
       path: '/Calendar',
       name: 'Calendar',
-      component: Calendar
+      component: Calendar,
+      meta: {
+        disableBack: true
+      }
     },
     {
       path: '/messages',
       name: 'Messages',
-      component: Messages
+      component: Messages,
+      meta: {
+        disableBack: true
+      }
     },
     {
       path: '/conversation/:id',

@@ -1,33 +1,30 @@
 <template>
-  <div style="height:100%;padding-bottom:52px;overflow-y:scroll;"
-    ref="content" @scroll="handleScroll">
+  <div style="height:100%;padding-bottom:52px;overflow-y:scroll;" ref="content" @scroll="handleScroll">
+    <infinite-loading direction="top" :on-infinite="getMessagesBefore" ref="infiniteLoading" style="height:50px;"></infinite-loading>
     <v-layout row class="ma-0">
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-list two-line>
-            <infinite-loading direction="top" :on-infinite="getMessagesBefore"
-              ref="infiniteLoading"></infinite-loading>
             <div>
-              <div v-for="(message,index) in messages" :key="index">
-                <v-list-tile avatar v-bind:key="message.title">
-                  <v-list-tile-avatar v-show="message.sender.cardID !== $store.state.user.cardID">
-                    <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title class="teal--text" style="font-size:1rem;">{{message.sender.name}}
-                      <span style="font-size:0.8rem;">
-                        {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"]
-                        | moment("MM-DD HH:mm:ss")
-                        }}
-                      </span>
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title v-html="message.content"></v-list-tile-sub-title>
-                  </v-list-tile-content>
-                  <v-list-tile-avatar v-show="message.sender.cardID === $store.state.user.cardID">
-                    <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
-                  </v-list-tile-avatar>
-                </v-list-tile>
-              </div>
+              <!-- <loadmore :top-method="resetFeeds" @top-status-change="handleTopChange" ref="loadmore"> -->
+                <div v-for="(message,index) in messages" :key="index">
+                  <v-list-tile avatar v-bind:key="message.title">
+                    <v-list-tile-avatar v-show="message.sender.cardID !== $store.state.user.cardID">
+                      <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title class="teal--text" style="font-size:1rem;">{{message.sender.name}}
+                        <span style="font-size:0.8rem;">
+                          {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
+                        </span>
+                      </v-list-tile-title>
+                      <v-list-tile-sub-title v-html="message.content"></v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-avatar v-show="message.sender.cardID === $store.state.user.cardID">
+                      <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
+                    </v-list-tile-avatar>
+                  </v-list-tile>
+                </div>
             </div>
           </v-list>
         </v-card>
@@ -37,8 +34,7 @@
       <v-container class="px-2 py-0">
         <v-layout row justify-center class="ma-0">
           <v-flex xs9 class="ma-0 py-2">
-            <v-text-field name="input-1" hide-details v-model="content"
-              class="pa-0"></v-text-field>
+            <v-text-field name="input-1" hide-details v-model="content" class="pa-0"></v-text-field>
           </v-flex>
           <v-flex xs3 class="px-0 py-2">
             <v-btn block flat class="indigo--text ma-0" @click.native="sendMessage">发送</v-btn>
@@ -60,23 +56,19 @@ export default {
       dialog: false,
       content: '',
       messages: [],
-      loading: true,
+      loading: false,
       scrollByHand: false,
       isPolling: false,
       newest: null,
       count: 0,
       start: 0,
-      user: {}
+      user: {},
+      oldHeight: 0,
+      oldTop: 0
     }
   },
   created () {
-    // this.getMessages()
-    // setInterval()
-  },
-  mounted () {
-    // let content = this.$refs.content
-    // content.scrollTop = content.scrollHeight - content.clientHeight
-    // console.log(content.scrollTop)
+    this.getMessages()
   },
   methods: {
     handleScroll () {
@@ -86,32 +78,32 @@ export default {
       } else {
         this.scrollByHand = false
       }
-      // console.log(content.scrollTop, content.scrollHeight, content.clientHeight)
     },
     getMessagesBefore () {
       if (this.count === 0) {
-        this.getMessages()
         return
       }
-      if (this.loading) return
       if (this.start <= 0) {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         return
       }
-      this.loading = true
       this.$http.get(`/api/conversations/${this.$route.params.id}/before/${this.start}`)
         .then((response) => {
           this.messages.unshift(...response.data.messages)
-          this.loading = false
-          if (this.start === this.count) {
-            this.$nextTick(() => {
-              // this.scrollBottom(id)
-              var content = this.$refs.content
+          let content = this.$refs.content
+          this.oldHeight = content.scrollHeight
+          this.oldTop = content.scrollTop
+          console.log(this.start, this.count)
+          let flag = this.start === this.count
+          this.$nextTick(() => {
+            if (flag) {
               content.scrollTop = content.scrollHeight
-            })
-          }
-          this.start -= response.data.messages.length
-          this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+            } else {
+              content.scrollTop = content.scrollHeight - this.oldHeight + this.oldTop
+            }
+            this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+            this.start -= response.data.messages.length
+          })
         })
         .catch((err) => {
           console.log(err)
@@ -124,7 +116,6 @@ export default {
         .then((response) => {
           this.user[response.data.fromUser.cardID] = response.data.fromUser
           this.user[response.data.toUser.cardID] = response.data.toUser
-          this.loading = false
           this.count = response.data.count
           this.start = this.count
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
@@ -142,9 +133,9 @@ export default {
           this.isPolling = false
           if (!this.scrollByHand) {
             this.$nextTick(() => {
-              // this.scrollBottom(id)
               var content = this.$refs.content
-              content.scrollTop = content.scrollHeight
+              content.scrollTop = content.scrollHeight - content.clientHeight
+              // console.log(content.scrollTop, content.scrollHeight - content.clientHeight)
             })
           }
           setTimeout(() => { this.getMessagesPoll(id) }, 1000)

@@ -1,22 +1,22 @@
 <template>
   <div>
-    <v-layout  class="mx-0 mb-2">
+    <v-layout class="mx-0 mb-2">
       <v-flex xs12>
         <v-card flat>
           <v-card-title>
             <div>你好 {{$store.state.user.name}}</div>
-             <v-spacer></v-spacer> 
+            <v-spacer></v-spacer>
             <div>晴 32C D楼附近</div>
           </v-card-title>
           <!-- <v-card-text>
-             <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
-          </v-card-text> -->
+               <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
+            </v-card-text> -->
         </v-card>
       </v-flex>
     </v-layout>
-    <v-layout  class="mx-0 mb-2">
+    <v-layout class="mx-0 mb-2">
       <v-flex xs12 class="pa-0">
-      <v-card>
+        <v-card>
           <v-layout row wrap class="ma-0">
             <v-flex xs3 v-for="(link,index) in navs" :key="index">
               <div style="width:100%;height:100%;cursor:pointer;" @click="$router.push(link.url)">
@@ -26,7 +26,7 @@
               </div>
             </v-flex>
           </v-layout>
-      </v-card>
+        </v-card>
       </v-flex>
     </v-layout>
     <v-layout row class="ma-2">
@@ -76,7 +76,7 @@
         <v-btn block class="orange--text ma-0">查看详情</v-btn>
       </v-card-actions>
     </v-card>
-  
+
   </div>
 </template>
 <script>
@@ -97,6 +97,9 @@ export default {
         { name: '全部功能', icon: 'bubble_chart', url: '/apps' }
       ]
     }
+  },
+  created () {
+    this.$router.push('/')
   }
 }
 </script>

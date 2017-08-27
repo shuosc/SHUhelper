@@ -1,63 +1,58 @@
 <template>
-  <div>
-    <v-layout row justify-center>
-      <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false">
-        <v-card>
-          <v-toolbar dark class="primary">
-            <v-btn icon @click.native="onDialogClose()" dark>
-              <v-icon>close</v-icon>
-            </v-btn>
-            <v-toolbar-title>发布动态</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon @click.native="publish()" dark>
-              <v-progress-circular v-show="publishLoading" :indeterminate="publishLoading" class="red--text"></v-progress-circular>发 布
-            </v-btn>
-          </v-toolbar>
-          <v-container fluid class="pa-1 ">
-            <v-text-field name="input-1" counter max="450" autofocus full-width v-model="text" label="说点什么.." hint="您正在以身份登录<br/>测试阶段 正式运营时您发表的内容可能被移除" multi-line></v-text-field>
-          </v-container>
-          <v-container fluid grid-list-sm>
-            <v-layout row wrap>
-              <v-flex xs3 v-for="(img,key) in uploadImgs" :key="key">
-                <img :src="`//static.shuhelper.cn/${img.url}-slim75`" style="object-fit: cover;" v-if="img.status==='success'" alt="lorem" width="100%" height="100%" />
-                <v-progress-circular v-else-if="img.status==='pending'" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
-                <v-btn block v-else fab large>
-                  X</v-btn>
-              </v-flex>
-              <v-flex xs3>
-                <v-btn block fab large @click="onImgAdd">
-                  添加图片</v-btn>
-              </v-flex>
-  
-            </v-layout>
-          </v-container>
-        </v-card>
-        <form id="testform" ref="testform" method="post" enctype="multipart/form-data">
-          <input name="key" id="key" type="hidden" :value="key">
-          <input name="token" type="hidden" :value="token">
-          <input id="userfile" name="file" type="file" accept="image/*"  @change="upload" />
-          <!-- take photo with phone -->
-          <!-- <input id="userfile" name="file" accept="image/*" type="file" /> -->
-          <!-- take video with phone -->
-          <!-- <input id="userfile" name="file" type="file" accept="video/*"/> -->
-          <input name="accept" type="hidden" />
-        </form>
-      </v-dialog>
-    </v-layout>
-  </div>
+  <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false">
+    <v-card>
+      <v-toolbar dark class="primary">
+        <v-btn icon @click.native="$router.go(-1)" dark>
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-toolbar-title>发布动态</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn icon @click.native="publish()" dark>
+          <v-progress-circular v-show="publishLoading" :indeterminate="publishLoading" class="red--text"></v-progress-circular>发 布
+        </v-btn>
+      </v-toolbar>
+      <v-container fluid class="pa-1 ">
+        <v-text-field name="input-1" counter max="450" autofocus full-width v-model="text" label="说点什么.." hint="您正在以身份登录<br/>测试阶段 正式运营时您发表的内容可能被移除" multi-line></v-text-field>
+      </v-container>
+      <v-container fluid grid-list-sm>
+        <v-layout row wrap>
+          <v-flex xs3 v-for="(img,key) in uploadImgs" :key="key">
+            <img :src="`//static.shuhelper.cn/${img.url}-slim75`" style="object-fit: cover;" v-if="img.status==='success'" alt="lorem" width="100%" height="100%" />
+            <v-progress-circular v-else-if="img.status==='pending'" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+            <v-btn block v-else fab large>
+              X</v-btn>
+          </v-flex>
+          <v-flex xs3>
+            <v-btn block fab large @click="onImgAdd">
+              添加图片</v-btn>
+          </v-flex>
+
+        </v-layout>
+      </v-container>
+      <form id="testform" ref="testform" method="post" enctype="multipart/form-data">
+        <input name="key" id="key" type="hidden" :value="key">
+        <input name="token" type="hidden" :value="token">
+        <input id="userfile" name="file" type="file" accept="image/*" @change="upload" />
+        <!-- take photo with phone -->
+        <!-- <input id="userfile" name="file" accept="image/*" type="file" /> -->
+        <!-- take video with phone -->
+        <!-- <input id="userfile" name="file" type="file" accept="video/*"/> -->
+        <input name="accept" type="hidden" />
+      </form>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 export default {
-  props: {
-    dialog: {
-      type: Boolean,
-      default () {
-        return false
-      }
-    }
+  mounted () {
+    this.dialog = true
+  },
+  beforeDestroy () {
+    this.dialog = false
   },
   data () {
     return {
+      dialog: false,
       text: '',
       publishLoading: false,
       toggle_text: [

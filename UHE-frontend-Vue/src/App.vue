@@ -1,6 +1,6 @@
 <template>
   <v-app light toolbar style="height:100%;">
-    <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
+      <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
       <v-btn icon @click.prevent="back">
         <v-icon>arrow_back</v-icon>
       </v-btn>
@@ -12,35 +12,30 @@
       <v-btn icon>
         <v-icon>search</v-icon>
       </v-btn>
-    </v-toolbar>
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}"
-      id="main" ref="container" @scroll="handleScroll">
-      <v-slide-y-transition mode="out-in">
-        <router-view></router-view>
-      </v-slide-y-transition>
+    </v-toolbar>  
+     <!-- "  -->
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll" >
+       <v-slide-y-transition mode="out-in"> 
+         <router-view></router-view> 
+       </v-slide-y-transition> 
     </main>
-    <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
-      <v-btn flat light v-for="(nav,index) in bottomNavs"
-        :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)"
-        :value="nav.url===$route.path">
+      <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
+      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)" :value="nav.url===$route.path">
         <span>{{nav.name}}</span>
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
-    </v-bottom-nav>
+    </v-bottom-nav> 
     <login> </login>
-    <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'"
-      :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'"
-      :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'"
-      :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible"
-      style="bottom:100px;">
+    <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>
-    </v-snackbar>
+    </v-snackbar> 
   </v-app>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import _ from 'lodash'
 import Login from './components/dialog/Login'
 export default {
   components: {
@@ -100,8 +95,9 @@ export default {
         this.$store.commit('showLoginDialog')
       }
     },
-    handleScroll () {
+    handleScroll: _.throttle(function () {
       let container = this.$refs.container
+      // console.log(container.scrollTop, container.clientHeight, container.scrollHeight)
       if (this.$route.meta.unableBottomNavgation) {
         this.$store.commit('hideBottomNavgation')
         return
@@ -110,8 +106,9 @@ export default {
         this.$store.commit('showBottomNavgation')
         return
       }
-      if (container.scrollHeight - container.clientHeight - container.scrollTop <= 80) {
+      if (container.scrollHeight - container.clientHeight - container.scrollTop <= 60) {
         // console.log(container.scrollTop, container.scrollHeight, container.clientHeight)
+        // this.$window.scroll(waitForPause(30, self.worker))
         this.$store.commit('hideBottomNavgation')
         return
       }
@@ -123,12 +120,12 @@ export default {
         this.$store.commit('showBottomNavgation')
       }
       this.scrollY = container.scrollTop
-    },
+    }, 100),
     back () {
       this.$router.go(-1)
     },
     onBottomNavgationClick (index) {
-      this.$router.push(this.bottomNavs[index].url)
+      this.$router.replace(this.bottomNavs[index].url)
       this.bottomNavgationIndex = index
     },
     verifyToken () {
@@ -137,8 +134,6 @@ export default {
         var token = JSON.parse(localStorage.getItem('loginstate')).token
       } catch (err) {
         console.log(err)
-        // this.$store.commit('showSnackbar', { text: `需要先登录！` })
-        // this.$store.commit('showLoginDialog')
       }
       this.$http.get(`/api/users/login-with-token/?token=${token}`)
         .then((response) => {
@@ -148,10 +143,6 @@ export default {
         })
         .catch((error) => {
           console.log(error)
-          // if (error.data.statue === 401) {
-          //   this.$store.commit('showSnackbar', { text: `需要先登录！` })
-          //   this.$store.commit('showLoginDialog')
-          // }
         })
     }
   }
@@ -162,4 +153,6 @@ export default {
   @import './stylus/main'
 .fullscreen-v-img
   z-index:10
+.body
+  -webkit-overflow-scrolling:touch
 </style>

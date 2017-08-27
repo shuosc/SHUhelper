@@ -8,3 +8,4 @@ test/unit/coverage
 UHE-frontend-Vue/static/SHU
 UHE-frontend-nuxt/
 Course_Of_Term.csv
+yarn.lock

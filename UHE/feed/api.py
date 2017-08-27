@@ -38,9 +38,8 @@ class FeedsAPI(MethodView):
             paginated_feeds = Feed.objects.paginate(
                 page=page, per_page=5)
             return jsonify([feed.to_dict() for feed in paginated_feeds.items])
-            # return jsonify(paginated_feeds)
         else:
-            feed = Conversation.objects.get_or_404(id=feed_id)
+            feed = Feed.objects.get_or_404(id=feed_id)
             return jsonify(feed.to_dict())
 
     def post(self):
