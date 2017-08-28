@@ -12,7 +12,7 @@ from UHE.extensions import admin, captcha_solver, celery, db
 from UHE.plugins import UHEPlugin
 from flask import current_app
 from .models import Course, CourseOfTerm
-
+from .api import courses
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCourse"
 
@@ -33,6 +33,7 @@ class SHUCourse(UHEPlugin):
         admin.add_view(
             CourseView(CourseOfTerm, endpoint='course-term-manage'))
         admin.add_view(CourseView(Course, endpoint='course-manage'))
+        app.register_blueprint(courses, url_prefix='/courses')
         print('setup', __plugin__)
 
     def install(self, app):
