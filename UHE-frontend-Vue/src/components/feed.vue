@@ -24,7 +24,7 @@
     <v-container fluid v-if="feed.img.length !== 0" grid-list-sm class="pa-3">
       <v-layout row wrap>
         <v-flex xs4 v-for="(img,key) in feed.img" :key="key" @click.stop>
-          <img v-img="{group:index}" :src="`//static.shuhelper.cn/${img}-slim75`" style="object-fit: cover;" alt="lorem" width="100%" height="100%" />
+          <img v-img="{group:index}" :src="`//static.shuhelper.cn/${img}-slim75`" style="object-fit: cover;" alt="lorem" width="100%" />
         </v-flex>
       </v-layout>
     </v-container>

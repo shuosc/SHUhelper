@@ -1,14 +1,14 @@
 <template>
   <v-flex xs12 class="">
-     <loadmore :top-method="resetFeeds" @top-status-change="handleTopChange" ref="loadmore"> 
+    <loadmore :top-method="resetFeeds" @top-status-change="handleTopChange" ref="loadmore">
       <!-- v-infinite-scroll="getFeeds" infinite-scroll-disabled="loading" infinite-scroll-distance="10" -->
       <!-- <scroller :on-refresh="resetFeeds" :on-infinite="getFeeds" ref="loadmore"> -->
       <feed v-for="(feed,index) in feeds" :key="index" :index="index" :feed="feed" class="mt-3" @onFeedClick="onFeedClick" @onLikeClick="onLikeClick"></feed>
       <!-- </scroller> -->
-      
-     </loadmore> 
-     <infinite-loading :on-infinite="getFeeds" ref="infiniteLoading"></infinite-loading>
-     <v-speed-dial v-model="fab" fixed right direction="top" style="bottom:60px;" transition="slide-y-reverse-transition" v-show="$store.state.ui.bottomNavigationVisible">
+
+    </loadmore>
+    <infinite-loading :on-infinite="getFeeds" ref="infiniteLoading"></infinite-loading>
+    <v-speed-dial v-model="fab" fixed right direction="top" style="bottom:60px;" transition="slide-y-reverse-transition" v-show="$store.state.ui.bottomNavigationVisible">
       <v-btn slot="activator" class="blue darken-2" dark fab v-model="fab">
         <v-icon>add</v-icon>
         <v-icon>close</v-icon>
@@ -21,7 +21,7 @@
       </v-btn>
     </v-speed-dial>
     <router-view></router-view>
-    </v-layout> 
+    </v-layout>
   </v-flex>
 </template>
 <script>
@@ -29,7 +29,7 @@ import FeedDetail from '@/components/dialog/FeedDetail'
 import feed from '@/components/feed'
 import AddFeedText from '@/components/dialog/AddFeedText'
 import AddFeedLink from '@/components/dialog/AddFeedLink'
-import InfiniteLoading from 'vue-infinite-loading'
+import InfiniteLoading from '@/vue-infinite-loading/src/components/InfiniteLoading.vue'
 // import VuePullRefresh from 'vue-pull-refresh'
 import { Loadmore, InfiniteScroll } from 'mint-ui'
 
@@ -115,6 +115,9 @@ export default {
     },
     loadContent () {
       this.getFeeds()
+    },
+    getFeedsRAF () {
+      requestAnimationFrame(this.getFeedsReal)
     },
     getFeeds () {
       this.loading = true

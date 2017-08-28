@@ -9,9 +9,9 @@
       <v-btn icon @click.native="onProfileClick">
         <v-icon>perm_identity</v-icon>
       </v-btn>
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>search</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>  
      <!-- "  -->
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll" >
@@ -97,29 +97,29 @@ export default {
     },
     handleScroll: _.throttle(function () {
       let container = this.$refs.container
-      // console.log(container.scrollTop, container.clientHeight, container.scrollHeight)
+      let scrollHeight = container.scrollHeight
+      let clientHeight = container.clientHeight
+      let scrollTop = container.scrollTop
       if (this.$route.meta.unableBottomNavgation) {
         this.$store.commit('hideBottomNavgation')
         return
       }
-      if (container.scrollTop <= 20) {
+      if (scrollTop <= 20) {
         this.$store.commit('showBottomNavgation')
         return
       }
-      if (container.scrollHeight - container.clientHeight - container.scrollTop <= 60) {
-        // console.log(container.scrollTop, container.scrollHeight, container.clientHeight)
-        // this.$window.scroll(waitForPause(30, self.worker))
+      if (scrollHeight - clientHeight - scrollTop <= 60) {
         this.$store.commit('hideBottomNavgation')
         return
       }
-      if (this.scrollY < container.scrollTop) {
+      if (this.scrollY < scrollTop) {
         if (this.$store.state.ui.bottomNavigationVisible) {
           this.$store.commit('hideBottomNavgation')
         }
       } else {
         this.$store.commit('showBottomNavgation')
       }
-      this.scrollY = container.scrollTop
+      this.scrollY = scrollTop
     }, 100),
     back () {
       this.$router.go(-1)

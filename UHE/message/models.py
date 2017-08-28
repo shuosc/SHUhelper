@@ -30,7 +30,8 @@ class Message(db.Document):
         return {
             'created': str(self.created),
             'sender': self.sender.to_dict(),
-            'content': self.content
+            'content': self.content,
+            'me': self.sender.id == current_user.id
         }
 
     @classmethod

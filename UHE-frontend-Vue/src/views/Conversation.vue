@@ -3,30 +3,30 @@
     <infinite-loading direction="top" :on-infinite="getMessagesBefore" ref="infiniteLoading" style="height:50px;"></infinite-loading>
     <v-layout row class="ma-0">
       <v-flex xs12 sm6 offset-sm3>
-        <v-card>
-          <v-list two-line>
-            <div>
-              <!-- <loadmore :top-method="resetFeeds" @top-status-change="handleTopChange" ref="loadmore"> -->
-                <div v-for="(message,index) in messages" :key="index">
-                  <v-list-tile avatar v-bind:key="message.title">
-                    <v-list-tile-avatar v-show="message.sender.cardID !== $store.state.user.cardID">
-                      <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                      <v-list-tile-title class="teal--text" style="font-size:1rem;">{{message.sender.name}}
-                        <span style="font-size:0.8rem;">
-                          {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
-                        </span>
-                      </v-list-tile-title>
-                      <v-list-tile-sub-title v-html="message.content"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    <v-list-tile-avatar v-show="message.sender.cardID === $store.state.user.cardID">
-                      <img v-bind:src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`">
-                    </v-list-tile-avatar>
-                  </v-list-tile>
+        <v-card class="mb-3" v-for="(message,index) in messages" :key="index">
+          <v-container fluid grid-list-lg class="py-0">
+            <v-layout row>
+              <v-flex xs2 v-show="!message.me">
+                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`" height="100%" contain></v-card-media>
+              </v-flex>
+              <v-flex xs10>
+                <div :style="{fontSize:'1.1rem',textAlign:message.me?'right':'left'}" class="teal--text">{{message.sender.name}}
+                  <span style="font-size:0.5rem;" class="grey--text">
+                    {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
+                  </span>
                 </div>
-            </div>
-          </v-list>
+                <v-container class="pb-0 pt-2 px-0">
+                  <v-layout row>
+                    <v-flex xs12 :style="{textAlign:message.me?'right':'left'}">
+                      {{message.content}}</v-flex>
+                  </v-layout>
+                </v-container>
+              </v-flex>
+              <v-flex xs2 v-show="message.me">
+                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`" height="100%" contain></v-card-media>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-card>
       </v-flex>
     </v-layout>
@@ -45,8 +45,9 @@
   </div>
 </template>
 <script>
-import InfiniteLoading from 'vue-infinite-loading'
+// import InfiniteLoading from 'vue-infinite-loading'
 // import Addmessage from '@/components/dialog/Addmessage'
+import InfiniteLoading from '@/vue-infinite-loading/src/components/InfiniteLoading.vue'
 export default {
   components: {
     InfiniteLoading

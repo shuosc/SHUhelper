@@ -3,3 +3,5 @@ config/*.js
 src/vue-calendar-picker/src/*.js
 src/vue-calendar-picker/src/*.vue
 src/utils.js
+src/vue-infinite-loading/src/*.js
+src/vue-infinite-loading/components/*.vue

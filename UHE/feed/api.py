@@ -36,7 +36,7 @@ class FeedsAPI(MethodView):
         if not feed_id:
             page = int(request.args.get('page', 1))
             paginated_feeds = Feed.objects.paginate(
-                page=page, per_page=5)
+                page=page, per_page=10)
             return jsonify([feed.to_dict() for feed in paginated_feeds.items])
         else:
             feed = Feed.objects.get_or_404(id=feed_id)
