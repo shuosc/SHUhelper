@@ -3,21 +3,24 @@
     <infinite-loading direction="top" :on-infinite="getMessagesBefore" ref="infiniteLoading" style="height:50px;"></infinite-loading>
     <v-layout row class="ma-0">
       <v-flex xs12 sm6 offset-sm3>
-        <v-card class="mb-3" v-for="(message,index) in messages" :key="index">
+        <v-card class="mb-0" flat v-for="(message,index) in messages" :key="index">
           <v-container fluid grid-list-lg class="py-0">
             <v-layout row>
               <v-flex xs2 v-show="!message.me">
                 <v-card-media :src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`" height="100%" contain></v-card-media>
               </v-flex>
               <v-flex xs10>
-                <div :style="{fontSize:'1.1rem',textAlign:message.me?'right':'left'}" class="teal--text">{{message.sender.name}}
-                  <span style="font-size:0.5rem;" class="grey--text">
+                <div :style="{fontSize:'1.1rem',textAlign:message.me?'right':'left'}" class="teal--text">
+                  <span style="font-size:0.8rem;" class="grey--text" v-show="message.me">
+                    {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
+                  </span>{{message.sender.name}}
+                  <span style="font-size:0.8rem;" class="grey--text" v-show="!message.me">
                     {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
                   </span>
                 </div>
-                <v-container class="pb-0 pt-2 px-0">
+                <v-container class="pb-2 pt-2 px-0">
                   <v-layout row>
-                    <v-flex xs12 :style="{textAlign:message.me?'right':'left'}">
+                    <v-flex xs12 :style="{fontSize:'1.1rem',color:'grey',textAlign:message.me?'right':'left'}">
                       {{message.content}}</v-flex>
                   </v-layout>
                 </v-container>
