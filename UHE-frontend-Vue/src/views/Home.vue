@@ -6,7 +6,7 @@
           <v-card-title>
             <div>你好 {{$store.state.user.name}}</div>
             <v-spacer></v-spacer>
-            <div>晴 32C D楼附近</div>
+            <!-- <div>晴 32C D楼附近</div> -->
           </v-card-title>
           <!-- <v-card-text>
                <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
@@ -32,19 +32,19 @@
     <v-layout row class="ma-2">
       <span>动态推荐</span>
       <v-spacer></v-spacer>
-      <span style="font-size:0.5rem;color:grey;">管理卡片出现规则
-        <v-icon>favorite</v-icon>
+      <!-- <span style="font-size:0.5rem;color:grey;">管理卡片出现规则
+        <v-icon>favorite</v-icon> -->
       </span>
     </v-layout>
     <v-card class="mb-2">
       <v-card-title primary-title class="pa-2">通知公告</v-card-title>
       <v-divider></v-divider>
-      <v-card-text>喵喵喵</v-card-text>
-      <v-card-actions class="pa-0">
+      <v-card-text>SHUhelper3.0已经开始公测 </v-card-text>
+      <!-- <v-card-actions class="pa-0">
         <v-btn block class="orange--text ma-0">查看详情</v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
-    <v-card class="mb-2">
+    <!-- <v-card class="mb-2">
       <v-card-title primary-title class="pa-2">附近的空教室</v-card-title>
       <v-divider></v-divider>
       <v-card-text>喵喵喵</v-card-text>
@@ -75,7 +75,7 @@
       <v-card-actions class="pa-0">
         <v-btn block class="orange--text ma-0">查看详情</v-btn>
       </v-card-actions>
-    </v-card>
+    </v-card> -->
 
   </div>
 </template>
@@ -87,14 +87,13 @@ export default {
       e1: '',
       fab: false,
       navs: [
-        { name: '图书馆', icon: 'bubble_chart', url: '/info' },
-        { name: '一卡通', icon: 'bubble_chart', url: '/info' },
-        { name: '体育活动', icon: 'bubble_chart', url: '/info' },
-        { name: '尔美订餐', icon: 'bubble_chart', url: '/http://ermei.shuhelper.cn?code=ermeishu' },
+        { name: '我的宿舍', icon: 'bubble_chart', url: '/info' },
+        { name: '一卡通余额', icon: 'bubble_chart', url: '/info' },
+        // { name: '体育活动', icon: 'bubble_chart', url: '/info' },
+        // { name: '尔美订餐', icon: 'bubble_chart', url: '/http://ermei.shuhelper.cn?code=ermeishu' },
         { name: '校园地图', icon: 'bubble_chart', url: '/map' },
-        { name: '安全地图', icon: 'bubble_chart', url: '/security-map' },
         { name: '快速链接', icon: 'bubble_chart', url: '/info' },
-        { name: '全部功能', icon: 'bubble_chart', url: '/apps' }
+        { name: '课程查询', icon: 'bubble_chart', url: '/courses' }
       ]
     }
   },

@@ -2,11 +2,12 @@ import datetime
 
 from flask import abort
 from flask_login import UserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField,ReferenceField,
+from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField,
                          StringField)
 
 from UHE.client import Services
-from UHE.extensions import db,celery
+from UHE.extensions import db, celery
+
 
 class User(UserMixin, db.Document):
     card_id = StringField(primary_key=True)
@@ -30,6 +31,12 @@ class User(UserMixin, db.Document):
     def __unicode__(self):
         return self.name + str(self.card_id)
 
+    def to_dict_public(self):
+        return {
+            'avatar': self.avatar,
+            'cardID': self.card_id,
+            'name': self.nickname
+        }
     # def to_dict(self):
     #     return {"card_id": self.card_id, "name": self.name, "nickname": self.nickname}
 
@@ -73,8 +80,9 @@ class UserData(db.Document):
     client_id = StringField(default='client_')
 
     def get_client(self):
-        client = redis_store.get(user_data.client_id,None)
+        client = redis_store.get(user_data.client_id, None)
         return client
+
 
 @celery.task()
 def update_user_data(user_data_id):

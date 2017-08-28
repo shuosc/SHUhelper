@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-tabs light centered grow v-model="e1" style="height:100%;">
+    <!-- <v-tabs light centered grow v-model="e1" style="height:100%;">
       <v-tabs-bar slot="activators" class="grey lighten-3">
         <v-tabs-slider class="primary"></v-tabs-slider>
         <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
           {{ item }}
         </v-tabs-item>
-      </v-tabs-bar>
+      </v-tabs-bar> -->
       <!-- v-infinite-scroll="getContent" infinite-scroll-disabled="loading" infinite-scroll-distance="10" -->
-      <v-tabs-content :id="'tab-0'">
+      <!-- <v-tabs-content :id="'tab-0'"> -->
         <time-line ref="timeLine" @loaded="loaded" @loadingComplete="loadingComplete" @loadingReset="loadingReset"></time-line>
-      </v-tabs-content>
+       <!-- </v-tabs-content>
       <v-tabs-content :id="'tab-1'">
         <activities></activities>
       </v-tabs-content>
@@ -18,7 +18,7 @@
         <others></others>
       </v-tabs-content>
 
-    </v-tabs>
+    </v-tabs>  -->
     
   </div>
 </template>

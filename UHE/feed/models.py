@@ -30,7 +30,7 @@ class Feed(db.Document):
     def to_dict(self):
         # print(current_user.id,list(map(lambda user: user.id,self.like)))
         return {
-            'user': self.user.to_dict(),
+            'user': self.user.to_dict_public(),
             'created': str(self.created),
             'comments': self.comments,
             'type': self.feed_type,

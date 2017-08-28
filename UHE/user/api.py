@@ -75,7 +75,10 @@ def test():
 @users.route('/search/<card_id>')
 def search(card_id):
     users = User.objects(card_id__contains=card_id)
-    return jsonify(users)
+    return jsonify([{
+    '_id' : user.card_id,
+    'name': user.name[0] + '*'* len(user.name[1:])
+    }for user in users])
 
 
 @users.route('/xk')
@@ -102,6 +105,7 @@ def reset_avatar():
     user.avatar = get_avatar(user.card_id)
     user.save()
     return jsonify(status='ok')
+
 
 @users.route('/init-avatar/<card_id>')
 def init_avatar(card_id):

@@ -7,13 +7,13 @@
           <v-container fluid grid-list-lg class="py-0">
             <v-layout row>
               <v-flex xs2 v-show="!message.me">
-                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`" height="100%" contain></v-card-media>
+                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" height="100%" contain></v-card-media>
               </v-flex>
               <v-flex xs10>
                 <div :style="{fontSize:'1.1rem',textAlign:message.me?'right':'left'}" class="teal--text">
                   <span style="font-size:0.8rem;" class="grey--text" v-show="message.me">
                     {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
-                  </span>{{message.sender.name}}
+                  </span>{{user[message.sender].name}}
                   <span style="font-size:0.8rem;" class="grey--text" v-show="!message.me">
                     {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
                   </span>
@@ -26,7 +26,7 @@
                 </v-container>
               </v-flex>
               <v-flex xs2 v-show="message.me">
-                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender.cardID].avatar}`" height="100%" contain></v-card-media>
+                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" height="100%" contain></v-card-media>
               </v-flex>
             </v-layout>
           </v-container>
@@ -68,7 +68,8 @@ export default {
       start: 0,
       user: {},
       oldHeight: 0,
-      oldTop: 0
+      oldTop: 0,
+      conversationReady: false
     }
   },
   created () {
@@ -84,9 +85,7 @@ export default {
       }
     },
     getMessagesBefore () {
-      if (this.count === 0) {
-        return
-      }
+      if (!this.conversationReady) return
       if (this.start <= 0) {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         return
@@ -123,6 +122,7 @@ export default {
           this.count = response.data.count
           this.start = this.count
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
+          this.conversationReady = true
           this.getMessagesPoll(this.$route.params.id)
         })
     },
