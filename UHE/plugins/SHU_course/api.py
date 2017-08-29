@@ -8,7 +8,7 @@ courses = Blueprint('courses', __name__)
 def get_courses():
     args = request.args
     # print(args)
-    print(args)
+    # print(args)
     if args.get('quick'):
         page = args['page']
         query = args['query']
@@ -23,12 +23,19 @@ def get_courses():
             no__contains=args['no'],
             name__contains=args['name'],
             teacher__contains=args['teacher'],
-            credit__contains=args['credit']).paginate(page=int(page), per_page=30)
+            credit__contains=args['credit']).paginate(page=int(page), per_page=60)
         return jsonify(courses.items)
 
 
 @courses.route('/<oid>')
 def get_course(oid):
-    course = Course.objects.get_or_404(_id=oid)
+    course = Course.objects.get_or_404(id=oid)
     term_courses = CourseOfTerm.objects(course=course)
-    return jsonify(course=course, terms=term_courses)
+    return jsonify(course=course, **{term_course.term: term_course for term_course in term_courses})
+
+
+@courses.route('/<oid>/<term>')
+def get_course_by_term(oid, term):
+    course = Course.objects.get_or_404(id=oid)
+    term_courses = CourseOfTerm.objects(course=course, term=term)
+    return jsonify(course=course, classes=term_courses)

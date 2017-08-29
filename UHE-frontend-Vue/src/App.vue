@@ -6,9 +6,9 @@
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <!-- <v-btn icon @click.native="onProfileClick">
+       <v-btn icon @click.native="onProfileClick">
         <v-icon>perm_identity</v-icon>
-      </v-btn> -->
+      </v-btn> 
       <!-- <v-btn icon>
         <v-icon>search</v-icon>
       </v-btn> -->

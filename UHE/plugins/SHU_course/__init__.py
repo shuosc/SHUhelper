@@ -28,8 +28,8 @@ class CourseView(ModelView):
 
 class SHUCourse(UHEPlugin):
     settings_key = 'SHU_calendar'
-
     def setup(self,app):
+        self.term = '2017_1'
         admin.add_view(
             CourseView(CourseOfTerm, endpoint='course-term-manage'))
         admin.add_view(CourseView(Course, endpoint='course-manage'))
@@ -48,6 +48,7 @@ class SHUCourse(UHEPlugin):
         event.delete()
 
 
+
 @celery.task()
 def get_xk(url):
     term = get_term(url)
@@ -58,15 +59,18 @@ def get_xk(url):
 def save_courses(courselist, term):
     for course in courselist:
         course_basic = {
-            key: course.get(key) for key in ('no', 'name', 'teacher', 'credit')
+            key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tag')
         }
         course_db = Course.objects(
             no=course['no'], teacher=course['teacher']).first()
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
+        if self.term == term:
+            course_db.this_term = True
+            course_db.save()
         course_detail = {
-            key: course.get(key) for key in ('course', 'q_time', 'q_place', 'school', 'tag', 'teacher_no', 'time', 'place', 'capacity', 'enroll', 'campus')
+            key: course.get(key) for key in ('course', 'q_time', 'q_place', 'teacher_no', 'time', 'place', 'capacity', 'enroll', 'campus')
         }
         course_detail['course'] = course_db
         course_detail['term'] = term
@@ -120,7 +124,6 @@ def get_term(url):
     while num > 0:
         try:
             print('pending')
-
             result = s.get(url, timeout=3, headers=HEADERS)
             assert result.status_code == 200
         except Exception as e:
@@ -226,7 +229,7 @@ def get_latest_course(url):
                 'q_time': qtime,
                 'q_place': qplace,
                 'school': school,
-                'tag': tag
+                'tag': [tag]
             }
             courselist.append(course)
     return courselist
