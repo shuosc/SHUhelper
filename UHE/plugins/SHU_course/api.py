@@ -17,6 +17,12 @@ def get_courses():
             Q(name__contains=query) |
             Q(teacher__contains=query)).paginate(page=int(page), per_page=30)
         return jsonify(courses.items)
+    elif args.get('id'):
+        print(args)
+        course = Course.objects(
+            Q(no__contains=args.get('no')) &
+            Q(teacher__contains=args.get('teacher'))).get_or_404()
+        return jsonify(id=str(course.id))
     else:
         page = args['page']
         courses = Course.objects(
@@ -31,7 +37,10 @@ def get_courses():
 def get_course(oid):
     course = Course.objects.get_or_404(id=oid)
     term_courses = CourseOfTerm.objects(course=course)
-    return jsonify(course=course, **{term_course.term: term_course for term_course in term_courses})
+    return jsonify(course=course, terms=list(set(term_course.term for term_course in term_courses)))
+
+# @course.route('/')
+# def get_course_id():
 
 
 @courses.route('/<oid>/<term>')

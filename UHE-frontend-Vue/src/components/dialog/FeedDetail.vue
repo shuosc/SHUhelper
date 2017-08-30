@@ -12,7 +12,8 @@
           <v-container fluid class="pa-0 mb-2" style="height:100%;overflow:scroll;margin-top:64px;">
             <feed :index="index" :feed="feed" class="mt-3" @onLikeClick="onLikeClick"></feed>
           </v-container>
-          <v-container fluid class="pa-0 ">
+          <comment post="feed" :id="$route.params.id"></comment>
+          <!-- <v-container fluid class="pa-0 ">
             <div v-if="comments.length" style="padding-bottom:52px;">
               <v-card v-for="comment in comments" :key="comment._id" class="mb-2">
                 <v-card-title class="pa-1 teal--text">{{comment.user.name}}:
@@ -36,7 +37,7 @@
                 </v-layout>
               </v-container>
             </v-card>
-          </v-container>
+          </v-container> -->
         </v-card>
       </v-dialog>
     </v-layout>
@@ -44,10 +45,12 @@
   </div>
 </template>
 <script>
+import comment from '@/components/comment.vue'
 import feed from '@/components/feed'
 export default {
   components: {
-    feed
+    feed,
+    comment
   },
   props: {
     index: {
@@ -95,26 +98,9 @@ export default {
   // },
   created () {
     this.getFeed()
-    this.getComments()
+    // this.getComments()
   },
   methods: {
-    sendComment () {
-      this.$http.post('/api/comments/', {
-        post: 'feed',
-        id: this.feed.id,
-        content: this.content
-      }).then((response) => {
-        this.getComments()
-      })
-    },
-    getComments () {
-      this.comments = []
-      this.$http.get(`/api/comments/?post=feed&id=${this.$route.params.id}`)
-        .then((response) => {
-          this.comments = response.data
-          this.feed.comments = this.comments.length
-        })
-    },
     onDialogClose: function () {
       this.$emit('closeDialog')
     },

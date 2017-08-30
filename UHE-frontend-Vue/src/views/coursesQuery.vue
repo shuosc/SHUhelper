@@ -6,7 +6,9 @@
         <v-container fluid class="pa-0 ma-0">
           <v-layout row wrap>
             <v-flex xs12>
-              <v-text-field class="pb-0" name="input-1" v-model="quickQuery" single-line placeholder="搜索课程" hint="输入课程号／课程名／教师名" id="testing"></v-text-field>
+              <v-text-field class="pb-0" name="input-1" v-model="quickQuery"
+                single-line placeholder="搜索课程" hint="输入课程号／课程名／教师名"
+                id="testing"></v-text-field>
             </v-flex>
             </v-flex>
           </v-layout>
@@ -25,8 +27,10 @@
       <v-divider></v-divider>
 
     </v-card>
-    <div v-infinite-scroll="searchCourseQuick" infinite-scroll-disabled="loading||allLoaded" infinite-scroll-distance="10">
-      <v-card flat v-for="course in courses" :key="course.no" @click.stop="onCourseClick(course)">
+    <div v-infinite-scroll="searchCourseQuick" :infinite-scroll-disabled="loading||allLoaded"
+      infinite-scroll-distance="10">
+      <v-card flat v-for="course in courses" :key="course.no"
+        @click.stop="onCourseClick(course)">
         <v-card-text class="px-1">
           <v-layout row>
             <v-flex xs2>
@@ -46,44 +50,41 @@
     </div>
     <div style="text-align:center;height:30px;">
       <span v-show="allLoaded" indeterminate class="primary--text">no more data :)</span>
-      <v-progress-circular v-show="loading" indeterminate class="primary--text"></v-progress-circular>
+      <v-progress-circular v-show="loading" indeterminate
+        class="primary--text"></v-progress-circular>
     </div>
     <popup v-model="dialog" popup-transition="popup-fade">
       <v-layout row justify-center style="position: relative;">
-        <!-- <v-dialog v-model="dialog" lazy absolute> -->
-        <!-- <v-btn primary dark slot="activator">Open Dialog</v-btn> -->
         <v-card style="width:300px;" v-show="courseLoading">
           <div>
             <v-progress-circular indeterminate class="primary--text"></v-progress-circular>
           </div>
         </v-card>
-
         <v-card style="width:300px;" v-show="!courseLoading">
-          <!-- <v-card-title class="pt-2 pb-0"> -->
-          <p class="pt-2 teal--text ma-0" style="text-align:center; font-size:1.1rem;">
+         <p class="pt-2 teal--text ma-0" style="text-align:center; font-size:1.1rem;">
             {{course.course.name}}
           </p>
           <h5 style="text-align:center;" class="ma-0">
             <span class="grey--text" style="font-size:0.9rem;">{{course.course.no}} </span>
             <span class="teal--text" style="font-size:0.9rem;">{{course.course.teacher}} 17-18秋</span>
           </h5>
-          <!-- <v-subheader>222</v-subheader> -->
-          <!-- </v-card-title> -->
           <v-card-text class="px-0 pt-0">
             <!-- <div class="text-xs-center">
-                                                <v-chip small class="primary white--text">2017-2018秋季学期</v-chip>
-                                              </div> -->
+                                                  <v-chip small class="primary white--text">2017-2018秋季学期</v-chip>
+                                                </div> -->
             <div class="text-xs-center" v-show="!course.classes.length">
               <v-chip small class="orange   white--text">本学期未开</v-chip>
             </div>
             <!-- <div class="text-xs-center">
-                                        <v-chip small class="primary   white--text">本学期开了{{course.classes.length}}个班</v-chip>
-                                      </div> -->
+                                          <v-chip small class="primary   white--text">本学期开了{{course.classes.length}}个班</v-chip>
+                                        </div> -->
             <navbar v-model="active">
-              <tab-item v-for="(courseClass,index) in course.classes" :id="index" :key="index">{{courseClass.teacher_no}}班</tab-item>
+              <tab-item v-for="(courseClass,index) in course.classes"
+                :id="index" :key="index">{{courseClass.teacher_no}}班</tab-item>
             </navbar>
             <tab-container v-model="active">
-              <tab-container-item v-for="(courseClass,index) in course.classes" :id="index" :key="index">
+              <tab-container-item v-for="(courseClass,index) in course.classes"
+                :id="index" :key="index">
                 <cell title="学分">
                   {{course.course.credit}}</cell>
                 <cell title="时间">
@@ -99,36 +100,11 @@
                   {{courseClass.q_place}}</cell>
               </tab-container-item>
             </tab-container>
-            <!-- <v-tabs light>
-                                            <v-tabs-bar grow slot="activators" class="white ma-0" >
-                                              <v-tabs-slider class="yellow ma-0"></v-tabs-slider>
-                                              <v-tabs-item v-for="i in 3" :key="i" :href="'#tab-' + i">
-                                                Item {{ i }}
-                                              </v-tabs-item>
-                                            </v-tabs-bar>
-                                            <v-tabs-content v-for="i in 15" :key="i" :id="'tab-' + i">
-                                              <v-card flat>
-                                                <v-card-text>{{ text }}</v-card-text>
-                                              </v-card>
-                                            </v-tabs-content>
-                                          </v-tabs> -->
-            <!-- <cell title="学分">
-                                            {{course.course.credit}}</cell>
-                                          <cell title="教师名">{{course.course.teacher}}({{course.course.teacher_no}})
-                                          </cell>
-                                          <cell title="时间">
-                                            <p class="ma-0" style="font-size:0.8rem;">{{course.time}}</p>
-                                          </cell>
-                                          <cell title="地点">
-                                            {{course.place}}</cell>
-                                          <cell title="答疑时间">
-                                            {{course.q_time}}</cell>
-                                          <cell title="答疑地点">
-                                            {{course.q_place}}</cell> -->
           </v-card-text>
           <v-card-actions>
             <!-- <v-spacer></v-spacer> -->
-            <v-btn class="green--text darken-1" flat="flat" block @click.native="$router.push(`/courses/${course.no}`)">前往该课程主页</v-btn>
+            <v-btn class="green--text darken-1" flat="flat" block
+              @click.native="$router.push(`/courses/${course.course._id.$oid}`)">前往该课程主页</v-btn>
           </v-card-actions>
         </v-card>
         <!-- </v-dialog> -->
@@ -189,7 +165,7 @@ export default {
     }
   },
   created () {
-    this.searchCourseQuick()
+    // this.searchCourseQuick()
   },
   methods: {
     onCourseClick (course) {
@@ -208,6 +184,7 @@ export default {
     },
     searchCourseQuick: _.debounce(
       function () {
+        if (this.loading) return
         this.loading = true
         this.$http.get('/api/courses/', {
           params: {

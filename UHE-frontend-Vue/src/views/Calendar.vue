@@ -17,20 +17,14 @@
               </span>
             </h4>
           </v-card-title>
-          <!-- <v-chip class="indigo white--text ma-0" small>
-                  <v-avatar>
-                    <v-icon>account_circle</v-icon>
-                  </v-avatar>
-                  {{popupContent.teacher}}
-                </v-chip> -->
-          <!-- <v-divider></v-divider> -->
           <v-card-text class="pa-2" style="font-size:1rem !important;">
             <cell title="学分">
               {{popupContent.credit}}</cell>
             <cell title="教师名">{{popupContent.teacher}}({{popupContent.teacher_no}})
             </cell>
             <cell title="时间">
-              <p class="ma-0" style="font-size:0.8rem;">{{popupContent.time}}</p></cell>
+              <p class="ma-0" style="font-size:0.8rem;">{{popupContent.time}}</p>
+            </cell>
             <cell title="地点">
               {{popupContent.place}}</cell>
             <cell title="答疑时间">
@@ -39,7 +33,7 @@
               {{popupContent.q_place}}</cell>
           </v-card-text>
           <v-card-actions>
-            <v-btn flat block class="orange--text">前往课程主页</v-btn>
+            <v-btn flat block class="orange--text" @click="getID()">前往课程主页</v-btn>
             <!-- <v-btn flat class="orange--text">Explore</v-btn> -->
           </v-card-actions>
         </v-card>
@@ -47,7 +41,7 @@
     </v-tabs-content>
     <v-tabs-content :id="'tab-1'">
       <!-- <calendar locale="ZH_CN"
-                                                                                                                                         </calendar> -->
+                                                                                                                                                 </calendar> -->
       <calendar-events locale="ZH_CN" style="height:20rem;"
         :events="calendarEvents" :selection="calendarSelection"
         @action="action"></calendar-events>
@@ -56,13 +50,8 @@
           <li v-for="event in calendarEvents" :style="`color:${event.color};`"
             :key="event"> {{event.title}} </li>
         </ul>
-      </v-card>
-      <!-- <calendar-range :events="calendarEvents" style="width:100%;display:block;" compact 
-                                     <mt-popup
-                      v-model="popupVisible"
-                      position="bottom">
-                      ...
-                    </mt-popup>                                                                                                                                                :selection="calendarSelection"></calendar-range> -->
+      </v-card> :selection="calendarSelection"></calendar-range>
+      -->
     </v-tabs-content>
     <!-- <v-tabs-content v-for="i in items" :key="i" :id="'tab-' + i">                                                                                                                                                   </v-tabs-content> -->
   </v-tabs>
@@ -215,6 +204,18 @@ export default {
         }
       }
       this.popupVisible = true
+    },
+    getID () {
+      this.$http.get('/api/courses/', {
+        params: {
+          id: true,
+          no: this.popupContent.no,
+          teacher: this.popupContent.teacher
+        }
+      })
+        .then((response) => {
+          this.$router.push(`/courses/${response.data.id}`)
+        })
     },
     coursetimeToNum (time) {
       var patt = /([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468)\)|\((?:([0-9]+),([0-9]+)\u5468)\))*/

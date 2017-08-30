@@ -93,7 +93,7 @@ export default {
         // { name: '尔美订餐', icon: 'bubble_chart', url: '/http://ermei.shuhelper.cn?code=ermeishu' },
         { name: '校园地图', icon: 'bubble_chart', url: '/map' },
         { name: '快速链接', icon: 'bubble_chart', url: '/info' },
-        { name: '课程查询', icon: 'bubble_chart', url: '/courses' }
+        { name: '课程查询', icon: 'bubble_chart', url: '/courses-query' }
       ]
     }
   },

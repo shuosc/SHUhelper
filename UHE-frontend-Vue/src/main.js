@@ -14,7 +14,9 @@ import {
 } from './utils.js'
 import VueImg from 'v-img'
 import Toasted from 'vue-toasted'
-import { InfiniteScroll } from 'mint-ui'
+import {
+  InfiniteScroll
+} from 'mint-ui'
 import _ from 'lodash'
 Vue.use(InfiniteScroll)
 const moment = require('moment')
@@ -87,5 +89,21 @@ new Vue({
   template: '<App/>',
   components: {
     App
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    },
+    term: function (value) {
+      let map = {
+        '1': '秋',
+        '2': '冬',
+        '3': '春',
+        '4': '夏'
+      }
+      return value.slice(2, 4) + map[value[5]]
+    }
   }
 })

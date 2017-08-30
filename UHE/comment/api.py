@@ -4,6 +4,7 @@ from flask_login import current_user
 from bson import ObjectId
 from UHE.comment.models import Comment
 from UHE.feed.models import Feed
+from UHE.plugins.SHU_course.models import Course
 comments = Blueprint('comments', __name__)
 
 
@@ -13,7 +14,8 @@ def like(comment_id):
     return jsonify(id=str(comment_id))
 
 TYPE_DICT = {
-            'feed': Feed
+            'feed': Feed,
+            'course': Course
         }
 
 class CommentAPI(MethodView):

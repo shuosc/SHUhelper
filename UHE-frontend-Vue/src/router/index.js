@@ -10,6 +10,7 @@ import My from '../views/My'
 import profile from '../views/profile'
 import map from '../views/map'
 import coursesQuery from '@/views/coursesQuery'
+import course from '@/views/course'
 // import map from '../views/map'
 Vue.use(Router)
 
@@ -22,8 +23,16 @@ export default new Router({
       component: profile
     },
     {
-      path: '/courses',
+      path: '/courses/:id',
       name: 'course',
+      component: course,
+      meta: {
+        unableBottomNavgation: true
+      }
+    },
+    {
+      path: '/courses-query',
+      name: 'courses',
       component: coursesQuery,
       meta: {
         unableBottomNavgation: true
