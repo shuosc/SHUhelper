@@ -11,6 +11,7 @@ import profile from '../views/profile'
 import map from '../views/map'
 import coursesQuery from '@/views/coursesQuery'
 import course from '@/views/course'
+import fin from '@/views/fin'
 // import map from '../views/map'
 Vue.use(Router)
 
@@ -21,6 +22,11 @@ export default new Router({
       path: '/profile/:id',
       name: 'profile',
       component: profile
+    },
+    {
+      path: '/fin',
+      name: 'fin',
+      component: fin
     },
     {
       path: '/courses/:id',
