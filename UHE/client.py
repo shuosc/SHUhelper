@@ -119,57 +119,6 @@ class Services(Client):
         return self.data
 
 
-class Fin(Client):
-    url_prefix = 'http://xssf.shu.edu.cn:8100'
-
-    def login(self):
-        post_data = {'UserCode': self.card_id,
-                     'PwdCode': self.password,
-                     'ctl06': '登录',
-                     '__EVENTVALIDATION': '/wEWBQLrx5O2DQL3zYGiAQKjwImNCwKOv82uCgKm4dCKDAefRD8TOnrH5ZlFjyHdZXRlFD5OzJ2m8gU8P1hoVlJJ',
-                     '__VIEWSTATE': '/wEPDwUJNjE0MDc1MjAwZGTG1q3kkRAJ9ATzejrhLuP50q5cqdYCMkJ8W6SZBc+0cw=='}
-        r = self.session.post(
-            'http://xssf.shu.edu.cn:8088/LocalLogin.aspx', data=post_data, timeout=10)
-        r = self.session.get(self.url_prefix + '/SFP_Share/', timeout=10)
-        return r.text.find('回首页') != -1
-
-    def get_data(self):
-        r = self.session.get(
-            self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_PersonInfo', timeout=10)
-        personinfo = re.search(
-            r'(<fieldset([\s\S]*)</fieldset>)', r.text, flags=0).group(0)
-        r = self.session.get(self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryPaymentcondition',
-                             timeout=10)
-        paymentcondition = re.search(
-            r'(<table([\s\S]*)</table>)', r.text, flags=0).group(0)
-        arrearageAmount = re.search(
-            r'[0-9]\d*.[0-9]\d*', r.text, flags=0).group(0)
-        personinfo = re.sub(
-            r'<span id="arrearageAmount"></span>', arrearageAmount, personinfo)
-        r = self.session.get(
-            self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryChargeRecord', timeout=10)
-        chargerecord = re.search(
-            r'(<table([\s\S]*)</table>)', r.text, flags=0).group(0)
-        r = self.session.get(
-            self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_QueryRefundRecord', timeout=10)
-        refundrecord = re.search(
-            r'(<table([\s\S]*)</table>)', r.text, flags=0).group(0)
-        content = personinfo + u'<legend></legend><legend>缴费情况</legend>' \
-            + paymentcondition + u'<legend>缴费记录</legend>' + chargerecord \
-            + u'<legend>退费记录</legend>' + refundrecord + u'<legend></legend>'
-        content = re.sub(r'<table class="tblList tblInLine">',
-                         '<table class="table  table-striped table-hover table-bordered table-condensed">', content)
-        self.data = content
-        return True
-
-    def to_html(self):
-        return self.data
-
-    def to_json(self):
-        return {
-            'type': 'html',
-            'data': self.data
-        }
 
 
 class Lehu(Client):

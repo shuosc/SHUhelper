@@ -30,14 +30,23 @@
       </v-flex>
     </v-layout>
     <v-layout row class="ma-2">
-      <span>动态推荐</span>
+      <!-- <span>动态推荐</span> -->
       <v-spacer></v-spacer>
       <!-- <span style="font-size:0.5rem;color:grey;">管理卡片出现规则
         <v-icon>favorite</v-icon> -->
       </span>
     </v-layout>
+    
     <v-card class="mb-2">
       <v-card-title primary-title class="pa-2">通知公告</v-card-title>
+      <v-divider></v-divider>
+      <v-card-text>SHUhelper3.0已经开始公测 </v-card-text>
+      <!-- <v-card-actions class="pa-0">
+        <v-btn block class="orange--text ma-0">查看详情</v-btn>
+      </v-card-actions> -->
+    </v-card>
+    <v-card class="mb-2">
+      <v-card-title primary-title class="pa-2">迎新频道</v-card-title>
       <v-divider></v-divider>
       <v-card-text>SHUhelper3.0已经开始公测 </v-card-text>
       <!-- <v-card-actions class="pa-0">

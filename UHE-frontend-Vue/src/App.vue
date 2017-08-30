@@ -1,35 +1,35 @@
 <template>
   <v-app light toolbar style="height:100%;">
-      <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
+    <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
       <v-btn icon @click.prevent="back">
         <v-icon>arrow_back</v-icon>
       </v-btn>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-       <v-btn icon @click.native="onProfileClick">
+      <v-btn icon @click.native="onProfileClick">
         <v-icon>perm_identity</v-icon>
-      </v-btn> 
+      </v-btn>
       <!-- <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn> -->
-    </v-toolbar>  
-     <!-- "  -->
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll" >
-       <v-slide-y-transition mode="out-in"> 
-         <router-view></router-view> 
-       </v-slide-y-transition> 
+                        <v-icon>search</v-icon>
+                      </v-btn> -->
+    </v-toolbar>
+    <!-- "  -->
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
+      <v-slide-y-transition mode="out-in">
+        <router-view></router-view>
+      </v-slide-y-transition>
     </main>
-      <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible">
-      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)" :value="nav.url===$route.path">
+    <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
+      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)">
         <span>{{nav.name}}</span>
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
-    </v-bottom-nav> 
+    </v-bottom-nav>
     <login> </login>
     <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>
-    </v-snackbar> 
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -52,8 +52,9 @@ export default {
       loginLoading: false,
       bottomNavs: [{ name: '首页', icon: 'school', url: '/' },
       { name: '广场', icon: 'filter_vintage', url: '/square' },
-      { name: '日程', icon: 'event', url: '/calendar' },
-      { name: '消息', icon: 'chat', url: '/messages' }],
+      { name: '课表', icon: 'event', url: '/calendar' },
+      // { name: '消息', icon: 'chat', url: '/messages' },
+      { name: '更多', icon: 'more', url: '/messages' }],
       clipped: false,
       drawer: false,
       fixed: false,
@@ -68,6 +69,15 @@ export default {
     'snackbar', 'ui'
   ]),
   created () {
+    this.bottomNavgationIndex = 0
+    for (let index in this.bottomNavs) {
+      console.log(this.$route.path, this.bottomNavs[index].url)
+      if (this.bottomNavs[index].url === this.$route.path) {
+        this.bottomNavgationIndex = index
+        console.log(index)
+      }
+    }
+    console.log(this.bottomNavgationIndex)
     // console.log(this.$refs.container, 'ref')
     // this.$refs.container.addEventListener('scroll', this.handleScroll)
     // window.addEventListener('scroll', this.handleScroll)
@@ -127,6 +137,7 @@ export default {
     onBottomNavgationClick (index) {
       this.$router.replace(this.bottomNavs[index].url)
       this.bottomNavgationIndex = index
+      console.log(this.bottomNavgationIndex)
     },
     verifyToken () {
       var _this = this

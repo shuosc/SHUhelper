@@ -1,12 +1,12 @@
 <template>
   <div>
     <v-card>
-      <p class="pt-2 teal--text ma-0" style="text-align:center; font-size:1.1rem;">
+      <p class="pt-2 teal--text ma-0" style="text-align:center; font-size:1.5rem;">
         {{course.course.name}}
       </p>
       <h5 style="text-align:center;" class="ma-0">
-        <span class="grey--text" style="font-size:0.9rem;">{{course.course.no}} </span>
-        <span class="teal--text" style="font-size:0.9rem;">{{course.course.teacher}} 17-18秋</span>
+        <span class="grey--text" style="font-size:1.2rem;">{{course.course.no}} </span>
+        <span class="teal--text" style="font-size:1.2rem;">{{course.course.teacher}} 17-18秋</span>
       </h5>
       <v-card-text class="px-0 pt-0">
         <div class="text-xs-center">
