@@ -37,7 +37,10 @@ Vue.toasted.register('default', 'Oops.. Something Went Wrong..', {
   icon: 'error_outline'
 })
 const store = new Vuex.Store(state)
+
+/* eslint-disable no-undef */
 router.beforeEach((to, from, next) => {
+  _hmt.push(['_trackPageview', to.path])
   if (to.path.match(/http/) !== null) {
     let toURL = parseURL(to.path.substring(1))
     let thisURL = parseURL(document.URL)

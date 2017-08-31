@@ -17,3 +17,5 @@
 `celery -A celery_worker.celery worker --beat --loglevel=info`
 
 #### 运行测试服务器
+
+ gunicorn -w 10 --reload -D -b 127.0.0.1:4001 api:app

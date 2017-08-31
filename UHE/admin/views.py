@@ -131,7 +131,7 @@ def async_uninstall(self,ids):
         Plugin.objects(id__in=ids).update(status='failed')
         raise self.retry(exc=exc,countdown=60)
 
-class PluginView(ModelView):
+class PluginView(BasicPrivateModelView):
     can_delete = False
     can_create = False
 
@@ -146,16 +146,16 @@ class PluginView(ModelView):
 
 
 def configure_admin(app):
-    admin.add_view(ModelView(UserData, endpoint='userdata-manage'))
+    admin.add_view(BasicPrivateModelView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
-    admin.add_view(ModelView(Conversation, endpoint='conversation-manage'))
+    admin.add_view(BasicPrivateModelView(Conversation, endpoint='conversation-manage'))
     admin.add_view(UserView(User, endpoint='user-manage'))
-    admin.add_view(ModelView(Message, endpoint='message-manage'))
-    admin.add_view(ModelView(Event, endpoint='event-manage'))
-    admin.add_view(ModelView(Activity, endpoint='sub-event-manage'))
-    admin.add_view(ModelView(Feed, endpoint='feed-manage'))
-    admin.add_view(ModelView(Comment, endpoint='comment-manage'))
-    admin.add_view(rediscli.RedisCli(Redis()))
+    admin.add_view(BasicPrivateModelView(Message, endpoint='message-manage'))
+    admin.add_view(BasicPrivateModelView(Event, endpoint='event-manage'))
+    admin.add_view(BasicPrivateModelView(Activity, endpoint='sub-event-manage'))
+    admin.add_view(BasicPrivateModelView(Feed, endpoint='feed-manage'))
+    admin.add_view(BasicPrivateModelView(Comment, endpoint='comment-manage'))
+    # admin.add_view(rediscli.RedisCli(Redis()))
     admin.add_link(NotAuthenticatedMenuLink(name='登录',
                                             endpoint='index.login_view'))
     admin.add_link(AuthenticatedMenuLink(name='注销',
