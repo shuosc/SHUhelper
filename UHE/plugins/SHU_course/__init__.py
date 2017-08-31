@@ -67,7 +67,7 @@ def save_courses(courselist, term):
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
-        if term == '2017_1:
+        if term == '2017_1':
             course_db.this_term = True
             course_db.save()
         course_detail = {
