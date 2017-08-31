@@ -31,8 +31,12 @@ run:
 	# celery -A celery_worker.celery worker --loglevel=info & >celery.log
 	export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run
 
+deploycelery:
+	celery -A celery_worker.celery worker --beat --loglevel=info & >celery.log
+
 runcelery:
 	celery -A celery_worker.celery worker --beat --loglevel=info
+
 
 stopcelery:
 	pkill -9 -f 'celery worker'

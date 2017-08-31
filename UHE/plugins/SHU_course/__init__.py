@@ -13,6 +13,7 @@ from UHE.plugins import UHEPlugin
 from flask import current_app
 from .models import Course, CourseOfTerm
 from .api import courses
+from UHE.admin.views import BasicPrivateModelView
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCourse"
 
@@ -20,7 +21,7 @@ date = datetime.datetime
 delta = datetime.timedelta
 
 
-class CourseView(ModelView):
+class CourseView(BasicPrivateModelView):
     # can_delete = False
     # can_create = False
     can_export = True
