@@ -76,9 +76,9 @@ const state = {
       state.user.token = payload.token
     },
     clearAccount(state) {
-      state.account = {
-        card_id: '',
-        open_id: '',
+      state.user = {
+        cardID: '',
+        openID: '',
         name: '',
         nickname: '',
         password: '',

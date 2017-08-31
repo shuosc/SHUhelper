@@ -1,25 +1,29 @@
 <template>
   <v-app light toolbar style="height:100%;">
-    <v-toolbar fixed dense >
+    <v-toolbar fixed dense>
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
         <v-icon>arrow_back</v-icon>
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
-       <!-- <v-btn icon @click.native="onProfileClick">
-          <v-icon>help</v-icon>
-        </v-btn> -->
+
+      <v-btn icon v-if="$store.state.user.cardID!==''" @click.native="logout()">
+        注销
+      </v-btn>
       <!-- <v-btn icon @click.native="onProfileClick">
-          <v-icon>perm_identity</v-icon>
-        </v-btn> -->
+              <v-icon>help</v-icon>
+            </v-btn> -->
+      <!-- <v-btn icon @click.native="onProfileClick">
+              <v-icon>perm_identity</v-icon>
+            </v-btn> -->
       <!-- <v-btn icon>
-        <v-icon>search</v-icon>
-      </v-btn> -->
+            <v-icon>search</v-icon>
+          </v-btn> -->
     </v-toolbar>
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <!-- <keep-alive> -->
-          <router-view></router-view>
+        <router-view></router-view>
         <!-- </keep-alive> -->
       </v-slide-y-transition>
     </main>
@@ -58,7 +62,7 @@ export default {
       { name: '广场', icon: 'filter_vintage', url: '/square' },
       { name: '课表', icon: 'event', url: '/calendar' },
       { name: '消息', icon: 'chat', url: '/messages' }
-      // { name: '更多', icon: 'more', url: '/messages' }
+        // { name: '更多', icon: 'more', url: '/messages' }
       ],
       clipped: false,
       drawer: false,
@@ -144,6 +148,14 @@ export default {
       this.$router.replace(this.bottomNavs[index].url)
       this.bottomNavgationIndex = index
       console.log(this.bottomNavgationIndex)
+    },
+    logout () {
+      localStorage.clear()
+      let token = this.$store.state.user.token
+      this.$store.commit('clearAccount')
+      this.$router.push('/')
+      this.$store.commit('showSnackbar', { text: '已注销' })
+      this.$http.get('/api/users/logout?token=' + token)
     },
     verifyToken () {
       var _this = this

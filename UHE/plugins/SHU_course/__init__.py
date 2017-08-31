@@ -151,7 +151,7 @@ def get_latest_course(url):
     courselist = []
     success = False
     maxtry = 10
-    while success == False and maxtry != 0:
+    while not success and maxtry != 0:
         maxtry = maxtry - 1
         print('tring to get captcha {}, try left'.format(maxtry))
         s = requests.Session()

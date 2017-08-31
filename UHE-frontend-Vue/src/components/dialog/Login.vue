@@ -21,7 +21,7 @@
               <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项" persistent-hint v-model="remeberMe" light></v-checkbox>
             </v-flex>
             <v-flex xs12>
-  
+
               <v-btn primary dark block @click.native="login()">
                 <v-progress-circular v-show="loginLoading" :indeterminate="loginLoading" class="red--text"></v-progress-circular>登录</v-btn>
             </v-flex>
@@ -58,10 +58,12 @@ export default {
             nickname: response.data.nickname,
             token: response.data.token
           }
-          try {
-            localStorage.setItem('loginstate', JSON.stringify(payload))
-          } catch (err) {
-            _this.$store.commit('showSnackbar', { text: `本地存储失败，如果您在使用APP，请升级到最新版本(http://static.shuhelper.cn/SHUhelper.apk)，如果在使用浏览器，请关闭无痕浏览模式` })
+          if (this.remeberMe) {
+            try {
+              localStorage.setItem('loginstate', JSON.stringify(payload))
+            } catch (err) {
+              _this.$store.commit('showSnackbar', { text: `本地存储失败，如果您在使用APP，请升级到最新版本(http://static.shuhelper.cn/SHUhelper.apk)，如果在使用浏览器，请关闭无痕浏览模式` })
+            }
           }
           _this.$store.commit('updateAccount', payload)
           _this.$store.commit('closeLoginDialog')

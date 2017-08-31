@@ -1,7 +1,7 @@
 import datetime
 
 from flask import Blueprint, request, jsonify, current_app, abort
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, current_user, logout_user
 
 from UHE.calendar.models import Activity, Event
 from UHE.client import Services
@@ -76,8 +76,8 @@ def test():
 def search(card_id):
     users = User.objects(card_id__contains=card_id)
     return jsonify([{
-    '_id' : user.card_id,
-    'name': user.name[0] + '*'* len(user.name[1:])
+        '_id': user.card_id,
+        'name': user.name[0] + '*' * len(user.name[1:])
     }for user in users])
 
 
@@ -113,6 +113,16 @@ def init_avatar(card_id):
     user.avatar = get_avatar(user.card_id)
     user.save()
     return jsonify(status='ok')
+
+
+@users.route('/logout')
+def logout():
+    token = request.args.get('token')
+    redis_store.delete(token)
+    logout_user()
+    return jsonify({
+        'success': True
+    })
 
 
 @users.route("/login/", methods=['POST'])

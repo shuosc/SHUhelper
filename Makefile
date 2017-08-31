@@ -32,7 +32,7 @@ run:
 	export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run
 
 deploycelery:
-	celery -A celery_worker.celery worker --beat --loglevel=info & >celery.log
+	nohup celery -A celery_worker.celery worker --beat --loglevel=info & >celery.log
 
 runcelery:
 	celery -A celery_worker.celery worker --beat --loglevel=info

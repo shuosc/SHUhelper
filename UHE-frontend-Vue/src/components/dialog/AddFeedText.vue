@@ -130,7 +130,7 @@ export default {
           this.$nextTick(
             () => {
               var f = new FormData(this.$refs.testform)
-              this.$http.post('//upload.qiniu.com/', f)
+              this.$http.post('/upload', f)
                 .then((response) => {
                   for (let i in this.uploadImgs) {
                     if (this.uploadImgs[i].url === response.data.key) {
