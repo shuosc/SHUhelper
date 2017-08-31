@@ -1,6 +1,6 @@
 <template>
-  <v-container style="height:100%;">
-    <v-layout row class="ma-0" style="height:100%;">
+  <v-container class="pa-0">
+    <v-layout row class="ma-0" >
       <v-flex xs12 sm6 offset-sm3 class="pa-0">
         <v-list two-line style="height:100%;">
           <div v-for="(conversation,index) in conversations" :key="conversation.conversation" @click.native="$router.push(`/conversation/${conversation.id}`)">
@@ -9,7 +9,7 @@
                 <img v-bind:src="`//static.shuhelper.cn/${conversation.toUser.avatar}`">
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title >{{conversation.toUser.name}} <span v-if="conversation.lastMessage" style="color:grey;font-size:0.8rem;">{{conversation.lastMessage.created.slice(5,19)}}</span></v-list-tile-title> 
+                <v-list-tile-title >{{conversation.toUser.nickname}} <span v-if="conversation.lastMessage" style="color:grey;font-size:0.8rem;">{{conversation.lastMessage.created.slice(5,19)}}</span></v-list-tile-title> 
                 <v-list-tile-sub-title v-html="conversation.lastMessage?conversation.lastMessage.content:''"></v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>

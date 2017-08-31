@@ -7,7 +7,7 @@
             <v-btn icon @click.native="onDialogClose()" dark>
               <v-icon>close</v-icon>
             </v-btn>
-            <v-toolbar-title>发表</v-toolbar-title>
+            <v-toolbar-title>搜索</v-toolbar-title>
 
           </v-toolbar>
           <v-container fluid class="pa-1">

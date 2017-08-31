@@ -13,7 +13,7 @@
                 <div :style="{fontSize:'1.1rem',textAlign:message.me?'right':'left'}" class="teal--text">
                   <span style="font-size:0.8rem;" class="grey--text" v-show="message.me">
                     {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
-                  </span>{{user[message.sender].name}}
+                  </span>{{user[message.sender].nickname}}
                   <span style="font-size:0.8rem;" class="grey--text" v-show="!message.me">
                     {{ [ message.created.slice(0,19), "YYYY-MM-DD HH:mm:ss"] | moment("MM-DD HH:mm:ss") }}
                   </span>

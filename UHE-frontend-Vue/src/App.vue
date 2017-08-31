@@ -6,6 +6,9 @@
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
+       <!-- <v-btn icon @click.native="onProfileClick">
+          <v-icon>help</v-icon>
+        </v-btn> -->
       <!-- <v-btn icon @click.native="onProfileClick">
           <v-icon>perm_identity</v-icon>
         </v-btn> -->
@@ -54,8 +57,9 @@ export default {
       bottomNavs: [{ name: '首页', icon: 'school', url: '/' },
       { name: '广场', icon: 'filter_vintage', url: '/square' },
       { name: '课表', icon: 'event', url: '/calendar' },
-      { name: '消息', icon: 'chat', url: '/messages' },
-      { name: '更多', icon: 'more', url: '/messages' }],
+      { name: '消息', icon: 'chat', url: '/messages' }
+      // { name: '更多', icon: 'more', url: '/messages' }
+      ],
       clipped: false,
       drawer: false,
       fixed: false,
