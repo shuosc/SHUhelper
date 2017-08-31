@@ -5,19 +5,43 @@
         <v-flex xs2 @click.stop>
           <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media>
         </v-flex>
-        <v-flex xs4 @click.stop>
-          <div>
+        <v-flex xs10 @click.stop>
+          <div style="display:inline-block;">
             <div style="font-size:1.1rem;" class="teal--text">{{feed.user.name}}</div>
             <div style="font-size:0.5rem;" class="grey--text">
               {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
             </div>
           </div>
+          <!-- <v-spacer></v-spacer> -->
+          <div style="display:inline-block;float:right;" v-show="showDel">
+
+            <v-menu bottom right v-show="feed.user.cardID===$store.state.user.cardID">
+              <v-btn icon slot="activator" light>
+                <v-icon>more_vert</v-icon>
+              </v-btn>
+              <v-list>
+                <v-list-tile @click.stop="delDialog=true">
+                  <v-list-tile-title>删除</v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </div>
         </v-flex>
-        <v-flex xs2 offset-xs4 v-if="feed.user.cardID===$store.state.user.cardID" @click.stop="deleteFeed(feed.id)" style="text-align:center;">
-          <v-icon>clear</v-icon>
         </v-flex>
       </v-layout>
     </v-container>
+    <v-dialog v-model="delDialog" lazy absolute style="z-index:10 !important;">
+      <v-card>
+        <v-card-title>
+          <div class="headline">确认删除吗？</div>
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="delDialog = false">返回</v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="deleteFeed(feed.id)">确认</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-container class="pb-0 pt-3 px-3">
       <v-layout row>
         <v-flex xs12>
@@ -43,7 +67,7 @@
             <span style="color:grey;font-size:0.8rem;">{{feed.linkURL}} </span>
           </p>
           <!-- <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0"
-                        @click="this.window.open(feed.linkURL)">{{feed.linkURL}}</p> -->
+                                @click="this.window.open(feed.linkURL)">{{feed.linkURL}}</p> -->
         </v-flex>
       </v-layout>
     </v-container>
@@ -72,19 +96,27 @@ export default {
     },
     index: {
       type: Number
+    },
+    showDel: {
+      type: Boolean,
+      default () {
+        return false
+      }
     }
   },
   data () {
     return {
-      showModal: false
+      showModal: false,
+      delDialog: false
     }
   },
   methods: {
     deleteFeed (id) {
       this.$http.delete(`/api/feeds/${id}`).then((response) => {
         // this.getComments()
-        this.$store.commit('showSnackbar', { text: '删除成功' })
+        this.$store.commit('showSnackbar', { text: '删除成功，刷新页面后生效' })
         this.$emit('delete')
+        this.$router.go(-1)
       })
     },
     onFeedClick () {

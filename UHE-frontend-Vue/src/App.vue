@@ -1,21 +1,23 @@
 <template>
   <v-app light toolbar style="height:100%;">
-    <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
+    <v-toolbar fixed dense >
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
         <v-icon>arrow_back</v-icon>
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <!-- <v-btn icon @click.native="onProfileClick">
-        <v-icon>perm_identity</v-icon>
-      </v-btn> -->
+          <v-icon>perm_identity</v-icon>
+        </v-btn> -->
       <!-- <v-btn icon>
-      <v-icon>search</v-icon>
-    </v-btn> -->
+        <v-icon>search</v-icon>
+      </v-btn> -->
     </v-toolbar>
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
-        <router-view></router-view>
+        <!-- <keep-alive> -->
+          <router-view></router-view>
+        <!-- </keep-alive> -->
       </v-slide-y-transition>
     </main>
     <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
@@ -52,7 +54,7 @@ export default {
       bottomNavs: [{ name: '首页', icon: 'school', url: '/' },
       { name: '广场', icon: 'filter_vintage', url: '/square' },
       { name: '课表', icon: 'event', url: '/calendar' },
-      // { name: '消息', icon: 'chat', url: '/messages' },
+      { name: '消息', icon: 'chat', url: '/messages' },
       { name: '更多', icon: 'more', url: '/messages' }],
       clipped: false,
       drawer: false,
@@ -68,15 +70,16 @@ export default {
     'snackbar', 'ui'
   ]),
   created () {
-    this.bottomNavgationIndex = 0
-    for (let index in this.bottomNavs) {
-      console.log(this.$route.path, this.bottomNavs[index].url)
-      if (this.bottomNavs[index].url === this.$route.path) {
-        this.bottomNavgationIndex = index
-        console.log(index)
-      }
-    }
-    console.log(this.bottomNavgationIndex)
+    this.$router.push('/')
+    // this.bottomNavgationIndex = 0
+    // for (let index in this.bottomNavs) {
+    //   console.log(this.$route.path, this.bottomNavs[index].url)
+    //   if (this.bottomNavs[index].url === this.$route.path) {
+    //     this.bottomNavgationIndex = index
+    //     console.log(index)
+    //   }
+    // }
+    // console.log(this.bottomNavgationIndex)
     // console.log(this.$refs.container, 'ref')
     // this.$refs.container.addEventListener('scroll', this.handleScroll)
     // window.addEventListener('scroll', this.handleScroll)
@@ -91,7 +94,7 @@ export default {
   },
   watch: {
     '$route' (to, from) {
-      this.$refs.container.scrollTop = 0
+      // this.$refs.container.scrollTop = 0
       this.scrollY = this.$refs.container.scrollTop
     }
   },

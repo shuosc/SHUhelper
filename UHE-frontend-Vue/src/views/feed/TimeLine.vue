@@ -46,6 +46,12 @@ export default {
   created () {
     // this.resetFeeds()
   },
+  beforeRouteUpdate (to, from, next) {
+    if (to.name === 'Square' && from.name !== 'feedDetail') {
+      this.resetFeeds()
+    }
+    next()
+  },
   watch: {
     // '$route' (to, from) {
     //   if (to.matched.some(record => record.meta.dialog)) {

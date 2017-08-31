@@ -1,14 +1,14 @@
 <template>
   <div style="height:700px; padding-top:10px;">
     <!-- <v-tabs light fixed centered :scrollable="false">
-        <v-tabs-bar class="white">
-          <v-tabs-slider class="primary"></v-tabs-slider>
-          <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
-            {{ item }}
-          </v-tabs-item>
-        </v-tabs-bar>
-        <v-tabs-items>
-          <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
+                    <v-tabs-bar class="white">
+                      <v-tabs-slider class="primary"></v-tabs-slider>
+                      <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
+                        {{ item }}
+                      </v-tabs-item>
+                    </v-tabs-bar>
+                    <v-tabs-items>
+                      <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
 
     <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
     <popup v-model="popupVisible" popup-transition="popup-fade">
@@ -39,23 +39,24 @@
         </v-card-actions>
       </v-card>
     </popup>
-    <data-status></data-status>
+    <data-status @renewData="renewCourse" :status="status"></data-status>
     <!-- </v-tabs-content> -->
     <!-- <v-tabs-content :id="'tab-1'" lazy>
 
-            <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
-            <v-card>
-              <ul>
-                <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
-              </ul>
-            </v-card>
-          </v-tabs-content> -->
+                        <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
+                        <v-card>
+                          <ul>
+                            <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
+                          </ul>
+                        </v-card>
+                      </v-tabs-content> -->
     <!-- </v-tabs-items>
-        </v-tabs-content>
-      </v-tabs> -->
+                    </v-tabs-content>
+                  </v-tabs> -->
   </div>
 </template>
 <script>
+import { decrypt } from '@/libs/utils.js'
 import Schedule from '@/components/Schedule'
 import dataStatus from '@/components/dataStatus'
 import { Popup, Cell } from 'mint-ui'
@@ -84,6 +85,11 @@ export default {
       popupContent: '',
       // items: ['课表'],
       e1: '',
+      status: {
+        lastModified: null,
+        status: 'loading',
+        remark: '17学年秋季学期课程，信息来自教务网，如果你还没有选课，会看到错误'
+      },
       fab: false,
       events: {},
       calendarSelection: {
@@ -250,21 +256,31 @@ export default {
       // this.$store.commit('showSnackbar', { text: `查询课表中` })
       this.$http.get('/api/my-course/')
         .then((response) => {
-          this.courses = response.data
+          this.status.status = response.data.status
+          this.status.time = response.data.last_modified.$date
+          this.courses = decrypt(response.data.data, this.$store.state.user.password)
         })
         .catch((err) => {
           if (err.response.status === 404) {
-            this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
-            this.$http.post('/api/my-course/sync', {
-              'card_id': this.$store.state.user.cardID,
-              'password': this.$store.state.user.password
-            })
-              .then((response) => {
-                this.getCourses()
-              })
+            this.renewCourse()
           } else {
+            this.status.status = 'failed'
             this.$store.commit('showSnackbar', { text: `更新失败${err.response.status}` })
           }
+        })
+    },
+    renewCourse () {
+      this.status.status = 'loading'
+      this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
+      this.$http.post('/api/my-course/sync', {
+        'card_id': this.$store.state.user.cardID,
+        'password': this.$store.state.user.password
+      })
+        .then((response) => {
+          this.getCourses()
+        }).catch((err) => {
+          this.status.status = 'failed'
+          console.log(err)
         })
     },
     resetRange () {

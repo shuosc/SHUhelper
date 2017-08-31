@@ -119,7 +119,7 @@ export default {
       var selectedFile = userfile.name
       if (selectedFile) {
         var ramdomName = Math.random().toString(36).substr(2) + userfile.name.match(/\.?[^./]+$/)
-        this.key = ramdomName
+        this.key = 'feed_' + this.$store.state.user.cardID + '_' + ramdomName
         this.uploadImgs.push({ name: selectedFile, status: 'pending', url: this.key })
       } else {
         return false

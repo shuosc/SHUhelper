@@ -27,7 +27,7 @@ def index():
     if request.method == 'GET':
         data = UserData.objects(user=current_user.id,
                                 identifier=__plugin__).get_or_404()
-        return jsonify(json.loads(data.data))
+        return jsonify(data)
     else:
         post_data = request.get_json()
         user_data = UserData.objects(

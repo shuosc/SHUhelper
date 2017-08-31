@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home'
-import Square from '../views/Square'
+// import Square from '../views/Square'
 import Calendar from '../views/Calendar'
 import Messages from '../views/Messages'
 import Conversation from '../views/Conversation'
@@ -12,6 +12,10 @@ import map from '../views/map'
 import coursesQuery from '@/views/coursesQuery'
 import course from '@/views/course'
 import fin from '@/views/fin'
+import TimeLine from '@/views/feed/TimeLine'
+import bus from '@/views/bus'
+import schoolCal from '@/views/schoolCal'
+import med from '@/views/med'
 // import map from '../views/map'
 Vue.use(Router)
 
@@ -19,11 +23,38 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/med',
+      name: 'med',
+      component: med,
+      meta: {
+        title: '就医指导',
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/profile/:id',
       name: 'profile',
       component: profile,
       meta: {
         title: ''
+      }
+    },
+    {
+      path: '/school-cal',
+      name: 'schoolCal',
+      component: schoolCal,
+      meta: {
+        title: '17-18校历',
+        unableBottomNavgation: true
+      }
+    },
+    {
+      path: '/bus',
+      name: 'bus',
+      component: bus,
+      meta: {
+        title: '校车运行',
+        unableBottomNavgation: true
       }
     },
     {
@@ -72,7 +103,7 @@ export default new Router({
     {
       path: '/square',
       name: 'Square',
-      component: Square,
+      component: TimeLine,
       meta: {
         disableBack: true,
         title: '广场'
@@ -83,6 +114,7 @@ export default new Router({
           component: function (resolve) {
             require(['@/components/dialog/FeedDetail.vue'], resolve)
           },
+          name: 'feedDetail',
           meta: {
             dialog: true
           }
@@ -165,5 +197,13 @@ export default new Router({
       name: 'My',
       component: My
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    console.log(savedPosition)
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })

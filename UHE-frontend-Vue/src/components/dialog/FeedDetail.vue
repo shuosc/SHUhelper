@@ -1,22 +1,18 @@
 <template>
-  <div>
-    <v-layout row justify-center>
-      <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false" >
-        <v-card >
-          <v-toolbar dark fixed class="primary">
-            <v-btn icon @click.native="$router.go(-1)" dark>
-              <v-icon>close</v-icon>
-            </v-btn>
-            <v-toolbar-title>查看动态</v-toolbar-title>
-          </v-toolbar>
-          <v-container fluid class="pa-0 mb-2" style="height:100%;overflow:scroll;margin-top:64px;">
-            <feed :index="index" :feed="feed" class="mt-3" @onLikeClick="onLikeClick"></feed>
-          </v-container>
-          <comment post="feed" :id="$route.params.id" @delete="$router.go(-1)"></comment>
-        </v-card>
-      </v-dialog>
-    </v-layout>
-  </div>
+  <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false" style="overflow:scroll;">
+    <v-card>
+      <v-toolbar dark fixed class="primary">
+        <v-btn icon @click.native="$router.go(-1)" dark>
+          <v-icon>close</v-icon>
+        </v-btn>
+        <v-toolbar-title>查看动态</v-toolbar-title>
+      </v-toolbar>
+      <v-container fluid class="pa-0 mb-2" style="height:100%;overflow:scroll;margin-top:64px;">
+        <feed :index="index" :feed="feed" class="mt-3" @onLikeClick="onLikeClick" showDel></feed>
+      </v-container>
+      <comment post="feed" :id="$route.params.id" @delete="$router.go(-1)"></comment>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import comment from '@/components/comment.vue'

@@ -16,7 +16,7 @@
             <v-flex xs4>
               <h5>更新时间</h5>
             </v-flex>
-            <v-flex xs8> {{Date(status.time)|moment("from")}}</v-flex>
+            <v-flex xs8> {{new Date(status.time - 8*3600*1000)|moment("from")}}</v-flex>
             <v-divider></v-divider>
             <v-flex xs4>
               <h5>数据备注</h5>

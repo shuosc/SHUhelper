@@ -96,14 +96,18 @@ export default {
       e1: '',
       fab: false,
       navs: [
-        { name: '我的宿舍', icon: 'bubble_chart', url: '/info' },
-        { name: '一卡通余额', icon: 'bubble_chart', url: '/info' },
+        // { name: '我的宿舍', icon: 'bubble_chart', url: '/info' },
+        // { name: '一卡通余额', icon: 'bubble_chart', url: '/info' },
+        { name: '空教室', icon: 'bubble_chart', url: '/empty-room' },
         // { name: '体育活动', icon: 'bubble_chart', url: '/info' },
         // { name: '尔美订餐', icon: 'bubble_chart', url: '/http://ermei.shuhelper.cn?code=ermeishu' },
         { name: '校园地图', icon: 'bubble_chart', url: '/map' },
-        { name: '快速链接', icon: 'bubble_chart', url: '/info' },
+        // { name: '快速链接', icon: 'bubble_chart', url: '/info' },
         { name: '课程查询', icon: 'bubble_chart', url: '/courses-query' },
-        { name: '学生财务', icon: 'bubble_chart', url: '/fin' }
+        { name: '学生财务', icon: 'bubble_chart', url: '/fin' },
+        { name: '校车运行', icon: 'bubble_chart', url: '/bus' },
+        { name: '校历', icon: 'bubble_chart', url: '/school-cal' },
+        { name: '就医指导', icon: 'bubble_chart', url: '/med' }
       ]
     }
   },
