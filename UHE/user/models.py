@@ -2,11 +2,13 @@ import datetime
 
 from flask import abort
 from flask_login import UserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField,
+from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,
                          StringField)
 
 from UHE.client import Services
 from UHE.extensions import db, celery
+from Crypto.Cipher import AES
+import base64
 
 
 class User(UserMixin, db.Document):
@@ -71,17 +73,32 @@ class UserData(db.Document):
     """
     collection of user data, from query used as cache, data encrpted with aes
     """
-    data = StringField(default='')
+    data = StringField()
     identifier = StringField()
     user = ReferenceField(User)
     last_modified = DateTimeField(default=datetime.datetime.now)
     need_update = BooleanField(default=False)
     status = StringField()
     client_id = StringField(default='client_')
+    meta = {'strict': False}
 
     def get_client(self):
         client = redis_store.get(user_data.client_id, None)
         return client
+
+    def lock_save(self, pw):
+        import binascii
+        in_len = len(self.data)
+        pad_size = 16 - (in_len % 16)
+        self.data = self.data.ljust(in_len + pad_size, chr(pad_size))
+        if len(pw) < 16:
+            pw += '0' * (16 - len(pw))
+        iv = binascii.a2b_hex('000102030405060708090a0b0c0d0e0f')
+        obj = AES.new(pw, AES.MODE_CBC, iv)
+        # print(self.data)
+        self.data = str(binascii.b2a_base64(obj.encrypt(self.data)).rstrip())[2:-2]
+        # print(self.data)
+        self.save()
 
 
 @celery.task()

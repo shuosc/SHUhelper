@@ -79,7 +79,7 @@ def get_course(card_id, password):
     user_data.data = client.to_json()
     user_data.status = 'success'
     user_data.last_modified = datetime.datetime.now()
-    user_data.save()
+    user_data.lock_save(password)
 
 
 class SHUMyCourse(UHEPlugin):

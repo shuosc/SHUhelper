@@ -122,7 +122,7 @@ def index_sync():
     if request.method == 'GET':
         data = UserData.objects(user=current_user.id,
                                 identifier=__plugin__).get_or_404()
-        return jsonify(json.loads(data.data))
+        return jsonify(data)
     else:
         post_data = request.get_json()
         user_data = UserData.objects(
@@ -152,7 +152,7 @@ def get_data(card_id, password):
     user_data.data = client.to_json()
     user_data.status = 'success'
     user_data.last_modified = datetime.datetime.now()
-    user_data.save()
+    user_data.lock_save(password)
 
 
 @fin.route('/', methods=['GET', 'POST'])
@@ -161,7 +161,7 @@ def index():
     if request.method == 'GET':
         data = UserData.objects(user=current_user.id,
                                 identifier=__plugin__).get_or_404()
-        return jsonify(json.loads(data.data))
+        return jsonify(data)
     else:
         post_data = request.get_json()
         user_data = UserData.objects(

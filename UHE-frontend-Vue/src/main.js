@@ -11,7 +11,7 @@ import AMap from 'vue-amap'
 import VueScroller from 'vue-scroller'
 import {
   parseURL
-} from './utils.js'
+} from '@/libs/utils.js'
 import VueImg from 'v-img'
 import Toasted from 'vue-toasted'
 import {

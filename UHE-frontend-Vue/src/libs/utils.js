@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const convertTimeString = function (date) {
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}-${date.getMinutes()}`
 }
@@ -36,6 +37,20 @@ export const parseURL = function (url) {
     relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
     segments: a.pathname.replace(/^\//, '').split('/')
   }
+}
+import CryptoJS from './encryption.js'
+export function decrypt(data, pw) {
+  function pad(str, n) {
+    var i = (str).length
+    while (i++ < n) str = str + '0'
+    return str
+  }
+  var key = CryptoJS.enc.Utf8.parse(pad(pw.slice(0, 16), 16))
+  var iv = CryptoJS.enc.Hex.parse('000102030405060708090a0b0c0d0e0f')
+  var decrypted = CryptoJS.AES.decrypt(data, key, {
+    iv: iv
+  })
+  return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
 }
 // export default convertTimeString
 // export default parseURL
