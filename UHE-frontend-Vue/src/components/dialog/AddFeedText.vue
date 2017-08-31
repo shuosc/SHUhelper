@@ -99,7 +99,7 @@ export default {
           this.$store.commit('showSnackbar', { text: '发表成功' })
           this.text = ''
           this.publishLoading = false
-          this.$emit('closeDialog')
+          this.$router.go(-1)
         })
         .catch((error) => {
           _this.$store.commit('showSnackbar', { text: '登陆失败' + error })

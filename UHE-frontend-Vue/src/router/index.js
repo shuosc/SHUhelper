@@ -21,12 +21,18 @@ export default new Router({
     {
       path: '/profile/:id',
       name: 'profile',
-      component: profile
+      component: profile,
+      meta: {
+        title: ''
+      }
     },
     {
       path: '/fin',
       name: 'fin',
-      component: fin
+      component: fin,
+      meta: {
+        title: '缴费查询'
+      }
     },
     {
       path: '/courses/:id',
@@ -41,7 +47,8 @@ export default new Router({
       name: 'courses',
       component: coursesQuery,
       meta: {
-        unableBottomNavgation: true
+        unableBottomNavgation: true,
+        title: '课程查询'
       }
     },
     {
@@ -49,7 +56,8 @@ export default new Router({
       name: 'map',
       component: map,
       meta: {
-        unableBottomNavgation: true
+        unableBottomNavgation: true,
+        title: '校园地图'
       }
     },
     {
@@ -57,7 +65,8 @@ export default new Router({
       name: 'Home',
       component: Home,
       meta: {
-        disableBack: true
+        disableBack: true,
+        title: '首页'
       }
     },
     {
@@ -65,7 +74,8 @@ export default new Router({
       name: 'Square',
       component: Square,
       meta: {
-        disableBack: true
+        disableBack: true,
+        title: '广场'
       },
       children: [
         {
@@ -110,7 +120,8 @@ export default new Router({
       },
       meta: {
         keepAlive: false,
-        unableBottomNavgation: true
+        unableBottomNavgation: true,
+        title: '安全地图'
       }
     },
     {
@@ -118,7 +129,8 @@ export default new Router({
       name: 'Calendar',
       component: Calendar,
       meta: {
-        disableBack: true
+        disableBack: true,
+        title: '日程'
       }
     },
     {
@@ -126,7 +138,8 @@ export default new Router({
       name: 'Messages',
       component: Messages,
       meta: {
-        disableBack: true
+        disableBack: true,
+        title: '消息'
       }
     },
     {
@@ -134,13 +147,18 @@ export default new Router({
       name: 'Conversation',
       component: Conversation,
       meta: {
-        unableBottomNavgation: true
+        unableBottomNavgation: true,
+        title: '对话'
       }
     },
     {
       path: '/apps',
       name: 'Apps',
-      component: Apps
+      component: Apps,
+      meta: {
+        unableBottomNavgation: true,
+        title: '全部功能'
+      }
     },
     {
       path: '/my',

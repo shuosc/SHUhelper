@@ -96,7 +96,7 @@ export default {
           let content = this.$refs.content
           this.oldHeight = content.scrollHeight
           this.oldTop = content.scrollTop
-          console.log(this.start, this.count)
+          // console.log(this.start, this.count)
           let flag = this.start === this.count
           this.$nextTick(() => {
             if (flag) {

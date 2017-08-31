@@ -14,7 +14,7 @@
         <div class="taskListSty">
           <div class="task-list-item" v-for="detail in taskDetail[index]" :key="detail" :style="detail.styleObj" @click="showDetail(detail)">
             <div>
-              <h5 >{{detail.coursename}}</h5>
+              <h5>{{detail.coursename}}</h5>
               <p>{{detail.teachname}}</p>
               <p>@{{detail.place}}</p>
             </div>
@@ -55,12 +55,13 @@ export default {
       type: Array,
       default () {
         return [
-          '#2B2E4A',
-          '#521262',
-          '#903749',
-          '#53354A',
-          '#40514E',
-          '#537780'
+          '#4DC7C0', '#9BD3C0', '#E2E0BA', '#FFB3B2', ' #FF4A9B', '#BED1FA', '#78FFB5', '#7A00CB'
+          // '#2B2E4A',
+          // '#521262',
+          // '#903749',
+          // '#53354A',
+          // '#40514E',
+          // '#537780'
         ]
       }
     }
@@ -85,13 +86,13 @@ export default {
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
-  padding-left:2rem;
+  padding-left: 2rem;
   height: 100%;
 }
 
 .time-ground {
   display: block;
-  padding-left:2rem;
+  padding-left: 2rem;
   /* margin-left:1.5rem; */
   position: absolute;
   left: 0;
@@ -164,7 +165,7 @@ ul {
 
 .taskListSty {
   box-sizing: border-box;
-   position: relative; 
+  position: relative;
   height: 96.2%;
   width: 100%;
 }

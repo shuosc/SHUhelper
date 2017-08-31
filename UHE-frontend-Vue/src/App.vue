@@ -1,19 +1,18 @@
 <template>
   <v-app light toolbar style="height:100%;">
     <v-toolbar fixed dense scroll-off-screen scroll-target="#main">
-      <v-btn icon @click.prevent="back">
+      <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
         <v-icon>arrow_back</v-icon>
       </v-btn>
-      <v-toolbar-title v-text="title"></v-toolbar-title>
+      <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon @click.native="onProfileClick">
+      <!-- <v-btn icon @click.native="onProfileClick">
         <v-icon>perm_identity</v-icon>
-      </v-btn>
+      </v-btn> -->
       <!-- <v-btn icon>
-                        <v-icon>search</v-icon>
-                      </v-btn> -->
+      <v-icon>search</v-icon>
+    </v-btn> -->
     </v-toolbar>
-    <!-- "  -->
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <router-view></router-view>
@@ -130,7 +129,7 @@ export default {
         this.$store.commit('showBottomNavgation')
       }
       this.scrollY = scrollTop
-    }, 100),
+    }, 50),
     back () {
       this.$router.go(-1)
     },

@@ -66,8 +66,13 @@ class FeedsAPI(MethodView):
         conversation.messages.append(message)
         conversation.save()
 
-    def delete(self, conversation_id):
-        pass
+    def delete(self, feed_id):
+        feed = Feed.objects(id=feed_id).get_or_404()
+        if feed.user.id == current_user.id:
+            feed.delete()
+        else:
+            abort(401)
+        return jsonify(status='ok')
 
 
 feeds_view = FeedsAPI.as_view('feeds_api')

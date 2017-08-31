@@ -1,17 +1,19 @@
 import datetime
 
-from mongoengine import (DateTimeField, IntField,
+from mongoengine import (DateTimeField, IntField, PULL,
                          ListField, ReferenceField, StringField)
 from flask_login import current_user
 from UHE.extensions import db
 # from config import db
 from UHE.user.models import User
+from UHE.comment.models import Comment
 
 
 class Feed(db.Document):
     user = ReferenceField(User)
     created = DateTimeField(default=datetime.datetime.now)
-    comments = IntField(default=0)
+    comments = ListField(ReferenceField(
+        Comment, reverse_delete_rule=PULL), default=lambda: [])
     feed_type = StringField()  # external-link internal-link imgs text post
     text = StringField(default='')
     link_URL = StringField()
@@ -32,7 +34,7 @@ class Feed(db.Document):
         return {
             'user': self.user.to_dict_public(),
             'created': str(self.created),
-            'comments': self.comments,
+            'comments': len(self.comments),
             'type': self.feed_type,
             'text': self.text,
             'linkURL': self.link_URL,

@@ -13,6 +13,9 @@
             </div>
           </div>
         </v-flex>
+        <v-flex xs2 offset-xs4 v-if="feed.user.cardID===$store.state.user.cardID" @click.stop="deleteFeed(feed.id)" style="text-align:center;">
+          <v-icon>clear</v-icon>
+        </v-flex>
       </v-layout>
     </v-container>
     <v-container class="pb-0 pt-3 px-3">
@@ -40,7 +43,7 @@
             <span style="color:grey;font-size:0.8rem;">{{feed.linkURL}} </span>
           </p>
           <!-- <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0"
-                  @click="this.window.open(feed.linkURL)">{{feed.linkURL}}</p> -->
+                        @click="this.window.open(feed.linkURL)">{{feed.linkURL}}</p> -->
         </v-flex>
       </v-layout>
     </v-container>
@@ -77,6 +80,13 @@ export default {
     }
   },
   methods: {
+    deleteFeed (id) {
+      this.$http.delete(`/api/feeds/${id}`).then((response) => {
+        // this.getComments()
+        this.$store.commit('showSnackbar', { text: '删除成功' })
+        this.$emit('delete')
+      })
+    },
     onFeedClick () {
       this.$emit('onFeedClick', this.index)
     },

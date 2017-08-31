@@ -17,7 +17,7 @@
     </v-card>
     <v-tabs light fixed centered>
       <v-tabs-bar class="white">
-        <v-tabs-slider class="yellow"></v-tabs-slider>
+        <v-tabs-slider class="blue"></v-tabs-slider>
         <v-tabs-item v-for="i in items" :key="i" :href="'#tab-' + i">
           {{ i }}
         </v-tabs-item>
@@ -27,7 +27,7 @@
           <v-card flat>
             <!-- <v-card-text> -->
             <v-expansion-panel expand>
-              <v-expansion-panel-content v-for="payment in data.paymentcondition">
+              <v-expansion-panel-content v-for="payment in data.paymentcondition" :key="payment.digst[0]">
                 <div slot="header">{{payment.digst[0]}}</div>
                 <v-card flat>
                   <v-card-text class="white lighten-3">
@@ -57,14 +57,6 @@
         <v-tabs-content id="tab-缴费记录">
           <v-card flat>
             <v-card-text>
-              <!-- <v-expansion-panel>
-                                                          <v-expansion-panel-content v-for="(item,i) in 5" :key="i">
-                                                            <div slot="header">Item</div>
-                                                            <v-card>
-                                                              <v-card-text class="grey lighten-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
-                                                            </v-card>
-                                                          </v-expansion-panel-content>
-                                                        </v-expansion-panel> -->
             </v-card-text>
           </v-card>
         </v-tabs-content>
@@ -102,24 +94,32 @@
         </v-expansion-panel>
       </v-card>
     </popup>
+    <data-status @renewData="renewData" :status="status"></data-status>
   </div>
 </template>
 
 <script>
 // import CryptoJS from '../libs/encryption.js'
+import dataStatus from '@/components/dataStatus'
 import { decrypt } from '@/libs/utils.js'
 import { Popup, Cell } from 'mint-ui'
 export default {
   components: {
     Popup,
-    Cell
+    Cell,
+    dataStatus
   },
   data () {
     return {
       items: ['缴费情况', '缴费记录', '欠缴情况'],
       data: {},
       popup: false,
-      detail: null
+      detail: null,
+      status: {
+        lastModified: null,
+        status: 'loading',
+        remark: '信息来自上海大学财务处新版网站'
+      }
     }
   },
   created () {
@@ -133,8 +133,9 @@ export default {
     getData () {
       this.$http.get('/api/fin/')
         .then((response) => {
+          this.status.status = response.data.status
+          this.status.time = response.data.last_modified.$date
           this.data = decrypt(response.data.data, this.$store.state.user.password)
-          console.log(this.data)
         })
         .catch((err) => {
           console.log(err)
@@ -144,6 +145,7 @@ export default {
         })
     },
     renewData () {
+      this.status.status = 'loading'
       this.$http.post('/api/fin/sync', {
         card_id: this.$store.state.user.cardID,
         password: this.$store.state.user.password
@@ -151,6 +153,7 @@ export default {
         .then((response) => {
           if (response.data.success === 'ok') {
             this.getData()
+            this.$store.commit('showSnackbar', { text: '更新成功' })
           }
         })
     }

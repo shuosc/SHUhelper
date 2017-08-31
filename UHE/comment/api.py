@@ -13,10 +13,12 @@ def like(comment_id):
     Comment.objects(id=comment_id).update_one(push__like=current_user.id)
     return jsonify(id=str(comment_id))
 
+
 TYPE_DICT = {
-            'feed': Feed,
-            'course': Course
-        }
+    'feed': Feed,
+    'course': Course
+}
+
 
 class CommentAPI(MethodView):
     def get(self, comment_id=None, page=1):
@@ -34,26 +36,25 @@ class CommentAPI(MethodView):
 
     def post(self):
         args = request.get_json()
-        post = TYPE_DICT[args['post']].objects(id=args['id']).get_or_404()
-        post.comments += 1
-        post.save()
+        post = TYPE_DICT[args['post']].objects(id=args['id']).first()
         comment = Comment(user=current_user.to_dbref(), post=post,
                           content=args['content'])
         comment.save()
+        post.comments.append(comment)
+        post.save()
         return jsonify({'id': str(comment.id)})
 
     def put(self, feed_id):
         pass
-        # feed = Feed.objects.get_or_404(id=feed_id)
-        # args = request.get_json()
-        # comments = Comment(user=current_user.id,
-        #                    content=args['content'], message=pargrams['message'])
-        # message.save()
-        # conversation.messages.append(message)
-        # conversation.save()
 
-    def delete(self, conversation_id):
-        pass
+
+    def delete(self, comment_id):
+        comment = Comment.objects(id=comment_id).get_or_404()
+        if comment.user.id == current_user.id:
+            comment.delete()
+        else:
+            abort(401)
+        return jsonify(status='ok')
 
 
 comments_view = CommentAPI.as_view('comment_api')

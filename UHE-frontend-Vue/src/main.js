@@ -52,6 +52,7 @@ router.beforeEach((to, from, next) => {
       })
     }
   }
+  // console.log(to.matched[0])
   if (to.matched.some(record => record.meta.unableBottomNavgation)) {
     next()
     store.commit('hideBottomNavgation')

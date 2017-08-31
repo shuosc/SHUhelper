@@ -1,6 +1,6 @@
 import datetime
 
-from mongoengine import (DateTimeField, ListField,
+from mongoengine import (DateTimeField, ListField, CASCADE,
                          ReferenceField, StringField, GenericReferenceField)
 
 # from config import db
@@ -12,15 +12,17 @@ class Comment(db.Document):
     post = GenericReferenceField()
     user = ReferenceField(User, deref=True)
     content = StringField(default='')
-    liked = ListField(ReferenceField(User,deref=True), default=lambda: [])
+    liked = ListField(ReferenceField(User, deref=True,
+                                     reverse_delete_rule=CASCADE), default=lambda: [])
     created = DateTimeField(default=datetime.datetime.now)
     meta = {
         'ordering': ['-created'],
         'strict': True
     }
+
     def to_dict(self):
         return {
-            'user': self.user.to_dict(),
+            'user': self.user.to_dict_public(),
             'created': str(self.created),
             'content': self.content,
             'id': str(self.id)
