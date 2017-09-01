@@ -27,8 +27,7 @@ AUTH = {
 
 
 def has_auth(role, req):
-    # return req in AUTH[role]
-    return True
+    return req in AUTH[role]
 
 
 class AuthenticatedMenuLink(MenuLink):
