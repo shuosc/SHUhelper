@@ -1,15 +1,17 @@
 import datetime
 
-from flask import Blueprint, request, jsonify, current_app, abort
-from flask_login import login_user, login_required, current_user, logout_user
+from flask import Blueprint, abort, current_app, jsonify, request
+from flask_login import current_user, login_required, login_user, logout_user
+from mongoengine.queryset.visitor import Q
 
 from UHE.calendar.models import Activity, Event
 from UHE.client import Services
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
+from UHE.upload import get_avatar
 from UHE.user.models import User, UserData
 from UHE.utils import make_token
-from UHE.upload import get_avatar
+
 users = Blueprint('users', __name__)
 
 
@@ -72,9 +74,9 @@ def test():
     return current_app.test
 
 
-@users.route('/search/<card_id>')
-def search(card_id):
-    users = User.objects(card_id__contains=card_id)
+@users.route('/search/<query>')
+def search(query):
+    users = User.objects(Q(card_id__contains=query) | Q(name__contains=query))
     return jsonify([{
         '_id': user.card_id,
         'name': user.name[0] + '*' * len(user.name[1:])

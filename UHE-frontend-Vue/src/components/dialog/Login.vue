@@ -58,11 +58,16 @@ export default {
             nickname: response.data.nickname,
             token: response.data.token
           }
+          try {
+            sessionStorage.setItem('loginstate', JSON.stringify(payload))
+          } catch (err) {
+            _this.$store.commit('showSnackbar', { text: `本地存储失败，如果在使用浏览器，请关闭无痕浏览模式` })
+          }
           if (this.remeberMe) {
             try {
               localStorage.setItem('loginstate', JSON.stringify(payload))
             } catch (err) {
-              _this.$store.commit('showSnackbar', { text: `本地存储失败，如果您在使用APP，请升级到最新版本(http://static.shuhelper.cn/SHUhelper.apk)，如果在使用浏览器，请关闭无痕浏览模式` })
+              _this.$store.commit('showSnackbar', { text: `本地存储失败，如果在使用浏览器，请关闭无痕浏览模式` })
             }
           }
           _this.$store.commit('updateAccount', payload)

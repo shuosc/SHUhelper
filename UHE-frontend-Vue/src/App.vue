@@ -13,16 +13,17 @@
         注销
       </v-btn>
       <!-- <v-btn icon @click.native="onProfileClick">
-                  <v-icon>help</v-icon>
-                </v-btn> -->
+                      <v-icon>help</v-icon>
+                    </v-btn> -->
       <!-- <v-btn icon @click.native="onProfileClick">
-                  <v-icon>perm_identity</v-icon>
-                </v-btn> -->
+                      <v-icon>perm_identity</v-icon>
+                    </v-btn> -->
       <!-- <v-btn icon>
-                <v-icon>search</v-icon>
-              </v-btn> -->
+                    <v-icon>search</v-icon>
+                  </v-btn> -->
     </v-toolbar>
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
+    <!-- overflowY:'scroll' -->
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <!-- <keep-alive> -->
         <router-view></router-view>
@@ -153,6 +154,7 @@ export default {
     },
     logout () {
       localStorage.clear()
+      sessionStorage.clear()
       let token = this.$store.state.user.token
       this.$store.commit('clearAccount')
       this.$router.push('/')
@@ -164,14 +166,24 @@ export default {
     },
     verifyToken () {
       var _this = this
+      var token = ''
+      var payload = {}
       try {
-        var token = JSON.parse(localStorage.getItem('loginstate')).token
+        token = JSON.parse(sessionStorage.getItem('loginstate')).token
+        payload = JSON.parse(sessionStorage.getItem('loginstate'))
       } catch (err) {
         console.log(err)
+        try {
+          token = JSON.parse(localStorage.getItem('loginstate')).token
+          payload = JSON.parse(localStorage.getItem('loginstate'))
+        } catch (err) {
+          console.log(err)
+          return
+        }
       }
       this.$http.get(`/api/users/login-with-token/?token=${token}`)
         .then((response) => {
-          var payload = JSON.parse(localStorage.getItem('loginstate'))
+          // var payload = JSON.parse(localStorage.getItem('loginstate'))
           _this.$store.commit('updateAccount', payload)
           _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
         })
@@ -187,6 +199,7 @@ export default {
   @import './stylus/main'
 .fullscreen-v-img
   z-index:10
-.body
-  -webkit-overflow-scrolling:touch
+.wrapper 
+  overflow: auto
+  -webkit-overflow-scrolling: touch
 </style>

@@ -11,7 +11,7 @@
 
           </v-toolbar>
           <v-container fluid class="pa-1">
-            <v-text-field label="通过学号搜索你想联系的人..." v-model="search"></v-text-field>
+            <v-text-field label="通过学号或姓名搜索你想联系的人..." v-model="search"></v-text-field>
 
           </v-container>
           <v-container fluid class="pa-0">
