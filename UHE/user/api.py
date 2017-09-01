@@ -76,7 +76,7 @@ def test():
 
 @users.route('/search/<query>')
 def search(query):
-    users = User.objects(Q(card_id__contains=query) | Q(name__contains=query))
+    users = User.objects(Q(card_id__contains=query) | Q(name__contains=query))[:50]
     return jsonify([{
         '_id': user.card_id,
         'name': user.name[0] + '*' * len(user.name[1:])
@@ -150,9 +150,9 @@ def login():
         user.last_login = datetime.datetime.now()
         user.save()
         login_user(user)
+        return jsonify(result)
     else:
         abort(401)
-    return jsonify(result)
 
 
 @users.route("/login-with-token/")
@@ -171,6 +171,6 @@ def login_with_token():
         user.last_login = datetime.datetime.now()
         user.save()
         login_user(user)
+        return jsonify(result)
     else:
         abort(401)
-    return jsonify(result)

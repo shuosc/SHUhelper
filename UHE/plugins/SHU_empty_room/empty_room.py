@@ -1,6 +1,6 @@
-'''
+"""
 Find Empty Room
-'''
+"""
 import json
 import os
 import time

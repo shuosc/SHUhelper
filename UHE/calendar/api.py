@@ -28,9 +28,11 @@ class EventAPI(MethodView):
             end_text = request.args.get(
                 'end', now.timestamp())
             start = datetime.datetime.utcfromtimestamp(int(start_text))
-            end =  datetime.datetime.utcfromtimestamp(int(end_text))
+            end = datetime.datetime.utcfromtimestamp(int(end_text))
             activities = Activity.objects(
-                Q(visible='public') & ((Q(start__lte=end) & Q(end__gte=end)) | (Q(start__gte=start) & Q(end__lte=end)))).paginate(page=page, per_page=100)
+                Q(visible='public') & (
+                (Q(start__lte=end) & Q(end__gte=end)) | (Q(start__gte=start) & Q(end__lte=end)))).paginate(page=page,
+                                                                                                           per_page=100)
             return jsonify([activity.to_dict() for activity in activities.items])
         else:
             event = Event.objects.get_or_404(id=event_id)
@@ -62,6 +64,7 @@ class EventAPI(MethodView):
         sub_event.save()
         return jsonify(activity=sub_event)
 
+    # noinspection SpellCheckingInspection
     def put(self, conversation_id):
         pass
         # conversation = Conversation.objects.get_or_404(id=conversation_id)

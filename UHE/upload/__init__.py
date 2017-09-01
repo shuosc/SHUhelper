@@ -1,9 +1,11 @@
-from flask import Blueprint, jsonify, current_app, request
-from qiniu import Auth, put_file, put_data, BucketManager
-import requests
-from PIL import Image
 from io import BytesIO
+
+import requests
+from flask import Blueprint, jsonify, current_app, request
+from qiniu import Auth, put_data, BucketManager
+
 from UHE.utils import make_token
+
 upload = Blueprint('upload', __name__)
 
 

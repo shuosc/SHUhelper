@@ -28,6 +28,6 @@ class SHUCourseToCalendar(UHEPlugin):
     def uninstall(self):
         print('uninstall')
         event = Event.objects(
-            identifier="SHU_calendar_%s" % (year)).first()
+            identifier="SHU_calendar_%s" % year).first()
         Activity.objects(event=event).delete()
         event.delete()

@@ -1,6 +1,4 @@
 from flask_mail import Message
-from UHE.extensions import mail, celery
-from flask_mail import Message
 
 from UHE.extensions import mail, celery
 

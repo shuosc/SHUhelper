@@ -3,7 +3,7 @@ import datetime
 from UHE.calendar.models import Activity
 
 
-class University():
+class University:
     def __init__(self):
         self.semester = ''
         self.vacation = True
@@ -13,7 +13,7 @@ class University():
     def this_year(self):
         year_event = Activity.objects(
             start__gte=date, end__lte=date, key='year').first()
-        if year_event != None:
+        if year_event is not None:
             return int(year_event.args)
         else:
             return 0
@@ -21,7 +21,7 @@ class University():
     def this_week(self, date=datetime.datetime.now()):
         week_event = Activity.objects(
             start__gte=date, end__lte=date, key='week').first()
-        if week_event != None:
+        if week_event is not None:
             return int(week_event.args)
         else:
             return 0
@@ -29,14 +29,14 @@ class University():
     def this_term(self, date=datetime.datetime.now()):
         term_event = Activity.objects(
             start__gte=date, end__lte=date, key='term').first()
-        if term_event != None:
+        if term_event is not None:
             return int(term_event.args)
         else:
             return 0
 
     def this_course(self, date=datetime.datetime.now()):
         course_event = Activity.objects(start__gte=date,end__lte=date,key='course_basic').first()
-        if course_event != None:
+        if course_event is not None:
             return int(course_event.args)
         else:
             return 0

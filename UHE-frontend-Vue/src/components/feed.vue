@@ -64,10 +64,8 @@
         <v-flex xs9>
           <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0" @click="this.window.open(feed.linkURL)">
             {{feed.linkTitle}}<br/>
-            <span style="color:grey;font-size:0.8rem;">{{feed.linkURL}} </span>
+            <span style="color:grey;font-size:0.8rem;">{{feed.linkURL|urlHost}} </span>
           </p>
-          <!-- <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0"
-                                @click="this.window.open(feed.linkURL)">{{feed.linkURL}}</p> -->
         </v-flex>
       </v-layout>
     </v-container>
@@ -83,7 +81,9 @@
     </v-card-actions>
   </v-card>
 </template>
+
 <script>
+import { parseURL } from '@/libs/utils.js'
 export default {
   props: {
     feed: {
@@ -102,6 +102,11 @@ export default {
       default () {
         return false
       }
+    }
+  },
+  filters: {
+    urlHost: function (value) {
+      return parseURL(value).host
     }
   },
   data () {

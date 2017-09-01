@@ -49,9 +49,10 @@ class User(UserMixin, db.Document):
                 'name': client.data['name'],
                 'card_id': self.card_id
             }
+            return result
         else:
             abort(401)
-        return result
+
 
     @property
     def display_name(self):

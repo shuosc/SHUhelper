@@ -51,13 +51,13 @@
         <a href="https://www.pgyer.com/apiv1/app/install?aId=e7c4929b91486d9f76a6b6790df36f76&_api_key=a6a7ba51429b6968af23b13eec01d815 ">点击这里下载</a>
         <br/>
         <v-divider></v-divider>
-        * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果
+        * iOS用户可以在safari中点击下方分享按钮，将网站发送至桌面，获得和APP一样的浏览效果
         <br/>
         <v-divider></v-divider>
         * 遇到问题可以直接在广场里发表哦
         <br/>
         <v-divider></v-divider>
-        <span class="red--text">* Powered By 上海大学开源社区 <a href="https://jq.qq.com/?_wv=1027&k=5o1NkRX">加入我们！</a></span>
+        <span class="red--text">* Powered By 上海大学开源社区 <a href="https://jq.qq.com/?_wv=1027&k=5o1NkRX">加入我们！</a> QQ群：146685225</span>
          <br/>
         <!-- <v-divider></v-divider>
         * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果

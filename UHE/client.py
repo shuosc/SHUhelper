@@ -8,6 +8,7 @@ import time
 from bs4 import BeautifulSoup
 import requests
 import json
+
 proxiess = None
 
 
@@ -53,7 +54,7 @@ class Tiyu(Client):
             self.url_prefix + '/login/index.jsp', timeout=30, proxies=self.proxies)
         r = self.session.post(self.url_prefix + '/login.do?method=toLogin', data=post_data, timeout=30,
                               proxies=self.proxies)
-        if (r.headers['Content-Length'] == '784'):
+        if r.headers['Content-Length'] == '784':
             self.is_login = True
         return True
 
@@ -117,8 +118,6 @@ class Services(Client):
 
     def to_json(self):
         return self.data
-
-
 
 
 class Lehu(Client):
@@ -192,7 +191,7 @@ class XK(Client):
         table = soup.find("table")
         row = table.findAll("tr")
         names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
-                'time', 'place', 'campus', 'q_time', 'q_place')
+                 'time', 'place', 'campus', 'q_time', 'q_place')
         for row in table.findAll("tr")[3:]:
             cells = row.findAll("td")
             if len(cells) == 11:

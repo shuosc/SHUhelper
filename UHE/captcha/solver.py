@@ -5,7 +5,7 @@ replace it later
 import requests
 
 
-class Solver():
+class Solver:
     def __init__(self):
         pass
 

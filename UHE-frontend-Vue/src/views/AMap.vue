@@ -26,7 +26,7 @@
                       :key="marker.oid"></el-amap-marker>
     </el-amap>
      <div style="position:fixed;left:0px;right:0;bottom:70px;">
-      <div style="float:right;display:inline-block;margin-right:10px;border-radius: 40px;width:40px;height:40px;background-color: rgba(200, 134, 200, 0.80);"
+      <div style="float:right;display:inline-block;margin-right:10px;border-radius: 40px;width:40px;height:40px;background-color: rgba(200, 134, 200, 0.80);"·
            @click="$vux.alert.show({
                         title: '使用说明',
                         content: '拖动红色标记到目标位置<br/>点击标记可以添加事件<br/>点击已有事件标记可以查看详情<br/>默认显示两个月内的所有事件'
@@ -74,7 +74,7 @@
         <x-button type="primary"
                   @click.native="submitEvent">提交</x-button>
       </group>
-    </popup> 
+    </popup>
   </div>
 </template>
 <script>

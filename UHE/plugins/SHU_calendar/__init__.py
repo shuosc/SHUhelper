@@ -6,7 +6,7 @@ import datetime
 
 from UHE.calendar.models import Activity, Event
 from UHE.plugins import UHEPlugin
-from UHE.extensions import celery
+
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCalendar"
 
@@ -28,21 +28,21 @@ class SHUCalendar(UHEPlugin):
 
     def install(self, app):
         self.main_install()
-        print('install school_term_%s success' % (self.year))
+        print('install school_term_%s success' % self.year)
         # app.update_func['term_2017'] = self.SHU_calendar_update
 
     def main_install(self):
         self.event = Event.objects(
-            identifier="SHU_calendar_%s" % (self.year)).first()
-        if self.event == None:
-            self.event = Event(identifier='SHU_calendar_%s' % (self.year),
+            identifier="SHU_calendar_%s" % self.year).first()
+        if self.event is None:
+            self.event = Event(identifier='SHU_calendar_%s' % self.year,
                                title='上海大学%s-%s学年校历' % (self.year, self.year + 1))
             self.event.save()
-        print('install school_term_%s start' % (self.year))
+        print('install school_term_%s start' % self.year)
         if self.event.need_update:
-            print('update school_term_%s start' % (self.year))
+            print('update school_term_%s start' % self.year)
             Activity.objects(event=self.event).delete()
-            print('delete old school_term_%s start' % (self.year))
+            print('delete old school_term_%s start' % self.year)
             self.install_acdemic_year()
             self.install_school_term()
             self.install_school_week()
@@ -148,7 +148,7 @@ class SHUCalendar(UHEPlugin):
         print('uninstall')
         print('miao')
         event = Event.objects(
-            identifier="SHU_calendar_%s" % (year)).first()
+            identifier="SHU_calendar_%s" % year).first()
         Activity.objects(event=event).delete()
         event.delete()
         # delete_settings_from_fixture(fixture)

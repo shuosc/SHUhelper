@@ -1,4 +1,3 @@
-from mongoengine import (BooleanField, DateTimeField, ListField, ReferenceField, StringField)
 import mongoengine
 from mongoengine import (BooleanField, DateTimeField, ListField, ReferenceField, StringField)
 
@@ -29,9 +28,9 @@ class Event(db.Document):
     def to_dict(self):
         return {
             'user':
-            {
-                'name': self.user.display_name, 'card_id': self.user.card_id
-            },
+                {
+                    'name': self.user.display_name, 'card_id': self.user.card_id
+                },
             'start': str(self.start_time),
             'end': str(self.end_time),
             'title': self.title,
@@ -98,12 +97,13 @@ class Activity(db.Document):
     visible = StringField(default='public')
     task_start_id = StringField()
     task_end_id = StringField()
-    key = StringField()  # send singal and find event precisily
+    key = StringField()  # send signal and find event
     # like year term week course_basic course etc
-    args = StringField()  # singal args
+    args = StringField()  # signal args
     start = DateTimeField(required=True)
     end = DateTimeField(required=True)
     meta = {'ordering': ['start'], 'strict': False}
+
     def to_dict(self):
         return {
             'args': self.args,
@@ -111,7 +111,6 @@ class Activity(db.Document):
             'end': self.end.timestamp(),
             'title': self.title,
             'visible': self.visible,
-            'place': self.place,
             'category': self.category,
             'place': self.place,
             'key': self.key,
@@ -135,7 +134,7 @@ class Activity(db.Document):
     #     return None
     @classmethod
     def pre_save(cls, sender, document, **kwargs):
-        if document.key != None:
+        if document.key is not None:
             pass
             # now = datetime.datetime.now()
             # now.second = 0

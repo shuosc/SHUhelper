@@ -1,22 +1,21 @@
 import base64
 
-from flask import Flask, current_app
+from flask import Flask
 from flask_login import current_user
 
 from UHE.admin.views import configure_admin
 from UHE.calendar.api import events
+from UHE.comment.api import comments
 from UHE.extensions import (admin, allows, babel, cache, celery, db,
                             login_manager, mail, plugin_manager, redis_store,
                             captcha_solver)
 from UHE.feed.api import feeds
+from UHE.index import index
 from UHE.message.api import conversations
+from UHE.models import Plugin
 from UHE.upload import upload
 from UHE.user.api import users
-from UHE.models import Plugin
 from UHE.user.models import User
-from UHE.index import index
-from mongoengine import connect
-from UHE.comment.api import comments
 
 
 def create_app(config=None):
@@ -55,8 +54,7 @@ def configure_manger_accounts(app):
     for plugin in plugins:
         user = User.objects(card_id=plugin.identifier).first()
         if user is None:
-            user = User(card_id=plugin.identifier,
-                        name=plugin.identifier, activated=True, robot=True)
+            user = User(card_id=plugin.identifier, name=plugin.identifier, activated=True, robot=True)
             user.save()
 
 

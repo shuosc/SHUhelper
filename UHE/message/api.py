@@ -51,13 +51,12 @@ class ConversationAPI(MethodView):
         if to_user is None:
             to_user = User(card_id=args['to'])
             to_user.save()
-        else:
-            conversation = Conversation.objects(Q(to_user=to_user.id, from_user=current_user.id) | (
-                Q(to_user=current_user.id, from_user=to_user.id))).first()
-            if conversation is None:
-                conversation = Conversation(
-                    from_user=current_user.id, to_user=to_user, messages=[])
-                conversation.save()
+        conversation = Conversation.objects(Q(to_user=to_user.id, from_user=current_user.id) | (
+            Q(to_user=current_user.id, from_user=to_user.id))).first()
+        if conversation is None:
+            conversation = Conversation(
+                from_user=current_user.id, to_user=to_user, messages=[])
+            conversation.save()
         return jsonify({'id': str(conversation.id)})
 
     def put(self, conversation_id):

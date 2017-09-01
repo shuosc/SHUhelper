@@ -77,9 +77,7 @@ class Conversation(db.Document):
             return None
 
     def to_dict_abstract(self):
-        data = {}
-        data['id'] = str(self.id)
-        data['conversation'] = str(self.id)
+        data = {'id': str(self.id), 'conversation': str(self.id)}
         if current_user.id == self.from_user.id:
             data['fromUser'] = self.from_user.to_dict()
             data['toUser'] = self.to_user.to_dict()
@@ -87,14 +85,13 @@ class Conversation(db.Document):
             data['toUser'] = self.from_user.to_dict()
             data['fromUser'] = self.to_user.to_dict()
         # if len(self.unreadmessages) == 0:
-        data['lastMessage'] = self.last_message.to_dict() if self.last_message != None else None
+        data['lastMessage'] = self.last_message.to_dict() if self.last_message is not None else None
         # else:
         #     data['unread'] = len(self.unreadmessages)
         return data
 
     def to_dict_detail(self):
-        data = {}
-        data['conversation'] = str(self.id)
+        data = {'conversation': str(self.id)}
         if current_user.id == self.from_user.id:
             data['fromUser'] = self.from_user.to_dict()
             data['toUser'] = self.to_user.to_dict()

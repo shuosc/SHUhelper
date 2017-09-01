@@ -1,10 +1,11 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from flask.views import MethodView
 from flask_login import current_user
-from bson import ObjectId
+
 from UHE.comment.models import Comment
 from UHE.feed.models import Feed
 from UHE.plugins.SHU_course.models import Course
+
 comments = Blueprint('comments', __name__)
 
 
@@ -46,7 +47,6 @@ class CommentAPI(MethodView):
 
     def put(self, feed_id):
         pass
-
 
     def delete(self, comment_id):
         comment = Comment.objects(id=comment_id).get_or_404()

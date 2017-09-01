@@ -69,15 +69,6 @@ class UserView(ModelView):
         return flask_login.current_user.is_authenticated and has_auth(current_user.role, 'users')
 
 
-class UserDataView(ModelView):
-    can_edit = False
-    can_create = False
-    column_exclude_list = ['data', ]
-
-    def is_accessible(self):
-        return current_user.is_authenticated and has_auth(current_user.role, 'user_data')
-
-
 class MessagesView(ModelView):
     form_ajax_refs = {
         'sender': {

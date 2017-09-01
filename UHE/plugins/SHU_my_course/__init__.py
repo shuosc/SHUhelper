@@ -1,19 +1,13 @@
 import datetime
+
 from flask import Blueprint, jsonify, request, current_app
-from flask_login import current_user,login_required
-from UHE.calendar.models import Activity, Event
+from flask_login import current_user, login_required
+
+from UHE.client import XK
+from UHE.extensions import celery, captcha_solver
 from UHE.plugins import UHEPlugin
-from UHE.extensions import celery, captcha_solver, admin, db, plugin_manager
-from flask_admin.contrib.mongoengine import ModelView
-from mongoengine.context_managers import switch_collection
 from UHE.user.models import UserData
-from bs4 import BeautifulSoup
-from UHE.client import XK
-import requests
-import re
-import time
-from UHE.client import XK
-import json
+
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUMyCourse"
 
@@ -75,7 +69,6 @@ def get_course(card_id, password):
         user_data.save()
         print('error')
         raise e
-        return
     user_data.data = client.to_json()
     user_data.status = 'success'
     user_data.last_modified = datetime.datetime.now()

@@ -75,9 +75,10 @@ def login():
         user.last_login = datetime.datetime.now()
         user.save()
         login_user(user)
+        return jsonify(result)
     else:
         abort(401)
-    return jsonify(result)
+
 
 
 @index.route("/login-with-token/")
@@ -95,6 +96,6 @@ def login_with_token():
         user.last_login = datetime.datetime.now()
         user.save()
         login_user(user)
+        return jsonify(result)
     else:
         abort(401)
-    return jsonify(result)

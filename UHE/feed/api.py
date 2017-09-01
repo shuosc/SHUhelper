@@ -1,17 +1,18 @@
-from flask import Blueprint, jsonify, request
+import re
+
+import requests
+from flask import Blueprint, jsonify, request, abort
 from flask.views import MethodView
 from flask_login import current_user, login_required
-import re
+
 from UHE.feed.models import Feed
-from UHE.message.models import Conversation
-import requests
-from bson import ObjectId
+
 feeds = Blueprint('feeds', __name__)
 
 
 @feeds.route('/<feed_id>/like')
 def like(feed_id):
-    if Feed.objects(id=feed_id,like__nin=[current_user.to_dbref()]).first() is not None:
+    if Feed.objects(id=feed_id, like__nin=[current_user.to_dbref()]).first() is not None:
         Feed.objects(id=feed_id).update_one(push__like=current_user.to_dbref())
     else:
         Feed.objects(id=feed_id).update_one(pull__like=current_user.to_dbref())
@@ -58,13 +59,14 @@ class FeedsAPI(MethodView):
         return jsonify({'id': str(feed.id)})
 
     def put(self, feed_id):
-        feed = Feed.objects.get_or_404(id=feed_id)
-        args = request.get_json()
-        comments = Comment(user=current_user.id,
-                           content=args['content'], message=pargrams['message'])
-        message.save()
-        conversation.messages.append(message)
-        conversation.save()
+        # feed = Feed.objects.get_or_404(id=feed_id)
+        # args = request.get_json()
+        # comments = Comment(user=current_user.id,
+        #                    content=args['content'], message=pargrams['message'])
+        # message.save()
+        # conversation.messages.append(message)
+        # conversation.save()
+        pass
 
     def delete(self, feed_id):
         feed = Feed.objects(id=feed_id).get_or_404()
