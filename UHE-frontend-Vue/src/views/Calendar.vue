@@ -1,14 +1,14 @@
 <template>
   <div style="height:700px; padding-top:10px;">
     <!-- <v-tabs light fixed centered :scrollable="false">
-                    <v-tabs-bar class="white">
-                      <v-tabs-slider class="primary"></v-tabs-slider>
-                      <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
-                        {{ item }}
-                      </v-tabs-item>
-                    </v-tabs-bar>
-                    <v-tabs-items>
-                      <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
+                      <v-tabs-bar class="white">
+                        <v-tabs-slider class="primary"></v-tabs-slider>
+                        <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
+                          {{ item }}
+                        </v-tabs-item>
+                      </v-tabs-bar>
+                      <v-tabs-items>
+                        <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
 
     <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
     <popup v-model="popupVisible" popup-transition="popup-fade">
@@ -43,16 +43,16 @@
     <!-- </v-tabs-content> -->
     <!-- <v-tabs-content :id="'tab-1'" lazy>
 
-                        <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
-                        <v-card>
-                          <ul>
-                            <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
-                          </ul>
-                        </v-card>
-                      </v-tabs-content> -->
+                          <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
+                          <v-card>
+                            <ul>
+                              <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
+                            </ul>
+                          </v-card>
+                        </v-tabs-content> -->
     <!-- </v-tabs-items>
-                    </v-tabs-content>
-                  </v-tabs> -->
+                      </v-tabs-content>
+                    </v-tabs> -->
   </div>
 </template>
 <script>
@@ -261,6 +261,7 @@ export default {
           this.courses = decrypt(response.data.data, this.$store.state.user.password)
         })
         .catch((err) => {
+          console.log(err)
           if (err.response.status === 404) {
             this.renewCourse()
           } else {

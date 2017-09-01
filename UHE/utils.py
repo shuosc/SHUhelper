@@ -1,7 +1,7 @@
 import datetime
 
 from UHE.calendar.models import Activity
-
+from UHE.client import Services
 
 def make_token():
     """
@@ -50,3 +50,18 @@ def this_course(date=datetime.datetime.now()):
         return int(course_event.args.split('_')[-1])
     else:
         return 0
+
+
+def validate(card_id, password):
+    client = Services(card_id=card_id,password=password)
+    if client.login() and client.get_data():
+        result = {
+            'success': True,
+            'name': client.data['name'],
+            'card_id': card_id
+        }
+    else:
+        result = {
+            'success': False
+        }
+    return result

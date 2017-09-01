@@ -7,9 +7,8 @@ from UHE.client import Services
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
 from UHE.user.models import User
-from UHE.utils import make_token
+from UHE.utils import make_token,validate
 from UHE.plugins.SHU_course import get_term
-from UHE.client import Services
 index = Blueprint('index', __name__)
 
 
@@ -38,44 +37,7 @@ def test_get_term_async():
     return term.get()
 
 
-def validate(card_id, password):
-    client = Services(card_id=card_id,password=password)
-    if client.login() and client.get_data():
-        result = {
-            'success': True,
-            'name': client.data['name'],
-            'card_id': card_id
-        }
-    else:
-        result = {
-            'success': False
-        }
-    return result
 
-
-@index.route('/admin/login', methods=['GET', 'POST'])
-def login_view():
-    if request.method == 'POST':
-        card_id = request.form['card_id']
-        password = request.form['password']
-        user = User.objects(card_id=card_id).first()
-        result = validate(card_id, password)
-        if result['success']:
-            if user is None:
-                flash('无权限')
-                return redirect('/admin')
-            login_user(user)
-        else:
-            user = User()
-        return redirect('/admin')
-    else:
-        return redirect(url_for('admin.index'))
-
-
-@index.route('/admin/logout')
-def logout_view():
-    logout_user()
-    return redirect(url_for('admin.index'))
 
 
 @index.route('/test')

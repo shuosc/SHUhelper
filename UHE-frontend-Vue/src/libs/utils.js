@@ -50,6 +50,7 @@ export function decrypt(data, pw) {
   var decrypted = CryptoJS.AES.decrypt(data, key, {
     iv: iv
   })
+  // console.log(decrypted.toString(CryptoJS.enc.Utf8))
   return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8))
 }
 // export default convertTimeString

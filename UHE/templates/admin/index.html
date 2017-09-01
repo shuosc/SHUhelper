@@ -3,7 +3,7 @@
     {% if current_user.is_authenticated %} Hi {{ current_user.name }}! {% endif %} {% if not current_user.is_authenticated %}
     <div class="container">
 
-        <form class="form-signin" action='/index/admin/login' method='POST'>
+        <form class="form-signin" action='/admin/index/login' method='POST'>
             <h2 class="form-signin-heading">请登录</h2>
             <label for="card_id" class="sr-only">一卡通账号</label>
             <input type='text' class="form-control" name='card_id' id='card_id' placeholder='一卡通' required autofocus></input>

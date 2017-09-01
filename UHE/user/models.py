@@ -90,13 +90,15 @@ class UserData(db.Document):
         import binascii
         in_len = len(self.data)
         pad_size = 16 - (in_len % 16)
+        # print(self.data )
         self.data = self.data.ljust(in_len + pad_size, chr(pad_size))
+        # print(self.data )
         if len(pw) < 16:
             pw += '0' * (16 - len(pw))
         iv = binascii.a2b_hex('000102030405060708090a0b0c0d0e0f')
         obj = AES.new(pw, AES.MODE_CBC, iv)
         # print(self.data)
-        self.data = str(binascii.b2a_base64(obj.encrypt(self.data)).rstrip())[2:-2]
+        self.data = str(binascii.b2a_base64(obj.encrypt(self.data)))[2:-2]
         # print(self.data)
         self.save()
 

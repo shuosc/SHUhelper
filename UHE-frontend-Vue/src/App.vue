@@ -6,19 +6,21 @@
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn icon v-if="$store.state.user.cardID!==''" @click.native="logout()">
+      <v-btn icon v-if="$store.state.user.cardID===''" @click.native="login()">
+        登陆
+      </v-btn>
+      <v-btn icon v-else @click.native="logout()">
         注销
       </v-btn>
       <!-- <v-btn icon @click.native="onProfileClick">
-              <v-icon>help</v-icon>
-            </v-btn> -->
+                  <v-icon>help</v-icon>
+                </v-btn> -->
       <!-- <v-btn icon @click.native="onProfileClick">
-              <v-icon>perm_identity</v-icon>
-            </v-btn> -->
+                  <v-icon>perm_identity</v-icon>
+                </v-btn> -->
       <!-- <v-btn icon>
-            <v-icon>search</v-icon>
-          </v-btn> -->
+                <v-icon>search</v-icon>
+              </v-btn> -->
     </v-toolbar>
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%',overflowY:'scroll'}" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
@@ -156,6 +158,9 @@ export default {
       this.$router.push('/')
       this.$store.commit('showSnackbar', { text: '已注销' })
       this.$http.get('/api/users/logout?token=' + token)
+    },
+    login () {
+      this.$store.commit('showLoginDialog')
     },
     verifyToken () {
       var _this = this
