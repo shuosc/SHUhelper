@@ -44,13 +44,22 @@ def user_data(identifier):
         return jsonify(user_data)
 
 
+@users.route('/replace-avatar')
+@login_required
+def change_avatar():
+    user = User.objects.get_or_404(card_id=current_user.id)
+    user.avatar = request.args.get('avatar') + '-avatar'
+    user.save()
+    return jsonify(status='ok')
+
+
 @users.route('/<user_id>', methods=['GET', 'POST'])
 def profile(user_id):
     if request.method == 'GET':
-        user = User.objects.get_or_404(_id=user_id)
+        user = User.objects.get_or_404(card_id=user_id)
         return jsonify(user)
     else:
-        user = User.objects.get_or_404(_id=user_id)
+        user = User.objects.get_or_404(card_id=user_id)
         args = request.get_json()
         user.avatar = args.get('avatar', '')
         return jsonify(user)
@@ -76,7 +85,8 @@ def test():
 
 @users.route('/search/<query>')
 def search(query):
-    users = User.objects(Q(card_id__contains=query) | Q(name__contains=query))[:50]
+    users = User.objects(Q(card_id__contains=query) |
+                         Q(name__contains=query))[:50]
     return jsonify([{
         '_id': user.card_id,
         'name': user.name[0] + '*' * len(user.name[1:])
@@ -144,7 +154,8 @@ def login():
         result = {
             'token': user.token,
             'name': user.name,
-            'nickname': user.nickname
+            'nickname': user.nickname,
+            'custom': user.custom
         }
         redis_store.set('token_' + user.token, post_data['card_id'], ex=86400)
         user.last_login = datetime.datetime.now()
@@ -165,7 +176,8 @@ def login_with_token():
         result = {
             'token': user.token,
             'name': user.name,
-            'nickname': user.nickname
+            'nickname': user.nickname,
+            'custom': user.custom
         }
         redis_store.set('token_' + user.token, user.card_id, ex=86400)
         user.last_login = datetime.datetime.now()

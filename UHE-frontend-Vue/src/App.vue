@@ -6,21 +6,30 @@
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn icon v-if="$store.state.user.cardID===''" @click.native="login()">
-        登陆
-      </v-btn>
-      <v-btn icon v-else @click.native="logout()">
-        注销
-      </v-btn>
+      <v-menu bottom>
+        <v-btn icon slot="activator">
+          <v-icon>more_vert</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile @click.native="onProfileClick">
+            <v-list-tile-title>个人资料</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile v-if="$store.state.user.cardID===''" @click.native="login()">
+            <v-list-tile-title>登陆</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile v-else @click.native="logout()">
+            <v-list-tile-title>注销</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
+
       <!-- <v-btn icon @click.native="onProfileClick">
-                      <v-icon>help</v-icon>
-                    </v-btn> -->
-      <!-- <v-btn icon @click.native="onProfileClick">
-                      <v-icon>perm_identity</v-icon>
-                    </v-btn> -->
+                                      <v-icon>help</v-icon>
+                                    </v-btn> -->
+
       <!-- <v-btn icon>
-                    <v-icon>search</v-icon>
-                  </v-btn> -->
+                                    <v-icon>search</v-icon>
+                                  </v-btn> -->
     </v-toolbar>
     <!-- overflowY:'scroll' -->
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
@@ -31,7 +40,7 @@
       </v-slide-y-transition>
     </main>
     <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
-      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="teal--text" @click.native="onBottomNavgationClick(index)">
+      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="light-blue--text" @click.native="onBottomNavgationClick(index)">
         <span>{{nav.name}}</span>
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
@@ -184,8 +193,18 @@ export default {
       this.$http.get(`/api/users/login-with-token/?token=${token}`)
         .then((response) => {
           // var payload = JSON.parse(localStorage.getItem('loginstate'))
+          try {
+            var custom = JSON.parse(response.data.custom)
+            var loginText = custom.loginText
+          } catch (e) {
+            e
+          }
           _this.$store.commit('updateAccount', payload)
-          _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
+          if (loginText === undefined) {
+            _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
+          } else {
+            _this.$store.commit('showSnackbar', { text: `${loginText}` })
+          }
         })
         .catch((error) => {
           console.log(error)

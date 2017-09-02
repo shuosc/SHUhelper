@@ -13,6 +13,7 @@ const coursesQuery = () => import('@/views/coursesQuery')
 const course = () => import('@/views/course')
 const fin = () => import('@/views/fin')
 const TimeLine = () => import('@/views/feed/TimeLine')
+const replaceAvatar = () => import('@/views/replaceAvatar')
 import bus from '@/views/bus'
 import schoolCal from '@/views/schoolCal'
 import med from '@/views/med'
@@ -22,6 +23,15 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/replace-avatar',
+      name: 'replaceAvatar',
+      component: replaceAvatar,
+      meta: {
+        title: '更改头像',
+        unableBottomNavgation: true
+      }
+    },
     {
       path: '/med',
       name: 'med',
@@ -36,7 +46,7 @@ export default new Router({
       name: 'profile',
       component: profile,
       meta: {
-        title: ''
+        title: '个人资料'
       }
     },
     {
