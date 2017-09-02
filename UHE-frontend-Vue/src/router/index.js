@@ -2,17 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/Home'
 // import Square from '../views/Square'
-import Calendar from '../views/Calendar'
-import Messages from '../views/Messages'
-import Conversation from '../views/Conversation'
-import Apps from '../views/Apps'
-import My from '../views/My'
-import profile from '../views/profile'
-import map from '../views/map'
-import coursesQuery from '@/views/coursesQuery'
-import course from '@/views/course'
-import fin from '@/views/fin'
-import TimeLine from '@/views/feed/TimeLine'
+const Calendar = () => import('../views/Calendar')
+const Messages = () => import('../views/Messages')
+const Conversation = () => import('../views/Conversation')
+const Apps = () => import('../views/Apps')
+const My = () => import('../views/My')
+const profile = () => import('../views/profile')
+const map = () => import('../views/map')
+const coursesQuery = () => import('@/views/coursesQuery')
+const course = () => import('@/views/course')
+const fin = () => import('@/views/fin')
+const TimeLine = () => import('@/views/feed/TimeLine')
 import bus from '@/views/bus'
 import schoolCal from '@/views/schoolCal'
 import med from '@/views/med'

@@ -1,5 +1,7 @@
 package cn.shuhelper.shuhelper;
 
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -17,19 +19,40 @@ import android.webkit.WebChromeClient;
 import android.widget.Button;
 import android.view.View;
 import android.widget.Toast;
+
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.pgyersdk.update.UpdateManagerListener;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
 
+
+    public static void verifyStoragePermissions(Activity activity) {
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     private ValueCallback<Uri> uploadMessage;
     private ValueCallback<Uri[]> uploadMessageAboveL;
     private final static int FILE_CHOOSER_RESULT_CODE = 10000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        verifyStoragePermissions(this);
         setContentView(R.layout.activity_main);
 //        PgyUpdateManager.register(this);
 //        Button btnCheckUpdate = (Button) findViewById(R.id.btnCheckUpdate);
@@ -41,7 +64,7 @@ public class MainActivity extends AppCompatActivity  {
 //        Button btnCloseFeedback = (Button) findViewById(R.id.btnCloseFeedback);
 //        btnCloseFeedback.setOnClickListener(this);
 //        PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-        PgyUpdateManager.register(this,"SHUhelper");
+        PgyUpdateManager.register(this, "SHUhelper");
         WebView myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -81,6 +104,7 @@ public class MainActivity extends AppCompatActivity  {
         });
         myWebView.loadUrl("https://shuhelper.cn");
     }
+
     private void openImageChooserActivity() {
         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
         i.addCategory(Intent.CATEGORY_OPENABLE);
@@ -102,6 +126,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         WebView myWebView = (WebView) findViewById(R.id.webview);
@@ -114,6 +139,7 @@ public class MainActivity extends AppCompatActivity  {
         // system behavior (probably exit the activity)
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub

@@ -1,6 +1,6 @@
 {
     "short_name": "SHUhelper",
-    "name": "SHUhelper",
+    "name": "上海大学助手",
     "theme_color": "#fff",
     "icons": [{
             "src": "/static/logo96.png",
@@ -16,8 +16,14 @@
             "src": "/static/logo192.png",
             "sizes": "192x192",
             "type": "image/png"
+        },
+        {
+            "src": "/static/launch.png",
+            "sizes": "512x512",
+            "type": "image/png"
         }
     ],
     "start_url": "/",
-    "display": "standalone"
+    "display": "standalone",
+    "background_color": "#fff"
 }

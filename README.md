@@ -1,7 +1,5 @@
 # 大学助手引擎 University Helper Engine(UHE)
 
-## 目前项目状态：*尚未发布*
-
 ## 简介
 
 此项目致力于构建一套开源的校园门户系统，解决大多数校园都存在的信息接口碎片化问题，并通过丰富的插件系统提供多样化的订制功能。
@@ -37,7 +35,7 @@ UHE采用前后端分离的思路开发。
 
 后端使用主要使用flask框架开发，数据库采用了MongoDB，此外还需要用到Celery以及Redis。后端代码位于`/UHE`
 
-前端分为Web（Vue.JS）端，Android端和iOS端。目前着重开发Web端，Android端简单地使用一个webview来实现，iOS端在计划中，将来可能考虑用weex或native重写。代码目录分别是`/UHE-frontend-Vue`,`/UHE-front-end-Android`
+前端分为Web（Vue.JS）端，Android端和iOS端。目前着重开发Web端，Android端简单地使用一个webview来实现，iOS端在计划中，将来可能考虑用weex或native重写。代码目录分别是`/UHE-frontend-Vue`,`/Android`
 
 ## 开发环境搭建
 
