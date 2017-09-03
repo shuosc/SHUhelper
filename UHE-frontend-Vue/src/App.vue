@@ -6,12 +6,12 @@
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu bottom>
+      <v-menu bottom class="ma-0">
         <v-btn icon slot="activator">
           <v-icon>iconfont-morevert</v-icon>
         </v-btn>
         <v-list>
-          <v-list-tile @click.native="onProfileClick">
+          <v-list-tile v-if="$store.state.user.cardID!==''" @click.native="onProfileClick">
             <v-list-tile-title>个人资料</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-if="$store.state.user.cardID===''" @click.native="login()">
@@ -20,16 +20,19 @@
           <v-list-tile v-else @click.native="logout()">
             <v-list-tile-title>注销</v-list-tile-title>
           </v-list-tile>
+          <v-list-tile @click.native="aboutDialog=true">
+            <v-list-tile-title>关于</v-list-tile-title>
+          </v-list-tile>
         </v-list>
       </v-menu>
 
       <!-- <v-btn icon @click.native="onProfileClick">
-                                      <v-icon>help</v-icon>
-                                    </v-btn> -->
+                                                <v-icon>help</v-icon>
+                                              </v-btn> -->
 
       <!-- <v-btn icon>
-                                    <v-icon>search</v-icon>
-                                  </v-btn> -->
+                                              <v-icon>search</v-icon>
+                                            </v-btn> -->
     </v-toolbar>
     <!-- overflowY:'scroll' -->
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
@@ -50,6 +53,35 @@
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>
     </v-snackbar>
+    <v-layout row justify-center style="position: relative;">
+      <v-dialog v-model="aboutDialog" lazy absolute>
+        <v-btn primary dark slot="activator">Open Dialog</v-btn>
+        <v-card>
+          <v-card-title>
+            <div class="headline">SHUhelper3</div>
+          </v-card-title>
+          <v-card-text>
+            <p>SHUhelper是一个开源的校园门户系统 旨在为所有人的生活带来便利</p>
+            <p>目前由上海大学开源社区负责维护</p>
+            <p>
+              <a href="https://www.pgyer.com/SHUhelper">Android</a>|
+              <a href="http://shuhelper.shuosc.org">项目主页</a>|
+              <a href="https://github.com/shuopensourcecommunity/SHUhelper">GitHub</a>|
+              <a href="https://osc.shu.edu.cn/">开源社区</a>
+            </p>
+            <p>
+              联系我们:
+              <a href="mailto:contact@shuosc.org">contact@shuosc.org</a>
+            </p>
+            <p>
+              加入开源社区QQ群：146685225
+            </p>
+            <p style="text-align:center;">
+              <img src="/static/built-with-love.svg"><br/><img src="/static/for-you.svg"></p>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </v-layout>
   </v-app>
 </template>
 
@@ -66,6 +98,7 @@ export default {
       items: [
         'All', 'Family', 'Friends', 'Coworkers'
       ],
+      aboutDialog: false,
       scrolled: false,
       scrollY: 0,
       bottomNavgationIndex: 0,

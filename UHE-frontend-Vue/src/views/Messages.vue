@@ -24,8 +24,8 @@
           </v-layout>
         </v-container>
       </v-flex>
-      <v-btn dark fixed fab bottom right class="pink" style="bottom:60px;" @click="dialog=true">
-        <v-icon>iconfont-add</v-icon>
+      <v-btn dark fixed fab right class="blue" style="bottom:60px;" @click="dialog=true">
+        <v-icon>add</v-icon>
       </v-btn>
       <add-conversation :dialog="dialog" @closeDialog="dialog=false" @sendMessageSucceed="getConversations"></add-conversation>
     </v-layout>  
