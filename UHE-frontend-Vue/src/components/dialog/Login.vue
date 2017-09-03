@@ -56,7 +56,8 @@ export default {
             password: this.password,
             name: response.data.name,
             nickname: response.data.nickname,
-            token: response.data.token
+            token: response.data.token,
+            custom: response.data.custom
           }
           try {
             sessionStorage.setItem('loginstate', JSON.stringify(payload))
@@ -72,7 +73,17 @@ export default {
           }
           _this.$store.commit('updateAccount', payload)
           _this.$store.commit('closeLoginDialog')
-          _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
+          try {
+            var custom = JSON.parse(payload.custom)
+            var loginText = custom.loginText
+          } catch (e) {
+            e
+          }
+          if (loginText === undefined) {
+            _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
+          } else {
+            _this.$store.commit('showSnackbar', { text: `${loginText}` })
+          }
           this.loginLoading = false
         })
         .catch(function (error) {
