@@ -55,7 +55,6 @@
     </v-snackbar>
     <v-layout row justify-center style="position: relative;">
       <v-dialog v-model="aboutDialog" lazy absolute>
-        <v-btn primary dark slot="activator">Open Dialog</v-btn>
         <v-card>
           <v-card-title>
             <div class="headline">SHUhelper3</div>

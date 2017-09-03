@@ -3,7 +3,7 @@
     <v-container fluid grid-list-lg class="py-0">
       <v-layout row @click.stop="$router.push(`/profile/${feed.user.cardID}`)">
         <v-flex xs2  style="text-align:center;">
-          <v-avatar style="height:100%;">
+          <v-avatar size="3rem">
             <img :src="`//static.shuhelper.cn/${feed.user.avatar}`" alt="avatar">
           </v-avatar>
           <!-- <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media> -->
