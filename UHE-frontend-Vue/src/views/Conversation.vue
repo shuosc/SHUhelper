@@ -7,7 +7,9 @@
           <v-container fluid grid-list-lg class="py-0">
             <v-layout row>
               <v-flex xs2 v-show="!message.me">
-                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" height="100%" contain></v-card-media>
+                <v-avatar style="height:100%;">
+                  <img :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" alt="avatar">
+                </v-avatar>
               </v-flex>
               <v-flex xs10>
                 <div :style="{fontSize:'1.1rem',textAlign:message.me?'right':'left'}" class="teal--text">
@@ -26,7 +28,9 @@
                 </v-container>
               </v-flex>
               <v-flex xs2 v-show="message.me">
-                <v-card-media :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" height="100%" contain></v-card-media>
+                <v-avatar style="height:100%;">
+                  <img :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" alt="avatar">
+                </v-avatar>
               </v-flex>
             </v-layout>
           </v-container>

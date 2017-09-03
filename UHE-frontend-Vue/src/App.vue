@@ -2,13 +2,13 @@
   <v-app light toolbar style="height:100%;">
     <v-toolbar fixed dense>
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
-        <v-icon>arrow_back</v-icon>
+        <v-icon>iconfont-back</v-icon>
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu bottom>
         <v-btn icon slot="activator">
-          <v-icon>more_vert</v-icon>
+          <v-icon>iconfont-morevert</v-icon>
         </v-btn>
         <v-list>
           <v-list-tile @click.native="onProfileClick">
@@ -70,10 +70,10 @@ export default {
       scrollY: 0,
       bottomNavgationIndex: 0,
       loginLoading: false,
-      bottomNavs: [{ name: '首页', icon: 'school', url: '/' },
-      { name: '广场', icon: 'filter_vintage', url: '/square' },
-      { name: '课表', icon: 'event', url: '/calendar' },
-      { name: '消息', icon: 'chat', url: '/messages' }
+      bottomNavs: [{ name: '首页', icon: 'iconfont-xuexiao', url: '/' },
+      { name: '广场', icon: 'iconfont-filtervintage', url: '/square' },
+      { name: '课表', icon: 'iconfont-calendar1', url: '/calendar' },
+      { name: '消息', icon: 'iconfont-message', url: '/messages' }
         // { name: '更多', icon: 'more', url: '/messages' }
       ],
       clipped: false,

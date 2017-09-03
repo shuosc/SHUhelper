@@ -149,7 +149,6 @@ def login():
         if user is None or not user.activated:
             user = User(name=client.data['name'], nickname=client.data['nickname'],
                         card_id=post_data['card_id'], role='student', activated=True)
-            user.avatar = get_avatar(user.card_id)
         user.token = make_token()
         result = {
             'token': user.token,

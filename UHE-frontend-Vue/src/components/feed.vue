@@ -2,8 +2,11 @@
   <v-card class="mt-3" @click="onFeedClick()">
     <v-container fluid grid-list-lg class="py-0">
       <v-layout row>
-        <v-flex xs2 @click.stop>
-          <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media>
+        <v-flex xs2 @click="$router.push(`/profile/${user.cardID}`)" style="text-align:center;">
+          <v-avatar size="2.5rem">
+            <img :src="`//static.shuhelper.cn/${feed.user.avatar}`" alt="avatar">
+          </v-avatar>
+          <!-- <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media> -->
         </v-flex>
         <v-flex xs10 @click.stop>
           <div style="display:inline-block;">

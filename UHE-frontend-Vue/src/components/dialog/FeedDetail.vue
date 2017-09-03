@@ -3,7 +3,7 @@
     <v-card>
       <v-toolbar dark fixed class="primary">
         <v-btn icon @click.native="$router.go(-1)" dark>
-          <v-icon>close</v-icon>
+          <v-icon>iconfont-close</v-icon>
         </v-btn>
         <v-toolbar-title>查看动态</v-toolbar-title>
       </v-toolbar>

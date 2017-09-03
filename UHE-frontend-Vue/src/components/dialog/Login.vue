@@ -4,7 +4,7 @@
       <v-card>
         <v-toolbar dark class="primary">
           <v-btn icon @click.native="$store.commit('closeLoginDialog')" dark>
-            <v-icon>close</v-icon>
+            <v-icon>iconfont-close</v-icon>
           </v-btn>
           <v-toolbar-title>登录</v-toolbar-title>
           <v-spacer></v-spacer>

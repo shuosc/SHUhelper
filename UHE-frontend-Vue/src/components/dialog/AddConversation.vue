@@ -5,7 +5,7 @@
         <v-card>
           <v-toolbar dark class="primary">
             <v-btn icon @click.native="onDialogClose()" dark>
-              <v-icon>close</v-icon>
+              <v-icon>iconfont-close</v-icon>
             </v-btn>
             <v-toolbar-title>搜索</v-toolbar-title>
 
