@@ -8,7 +8,7 @@
     </loadmore>
     <infinite-loading :on-infinite="getFeeds" ref="infiniteLoading"></infinite-loading>
     <v-speed-dial v-model="fab" fixed right direction="top" style="bottom:60px;" transition="slide-y-reverse-transition" v-show="$store.state.ui.bottomNavigationVisible">
-      <v-btn slot="activator" class="blue darken-2" dark fab v-model="fab">
+      <v-btn slot="activator" class="dark-primary" dark fab v-model="fab">
         <v-icon>add</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
@@ -99,7 +99,7 @@ export default {
   methods: {
     onLikeClick (index) {
       let id = this.feeds[index].id
-      this.$http.get(`/api/feeds/${id}/like`)
+      this.$http.get(`/api/v1/feeds/${id}/like`)
       if (this.feeds[index].liked) {
         this.feeds[index].likecount -= 1
         this.feeds[index].liked = false
@@ -131,7 +131,7 @@ export default {
     getFeeds () {
       this.loading = true
       var now = new Date()
-      this.$http.get(`/api/feeds/?page=${this.page}`)
+      this.$http.get(`/api/v1/feeds/?page=${this.page}`)
         .then((response) => {
           console.log('request complete', new Date() - now)
           // var cardID = this.$store.state.user.cardID

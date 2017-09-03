@@ -1,9 +1,8 @@
 <template>
-  <div>
     <v-layout row justify-center>
       <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false">
         <v-card>
-          <v-toolbar dark class="primary">
+          <v-toolbar dark class="dark-primary">
             <v-btn icon @click.native="onDialogClose()" dark>
               <v-icon>iconfont-close</v-icon>
             </v-btn>
@@ -22,7 +21,6 @@
         </v-card>
       </v-dialog>
     </v-layout>
-  </div>
 </template>
 <script>
 export default {
@@ -48,7 +46,7 @@ export default {
   },
   methods: {
     searchUser () {
-      this.$http.get(`/api/users/search/${this.search}`)
+      this.$http.get(`/api/v1/users/search/${this.search}`)
         .then((response) => {
           if (response.data.length === 0) {
             if (this.search.length === 8) {
@@ -63,7 +61,7 @@ export default {
       this.$emit('closeDialog')
     },
     getConversation (cardID) {
-      this.$http.post('/api/conversations/', {
+      this.$http.post('/api/v1/conversations/', {
         to: cardID
       })
         .then((response) => {
@@ -73,7 +71,7 @@ export default {
     sendMessage () {
       var _this = this
       this.publishLoading = true
-      this.$http.post('/api/conversations/', {
+      this.$http.post('/api/v1/conversations/', {
         to: this.sendTo,
         message: this.message
       })

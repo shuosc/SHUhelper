@@ -131,7 +131,7 @@ export default {
       this.popup = true
     },
     getData () {
-      this.$http.get('/api/fin/')
+      this.$http.get('/api/v1/fin/')
         .then((response) => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
@@ -146,7 +146,7 @@ export default {
     },
     renewData () {
       this.status.status = 'loading'
-      this.$http.post('/api/fin/sync', {
+      this.$http.post('/api/v1/fin/sync', {
         card_id: this.$store.state.user.cardID,
         password: this.$store.state.user.password
       })

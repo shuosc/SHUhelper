@@ -13,6 +13,9 @@
             <v-flex v-if="$route.params.id===$store.state.user.cardID" xs12>
               <v-btn flat @click="onImgAdd">更换头像</v-btn>
             </v-flex>
+            <v-flex v-if="$route.params.id===$store.state.user.cardID" xs12>
+              <v-btn flat @click.stop="themeDialog=true">更换主题</v-btn>
+            </v-flex>
             <v-flex xs12>
               <h4>{{user.nickname}}</h4>
             </v-flex>
@@ -35,6 +38,24 @@
       <input id="userfile" name="file" type="file" accept="image/*" @change="upload" />
       <input name="accept" type="hidden" />
     </form>
+    <v-dialog v-model="themeDialog" lazy absolute>
+      <v-card>
+        <v-card-title>
+          <div class="headline">更换皮肤主题(实验性)</div>
+        </v-card-title>
+        <v-card-text>
+          <v-radio-group v-model="theme" column>
+            <v-radio label="经典白" color="white" value="whitetheme"></v-radio>
+            <v-radio label="经典蓝" color="blue" value="bluetheme"></v-radio>
+          </v-radio-group>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="themeDialog = false">取消</v-btn>
+          <v-btn class="green--text darken-1" flat="flat" @click.native="onThemeChange">提交</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -49,10 +70,13 @@ export default {
         status: ''
       },
       key: '',
-      token: ''
+      token: '',
+      themeDialog: false,
+      theme: ''
     }
   },
   created () {
+    this.theme = this.$store.state.user.custom.theme
     this.getProfile()
   },
   methods: {
@@ -60,7 +84,7 @@ export default {
       this.$refs.testform.userfile.click()
     },
     getConversation () {
-      this.$http.post('/api/conversations/', {
+      this.$http.post('/api/v1/conversations/', {
         to: this.$route.params.id
       })
         .then((response) => {
@@ -78,7 +102,7 @@ export default {
       } else {
         return false
       }
-      this.$http.get(`/api/upload/token?key=${this.key}`)
+      this.$http.get(`/api/v1/upload/token?key=${this.key}`)
         .then((response) => {
           this.token = response.data.uptoken
           this.$nextTick(
@@ -89,7 +113,7 @@ export default {
                   if (this.img.url === response.data.key) {
                     this.img.status = 'success'
                   }
-                  this.$http.get(`/api/users/replace-avatar`, {
+                  this.$http.get(`/api/v1/users/replace-avatar`, {
                     params: {
                       avatar: this.img.url
                     }
@@ -108,10 +132,18 @@ export default {
         })
     },
     getProfile () {
-      this.$http.get(`/api/users/${this.$route.params.id}`)
+      this.$http.get(`/api/v1/users/${this.$route.params.id}`)
         .then((response) => {
           this.user = response.data
           this.img.url = this.user.avatar
+        })
+    },
+    onThemeChange () {
+      this.$http.get(`/api/v1/users/set-custom-theme?theme=${this.theme}`)
+        .then((response) => {
+          this.$store.commit('showSnackbar', { text: `更换主题成功` })
+          this.themeDialog = false
+          this.$store.commit('changeTheme', this.theme)
         })
     }
   }

@@ -180,7 +180,7 @@ export default {
     },
     submitEvent: function () {
       // var _this = this
-      this.$http.post('/api/security-map/new', {
+      this.$http.post('/api/v1/security-map/new', {
         'title': this.submitForm.title,
         'event_type': this.submitForm.type,
         'position': this.firstMarker.position,
@@ -202,7 +202,7 @@ export default {
     },
     getEvents: function () {
       var _this = this
-      this.$http.get('/api/security-map/latest')
+      this.$http.get('/api/v1/security-map/latest')
         .then((response) => {
           this.markers = []
           this.markEvents = {}

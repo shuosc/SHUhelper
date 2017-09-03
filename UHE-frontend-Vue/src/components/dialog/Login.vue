@@ -46,7 +46,7 @@ export default {
     login () {
       var _this = this
       this.loginLoading = true
-      this.$http.post('/api/users/login/', {
+      this.$http.post('/api/v1/users/login/', {
         card_id: this.cardID,
         password: this.password
       })
@@ -56,8 +56,13 @@ export default {
             password: this.password,
             name: response.data.name,
             nickname: response.data.nickname,
-            token: response.data.token,
-            custom: response.data.custom
+            token: response.data.token
+          }
+          try {
+            payload.custom = JSON.parse(response.data.custom)
+          } catch (e) {
+            e
+            payload.custom = {}
           }
           try {
             sessionStorage.setItem('loginstate', JSON.stringify(payload))

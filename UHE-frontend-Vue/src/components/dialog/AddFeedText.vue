@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false">
     <v-card>
-      <v-toolbar dark class="primary">
+      <v-toolbar dark class="dark-primary">
         <v-btn icon @click.native="$router.go(-1)" dark>
           <v-icon>iconfont-close</v-icon>
         </v-btn>
@@ -90,7 +90,7 @@ export default {
     publish () {
       var _this = this
       _this.publishLoading = true
-      this.$http.post('/api/feeds/', {
+      this.$http.post('/api/v1/feeds/', {
         type: 'text',
         text: this.text,
         img: this.imgs
@@ -124,7 +124,7 @@ export default {
       } else {
         return false
       }
-      this.$http.get(`/api/upload/token?key=${this.key}`)
+      this.$http.get(`/api/v1/upload/token?key=${this.key}`)
         .then((response) => {
           this.token = response.data.uptoken
           this.$nextTick(

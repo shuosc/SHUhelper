@@ -1,7 +1,7 @@
 <template>
   <v-layout row justify-center>
     <v-dialog v-model="dialog" lazy absolute>
-      <v-btn primary dark absolute bottom right fab style="bottom:70px;" slot="activator" :class="{red:status.status === 'failed',green:status.status === 'success'}">
+      <v-btn absolute bottom right fab style="bottom:70px;" slot="activator" :class="{'accent':status.status === 'failed','primary':status.status === 'success'}">
         <v-progress-circular indeterminate class="amber--text" v-if="status.status === 'loading'"></v-progress-circular>
         <v-icon v-else>info</v-icon>
       </v-btn>
@@ -26,7 +26,7 @@
           </v-layout>
         </v-card-text>
         <v-card-actions>
-          <v-btn class="green--text darken-1" flat @click.native="onRenewClick" block>更新数据</v-btn>
+          <v-btn class="primary" flat @click.native="onRenewClick" block>更新数据</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

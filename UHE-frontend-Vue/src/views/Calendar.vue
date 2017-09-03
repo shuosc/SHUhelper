@@ -1,16 +1,18 @@
 <template>
-  <div style="height:700px; padding-top:10px;">
-    <!-- <v-tabs light fixed centered :scrollable="false">
-                      <v-tabs-bar class="white">
-                        <v-tabs-slider class="primary"></v-tabs-slider>
-                        <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
-                          {{ item }}
-                        </v-tabs-item>
-                      </v-tabs-bar>
-                      <v-tabs-items>
-                        <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
+  <div>
+    <div style="height:700px; padding-top:10px;">
+      <!-- <v-tabs light fixed centered :scrollable="false">
+                        <v-tabs-bar class="white">
+                          <v-tabs-slider class="primary"></v-tabs-slider>
+                          <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
+                            {{ item }}
+                          </v-tabs-item>
+                        </v-tabs-bar>
+                        <v-tabs-items>
+                          <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
 
-    <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
+      <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
+    </div>
     <popup v-model="popupVisible" popup-transition="popup-fade">
       <v-card style="width:300px;">
         <v-card-title class="py-0">
@@ -43,16 +45,16 @@
     <!-- </v-tabs-content> -->
     <!-- <v-tabs-content :id="'tab-1'" lazy>
 
-                          <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
-                          <v-card>
-                            <ul>
-                              <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
-                            </ul>
-                          </v-card>
-                        </v-tabs-content> -->
+                            <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
+                            <v-card>
+                              <ul>
+                                <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
+                              </ul>
+                            </v-card>
+                          </v-tabs-content> -->
     <!-- </v-tabs-items>
-                      </v-tabs-content>
-                    </v-tabs> -->
+                        </v-tabs-content>
+                      </v-tabs> -->
   </div>
 </template>
 <script>
@@ -214,7 +216,7 @@ export default {
       this.popupVisible = true
     },
     getID () {
-      this.$http.get('/api/courses/', {
+      this.$http.get('/api/v1/courses/', {
         params: {
           id: true,
           no: this.popupContent.no,
@@ -254,7 +256,7 @@ export default {
     },
     getCourses () {
       // this.$store.commit('showSnackbar', { text: `查询课表中` })
-      this.$http.get('/api/my-course/')
+      this.$http.get('/api/v1/my-course/')
         .then((response) => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
@@ -273,7 +275,7 @@ export default {
     renewCourse () {
       this.status.status = 'loading'
       this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
-      this.$http.post('/api/my-course/sync', {
+      this.$http.post('/api/v1/my-course/sync', {
         'card_id': this.$store.state.user.cardID,
         'password': this.$store.state.user.password
       })
@@ -292,7 +294,7 @@ export default {
       this.range.end = end
     },
     getEvents (start, end) {
-      this.$http.get('/api/events/', {
+      this.$http.get('/api/v1/events/', {
         params: {
           start: start,
           end: end

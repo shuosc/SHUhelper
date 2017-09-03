@@ -94,7 +94,7 @@ export default {
         this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         return
       }
-      this.$http.get(`/api/conversations/${this.$route.params.id}/before/${this.start}`)
+      this.$http.get(`/api/v1/conversations/${this.$route.params.id}/before/${this.start}`)
         .then((response) => {
           this.messages.unshift(...response.data.messages)
           let content = this.$refs.content
@@ -119,7 +119,7 @@ export default {
         })
     },
     getMessages () {
-      this.$http.get(`/api/conversations/${this.$route.params.id}`)
+      this.$http.get(`/api/v1/conversations/${this.$route.params.id}`)
         .then((response) => {
           this.user[response.data.fromUser.cardID] = response.data.fromUser
           this.user[response.data.toUser.cardID] = response.data.toUser
@@ -134,7 +134,7 @@ export default {
       if (this.isPolling) return
       if (this.$route.path !== `/conversation/${id}`) return
       this.isPolling = true
-      this.$http.get(`/api/conversations/${id}/after/${this.count}`)
+      this.$http.get(`/api/v1/conversations/${id}/after/${this.count}`)
         .then((response) => {
           this.messages.push(...response.data.messages)
           this.count += response.data.messages.length
@@ -155,7 +155,7 @@ export default {
     },
     sendMessage () {
       if (this.content === '') return
-      this.$http.put(`/api/conversations/${this.$route.params.id}`, {
+      this.$http.put(`/api/v1/conversations/${this.$route.params.id}`, {
         content: this.content
       })
         .then((response) => {

@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     getCourse () {
-      this.$http.get(`/api/courses/${this.$route.params.id}`)
+      this.$http.get(`/api/v1/courses/${this.$route.params.id}`)
         .then((response) => {
           this.course = response.data
           this.terms = response.data.terms
@@ -98,7 +98,7 @@ export default {
         })
     },
     getTermCourse (term) {
-      this.$http.get(`/api/courses/${this.$route.params.id}/${term}`)
+      this.$http.get(`/api/v1/courses/${this.$route.params.id}/${term}`)
         .then((response) => {
           this.$set(this.termCourse, this.term, response.data.classes)
           console.log(this.termCourse)

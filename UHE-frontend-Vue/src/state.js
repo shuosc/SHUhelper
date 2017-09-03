@@ -6,7 +6,8 @@ const state = {
       name: '游客',
       nickname: '',
       password: '',
-      token: ''
+      token: '',
+      custom: {}
     },
     ui: {
       toolbarVisible: true,
@@ -74,6 +75,13 @@ const state = {
       state.user.nickname = payload.nickname
       state.user.password = payload.password
       state.user.token = payload.token
+      state.user.custom = payload.custom
+      if (!state.user.custom.theme) {
+        state.user.custom.theme = 'whitetheme'
+      }
+    },
+    changeTheme(state, theme) {
+      state.user.custom.theme = theme
     },
     clearAccount(state) {
       state.user = {

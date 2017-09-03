@@ -11,7 +11,7 @@ from UHE.extensions import captcha_solver, redis_store
 from UHE.upload import get_avatar
 from UHE.user.models import User, UserData
 from UHE.utils import make_token
-
+import json
 users = Blueprint('users', __name__)
 
 
@@ -134,6 +134,19 @@ def logout():
     logout_user()
     return jsonify({
         'success': True
+    })
+
+
+@users.route('/set-custom-theme')
+def set_custom_theme():
+    theme = request.args.get('theme')
+    user = User.objects(card_id=current_user.id).first()
+    custom = json.loads(user.custom) if user.custom != '' else {}
+    custom['theme'] = theme
+    user.custom = json.dumps(custom)
+    user.save()
+    return jsonify({
+        'status': 'ok'
     })
 
 

@@ -1,6 +1,6 @@
 <template>
-  <v-app light toolbar style="height:100%;">
-    <v-toolbar fixed dense>
+  <v-app toolbar style="height:100%;" :class="$store.state.user.custom.theme">
+    <v-toolbar fixed dense class="primary">
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
         <v-icon>iconfont-back</v-icon>
       </v-btn>
@@ -27,12 +27,12 @@
       </v-menu>
 
       <!-- <v-btn icon @click.native="onProfileClick">
-                                                <v-icon>help</v-icon>
-                                              </v-btn> -->
+                                                  <v-icon>help</v-icon>
+                                                </v-btn> -->
 
       <!-- <v-btn icon>
-                                              <v-icon>search</v-icon>
-                                            </v-btn> -->
+                                                <v-icon>search</v-icon>
+                                              </v-btn> -->
     </v-toolbar>
     <!-- overflowY:'scroll' -->
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
@@ -42,8 +42,8 @@
         <!-- </keep-alive> -->
       </v-slide-y-transition>
     </main>
-    <v-bottom-nav class="white ma-0 pa-0" v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
-      <v-btn flat light v-for="(nav,index) in bottomNavs" :key="index" class="light-blue--text" @click.native="onBottomNavgationClick(index)">
+    <v-bottom-nav class="primary ma-0 pa-0" dark v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
+      <v-btn flat v-for="(nav,index) in bottomNavs" :key="index" @click.native="onBottomNavgationClick(index)">
         <span>{{nav.name}}</span>
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
@@ -74,6 +74,12 @@
             </p>
             <p>
               加入开源社区QQ群：146685225
+            </p>
+            <p>
+              开源社区公众号：shuosc
+            </p>
+            <p>
+              SHUhelper公众号：shuhelper
             </p>
             <p style="text-align:center;">
               <img src="/static/built-with-love.svg"><br/><img src="/static/for-you.svg"></p>
@@ -200,7 +206,7 @@ export default {
       this.$store.commit('clearAccount')
       this.$router.push('/')
       this.$store.commit('showSnackbar', { text: '已注销' })
-      this.$http.get('/api/users/logout?token=' + token)
+      this.$http.get('/api/v1/users/logout?token=' + token)
     },
     login () {
       this.$store.commit('showLoginDialog')
@@ -222,20 +228,26 @@ export default {
           return
         }
       }
-      this.$http.get(`/api/users/login-with-token/?token=${token}`)
+      if (token === '') {
+        this.login()
+        return
+      }
+      this.$http.get(`/api/v1/users/login-with-token/?token=${token}`)
         .then((response) => {
           // var payload = JSON.parse(localStorage.getItem('loginstate'))
+          var custom = {}
           try {
-            var custom = JSON.parse(response.data.custom)
-            var loginText = custom.loginText
+            custom = JSON.parse(response.data.custom)
           } catch (e) {
             e
+            custom = {}
           }
+          payload.custom = custom
           _this.$store.commit('updateAccount', payload)
-          if (loginText === undefined) {
+          if (custom.loginText === undefined) {
             _this.$store.commit('showSnackbar', { text: `${response.data.name}，欢迎登陆` })
           } else {
-            _this.$store.commit('showSnackbar', { text: `${loginText}` })
+            _this.$store.commit('showSnackbar', { text: `${custom.loginText}` })
           }
         })
         .catch((error) => {
@@ -247,7 +259,10 @@ export default {
 </script>
 
 <style lang="stylus">
-  @import './stylus/main'
+// $color-pack = false
+@import './stylus/main'
+$unset secondary
+$unset primary
 .fullscreen-v-img
   z-index:10
 .wrapper 

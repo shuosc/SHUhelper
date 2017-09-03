@@ -156,7 +156,7 @@ export default {
       this.courseLoading = true
       this.course = course
       this.dialog = true
-      this.$http.get(`/api/courses/${course._id.$oid}/2017_1`)
+      this.$http.get(`/api/v1/courses/${course._id.$oid}/2017_1`)
         .then((response) => {
           this.course = response.data
           this.courseLoading = false
@@ -170,7 +170,7 @@ export default {
       function () {
         if (this.loading) return
         this.loading = true
-        this.$http.get('/api/courses/', {
+        this.$http.get('/api/v1/courses/', {
           params: {
             quick: true,
             query: this.quickQuery,
@@ -195,7 +195,7 @@ export default {
     ),
     searchCourse: _.debounce(
       function () {
-        this.$http.get('/api/courses/', {
+        this.$http.get('/api/v1/courses/', {
           params: {
             quick: true,
             query: this.query,

@@ -10,8 +10,8 @@
         </v-flex>
         <v-flex xs4 >
           <div style="display:inline-block;">
-            <div style="font-size:1.1rem;" class="teal--text">{{feed.user.name}}</div>
-            <div style="font-size:0.5rem;" class="grey--text">
+            <div style="font-size:1.1rem;" class="">{{feed.user.name}}</div>
+            <div style="font-size:0.5rem;" class="secondary-text">
               {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
             </div>
           </div>
@@ -73,7 +73,7 @@
         </v-flex>
       </v-layout>
     </v-container>
-    <v-card-actions class="white">
+    <v-card-actions>
       <!-- <span v-for="people in feed.liked" :key="people.id" style="font-size:0.8rem;">{{people.name}}</span> -->
       <v-spacer></v-spacer>
       <v-btn icon @click.stop="onLikeClick()">
@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     deleteFeed (id) {
-      this.$http.delete(`/api/feeds/${id}`).then((response) => {
+      this.$http.delete(`/api/v1/feeds/${id}`).then((response) => {
         // this.getComments()
         this.$store.commit('showSnackbar', { text: '删除成功，刷新页面后生效' })
         this.$emit('delete')

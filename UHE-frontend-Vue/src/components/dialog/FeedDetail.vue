@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false" style="overflow:scroll;">
     <v-card>
-      <v-toolbar dark class="primary">
+      <v-toolbar dark class="dark-primary">
         <v-btn icon @click.native="$router.go(-1)" dark>
           <v-icon>iconfont-close</v-icon>
         </v-btn>
@@ -79,11 +79,11 @@ export default {
       this.$emit('closeDialog')
     },
     onLikeClick () {
-      this.$http.get(`/api/feeds/${this.$route.params.id}/like`)
+      this.$http.get(`/api/v1/feeds/${this.$route.params.id}/like`)
       this.getFeed()
     },
     getFeed () {
-      this.$http.get(`/api/feeds/${this.$route.params.id}`)
+      this.$http.get(`/api/v1/feeds/${this.$route.params.id}`)
         .then((response) => {
           this.feed = response.data
           this.dialog = true

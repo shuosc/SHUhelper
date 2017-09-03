@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false" lazy>
     <v-card>
-      <v-toolbar dark class="primary">
+      <v-toolbar dark class="dark-primary">
         <v-btn icon @click.native="$router.go(-1)" dark>
           <v-icon>iconfont-close</v-icon>
         </v-btn>
@@ -92,7 +92,7 @@ export default {
     },
     publish () {
       this.publishLoading = true
-      this.$http.post('/api/feeds/', {
+      this.$http.post('/api/v1/feeds/', {
         type: 'link',
         text: this.text,
         linkURL: this.link.URL,
@@ -110,7 +110,7 @@ export default {
         })
     },
     saveLink () {
-      this.$http.get(`/api/feeds/link?link=${this.link.URL}`)
+      this.$http.get(`/api/v1/feeds/link?link=${this.link.URL}`)
         .then((response) => {
           this.link.title = response.data.title
         })

@@ -7,7 +7,7 @@ import router from './router'
 import Vuex from 'vuex'
 import axios from 'axios'
 import state from './state.js'
-import AMap from 'vue-amap'
+// import AMap from 'vue-amap'
 import VueScroller from 'vue-scroller'
 import {
   parseURL
@@ -27,7 +27,7 @@ Vue.use(require('vue-moment'), {
 // Vue.use(lodash)
 Vue.use(Toasted)
 Vue.use(VueImg)
-Vue.use(AMap)
+// Vue.use(AMap)
 Vue.use(Vuetify)
 Vue.use(Vuex)
 Vue.use(VueScroller)
@@ -64,10 +64,10 @@ router.beforeEach((to, from, next) => {
     store.commit('showBottomNavgation')
   }
 })
-AMap.initAMapApiLoader({
-  key: 'ba598ea13544001f281ce6891dbd259a',
-  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
-})
+// AMap.initAMapApiLoader({
+//   key: 'ba598ea13544001f281ce6891dbd259a',
+//   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor']
+// })
 axios.interceptors.response.use(function (response) {
   // Do something with response data
   // console.log(response)
