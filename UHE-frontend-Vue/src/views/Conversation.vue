@@ -6,7 +6,7 @@
         <v-card class="mb-0" flat v-for="(message,index) in messages" :key="index">
           <v-container fluid grid-list-lg class="py-0">
             <v-layout row>
-              <v-flex xs2 v-show="!message.me">
+              <v-flex xs2 v-show="!message.me" @click="$router.push(`/profile/${message.sender}`)" >
                 <v-avatar style="height:100%;">
                   <img :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" alt="avatar">
                 </v-avatar>
@@ -27,7 +27,7 @@
                   </v-layout>
                 </v-container>
               </v-flex>
-              <v-flex xs2 v-show="message.me">
+              <v-flex xs2 v-show="message.me"  @click="$router.push(`/profile/${message.sender}`)">
                 <v-avatar style="height:100%;">
                   <img :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" alt="avatar">
                 </v-avatar>

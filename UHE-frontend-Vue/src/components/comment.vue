@@ -17,12 +17,12 @@
     </v-card>
     <v-card style="position:fixed;bottom:0;width:100%;">
       <v-container class="px-0 py-0">
-        <v-layout row justify-center class="ma-0">
+        <v-layout row justify-center class="mx-1">
           <v-flex xs9 class="ma-0 py-2">
             <v-text-field name="input-1" hide-details v-model="content" class="pa-0"></v-text-field>
           </v-flex>
-          <v-flex xs3 class="mx-1 py-2">
-            <v-btn block primary class="white--text ma-0" @click.native="sendComment">评论</v-btn>
+          <v-flex xs3 class="mx-0 py-2">
+            <v-btn block flat class="blue--text ma-0" @click.native="sendComment"><v-icon>send</v-icon></v-btn>
           </v-flex>
         </v-layout>
       </v-container>
@@ -62,6 +62,7 @@ export default {
         id: this.id,
         content: this.content
       }).then((response) => {
+        this.content = ''
         this.getComments()
       })
     },

@@ -15,7 +15,7 @@
 
           </v-container>
           <v-container fluid class="pa-0">
-            <v-card v-for="user in users" @click="getConversation(user._id)" :key="user._id">
+            <v-card v-for="user in users" @click="$router.push(`/profile/${user._id}`)" :key="user._id">
               <v-card-text>{{ user.name }} ({{ user._id }})</v-card-text>
             </v-card>
           </v-container>

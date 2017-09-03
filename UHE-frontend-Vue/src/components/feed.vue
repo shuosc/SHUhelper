@@ -1,23 +1,24 @@
 <template>
   <v-card class="mt-3" @click="onFeedClick()">
     <v-container fluid grid-list-lg class="py-0">
-      <v-layout row>
-        <v-flex xs2 @click="$router.push(`/profile/${user.cardID}`)" style="text-align:center;">
-          <v-avatar size="2.5rem">
+      <v-layout row @click.stop="$router.push(`/profile/${feed.user.cardID}`)">
+        <v-flex xs2  style="text-align:center;">
+          <v-avatar style="height:100%;">
             <img :src="`//static.shuhelper.cn/${feed.user.avatar}`" alt="avatar">
           </v-avatar>
           <!-- <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media> -->
         </v-flex>
-        <v-flex xs10 @click.stop>
+        <v-flex xs4 >
           <div style="display:inline-block;">
             <div style="font-size:1.1rem;" class="teal--text">{{feed.user.name}}</div>
             <div style="font-size:0.5rem;" class="grey--text">
               {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
             </div>
           </div>
+        </v-flex>
+        <v-flex xs6  @click.stop>
           <!-- <v-spacer></v-spacer> -->
-          <div style="display:inline-block;float:right;" v-show="showDel">
-
+          <div style="display:inline-block;float:right;" v-show="showDel" @click.stop>
             <v-menu bottom right v-show="feed.user.cardID===$store.state.user.cardID">
               <v-btn icon slot="activator" light>
                 <v-icon>more_vert</v-icon>

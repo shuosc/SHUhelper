@@ -64,7 +64,7 @@ export default {
         to: this.$route.params.id
       })
         .then((response) => {
-          this.$router.push(`/conversation/${response.data.id}`)
+          this.$router.replace(`/conversation/${response.data.id}`)
         })
     },
     upload (e) {
