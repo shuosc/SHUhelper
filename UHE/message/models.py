@@ -53,6 +53,7 @@ class Conversation(db.Document):
     to_user = ReferenceField(User)
     messages = ListField(ReferenceField(
         Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
+    deleted = BooleanField(default=False)
     # unreadmessages = ListField(ReferenceField(
     #     Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
     meta = {'strict': False}

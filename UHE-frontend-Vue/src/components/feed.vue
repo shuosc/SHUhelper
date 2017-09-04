@@ -47,9 +47,11 @@
       </v-card>
     </v-dialog>
     <v-container class="pb-0 pt-3 px-3">
-      <v-layout row>
+      <v-layout row wrap>
         <v-flex xs12>
-          {{feed.text}}</v-flex>
+          <p v-for="paragraph in feed.text.split('\n')">
+            {{ paragraph }}</p>
+        </v-flex>
       </v-layout>
     </v-container>
     <v-container fluid v-if="feed.img.length !== 0" grid-list-sm class="pa-3">
@@ -79,17 +81,13 @@
       <v-btn icon @click.stop="onLikeClick()">
         <v-icon :class="{'pink--text':feed.liked}">favorite</v-icon>{{feed.likecount}}
       </v-btn>
-      <v-btn icon>
+      <v-btn icon @click.stop="show=!show">
         <v-icon>comment</v-icon>{{feed.comments.length}}
       </v-btn>
-      <!-- <v-spacer></v-spacer> -->
-      <!-- <v-btn icon @click.native="show = !show">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn> -->
     </v-card-actions>
-    <v-card  v-if="!show">
+    <v-card v-if="!show" flat>
       <v-card v-for="comment in feed.comments.slice(0,3)" :key="comment._id" class="mb-0" flat>
-        <v-container fluid class="py-1 px-1">
+        <v-container fluid class="py-1 px-3">
           <v-layout row @click.stop="$router.push(`/profile/${comment.user.cardID}`)">
             <v-flex xs11>
               <div style="display:block;">
@@ -97,27 +95,12 @@
                   <span class="blue--text">{{comment.user.name}}</span>: {{comment.content}}</div>
               </div>
             </v-flex>
-            <v-flex xs1 @click.stop>
-              <v-icon style="display:inline-block;float:right;" v-show="comment.user.cardID===$store.state.user.cardID" @click="deleteComment(comment.id)">clear</v-icon>
-            </v-flex>
           </v-layout>
         </v-container>
       </v-card>
-      <v-card-actions>
-        <v-btn flat block @click.stop="show=true">
-          更多
-        </v-btn>
-        <!-- <v-spacer></v-spacer> -->
-        <!-- <v-btn icon @click.native="show = !show">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn> -->
-      </v-card-actions>
     </v-card>
     <v-slide-y-transition>
-      <!-- <v-card-text v-show="show"> -->
       <dense-comment v-if="show" post="feed" :id="feed.id" @delete="$router.go(-1)"></dense-comment>
-      
-      <!-- </v-card-text> -->
     </v-slide-y-transition>
   </v-card>
 </template>
@@ -175,7 +158,6 @@ export default {
         // this.getComments()
         this.$store.commit('showSnackbar', { text: '删除成功，刷新页面后生效' })
         this.$emit('delete')
-        this.$router.go(-1)
       })
     },
     onFeedClick () {

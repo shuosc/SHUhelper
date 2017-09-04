@@ -13,3 +13,4 @@ npm-debug.log
 yarn.lock
 celerybeat-schedule
 celery.log
+SHUhelper

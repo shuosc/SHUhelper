@@ -3,7 +3,7 @@
     <loadmore :top-method="resetFeeds" @top-status-change="handleTopChange" ref="loadmore">
       <!-- v-infinite-scroll="getFeeds" infinite-scroll-disabled="loading" infinite-scroll-distance="10" -->
       <!-- <scroller :on-refresh="resetFeeds" :on-infinite="getFeeds" ref="loadmore"> -->
-      <feed v-for="(feed,index) in feeds" :key="index" :index="index" :feed="feed" class="mt-3" @onFeedClick="onFeedClick" @onLikeClick="onLikeClick" @delete="onFeedDelete"></feed>
+      <feed v-for="(feed,index) in feeds" :key="index" :index="index" :feed="feed" showDel class="mt-3" @onFeedClick="onFeedClick" @onLikeClick="onLikeClick" @delete="onFeedDelete"></feed>
       <!-- </scroller> -->
     </loadmore>
     <infinite-loading :on-infinite="getFeeds" ref="infiniteLoading"></infinite-loading>

@@ -12,7 +12,7 @@
         </v-btn>
       </v-toolbar>
       <v-container fluid class="pa-1 ">
-        <v-text-field name="input-1" counter max="450" autofocus full-width v-model="text" label="说点什么.." hint="您正在以身份登录<br/>测试阶段 正式运营时您发表的内容可能被移除" multi-line></v-text-field>
+        <v-text-field name="input-1"  autofocus full-width v-model="text" label="说点什么.." multi-line></v-text-field>
       </v-container>
       <v-container fluid grid-list-sm>
         <v-layout row wrap>

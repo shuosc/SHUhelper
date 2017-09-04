@@ -32,9 +32,9 @@ class ConversationAPI(MethodView):
 
     def get(self, conversation_id=None):
         if not conversation_id:
-            conversations = Conversation.objects(
-                (Q(to_user=current_user.id)
-                 | Q(from_user=current_user.id)))
+            conversations = Conversation.objects(Q(deleted=False) &
+                                                 ((Q(to_user=current_user.id)
+                                                   | Q(from_user=current_user.id))))
             return jsonify([conversation.to_dict_abstract() for conversation in conversations])
         else:
             conversation = Conversation.objects.get_or_404(id=conversation_id)
@@ -53,6 +53,8 @@ class ConversationAPI(MethodView):
             to_user.save()
         conversation = Conversation.objects(Q(to_user=to_user.id, from_user=current_user.id) | (
             Q(to_user=current_user.id, from_user=to_user.id))).first()
+        conversation.deleted = False
+        conversation.save()
         if conversation is None:
             conversation = Conversation(
                 from_user=current_user.id, to_user=to_user, messages=[])
@@ -65,13 +67,14 @@ class ConversationAPI(MethodView):
                           sort="private", content=args['content'])
         message.save()
         Conversation.objects(id=conversation_id).update_one(
-            push__messages=message)
+            push__messages=message, deleted=False)
         redis_store.rpush('conversation_' + str(conversation_id),
                           json.dumps(message.to_dict()))
         return jsonify(message=str(message.id))
 
     def delete(self, conversation_id):
-        pass
+        Conversation.objects(id=conversation_id).update_one(deleted=True)
+        return jsonify(status='ok')
 
 
 conversations_view = ConversationAPI.as_view('conversation_api')

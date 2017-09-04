@@ -2,7 +2,7 @@
   <v-container fluid class="pa-0 ">
     <div v-if="comments.length" >
       <v-card v-for="comment in comments" :key="comment._id" class="mb-0" flat>
-        <v-container fluid  class="py-1 px-1">
+        <v-container fluid  class="py-1 px-3">
           <v-layout row @click.stop="$router.push(`/profile/${comment.user.cardID}`)">
             <v-flex xs11>
               <div style="display:block;">
