@@ -25,20 +25,16 @@
           </v-list-tile>
         </v-list>
       </v-menu>
-
-      <!-- <v-btn icon @click.native="onProfileClick">
-                                                  <v-icon>help</v-icon>
-                                                </v-btn> -->
-
-      <!-- <v-btn icon>
-                                                <v-icon>search</v-icon>
-                                              </v-btn> -->
     </v-toolbar>
     <!-- overflowY:'scroll' -->
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <!-- <keep-alive> -->
-        <router-view></router-view>
+       <router-view v-if="!$route.meta.keepAlive"></router-view>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        
         <!-- </keep-alive> -->
       </v-slide-y-transition>
     </main>
@@ -215,6 +211,11 @@ export default {
       var _this = this
       var token = ''
       var payload = {}
+      // if (window.sessionStorage) {
+      //   alert('浏览支持sessionStorage')
+      // } else {
+      //   alert('浏览暂不支持sessionStorage')
+      // }
       try {
         token = JSON.parse(sessionStorage.getItem('loginstate')).token
         payload = JSON.parse(sessionStorage.getItem('loginstate'))
@@ -225,7 +226,7 @@ export default {
           payload = JSON.parse(localStorage.getItem('loginstate'))
         } catch (err) {
           console.log(err)
-          return
+          this.$http.get('/api/v1/users/logout')
         }
       }
       if (token === '') {

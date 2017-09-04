@@ -1,18 +1,16 @@
 <template>
-  <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false" style="overflow:scroll;">
+  <!-- <v-dialog v-model="dialog" persistent fullscreen transition="slide-x-reverse-transition" :overlay="false"> -->
     <v-card>
-      <v-toolbar dark class="dark-primary">
+      <!-- <v-toolbar dark class="dark-primary">
         <v-btn icon @click.native="$router.go(-1)" dark>
           <v-icon>iconfont-close</v-icon>
         </v-btn>
         <v-toolbar-title>查看动态</v-toolbar-title>
-      </v-toolbar>
-      <v-container fluid class="pa-0 mb-2" style="height:100%;overflow:scroll;">
-        <feed :index="index" :feed="feed" class="mt-3" @onLikeClick="onLikeClick" showDel></feed>
-      </v-container>
+      </v-toolbar> -->
+      <feed :index="index" :feed="feed" class="mt-3" @onLikeClick="onLikeClick" showDel></feed>
       <comment post="feed" :id="$route.params.id" @delete="$router.go(-1)"></comment>
     </v-card>
-  </v-dialog>
+  <!-- </v-dialog> -->
 </template>
 <script>
 import comment from '@/components/comment.vue'
@@ -26,9 +24,6 @@ export default {
     index: {
       type: Number
     }
-  },
-  mounted () {
-    // this.dialog = true
   },
   beforeDestroy () {
     this.dialog = false
@@ -70,7 +65,11 @@ export default {
   //     }
   //   }
   // },
-  created () {
+  // created () {
+  //   this.dialog = true
+  // },
+  mounted () {
+    // this.dialog = true
     this.getFeed()
     // this.getComments()
   },
@@ -86,7 +85,9 @@ export default {
       this.$http.get(`/api/v1/feeds/${this.$route.params.id}`)
         .then((response) => {
           this.feed = response.data
-          this.dialog = true
+          this.$nextTick(function () {
+            this.dialog = true
+          })
         })
         .catch((error) => {
           console.log(error)

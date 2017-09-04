@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false" lazy>
+  <v-dialog v-model="dialog" persistent fullscreen  :overlay="false" >
     <v-card>
       <v-toolbar dark class="dark-primary">
         <v-btn icon @click.native="$router.go(-1)" dark>
@@ -66,7 +66,7 @@ export default {
         title: '',
         saved: false
       },
-      dialog: false
+      dialog: true
     }
   },
   computed: {

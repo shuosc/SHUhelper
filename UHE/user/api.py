@@ -130,7 +130,8 @@ def init_avatar(card_id):
 @users.route('/logout')
 def logout():
     token = request.args.get('token')
-    redis_store.delete(token)
+    if token is not None:
+        redis_store.delete(token)
     logout_user()
     return jsonify({
         'success': True

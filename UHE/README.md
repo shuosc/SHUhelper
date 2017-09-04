@@ -1,13 +1,17 @@
 
 #### 创建python虚拟环境
 
+
+### windows 
+
+`bash`
+`virtualenv env`
+`source env/bin/activate`
+`pip install -r requirements.txt`
 `pip install e .`
+`make run`
 
-`export FLASK_APP=run.py`
 
-`export FLASK_DEBUG=1`
-
-`flask run`
 #### 设置环境变量
 
 #### 启动redis，mongoDB服务器

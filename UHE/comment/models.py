@@ -16,7 +16,7 @@ class Comment(db.Document):
                                      reverse_delete_rule=CASCADE), default=lambda: [])
     created = DateTimeField(default=datetime.datetime.now)
     meta = {
-        'ordering': ['-created'],
+        'ordering': ['created'],
         'strict': True
     }
 

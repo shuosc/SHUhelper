@@ -34,7 +34,7 @@ class Feed(db.Document):
         return {
             'user': self.user.to_dict_public(),
             'created': str(self.created),
-            'comments': len(self.comments),
+            'comments': [comment.to_dict() for comment in self.comments],
             'type': self.feed_type,
             'text': self.text,
             'linkURL': self.link_URL,

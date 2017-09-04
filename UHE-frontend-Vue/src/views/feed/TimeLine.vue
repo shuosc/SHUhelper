@@ -12,10 +12,10 @@
         <v-icon>add</v-icon>
         <v-icon>close</v-icon>
       </v-btn>
-      <v-btn fab dark small class="green" @click="$router.push('/square/feed-add-text')">
+      <v-btn fab dark small class="green" @click="$router.push('/feed-add-text')">
         <v-icon>edit</v-icon>
       </v-btn>
-      <v-btn fab dark small class="indigo" @click="$router.push('/square/feed-add-link')">
+      <v-btn fab dark small class="indigo" @click="$router.push('/feed-add-link')">
         <v-icon>link</v-icon>
       </v-btn>
     </v-speed-dial>
@@ -111,7 +111,7 @@ export default {
     onFeedClick (index) {
       // console.log('onFeedClick')
       this.feed = this.feeds[index]
-      this.$router.push(`/square/feed-detail/${this.feed.id}`)
+      this.$router.push(`/feed-detail/${this.feed.id}`)
       // console.log(this.$route)
       // this.FeedDialog = true
       // console.log(this.feed)

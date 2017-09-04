@@ -1,14 +1,14 @@
 <template>
-  <v-card class="mt-3" @click="onFeedClick()">
+  <v-card class="mt-3">
     <v-container fluid grid-list-lg class="py-0">
       <v-layout row @click.stop="$router.push(`/profile/${feed.user.cardID}`)">
-        <v-flex xs2  style="text-align:center;">
+        <v-flex xs2 style="text-align:center;">
           <v-avatar size="3rem">
             <img :src="`//static.shuhelper.cn/${feed.user.avatar}`" alt="avatar">
           </v-avatar>
           <!-- <v-card-media :src="`//static.shuhelper.cn/${feed.user.avatar}`" height="2.5rem" contain></v-card-media> -->
         </v-flex>
-        <v-flex xs4 >
+        <v-flex xs4>
           <div style="display:inline-block;">
             <div style="font-size:1.1rem;" class="">{{feed.user.name}}</div>
             <div style="font-size:0.5rem;" class="secondary-text">
@@ -16,7 +16,7 @@
             </div>
           </div>
         </v-flex>
-        <v-flex xs6  @click.stop>
+        <v-flex xs6 @click.stop>
           <!-- <v-spacer></v-spacer> -->
           <div style="display:inline-block;float:right;" v-show="showDel" @click.stop>
             <v-menu bottom right v-show="feed.user.cardID===$store.state.user.cardID">
@@ -80,15 +80,55 @@
         <v-icon :class="{'pink--text':feed.liked}">favorite</v-icon>{{feed.likecount}}
       </v-btn>
       <v-btn icon>
-        <v-icon>comment</v-icon>{{feed.comments}}
+        <v-icon>comment</v-icon>{{feed.comments.length}}
       </v-btn>
+      <!-- <v-spacer></v-spacer> -->
+      <!-- <v-btn icon @click.native="show = !show">
+            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          </v-btn> -->
     </v-card-actions>
+    <v-card  v-if="!show">
+      <v-card v-for="comment in feed.comments.slice(0,3)" :key="comment._id" class="mb-0" flat>
+        <v-container fluid class="py-1 px-1">
+          <v-layout row @click.stop="$router.push(`/profile/${comment.user.cardID}`)">
+            <v-flex xs11>
+              <div style="display:block;">
+                <div style="font-size:1rem;" class="">
+                  <span class="blue--text">{{comment.user.name}}</span>: {{comment.content}}</div>
+              </div>
+            </v-flex>
+            <v-flex xs1 @click.stop>
+              <v-icon style="display:inline-block;float:right;" v-show="comment.user.cardID===$store.state.user.cardID" @click="deleteComment(comment.id)">clear</v-icon>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card>
+      <v-card-actions>
+        <v-btn flat block @click.stop="show=true">
+          更多
+        </v-btn>
+        <!-- <v-spacer></v-spacer> -->
+        <!-- <v-btn icon @click.native="show = !show">
+            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+          </v-btn> -->
+      </v-card-actions>
+    </v-card>
+    <v-slide-y-transition>
+      <!-- <v-card-text v-show="show"> -->
+      <dense-comment v-if="show" post="feed" :id="feed.id" @delete="$router.go(-1)"></dense-comment>
+      
+      <!-- </v-card-text> -->
+    </v-slide-y-transition>
   </v-card>
 </template>
 
 <script>
+import denseComment from '@/components/denseComment.vue'
 import { parseURL } from '@/libs/utils.js'
 export default {
+  components: {
+    denseComment
+  },
   props: {
     feed: {
       type: Object,
@@ -113,10 +153,20 @@ export default {
       return parseURL(value).host
     }
   },
+  watch: {
+    show: function (val) {
+      if (val) {
+        this.$store.commit('hideBottomNavgation')
+      } else {
+        this.$store.commit('showBottomNavgation')
+      }
+    }
+  },
   data () {
     return {
       showModal: false,
-      delDialog: false
+      delDialog: false,
+      show: false
     }
   },
   methods: {

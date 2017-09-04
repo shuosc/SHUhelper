@@ -1,6 +1,6 @@
  <template>
   <v-layout row justify-center class="ma-0 pa-0">
-    <v-dialog v-model="$store.state.ui.loginDialog" fullscreen transition="dialog-bottom-transition" hide-overlay persistent>
+    <v-dialog v-model="$store.state.ui.loginDialog" fullscreen  hide-overlay persistent>
       <v-card>
         <v-toolbar dark class="primary">
           <v-btn icon @click.native="$store.commit('closeLoginDialog')" dark>

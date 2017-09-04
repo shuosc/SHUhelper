@@ -1,35 +1,26 @@
 <template>
   <v-container fluid class="pa-0 ">
-    <div v-if="comments.length" style="padding-bottom:52px;">
-      <v-card v-for="comment in comments" :key="comment._id" class="mb-2">
+    <div v-if="comments.length" >
+      <v-card v-for="comment in comments" :key="comment._id" class="mb-0" flat>
         <v-container fluid  class="py-1 px-1">
           <v-layout row @click.stop="$router.push(`/profile/${comment.user.cardID}`)">
-            <v-flex xs2 style="text-align:center;vertical-align:middle;">
-              <v-avatar size="2rem">
-                <img :src="`//static.shuhelper.cn/${comment.user.avatar}`" alt="avatar">
-              </v-avatar>
-            </v-flex>
-            <v-flex xs4>
+            <v-flex xs11>
               <div style="display:block;">
-                <div style="font-size:1rem;" class="">{{comment.user.name}}</div>
-                <div style="font-size:0.5rem;" class="secondary-text">
-                  {{[comment.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
-                </div>
+                <div style="font-size:1rem;" class=""><span class="blue--text">{{comment.user.name}}</span>: {{comment.content}}</div>
               </div>
             </v-flex>
-            <v-flex xs6 @click.stop>
+            <v-flex xs1 @click.stop>
               <v-icon style="display:inline-block;float:right;" v-show="comment.user.cardID===$store.state.user.cardID" @click="deleteComment(comment.id)">clear</v-icon>
             </v-flex>
           </v-layout>
         </v-container>
-        <v-divider></v-divider>
-        <v-card-text>{{comment.content}}</v-card-text>
+       
       </v-card>
     </div>
-    <v-card v-else>
+    <v-card v-else flat>
       <v-card-title>无评论</v-card-title>
     </v-card>
-    <v-card style="position:fixed;bottom:0;width:100%;">
+    <v-card style="width:100%;" flat>
       <v-container class="px-0 py-0">
         <v-layout row justify-center class="mx-1">
           <v-flex xs9 class="ma-0 py-2">

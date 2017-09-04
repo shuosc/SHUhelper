@@ -111,42 +111,46 @@ export default new Router({
       }
     },
     {
+      path: '/feed-add-link',
+      component: function (resolve) {
+        require(['@/components/dialog/AddFeedLink.vue'], resolve)
+      },
+      meta: {
+        dialog: true,
+        unableBottomNavgation: true
+      }
+    },
+    {
+      path: '/feed-add-text',
+      component: function (resolve) {
+        require(['@/components/dialog/AddFeedText.vue'], resolve)
+      },
+      meta: {
+        dialog: true,
+        unableBottomNavgation: true
+      }
+    },
+    {
+      path: '/feed-detail/:id',
+      component: function (resolve) {
+        require(['@/components/dialog/FeedDetail.vue'], resolve)
+      },
+      name: 'feedDetail',
+      meta: {
+        dialog: true,
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/square',
       name: 'Square',
       component: TimeLine,
       meta: {
         disableBack: true,
-        title: '广场'
+        title: '广场',
+        keepAlive: true
       },
       children: [
-        {
-          path: 'feed-detail/:id',
-          component: function (resolve) {
-            require(['@/components/dialog/FeedDetail.vue'], resolve)
-          },
-          name: 'feedDetail',
-          meta: {
-            dialog: true
-          }
-        },
-        {
-          path: 'feed-add-link',
-          component: function (resolve) {
-            require(['@/components/dialog/AddFeedLink.vue'], resolve)
-          },
-          meta: {
-            dialog: true
-          }
-        },
-        {
-          path: 'feed-add-text',
-          component: function (resolve) {
-            require(['@/components/dialog/AddFeedText.vue'], resolve)
-          },
-          meta: {
-            dialog: true
-          }
-        },
         {
           path: 'others',
           component: function (resolve) {
