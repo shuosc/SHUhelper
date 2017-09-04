@@ -13,6 +13,7 @@ from UHE.calendar.models import Activity, Event
 from UHE.comment.models import Comment
 from UHE.extensions import admin, plugin_manager
 from UHE.feed.models import Feed
+from UHE.publication.models import Publication
 from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
 from UHE.user.models import User, UserData
@@ -179,6 +180,7 @@ class UserDataView(BasicPrivateModelView):
 
 def configure_admin(app):
     app.register_blueprint(admin_index, url_prefix='/admin/index')
+    admin.add_view(BasicPrivateModelView(Publication, endpoint='publication-manage'))
     admin.add_view(BasicPrivateModelView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(BasicPrivateModelView(

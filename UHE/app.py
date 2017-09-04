@@ -16,7 +16,7 @@ from UHE.models import Plugin
 from UHE.upload import upload
 from UHE.user.api import users
 from UHE.user.models import User
-
+from UHE.publication.api import publications
 
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
@@ -97,6 +97,7 @@ def configure_celery_app(app, celery):
 
 
 def configure_blueprints(app):
+    app.register_blueprint(publications, url_prefix='/publications')
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(conversations, url_prefix='/conversations')
     app.register_blueprint(upload, url_prefix='/upload')

@@ -9,8 +9,8 @@
             <!-- <div>晴 32C D楼附近</div> -->
           </v-card-title>
           <!-- <v-card-text>
-                                 <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
-                              </v-card-text> -->
+                                   <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
+                                </v-card-text> -->
         </v-card>
       </v-flex>
     </v-layout>
@@ -33,7 +33,7 @@
       <!-- <span>动态推荐</span> -->
       <v-spacer></v-spacer>
       <!-- <span style="font-size:0.5rem;color:grey;">管理卡片出现规则
-                          <v-icon>favorite</v-icon> -->
+                            <v-icon>favorite</v-icon> -->
       </span>
     </v-layout>
 
@@ -46,65 +46,65 @@
           </li>
         </ul>
         <!-- 
-            <!-- <v-divider></v-divider>
-                    * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果
-                     <br/>
-                    <v-divider></v-divider>
-                    * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果 -->
+              <!-- <v-divider></v-divider>
+                      * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果
+                       <br/>
+                      <v-divider></v-divider>
+                      * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果 -->
       </v-card-text>
       <!-- <v-card-actions class="pa-0">
-                          <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                        </v-card-actions> -->
+                            <v-btn block class="orange--text ma-0">查看详情</v-btn>
+                          </v-card-actions> -->
     </v-card>
     <!-- <v-card class="mb-2">
-                        <v-card-title primary-title class="pa-2">迎新频道</v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>SHUhelper3.0已经开始公测 </v-card-text> -->
+                          <v-card-title primary-title class="pa-2">迎新频道</v-card-title>
+                          <v-divider></v-divider>
+                          <v-card-text>SHUhelper3.0已经开始公测 </v-card-text> -->
     <!-- <v-card-actions class="pa-0">
-                          <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                        </v-card-actions> -->
+                            <v-btn block class="orange--text ma-0">查看详情</v-btn>
+                          </v-card-actions> -->
     </v-card>
     <!-- <v-card class="mb-2">
-                        <v-card-title primary-title class="pa-2">附近的空教室</v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>喵喵喵</v-card-text>
-                        <v-card-actions class="pa-0">
-                          <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                      <v-card class="mb-2">
-                        <v-card-title primary-title class="pa-2">附近的课程</v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>喵喵喵</v-card-text>
-                        <v-card-actions class="pa-0">
-                          <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                      <v-card class="mb-2">
-                        <v-card-title primary-title class="pa-2">最近的活动</v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>喵喵喵</v-card-text>
-                        <v-card-actions class="pa-0">
-                          <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                        </v-card-actions>
-                      </v-card>
-                      <v-card class="mb-2">
-                        <v-card-title primary-title class="pa-2">最近的活动</v-card-title>
-                        <v-divider></v-divider>
-                        <v-card-text>喵喵喵</v-card-text>
-                        <v-card-actions class="pa-0">
-                          <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                        </v-card-actions>
-                      </v-card> -->
+                          <v-card-title primary-title class="pa-2">附近的空教室</v-card-title>
+                          <v-divider></v-divider>
+                          <v-card-text>喵喵喵</v-card-text>
+                          <v-card-actions class="pa-0">
+                            <v-btn block class="orange--text ma-0">查看详情</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                        <v-card class="mb-2">
+                          <v-card-title primary-title class="pa-2">附近的课程</v-card-title>
+                          <v-divider></v-divider>
+                          <v-card-text>喵喵喵</v-card-text>
+                          <v-card-actions class="pa-0">
+                            <v-btn block class="orange--text ma-0">查看详情</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                        <v-card class="mb-2">
+                          <v-card-title primary-title class="pa-2">最近的活动</v-card-title>
+                          <v-divider></v-divider>
+                          <v-card-text>喵喵喵</v-card-text>
+                          <v-card-actions class="pa-0">
+                            <v-btn block class="orange--text ma-0">查看详情</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                        <v-card class="mb-2">
+                          <v-card-title primary-title class="pa-2">最近的活动</v-card-title>
+                          <v-divider></v-divider>
+                          <v-card-text>喵喵喵</v-card-text>
+                          <v-card-actions class="pa-0">
+                            <v-btn block class="orange--text ma-0">查看详情</v-btn>
+                          </v-card-actions>
+                        </v-card> -->
     <v-dialog v-model="dialog">
       <v-card>
         <v-card-title class="headline">{{publication.title}}</v-card-title>
         <v-card-text v-html="publication.text"></v-card-text>
         <!-- <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree</v-btn>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Agree</v-btn>
-        </v-card-actions> -->
+            <v-spacer></v-spacer>
+            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree</v-btn>
+            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Agree</v-btn>
+          </v-card-actions> -->
       </v-card>
     </v-dialog>
   </div>
@@ -141,9 +141,16 @@ export default {
     }
   },
   created () {
-    this.$router.push('/')
+    this.getPublications()
+    // this.$router.push('/')
   },
   methods: {
+    getPublications () {
+      this.$http.get('/api/v1/publications/')
+        .then((response) => {
+          this.publications = response.data
+        })
+    },
     showPublication (publication) {
       this.publication = publication
       this.dialog = true
