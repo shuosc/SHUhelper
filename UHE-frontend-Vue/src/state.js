@@ -7,7 +7,9 @@ const state = {
       nickname: '',
       password: '',
       token: '',
-      custom: {}
+      custom: {
+        theme: 'bluetheme'
+      }
     },
     ui: {
       toolbarVisible: true,
@@ -77,7 +79,7 @@ const state = {
       state.user.token = payload.token
       state.user.custom = payload.custom
       if (!state.user.custom.theme) {
-        state.user.custom.theme = 'whitetheme'
+        state.user.custom.theme = 'bluetheme'
       }
     },
     changeTheme(state, theme) {
@@ -90,7 +92,10 @@ const state = {
         name: '',
         nickname: '',
         password: '',
-        token: ''
+        token: '',
+        custom: {
+          theme: 'bluetheme'
+        }
       }
     }
   }

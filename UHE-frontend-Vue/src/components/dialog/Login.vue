@@ -9,24 +9,25 @@
           <v-toolbar-title>登录</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
-        <v-container fluid class="px-3">
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-text-field label="一卡通" v-model="cardID"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-text-field label="密码" :append-icon="passwordVisiable ? 'visibility' : 'visibility_off'" :append-icon-cb="() => (passwordVisiable = !passwordVisiable)" :type="passwordVisiable ? 'password' : 'text'" v-model="password"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项" persistent-hint v-model="remeberMe" light></v-checkbox>
-            </v-flex>
-            <v-flex xs12>
-
-              <v-btn primary dark block @click.native="login()">
-                <v-progress-circular v-show="loginLoading" :indeterminate="loginLoading" class="red--text"></v-progress-circular>登录</v-btn>
-            </v-flex>
-          </v-layout>
-        </v-container>
+        <v-card-text class="px-0">
+          <v-container fluid class="px-3 py-0">
+            <v-layout row wrap>
+              <v-flex xs12>
+                <v-text-field label="一卡通" v-model="cardID"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field label="密码" :append-icon="passwordVisiable ? 'visibility' : 'visibility_off'" :append-icon-cb="() => (passwordVisiable = !passwordVisiable)" :type="passwordVisiable ? 'password' : 'text'" v-model="password"></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项" persistent-hint v-model="remeberMe" light></v-checkbox>
+              </v-flex>
+              <v-flex xs12>
+                <v-btn primary dark block @click.native="login()">
+                  <v-progress-circular v-show="loginLoading" :indeterminate="loginLoading" class="red--text"></v-progress-circular>登录</v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
       </v-card>
     </v-dialog>
   </v-layout>
