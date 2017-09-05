@@ -151,6 +151,8 @@ export default {
 
 .task-list-item h5 {
   font-size: 0.9rem;
+  font-weight: bold;
+  /* color: #E0E7E9; */
   color: #E0E7E9;
   margin-bottom: 0.4rem;
   padding: 0.1rem;

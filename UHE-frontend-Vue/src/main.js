@@ -12,7 +12,7 @@ import VueScroller from 'vue-scroller'
 import {
   parseURL
 } from '@/libs/utils.js'
-import VueImg from 'v-img'
+import VueImg from '@/v-img/lib'
 import Toasted from 'vue-toasted'
 import {
   InfiniteScroll

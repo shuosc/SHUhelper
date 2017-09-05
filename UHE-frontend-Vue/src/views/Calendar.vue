@@ -127,7 +127,12 @@ export default {
           '#903749',
           '#53354A',
           '#40514E',
-          '#537780'
+          '#537780',
+          '#3765a4',
+          '#76a5a4',
+          '#579870',
+          '#e391b4',
+          '#b8954e'
         ]
         var course = this.courses[i]
         var rancolor = color[~~(Math.random() * color.length)]

@@ -261,6 +261,8 @@ export default {
 @import './stylus/main'
 $unset secondary
 $unset primary
+.lightbox
+  z-index:10 !important
 .fullscreen-v-img
   z-index:10
 .wrapper 

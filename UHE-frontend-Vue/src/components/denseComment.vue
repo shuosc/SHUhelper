@@ -14,7 +14,6 @@
             </v-flex>
           </v-layout>
         </v-container>
-       
       </v-card>
     </div>
     <v-card v-else flat>

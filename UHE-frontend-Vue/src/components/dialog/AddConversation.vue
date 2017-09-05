@@ -1,6 +1,6 @@
 <template>
     <v-layout row justify-center>
-      <v-dialog v-model="dialog" persistent fullscreen transition="dialog-bottom-transition" :overlay="false">
+      <v-dialog v-model="dialog" persistent fullscreen :overlay="false">
         <v-card>
           <v-toolbar dark class="dark-primary">
             <v-btn icon @click.native="onDialogClose()" dark>

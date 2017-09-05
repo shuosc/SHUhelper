@@ -56,8 +56,9 @@
     </v-container>
     <v-container fluid v-if="feed.img.length !== 0" grid-list-sm class="pa-3">
       <v-layout row wrap>
-        <v-flex xs4 v-for="(img,key) in feed.img" :key="key" @click.stop>
-          <img v-img="{group:index}" :src="`//static.shuhelper.cn/${img}-slim75`" style="object-fit: cover;" alt="lorem" width="100%" />
+        <v-flex xs4 v-for="(img,key) in imgs" :key="key" @click.stop>
+          <!-- <lightbox :thumbnail="`${img}-slim75`" :images="imgs"></lightbox> -->
+          <img v-img="{group:index}" :src="`${img}-slim75`" style="object-fit: cover;" alt="lorem" width="100%" />
         </v-flex>
       </v-layout>
     </v-container>
@@ -150,6 +151,14 @@ export default {
       showModal: false,
       delDialog: false,
       show: false
+    }
+  },
+  computed: {
+    imgs () {
+      console.log(this.feed.img)
+      let img = this.feed.img.map((val) => { return '//static.shuhelper.cn/' + val })
+      console.log(img)
+      return img
     }
   },
   methods: {
