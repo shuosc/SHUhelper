@@ -181,7 +181,7 @@ class UserDataView(BasicPrivateModelView):
 def configure_admin(app):
     app.register_blueprint(admin_index, url_prefix='/admin/index')
     admin.add_view(BasicPrivateModelView(Publication, endpoint='publication-manage'))
-    admin.add_view(BasicPrivateModelView(UserData, endpoint='userdata-manage'))
+    admin.add_view(UserDataView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(BasicPrivateModelView(
         Conversation, endpoint='conversation-manage'))

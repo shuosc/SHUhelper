@@ -17,7 +17,7 @@ class Comment(db.Document):
     created = DateTimeField(default=datetime.datetime.now)
     meta = {
         'ordering': ['created'],
-        'strict': True
+        'strict': False
     }
 
     def to_dict(self):

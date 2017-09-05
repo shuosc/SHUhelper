@@ -2,7 +2,7 @@
   <v-app toolbar style="height:100%;" :class="$store.state.user.custom.theme">
     <v-toolbar fixed dense class="primary">
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
-        <v-icon>iconfont-back</v-icon>
+        <v-icon large>navigate_before</v-icon>
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>

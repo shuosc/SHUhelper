@@ -5,9 +5,10 @@ import json
 import os
 import time
 from UHE.utils import this_course, this_term, this_week, this_year
+import os.path as op
 # from flask import current_app
-
-JSON_FILE = open('classroomdata.json')
+path = op.join(op.dirname(__file__), 'classroomdata.json')
+JSON_FILE = open(path)
 CLASSROOM_DICT = json.load(JSON_FILE)
 
 
@@ -18,11 +19,11 @@ def get_room_schedule(room):
     return CLASSROOM_DICT.get(room)
 
 
-def is_room_empty(room, week, day, time):
+def is_room_empty(room, week, day, course):
     """
     confirm weather the room is empty at the time
     """
-    return CLASSROOM_DICT[room][week - 1][day - 1][time - 1] == 1
+    return CLASSROOM_DICT[room][week - 1][day - 1][course - 1] == 1
 
 
 def get_emptyroom_now():
@@ -31,18 +32,18 @@ def get_emptyroom_now():
     """
     week = this_week()
     day = int(time.strftime("%w"))
-    time = this_course()
-    return get_emptyroom(week, day, time)
+    course = this_course()
+    return get_emptyroom(week, day, course)
 
 
-def get_emptyroom(week, day, time):
+def get_emptyroom(week, day, course):
     """
     use custom time to get a list contain all free rooms
     """
     emptyroom_list = []
-    if time == 0 or day == 0 or day == 6:
+    if course == 0 or day == 0 or day == 6:
         return emptyroom_list
     for classroom in CLASSROOM_DICT.keys():
-        if CLASSROOM_DICT[classroom][week - 1][day - 1][time - 1] == 1:
+        if CLASSROOM_DICT[classroom][week - 1][day - 1][course - 1] == 1:
             emptyroom_list.append(classroom)
     return sorted(emptyroom_list)

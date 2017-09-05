@@ -1,4 +1,4 @@
-# 大学助手引擎 University Helper Engine(UHE)
+# SHUhelper
 
 ## 简介
 
@@ -58,3 +58,5 @@ UHE采用前后端分离的思路开发。
 ## Powered by
 
 * [上海大学验证码识别服务](https://github.com/shuopensourcecommunity/anti-captcha.shuosc.org) by @EnJiang
+
+* [SHUScheduleGenerator](https://github.com/JeromeTan1997/SHUScheduleGenerator) by @JeromeTan1997

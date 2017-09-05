@@ -14,6 +14,7 @@ const course = () => import('@/views/course')
 const fin = () => import('@/views/fin')
 const TimeLine = () => import('@/views/feed/TimeLine')
 const replaceAvatar = () => import('@/views/replaceAvatar')
+const emptyRoom = () => import('@/views/emptyRoom')
 import bus from '@/views/bus'
 import schoolCal from '@/views/schoolCal'
 import med from '@/views/med'
@@ -23,6 +24,15 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/empty-room',
+      name: 'emptyRoom',
+      component: emptyRoom,
+      meta: {
+        title: '空教室',
+        unableBottomNavgation: true
+      }
+    },
     {
       path: '/replace-avatar',
       name: 'replaceAvatar',

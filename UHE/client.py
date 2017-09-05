@@ -159,7 +159,6 @@ class XK(Client):
         Client.__init__(self, card_id, password, captcha)
         r = self.session.get(
             self.url_prefix + '/Login/GetValidateCode?GetTimestamp()', timeout=20, stream=True)
-        # self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
         self.captcha_img = r.raw.read()
 
     def login(self):

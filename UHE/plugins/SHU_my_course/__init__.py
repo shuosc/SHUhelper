@@ -61,7 +61,6 @@ def get_course(card_id, password):
         client = XK(card_id, password)
         client.captcha = captcha_solver.create(
             client.captcha_img, site='XK')['Result']
-        print(client.captcha)
         client.login()
         client.get_data()
     except Exception as e:

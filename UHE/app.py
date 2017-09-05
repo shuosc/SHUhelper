@@ -17,6 +17,8 @@ from UHE.upload import upload
 from UHE.user.api import users
 from UHE.user.models import User
 from UHE.publication.api import publications
+from UHE.time.api import time
+
 
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
@@ -54,7 +56,8 @@ def configure_manger_accounts(app):
     for plugin in plugins:
         user = User.objects(card_id=plugin.identifier).first()
         if user is None:
-            user = User(card_id=plugin.identifier, name=plugin.identifier, activated=True, robot=True)
+            user = User(card_id=plugin.identifier,
+                        name=plugin.identifier, activated=True, robot=True)
             user.save()
 
 
@@ -97,6 +100,7 @@ def configure_celery_app(app, celery):
 
 
 def configure_blueprints(app):
+    app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(publications, url_prefix='/publications')
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(conversations, url_prefix='/conversations')
@@ -106,7 +110,7 @@ def configure_blueprints(app):
     app.register_blueprint(index, url_prefix='/index')
     app.register_blueprint(comments, url_prefix='/comments')
     # print(app.url_map)
-    pass
+    # pass
 
 
 def configure_extensions(app):

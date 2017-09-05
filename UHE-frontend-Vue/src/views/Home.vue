@@ -119,7 +119,7 @@ export default {
       navs: [
         // { name: '我的宿舍', icon: 'bubble_chart', url: '/info' },
         // { name: '一卡通余额', icon: 'bubble_chart', url: '/info' },
-        // { name: '空教室', icon: 'iconfont-xiangtongfangjianrenwu', url: '/empty-room' },
+        { name: '空教室', icon: 'iconfont-xiangtongfangjianrenwu', url: '/empty-room' },
         // { name: '体育活动', icon: 'bubble_chart', url: '/info' },
         { name: '校园地图', icon: 'iconfont-map-o', url: '/map' },
         // { name: '快速链接', icon: 'bubble_chart', url: '/info' },
