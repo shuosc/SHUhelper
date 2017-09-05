@@ -44,7 +44,7 @@
             <v-text-field name="input-1" hide-details v-model="content" class="pa-0"></v-text-field>
           </v-flex>
           <v-flex xs3 class="px-0 py-2">
-            <v-btn block flat class="indigo--text ma-0" @click.native="sendMessage">发送</v-btn>
+            <v-btn block flat :loading="sendLoading" class="indigo--text ma-0" @click.native="sendMessage()">发送</v-btn>
           </v-flex>
         </v-layout>
       </v-container>
@@ -73,7 +73,8 @@ export default {
       user: {},
       oldHeight: 0,
       oldTop: 0,
-      conversationReady: false
+      conversationReady: false,
+      sendLoading: false
     }
   },
   created () {
@@ -153,14 +154,33 @@ export default {
           setTimeout(() => { this.getMessagesPoll(id) }, 1000)
         })
     },
+    flushMessages (id) {
+      if (this.$route.path !== `/conversation/${id}`) return
+      this.$http.get(`/api/v1/conversations/${id}/after/${this.count}`)
+        .then((response) => {
+          this.messages.push(...response.data.messages)
+          this.count += response.data.messages.length
+          if (!this.scrollByHand) {
+            this.$nextTick(() => {
+              var content = this.$refs.content
+              content.scrollTop = content.scrollHeight - content.clientHeight
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     sendMessage () {
       if (this.content === '') return
+      this.sendLoading = true
       this.$http.put(`/api/v1/conversations/${this.$route.params.id}`, {
         content: this.content
       })
         .then((response) => {
           this.content = ''
-          // this.getMessages()
+          this.sendLoading = false
+          this.flushMessages()
         })
         .catch((error) => {
           this.$store.commit('showSnackbar', { text: '发送失败' + error })

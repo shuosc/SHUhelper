@@ -84,7 +84,15 @@ export default {
       this.$http.delete(`/api/v1/conversations/${id}`)
       .then((response) => {
         this.delDialog = false
+        this.flushConversations()
       })
+    },
+    flushConversations () {
+      this.$http.get('/api/v1/conversations/')
+        .then((response) => {
+          this.conversations = response.data
+          this.loading = false
+        })
     },
     getConversations () {
       this.$http.get('/api/v1/conversations/')

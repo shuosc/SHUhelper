@@ -99,7 +99,7 @@
     <v-dialog v-model="dialog">
       <v-card>
         <v-card-title class="headline">{{publication.title}}</v-card-title>
-        <v-card-text v-html="publication.text"></v-card-text>
+        <v-card-text v-html="publication.content"></v-card-text>
         <!-- <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree</v-btn>
@@ -127,13 +127,13 @@ export default {
         { name: '学生财务', icon: 'iconfont-money', url: '/fin' },
         { name: '校车运行', icon: 'iconfont-bus', url: '/bus' },
         { name: '校历', icon: 'iconfont-rili', url: '/school-cal' },
-        { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' },
-        { name: '尔美订餐', icon: 'bubble_chart', url: 'http://ermei.shuhelper.cn?code=ermeishu' }
+        { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' }
+        // { name: '尔美订餐', icon: 'bubble_chart', url: 'http://ermei.shuhelper.cn?code=ermeishu' }
       ],
       publications: [
         {
           title: 'SHUhelper3上线啦~',
-          text: '* SHUhelper3.0匆忙上线( <br/>* 好多功能还未完善，暂时屏蔽掉了 < br />* 开学愉快w < br />* Andoird APP现已上线< a href= "https://www.pgyer.com/apiv1/app/install?aId=e7c4929b91486d9f76a6b6790df36f76&_api_key=a6a7ba51429b6968af23b13eec01d815 " > 点击这里下载</a ><br />* iOS用户可以在safari中点击下方分享按钮，将网站发送至桌面，获得和APP一样的浏览效果< br />* 遇到问题可以直接在广场里发表哦< br /><span>* Powered By 上海大学开源社区 加入我们！<br />* QQ群：146685225</span><br />'
+          content: '* SHUhelper3.0匆忙上线( <br/>* 好多功能还未完善，暂时屏蔽掉了 < br />* 开学愉快w < br />* Andoird APP现已上线< a href= "https://www.pgyer.com/apiv1/app/install?aId=e7c4929b91486d9f76a6b6790df36f76&_api_key=a6a7ba51429b6968af23b13eec01d815 " > 点击这里下载</a ><br />* iOS用户可以在safari中点击下方分享按钮，将网站发送至桌面，获得和APP一样的浏览效果< br />* 遇到问题可以直接在广场里发表哦< br /><span>* Powered By 上海大学开源社区 加入我们！<br />* QQ群：146685225</span><br />'
         }
       ],
       dialog: false,

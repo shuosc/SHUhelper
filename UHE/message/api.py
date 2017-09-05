@@ -53,9 +53,10 @@ class ConversationAPI(MethodView):
             to_user.save()
         conversation = Conversation.objects(Q(to_user=to_user.id, from_user=current_user.id) | (
             Q(to_user=current_user.id, from_user=to_user.id))).first()
-        conversation.deleted = False
-        conversation.save()
-        if conversation is None:
+        if conversation is not None:
+            conversation.deleted = False
+            conversation.save()
+        else:
             conversation = Conversation(
                 from_user=current_user.id, to_user=to_user, messages=[])
             conversation.save()

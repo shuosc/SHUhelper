@@ -30,11 +30,8 @@
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <!-- <keep-alive> -->
-       <router-view v-if="!$route.meta.keepAlive"></router-view>
-        <keep-alive>
-          <router-view v-if="$route.meta.keepAlive"></router-view>
-        </keep-alive>
-        
+       <router-view ></router-view>
+
         <!-- </keep-alive> -->
       </v-slide-y-transition>
     </main>
