@@ -127,8 +127,8 @@ export default {
         { name: '学生财务', icon: 'iconfont-money', url: '/fin' },
         { name: '校车运行', icon: 'iconfont-bus', url: '/bus' },
         { name: '校历', icon: 'iconfont-rili', url: '/school-cal' },
-        { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' }
-        // { name: '尔美订餐', icon: 'bubble_chart', url: 'http://ermei.shuhelper.cn?code=ermeishu' }
+        { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' },
+        { name: '尔美订餐', icon: 'iconfont-dppj', url: 'http://ermei.shuhelper.cn' }
       ],
       publications: [
         {

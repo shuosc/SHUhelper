@@ -167,6 +167,7 @@ export default {
         // this.getComments()
         this.$store.commit('showSnackbar', { text: '删除成功，刷新页面后生效' })
         this.$emit('delete')
+        this.delDialog = false
       })
     },
     onFeedClick () {

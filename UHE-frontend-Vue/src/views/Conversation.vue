@@ -6,7 +6,7 @@
         <v-card class="mb-0" flat v-for="(message,index) in messages" :key="index">
           <v-container fluid grid-list-lg class="py-0">
             <v-layout row>
-              <v-flex xs2  style="text-align:center;" v-show="!message.me" @click="$router.push(`/profile/${message.sender}`)" >
+              <v-flex xs2 style="text-align:center;" v-show="!message.me" @click="$router.push(`/profile/${message.sender}`)">
                 <v-avatar size="3rem">
                   <img :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" alt="avatar">
                 </v-avatar>
@@ -27,7 +27,7 @@
                   </v-layout>
                 </v-container>
               </v-flex>
-              <v-flex xs2  style="text-align:center;" v-show="message.me"  @click="$router.push(`/profile/${message.sender}`)">
+              <v-flex xs2 style="text-align:center;" v-show="message.me" @click="$router.push(`/profile/${message.sender}`)">
                 <v-avatar size="3rem">
                   <img :src="`//static.shuhelper.cn/${user[message.sender].avatar}`" alt="avatar">
                 </v-avatar>
@@ -74,11 +74,15 @@ export default {
       oldHeight: 0,
       oldTop: 0,
       conversationReady: false,
-      sendLoading: false
+      sendLoading: false,
+      nIntervId: null
     }
   },
   created () {
-    this.getMessages()
+    this.getConversation()
+  },
+  beforeDestroy () {
+    clearInterval(this.nIntervId)
   },
   methods: {
     handleScroll () {
@@ -97,11 +101,11 @@ export default {
       }
       this.$http.get(`/api/v1/conversations/${this.$route.params.id}/before/${this.start}`)
         .then((response) => {
-          this.messages.unshift(...response.data.messages)
+          let messages = response.data.messages.map(this.myMessage)
+          this.messages.unshift(...messages)
           let content = this.$refs.content
           this.oldHeight = content.scrollHeight
           this.oldTop = content.scrollTop
-          // console.log(this.start, this.count)
           let flag = this.start === this.count
           this.$nextTick(() => {
             if (flag) {
@@ -115,11 +119,10 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          // setTimeout(() => { this.getMessagesPoll(id) }, 1000)
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:complete')
         })
     },
-    getMessages () {
+    getConversation () {
       this.$http.get(`/api/v1/conversations/${this.$route.params.id}`)
         .then((response) => {
           this.user[response.data.fromUser.cardID] = response.data.fromUser
@@ -128,38 +131,21 @@ export default {
           this.start = this.count
           this.$refs.infiniteLoading.$emit('$InfiniteLoading:loaded')
           this.conversationReady = true
-          this.getMessagesPoll(this.$route.params.id)
+          this.nIntervId = setInterval(this.getMessages, 1000)
         })
     },
-    getMessagesPoll (id) {
-      if (this.isPolling) return
-      if (this.$route.path !== `/conversation/${id}`) return
-      this.isPolling = true
-      this.$http.get(`/api/v1/conversations/${id}/after/${this.count}`)
-        .then((response) => {
-          this.messages.push(...response.data.messages)
-          this.count += response.data.messages.length
-          this.isPolling = false
-          if (!this.scrollByHand) {
-            this.$nextTick(() => {
-              var content = this.$refs.content
-              content.scrollTop = content.scrollHeight - content.clientHeight
-              // console.log(content.scrollTop, content.scrollHeight - content.clientHeight)
-            })
-          }
-          setTimeout(() => { this.getMessagesPoll(id) }, 1000)
-        })
-        .catch((err) => {
-          console.log(err)
-          setTimeout(() => { this.getMessagesPoll(id) }, 1000)
-        })
+    myMessage (message) {
+      message.me = message.sender === this.$store.state.user.cardID
+      return message
     },
-    flushMessages (id) {
+    getMessages () {
+      let id = this.$route.params.id
       if (this.$route.path !== `/conversation/${id}`) return
       this.$http.get(`/api/v1/conversations/${id}/after/${this.count}`)
         .then((response) => {
-          this.messages.push(...response.data.messages)
-          this.count += response.data.messages.length
+          let messages = response.data.messages.map(this.myMessage)
+          this.messages.push(...messages)
+          this.count += messages.length
           if (!this.scrollByHand) {
             this.$nextTick(() => {
               var content = this.$refs.content
@@ -180,7 +166,7 @@ export default {
         .then((response) => {
           this.content = ''
           this.sendLoading = false
-          this.flushMessages()
+          this.getMessages()
         })
         .catch((error) => {
           this.$store.commit('showSnackbar', { text: '发送失败' + error })

@@ -64,6 +64,7 @@ export default {
   },
   methods: {
     getEmptyRooms () {
+      this.rooms = {}
       this.$http.get('/api/v1/empty-room/', {
         params: {
           week: this.time.week,
