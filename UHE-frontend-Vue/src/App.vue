@@ -190,7 +190,7 @@ export default {
     onBottomNavgationClick (index) {
       this.$router.replace(this.bottomNavs[index].url)
       this.bottomNavgationIndex = index
-      console.log(this.bottomNavgationIndex)
+      // console.log(this.bottomNavgationIndex)
     },
     logout () {
       localStorage.clear()

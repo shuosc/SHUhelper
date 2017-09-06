@@ -9,7 +9,7 @@
             <v-select v-bind:items="weeks" v-model="time.week" label="周" bottom hide-details></v-select>
           </v-flex>
           <v-flex xs4>
-            <v-select v-bind:items="days" v-model="time.day" label="日" bottom hide-details></v-select>
+            <v-select v-bind:items="days" v-model="time.day" label="星期" bottom hide-details></v-select>
           </v-flex>
           <v-flex xs4>
             <v-select v-bind:items="courses" v-model="time.course" label="节" bottom hide-details></v-select>

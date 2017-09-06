@@ -155,9 +155,9 @@ export default {
   },
   computed: {
     imgs () {
-      console.log(this.feed.img)
+      // console.log(this.feed.img)
       let img = this.feed.img.map((val) => { return '//static.shuhelper.cn/' + val })
-      console.log(img)
+      // console.log(img)
       return img
     }
   },

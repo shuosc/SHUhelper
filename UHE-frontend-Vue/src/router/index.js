@@ -25,6 +25,17 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/the-answer',
+      name: 'theAnswer',
+      component: function (resolve) {
+        require(['@/views/theAnswer.vue'], resolve)
+      },
+      meta: {
+        title: '人生解答书',
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/empty-room',
       name: 'emptyRoom',
       component: emptyRoom,
