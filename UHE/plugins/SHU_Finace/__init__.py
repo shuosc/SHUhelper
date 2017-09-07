@@ -166,6 +166,12 @@ def index():
         task = get_data.delay(post_data['card_id'], post_data['password'])
         return jsonify(success=task.id)
 
+@fin.route('/status')
+@login_required
+def status():
+    data = UserData.objects(user=current_user.id,
+                                identifier=__plugin__).get_or_404()
+    return jsonify(data.status)
 
 # @my_course.route('/sync', methods=['GET', 'POST'])
 # def sync_index():

@@ -34,6 +34,14 @@ def index():
         return jsonify(success=task.id)
 
 
+@my_course.route('/status')
+@login_required
+def status():
+    data = UserData.objects(user=current_user.id,
+                            identifier=__plugin__).get_or_404()
+    return jsonify(data.status)
+
+
 @my_course.route('/sync', methods=['GET', 'POST'])
 def sync_index():
     if request.method == 'GET':
