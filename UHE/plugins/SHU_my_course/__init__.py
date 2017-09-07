@@ -39,7 +39,7 @@ def index():
 def status():
     data = UserData.objects(user=current_user.id,
                             identifier=__plugin__).get_or_404()
-    return jsonify(data.status)
+    return jsonify(status=data.status)
 
 
 @my_course.route('/sync', methods=['GET', 'POST'])

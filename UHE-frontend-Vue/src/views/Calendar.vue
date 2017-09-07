@@ -293,7 +293,7 @@ export default {
     renewCourse () {
       this.status.status = 'loading'
       this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
-      this.$http.post('/api/v1/my-course/sync', {
+      this.$http.post('/api/v1/my-course/', {
         'card_id': this.$store.state.user.cardID,
         'password': this.$store.state.user.password
       })
