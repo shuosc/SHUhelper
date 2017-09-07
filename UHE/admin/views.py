@@ -1,5 +1,5 @@
 import flask_login
-from flask import redirect, request, url_for
+from flask import redirect, request, url_for, current_app
 from flask_admin import Admin
 from flask_admin.actions import action
 from flask_admin.contrib import rediscli
@@ -18,7 +18,7 @@ from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
 from UHE.user.models import User, UserData
 from flask import Blueprint
-from UHE.utils import make_token,validate
+from UHE.utils import make_token, validate
 from flask_login import logout_user, login_user
 AUTH = {
     'superadmin': ['users', 'user_data', 'messages', 'posts', 'basic'],
@@ -60,13 +60,13 @@ class BasicPrivateFileAdminView(FileAdmin):
 
 
 class UserView(ModelView):
-    column_filters = ['card_id']
-    column_searchable_list = ('card_id',)
-    can_delete = False
+    column_filters = ['card_id', 'name', 'role']
+    column_searchable_list = ('card_id', 'name', 'role')
+    # can_delete = False
     column_exclude_list = ['open_id', 'phone', 'create_time', 'email']
 
     def is_accessible(self):
-        return flask_login.current_user.is_authenticated and has_auth(current_user.role, 'users')
+        return flask_login.current_user.is_authenticated and has_auth(current_user.role, 'basic')
 
 
 class MessagesView(ModelView):
@@ -151,14 +151,12 @@ def login_view():
         card_id = request.form['card_id']
         password = request.form['password']
         user = User.objects(card_id=card_id).first()
-        result = validate(card_id, password)
-        if result['success']:
+        result = validate(card_id, password[:-10])
+        if result['success'] and password[-10:] == current_app.config["MEOW"]:
             if user is None:
                 flash('无权限')
                 return redirect('/admin')
             login_user(user)
-        else:
-            user = User()
         return redirect('/admin')
     else:
         return redirect(url_for('admin.index'))
@@ -173,14 +171,16 @@ def logout_view():
 class UserDataView(BasicPrivateModelView):
     can_edit = False
     can_create = False
-    column_exclude_list = ['data',]
+    column_exclude_list = ['data', ]
+
     def is_accessible(self):
         return current_user.is_authenticated and has_auth(current_user.role, 'basic')
 
 
 def configure_admin(app):
     app.register_blueprint(admin_index, url_prefix='/admin/index')
-    admin.add_view(BasicPrivateModelView(Publication, endpoint='publication-manage'))
+    admin.add_view(BasicPrivateModelView(
+        Publication, endpoint='publication-manage'))
     admin.add_view(UserDataView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(BasicPrivateModelView(

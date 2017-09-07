@@ -13,12 +13,12 @@ import base64
 
 class User(UserMixin, db.Document):
     card_id = StringField(primary_key=True)
-    open_id = StringField()
+    open_id = StringField(default='')
     name = StringField(default="未激活")
-    username = StringField(default="未激活用户")
+    username = StringField(default="")
     nickname = StringField(default="未激活用户")
     email = EmailField()
-    role = StringField()
+    role = StringField(default="student")
     avatar = StringField(default='avatar_default.jpg')
     creat_time = DateTimeField(default=datetime.datetime.now)
     last_login = DateTimeField(default=datetime.datetime.now)
@@ -40,8 +40,6 @@ class User(UserMixin, db.Document):
             'cardID': self.card_id,
             'name': self.nickname
         }
-    # def to_dict(self):
-    #     return {"card_id": self.card_id, "name": self.name, "nickname": self.nickname}
 
     def validate_password(self, password):
         client = Services(self.card_id, password)
@@ -53,7 +51,6 @@ class User(UserMixin, db.Document):
             return result
         else:
             abort(401)
-
 
     @property
     def display_name(self):

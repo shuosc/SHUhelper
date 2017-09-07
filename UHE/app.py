@@ -146,29 +146,29 @@ def configure_extensions(app):
     # Flask-Plugins
     plugin_manager.init_app(app)
 
-    @login_manager.request_loader
-    def load_user_from_request(request):
-        token = request.args.get('token')
-        if token:
-            card_id = redis_store.get('token_' + token, '0')
-            user = User.objects(card_id=card_id).first()
-            if user:
-                return user
-        token = request.headers.get('Authorization')
-        # print('token',token)
-        if token:
-            token = token.replace('Basic ', '', 1)
-            try:
-                token = base64.b64decode(token)
-                print(token)
-            except TypeError:
-                pass
-            card_id = redis_store.get('token_' + token, '0')
-            user = User.objects(card_id=card_id).first()
-            if user:
-                return user
-        # finally, return None if both methods did not login the user
-        return None
+    # @login_manager.request_loader
+    # def load_user_from_request(request):
+    #     token = request.args.get('token')
+    #     if token:
+    #         card_id = redis_store.get('token_' + token, '0')
+    #         user = User.objects(card_id=card_id).first()
+    #         if user:
+    #             return user
+    #     token = request.headers.get('Authorization')
+    #     # print('token',token)
+    #     if token:
+    #         token = token.replace('Basic ', '', 1)
+    #         try:
+    #             token = base64.b64decode(token)
+    #             print(token)
+    #         except TypeError:
+    #             pass
+    #         card_id = redis_store.get('token_' + token, '0')
+    #         user = User.objects(card_id=card_id).first()
+    #         if user:
+    #             return user
+    #     # finally, return None if both methods did not login the user
+    #     return None
 
     @login_manager.user_loader
     def load_user(card_id):

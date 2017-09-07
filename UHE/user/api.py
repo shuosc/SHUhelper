@@ -15,33 +15,33 @@ import json
 users = Blueprint('users', __name__)
 
 
-@users.route('/data/<identifier>', methods=['GET', 'POST'])
-@login_required
-def user_data(identifier):
-    if request.method == 'GET':
-        user_data = UserData.objects.get_or_404(
-            user=current_user.id, identifier=identifier)
-        return jsonify(user_data)
-    else:
-        args = request.get_json()
-        user_data = UserData.objects(
-            user=current_user.id, identifier=identifier).first()
-        if user_data is None:
-            user_data = UserData(user=current_user.id, identifier=identifier)
-            user_data.save()
-        client = user_data.get_client()
-        if client is None:
-            Client = current_app.client[identifier]
-            client = Client(
-                username=args.get('username'),
-                password=args.get('password'),
-            )
-            user_data.client_id = 'client' + \
-                args.get('username') + make_token()
-            redis_store.set(user_data.client_id, client)
-        user_data.save()
-        update_user_data.delay(user_data._id)
-        return jsonify(user_data)
+# @users.route('/data/<identifier>', methods=['GET', 'POST'])
+# @login_required
+# def user_data(identifier):
+#     if request.method == 'GET':
+#         user_data = UserData.objects.get_or_404(
+#             user=current_user.id, identifier=identifier)
+#         return jsonify(user_data)
+#     else:
+#         args = request.get_json()
+#         user_data = UserData.objects(
+#             user=current_user.id, identifier=identifier).first()
+#         if user_data is None:
+#             user_data = UserData(user=current_user.id, identifier=identifier)
+#             user_data.save()
+#         client = user_data.get_client()
+#         if client is None:
+#             Client = current_app.client[identifier]
+#             client = Client(
+#                 username=args.get('username'),
+#                 password=args.get('password'),
+#             )
+#             user_data.client_id = 'client' + \
+#                 args.get('username') + make_token()
+#             redis_store.set(user_data.client_id, client)
+#         user_data.save()
+#         update_user_data.delay(user_data._id)
+#         return jsonify(user_data)
 
 
 @users.route('/replace-avatar')
@@ -53,23 +53,11 @@ def change_avatar():
     return jsonify(status='ok')
 
 
-@users.route('/<user_id>', methods=['GET', 'POST'])
+@users.route('/<user_id>')
 def profile(user_id):
-    if request.method == 'GET':
-        user = User.objects.get_or_404(card_id=user_id)
-        return jsonify(user)
-    else:
-        user = User.objects.get_or_404(card_id=user_id)
-        args = request.get_json()
-        user.avatar = args.get('avatar', '')
-        return jsonify(user)
+    user = User.objects.get_or_404(card_id=user_id)
+    return jsonify(avatar=user.avatar, nickname=user.nickname, _id=user.id)
 
-
-@users.route('/send')
-def send():
-    task = send_async_email.delay(subject='hello', recipients=[
-                                  current_app.config["TESTING_EMAIL"]], text_body='hello', html_body='hllo')
-    return task.id
 
 @users.route('/search/<query>')
 def search(query):
@@ -79,23 +67,6 @@ def search(query):
         '_id': user.card_id,
         'name': user.name[0] + '*' * len(user.name[1:])
     }for user in users])
-
-
-@users.route('/xk')
-def xk():
-    # print(client.captcha_img)
-    # captcha = result(client.captcha_img)
-    answer = captcha_solver.create(client.captcha_img)
-    return answer['Result']
-
-
-@users.route('/delete')
-def delete():
-    event = Event.objects(identifier="SHU_base_schedule").first()
-    print(event)
-    print(Activity.objects(event=event))
-    Activity.objects(event=event).delete()
-    return 'success'
 
 
 @users.route('/logout')

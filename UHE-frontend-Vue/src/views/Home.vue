@@ -129,7 +129,8 @@ export default {
         { name: '校历', icon: 'iconfont-rili', url: '/school-cal' },
         { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' },
         { name: '尔美订餐', icon: 'iconfont-dppj', url: 'http://ermei.shuhelper.cn' },
-        { name: '人生解答书', icon: 'iconfont-key', url: '/the-answer' }
+        { name: '人生解答书', icon: 'iconfont-key', url: '/the-answer' },
+        { name: '排课助手(PC)', icon: 'iconfont-paw', url: 'http://xk.shuhelper.cn/' }
       ],
       publications: [
         {
