@@ -2,7 +2,7 @@ import datetime
 
 from flask import abort
 from flask_login import UserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField, DecimalField, ReferenceField, ListField,PULL,
+from mongoengine import (BooleanField, DateTimeField, EmailField, DecimalField, ReferenceField, ListField, PULL, CASCADE,
                          StringField, IntField)
 
 from UHE.client import Services
@@ -31,7 +31,7 @@ class Course(db.Document):
 
 
 class CourseOfTerm(db.Document):
-    course = ReferenceField(Course)
+    course = ReferenceField(Course, reverse_delete_rule=CASCADE)
     teacher_no = StringField()
     time = StringField()
     place = StringField()

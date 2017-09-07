@@ -1,29 +1,25 @@
 import mongoengine
-from mongoengine import (BooleanField, DateTimeField, ListField, ReferenceField, StringField)
+from mongoengine import (BooleanField, DateTimeField, NULLIFY, PULL, CASCADE,
+                         ListField, ReferenceField, StringField)
 
-# from config import db
 from UHE.comment.models import Comment
 from UHE.extensions import db, celery
 from UHE.user.models import User
 
 
-# class Comment(db.EmbeddedDocument):
-#     user = ReferenceField(User)
-#     content = StringField()
-#     liked = IntField()
-#     create_time = DateTimeField(datetime.datetime.now)
-
-
 class Event(db.Document):
-    user = ReferenceField(User)
+    user = ReferenceField(User, reverse_delete_rule=NULLIFY)
     identifier = StringField(unique=True)
     title = StringField(default=lambda: '')
     remark = StringField(default=lambda: '')
     meta = {'strict': False}
     need_update = BooleanField(default=True)
-    liked = ListField(ReferenceField(User), default=lambda: [])
-    comments = ListField(ReferenceField(Comment), default=lambda: [])
-    attend = ListField(ReferenceField(User), default=lambda: [])
+    liked = ListField(ReferenceField(
+        User, reverse_delete_rule=PULL), default=lambda: [])
+    comments = ListField(ReferenceField(
+        Comment, reverse_delete_rule=PULL), default=lambda: [])
+    attend = ListField(ReferenceField(
+        User, reverse_delete_rule=PULL), default=lambda: [])
 
     def to_dict(self):
         return {
@@ -91,7 +87,7 @@ class Event(db.Document):
 class Activity(db.Document):
     category = StringField()
     # system school_calendar opening_schedule school-activaties confrence club-activaties  acdemic course
-    event = ReferenceField(Event)
+    event = ReferenceField(Event, reverse_delete_rule=CASCADE)
     title = StringField()
     place = StringField()
     visible = StringField(default='public')

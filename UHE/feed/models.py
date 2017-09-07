@@ -1,6 +1,6 @@
 import datetime
 
-from mongoengine import (DateTimeField, IntField, PULL,
+from mongoengine import (DateTimeField, IntField, PULL, NULLIFY, CASCADE,
                          ListField, ReferenceField, StringField)
 from flask_login import current_user
 from UHE.extensions import db
@@ -10,7 +10,7 @@ from UHE.comment.models import Comment
 
 
 class Feed(db.Document):
-    user = ReferenceField(User)
+    user = ReferenceField(User, reverse_delete_rule=CASCADE)
     created = DateTimeField(default=datetime.datetime.now)
     comments = ListField(ReferenceField(
         Comment, reverse_delete_rule=PULL), default=lambda: [])
