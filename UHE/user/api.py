@@ -63,12 +63,6 @@ def profile(user_id):
         args = request.get_json()
         user.avatar = args.get('avatar', '')
         return jsonify(user)
-        # user_db = {
-        #     'avatar': args.get('avatar',''),
-        #     'nickname': args.get()
-        # }
-
-# @users.route('/')
 
 
 @users.route('/send')
@@ -76,12 +70,6 @@ def send():
     task = send_async_email.delay(subject='hello', recipients=[
                                   current_app.config["TESTING_EMAIL"]], text_body='hello', html_body='hllo')
     return task.id
-
-
-@users.route('/test')
-def test():
-    return current_app.test
-
 
 @users.route('/search/<query>')
 def search(query):
@@ -108,23 +96,6 @@ def delete():
     print(Activity.objects(event=event))
     Activity.objects(event=event).delete()
     return 'success'
-
-
-@users.route('/reset-avatar')
-@login_required
-def reset_avatar():
-    user = User.objects(id=current_user.id).first()
-    user.avatar = get_avatar(user.card_id)
-    user.save()
-    return jsonify(status='ok')
-
-
-@users.route('/init-avatar/<card_id>')
-def init_avatar(card_id):
-    user = User.objects(card_id=card_id).first()
-    user.avatar = get_avatar(user.card_id)
-    user.save()
-    return jsonify(status='ok')
 
 
 @users.route('/logout')
