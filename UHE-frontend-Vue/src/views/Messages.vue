@@ -13,7 +13,7 @@
                   <v-list-tile-title>{{conversation.toUser.nickname}}
                     <span v-if="conversation.lastMessage" class="secondary-text" style="font-size:0.8rem;">{{conversation.lastMessage.created.slice(5,19)}}</span>
                   </v-list-tile-title>
-                  <v-list-tile-sub-title class="secondary-text" v-html="conversation.lastMessage?conversation.lastMessage.content:''"></v-list-tile-sub-title>
+                  <v-list-tile-sub-title class="secondary-text">{{conversation.lastMessage?conversation.lastMessage.content:''}}</v-list-tile-sub-title>
 
                 </v-list-tile-content>
                 <v-list-tile-action @click.prevent="alert('ss')">
