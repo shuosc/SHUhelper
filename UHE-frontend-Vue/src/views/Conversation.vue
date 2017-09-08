@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%;padding-bottom:52px;overflow-y:scroll;" ref="content" @scroll="handleScroll">
+  <v-container style="height:100%;padding-bottom:52px;overflow-y:scroll;" ref="content" @scroll="handleScroll" class="ma-0 px-0 pt-0">
     <infinite-loading direction="top" :on-infinite="getMessagesBefore" ref="infiniteLoading" style="height:50px;"></infinite-loading>
     <v-layout row class="ma-0">
       <v-flex xs12 sm6 offset-sm3>
@@ -35,21 +35,23 @@
             </v-layout>
           </v-container>
         </v-card>
+        <v-card id="send">
+          <v-container class="px-2 py-0">
+            <v-layout row justify-center class="ma-0">
+              <v-flex xs9 class="ma-0 py-2">
+                <v-text-field name="input-1" hide-details v-model="content" class="pa-0"></v-text-field>
+              </v-flex>
+              <v-flex xs3 class="px-1 py-2">
+                <v-btn  flat  class="indigo--text ma-0" @click.native="sendMessage()">
+                  <v-icon>send</v-icon>
+                </v-btn>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
       </v-flex>
     </v-layout>
-    <v-card style="position:fixed;bottom:0;width:100%;">
-      <v-container class="px-2 py-0">
-        <v-layout row justify-center class="ma-0">
-          <v-flex xs9 class="ma-0 py-2">
-            <v-text-field name="input-1" hide-details v-model="content" class="pa-0"></v-text-field>
-          </v-flex>
-          <v-flex xs3 class="px-0 py-2">
-            <v-btn block flat :loading="sendLoading" class="indigo--text ma-0" @click.native="sendMessage()">发送</v-btn>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </v-card>
-  </div>
+  </v-container>
 </template>
 <script>
 // import InfiniteLoading from 'vue-infinite-loading'
@@ -176,5 +178,9 @@ export default {
 }
 </script>
 <style lang="stylus">
-
+#send 
+ position:fixed;
+ bottom:0;
+ width:100%;
+ height:60px !important;
 </style>

@@ -20,7 +20,7 @@ class Feed(db.Document):
     link_title = StringField()
     link_img = StringField()
     img = ListField(StringField())
-    like = ListField(ReferenceField(User, deref=True), default=lambda: [])
+    like = ListField(ReferenceField(User,reverse_delete_rule=PULL, deref=True), default=lambda: [])
     meta = {
         'ordering': ['-created'],
         'strict': False
