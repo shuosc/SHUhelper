@@ -102,9 +102,13 @@ def login():
     client = Services(post_data['card_id'], post_data['password'])
     if client.login() and client.get_data():
         user = User.objects(card_id=post_data['card_id']).first()
-        if user is None or not user.activated:
+        if user is None:
             user = User(name=client.data['name'], nickname=client.data['nickname'],
                         card_id=post_data['card_id'], role='student', activated=True)
+        elif not user.activated:
+            user.name = client.data['name']
+            user.nickname = client.data['nickname']
+            user.activated = True
         user.token = make_token()
         result = {
             'token': user.token,
