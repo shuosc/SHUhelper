@@ -1,6 +1,6 @@
 import flask_login
 from flask import redirect, request, url_for, current_app
-from flask_admin import Admin
+from flask_admin import Admin, BaseView, expose
 from flask_admin.actions import action
 from flask_admin.contrib import rediscli
 from flask_admin.contrib.fileadmin import FileAdmin
@@ -169,7 +169,9 @@ def logout_view():
 
 
 class UserDataView(BasicPrivateModelView):
-    can_edit = False
+    # can_edit = False
+    column_filters = ['user', 'status']
+    # column_searchable_list = ('status')
     can_create = False
     column_exclude_list = ['data', ]
 
@@ -177,7 +179,29 @@ class UserDataView(BasicPrivateModelView):
         return current_user.is_authenticated and has_auth(current_user.role, 'basic')
 
 
+class AnalyticsView(BaseView):
+    @expose('/')
+    def index(self):
+        from UHE.user.models import User, UserData
+        import datetime
+        now = datetime.datetime.now()
+        data = {}
+        data['active_user'] = User.objects(activated=True).count()
+        data['login_last_ten'] = User.objects(
+            last_login__gte=now - datetime.timedelta(minutes=10)).count()
+        data['active_user_daily'] = User.objects(
+            last_login__gte=datetime.datetime(now.year, now.month, now.day)).count()
+        data['pending'] = UserData.objects(status='pending').count()
+        data['success'] = UserData.objects(status='success').count()
+        data['failed'] = UserData.objects(status='failed').count()
+        return self.render('analytics_index.html', data=data)
+
+    def is_accessible(self):
+        return current_user.is_authenticated and has_auth(current_user.role, 'basic')
+
+
 def configure_admin(app):
+    admin.add_view(AnalyticsView(name='Analytics', endpoint='analytics'))
     app.register_blueprint(admin_index, url_prefix='/admin/index')
     admin.add_view(BasicPrivateModelView(
         Publication, endpoint='publication-manage'))

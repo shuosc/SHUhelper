@@ -1,9 +1,6 @@
 import base64
-from gevent import monkey; monkey.patch_socket()
-import gevent
 from flask import Flask
 from flask_login import current_user
-
 from UHE.admin.views import configure_admin
 from UHE.calendar.api import events
 from UHE.comment.api import comments

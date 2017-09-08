@@ -52,11 +52,13 @@ def sync_index():
         post_data = request.get_json()
         user_data = UserData.objects(
             user=current_user.id, identifier=__plugin__).first()
+        if user_data.status == 'pending':
+            return jsonify(status='pending')
         if user_data is None:
             user_data = UserData(identifier=__plugin__,
                                  user=current_user.id, status='none')
             user_data.save()
-        task = get_course(post_data['card_id'], post_data['password'])
+        task = get_course(current_user.id, post_data['password'])
         return jsonify(success='ok')
 
 
