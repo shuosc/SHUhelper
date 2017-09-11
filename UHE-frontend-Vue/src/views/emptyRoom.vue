@@ -6,23 +6,27 @@
       <v-container fluid class="py-0 px-2">
         <v-layout row wrap>
           <v-flex xs4>
-            <v-select v-bind:items="weeks" v-model="time.week" label="周" bottom hide-details></v-select>
+            <v-select v-bind:items="weeks" v-model="time.week"
+              label="周" bottom hide-details></v-select>
           </v-flex>
           <v-flex xs4>
-            <v-select v-bind:items="days" v-model="time.day" label="星期" bottom hide-details></v-select>
+            <v-select v-bind:items="days" v-model="time.day"
+              label="星期" bottom hide-details></v-select>
           </v-flex>
           <v-flex xs4>
-            <v-select v-bind:items="courses" v-model="time.course" label="节" bottom hide-details></v-select>
+            <v-select v-bind:items="courses" v-model="time.course"
+              label="节" bottom hide-details></v-select>
           </v-flex>
           <v-flex xs12>
-            <v-btn primary block @click.native="getEmptyRooms()">查询空教室~</v-btn>
+            <v-btn primary block @click.native="getEmptyRooms(time)">查询空教室~</v-btn>
           </v-flex>
         </v-layout>
       </v-container>
       <!-- </v-card-text> -->
     </v-card>
     <div v-if="count">
-      <v-card v-for="building in ['A','B','C','D','E','F','G']" :key="building" class="grey lighten-4">
+      <v-card v-for="building in ['A','B','C','D','E','F','G']"
+        :key="building" class="grey lighten-4">
         <v-card-title>{{building}}</v-card-title>
         <v-card-text class="py-0">
           <span v-for="room in rooms[building]" :key="room">{{ room + ' '}}</span>
@@ -53,6 +57,14 @@ export default {
       count: 0
     }
   },
+  watch: {
+    time: {
+      handler: function (val, oldval) {
+        this.getEmptyRooms(val)
+      },
+      deep: true
+    }
+  },
   created () {
     this.$http.get('/api/v1/time/')
       .then((response) => {
@@ -63,13 +75,13 @@ export default {
       })
   },
   methods: {
-    getEmptyRooms () {
+    getEmptyRooms (time) {
       this.rooms = {}
       this.$http.get('/api/v1/empty-room/', {
         params: {
-          week: this.time.week,
-          day: this.time.day,
-          course: this.time.course
+          week: time.week,
+          day: time.day,
+          course: time.course
         }
       })
         .then((response) => {
