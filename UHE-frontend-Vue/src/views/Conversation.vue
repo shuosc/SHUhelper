@@ -161,7 +161,7 @@ export default {
     },
     sendMessage () {
       if (this.content === '') return
-      this.sendLoading = true
+      // this.sendLoading = true
       this.$http.put(`/api/v1/conversations/${this.$route.params.id}`, {
         content: this.content
       })

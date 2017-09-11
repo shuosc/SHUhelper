@@ -128,9 +128,11 @@ export default {
         { name: '校车运行', icon: 'iconfont-bus', url: '/bus' },
         { name: '校历', icon: 'iconfont-rili', url: '/school-cal' },
         { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' },
-        { name: '尔美订餐', icon: 'iconfont-dppj', url: 'http://ermei.shuhelper.cn' },
         { name: '人生解答书', icon: 'iconfont-key', url: '/the-answer' },
-        { name: '排课助手(PC)', icon: 'iconfont-paw', url: 'http://xk.shuhelper.cn/' }
+        { name: '尔美订餐', icon: 'iconfont-dppj', url: '/external-service/ermei' },
+        { name: '研习空间', icon: 'iconfont-fangjian', url: '/external-service/yanxi' },
+        { name: '排课助手', icon: 'iconfont-paw', url: '/external-service/xk' },
+        { name: '上大导航', icon: 'iconfont-iosnavigate', url: '/external-service/shuerlink' }
       ],
       publications: [
         {

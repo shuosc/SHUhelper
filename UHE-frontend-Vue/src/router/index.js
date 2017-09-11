@@ -25,6 +25,17 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/external-service/:id',
+      name: 'externalService',
+      component: function (resolve) {
+        require(['@/views/externalService.vue'], resolve)
+      },
+      meta: {
+        title: '外部链接',
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/the-answer',
       name: 'theAnswer',
       component: function (resolve) {
