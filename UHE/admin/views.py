@@ -207,7 +207,7 @@ def configure_admin(app):
     admin.add_view(BasicPrivateModelView(
         Publication, endpoint='publication-manage'))
     admin.add_view(BasicPrivateModelView(
-        Publication, endpoint='link-manage'))
+        Link, endpoint='link-manage'))
     admin.add_view(UserDataView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(BasicPrivateModelView(
