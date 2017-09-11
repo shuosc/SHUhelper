@@ -7,7 +7,7 @@
       <v-flex xs12>
         <v-card>
           <v-flex xs12 style="text-align:center;">
-            <v-icon x-large>iconfont-paw</v-icon>
+            <v-icon x-large>{{link.icon}}</v-icon>
           </v-flex>
           <v-flex xs12>
             <h3>{{link.title}}</h3>
