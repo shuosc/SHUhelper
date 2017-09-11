@@ -4,9 +4,11 @@
       <div style="height:3.8%;"></div>
       <div v-for="time in timeGround" style="height:7.4%;margin:0"
         :key="time">
-        <span style="font-size:0.5rem;color:grey;">{{time.start}}</span><br/>
-        <span style="font-size:0.5rem;" id="no"> {{time.no}}</span><br/>
-        <span style="font-size:0.5rem;color:grey;">{{time.end}}</span>
+        <div id="time">
+          <span style="font-size:0.7rem;color:grey;">{{time.start}}</span><br/>
+          <div style="font-size:0.7rem;" id="no"> {{time.no}}</div><br/>
+          <span style="font-size:0.7rem;color:grey;">{{time.end}}</span>
+        </div>
       </div>
     </div>
     <div class="task-ground">
@@ -119,28 +121,37 @@ export default {
   height: 100%;
 }
 
-.time-ground div {
+#time {
+  height: 100%;
+  position: absolute;
+  left: -2rem;
+  width:2rem;
+}
+
+.time-ground>div {
   position: relative;
   box-sizing: border-box;
   border-bottom-style: solid;
   border-color: #EAEAEA;
   border-width: 1px;
 }
-.time-ground div span#no{
+
+.time-ground>div div#no {
   position: absolute;
-  left: -1rem;
-  top: 1rem;
+  top: 50%;
+  text-align: center;
+  width:100%;
+  transform: translateY(-50%);
+
 }
 
-.time-ground div span:first-of-type {
+.time-ground>div span:first-of-type {
   position: absolute;
-  left: -2rem;
   top: 0;
 }
 
-.time-ground div span:last-of-type {
+.time-ground>div span:last-of-type {
   position: absolute;
-  left: -2rem;
   bottom: 0;
 }
 
