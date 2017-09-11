@@ -17,6 +17,7 @@ from UHE.publication.models import Publication
 from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
 from UHE.user.models import User, UserData
+from UHE.link.models import Link
 from flask import Blueprint
 from UHE.utils import make_token, validate
 from flask_login import logout_user, login_user
@@ -205,6 +206,8 @@ def configure_admin(app):
     app.register_blueprint(admin_index, url_prefix='/admin/index')
     admin.add_view(BasicPrivateModelView(
         Publication, endpoint='publication-manage'))
+    admin.add_view(BasicPrivateModelView(
+        Publication, endpoint='link-manage'))
     admin.add_view(UserDataView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(BasicPrivateModelView(
