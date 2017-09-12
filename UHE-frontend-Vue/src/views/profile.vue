@@ -5,15 +5,18 @@
         <v-container>
           <v-layout row wrap>
             <v-flex xs12>
-              <v-avatar size="100px">
-                <v-progress-circular v-if="img.status==='pending'" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
-                <img v-else :src="`//static.shuhelper.cn/${img.url}`" alt="avatar">
+              <v-avatar size="100px" @click="onImgAdd">
+                <v-progress-circular v-if="img.status==='pending'"
+                  indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+                <img v-else :src="`//static.shuhelper.cn/${img.url}`"
+                  alt="avatar">
               </v-avatar>
             </v-flex>
-            <v-flex v-if="$route.params.id===$store.state.user.cardID" xs12>
-              <v-btn flat @click="onImgAdd">更换头像</v-btn>
-            </v-flex>
-            <v-flex v-if="$route.params.id===$store.state.user.cardID" xs12>
+            <!-- <v-flex v-if="$route.params.id===$store.state.user.cardID" xs12>
+                  <v-btn flat @click="onImgAdd">更换头像</v-btn>
+                </v-flex> -->
+            <v-flex v-if="$route.params.id===$store.state.user.cardID"
+              xs12>
               <v-btn flat @click.stop="themeDialog=true">更换主题</v-btn>
             </v-flex>
             <v-flex xs12>
@@ -32,10 +35,12 @@
         <v-btn primary block @click.native="getConversation">发消息</v-btn>
       </v-card-actions>
     </v-card>
-    <form id="testform" ref="testform" method="post" enctype="multipart/form-data" style="display:none;">
+    <form id="testform" ref="testform" method="post"
+      enctype="multipart/form-data" style="display:none;">
       <input name="key" id="key" type="hidden" :value="key">
       <input name="token" type="hidden" :value="token">
-      <input id="userfile" name="file" type="file" accept="image/*" @change="upload" />
+      <input id="userfile" name="file" type="file" accept="image/*"
+        @change="upload" />
       <input name="accept" type="hidden" />
     </form>
     <v-dialog v-model="themeDialog" lazy absolute>
@@ -81,7 +86,9 @@ export default {
   },
   methods: {
     onImgAdd () {
-      this.$refs.testform.userfile.click()
+      if (this.$route.params.id === this.$store.state.user.cardID) {
+        this.$refs.testform.userfile.click()
+      }
     },
     getConversation () {
       this.$http.post('/api/v1/conversations/', {
@@ -92,7 +99,7 @@ export default {
         })
     },
     upload (e) {
-      console.log(e.target)
+      // console.log(e.target)
       var userfile = e.target.files[0]
       var selectedFile = userfile.name
       if (selectedFile) {
