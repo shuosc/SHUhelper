@@ -13,8 +13,8 @@
             <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项" persistent-hint v-model="remeberMe" light></v-checkbox>
           </v-flex>
           <v-flex xs12>
-            <v-btn primary dark block @click.native="login()">
-              <v-progress-circular v-show="loginLoading" :indeterminate="loginLoading" class="red--text"></v-progress-circular>登录</v-btn>
+            <v-btn primary dark block @click.native="login()" :loading="loginLoading" >
+              登录</v-btn>
           </v-flex>
         </v-layout>
       </v-container>

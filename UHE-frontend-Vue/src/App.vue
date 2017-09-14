@@ -14,7 +14,7 @@
           <v-list-tile v-if="$store.state.user.cardID!==''" @click.native="onProfileClick">
             <v-list-tile-title>个人资料</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="$store.state.user.cardID===''" @click.native="login()">
+          <v-list-tile v-if="$store.state.user.cardID===''" @click.native="$router.push('/login')">
             <v-list-tile-title>登陆</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-else @click.native="logout()">
@@ -201,9 +201,9 @@ export default {
       this.$store.commit('showSnackbar', { text: '已注销' })
       this.$http.get('/api/v1/users/logout?token=' + token)
     },
-    login () {
-      this.$store.commit('showLoginDialog')
-    },
+    // login () {
+    //   this.$store.commit('showLoginDialog')
+    // },
     verifyToken () {
       var _this = this
       var token = ''
@@ -227,7 +227,7 @@ export default {
         }
       }
       if (token === '') {
-        this.login()
+        this.$router.push('/login')
         return
       }
       this.$http.get(`/api/v1/users/login-with-token/?token=${token}`)

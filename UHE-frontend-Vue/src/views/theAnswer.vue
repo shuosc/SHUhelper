@@ -1,40 +1,40 @@
 <template>
   <div>
-    <v-container fluid class="px-2 mx-2">
+    <v-container fluid class="px-2 mx-0">
       <v-layout row wrap>
-        <!-- <v-flex xs12>
-                    <v-subheader>预设问题集</v-subheader>
-                  </v-flex> -->
         <v-flex xs12>
           <v-select v-bind:items="preSets" v-model="e1" label="选择预定义问题" single-line bottom></v-select>
         </v-flex>
-        <!-- <v-flex xs12>
-                    <v-subheader>自定义问题</v-subheader>
-                  </v-flex> -->
+        <v-flex xs12>
+          <v-text-field hide-details name="input-1" v-model="question" single-line  label="问题"></v-text-field>
+        </v-flex>
+        <v-divider></v-divider>
         <v-flex xs12 v-for="(item,key) in items" :key="item">
           <v-layout row wrap>
-            <v-flex xs6>
-              <v-text-field hide-details name="input-1" readonly single-line :value="item" label="Label Text" id="testing"></v-text-field>
+            <v-flex xs9>
+              <v-text-field hide-details name="input-1" readonly single-line :value="item" label="Label Text"></v-text-field>
             </v-flex>
-            <v-flex xs6>
-              <v-btn @click.native="deleteItem(key)">删除</v-btn>
+            <v-flex xs3>
+              <v-btn @click.native="deleteItem(key)" >删除</v-btn>
             </v-flex>
           </v-layout>
         </v-flex>
-        <v-flex xs6>
-          <v-text-field name="input-1" label="添加选择" id="testing" v-model="option"></v-text-field>
+        <v-flex xs9>
+          <v-text-field name="input-1" label="添加选择" v-model="option"></v-text-field>
         </v-flex>
-        <v-flex xs6>
-          <v-btn @click.native="onAddClick">添加</v-btn>
+        <v-flex xs3>
+          <v-btn @click.native="onAddClick" >添加</v-btn>
+        </v-flex>
+        <v-flex xs12>
+          <v-btn @click.native.stop="dialog=true" block primary dark>寻找答案</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
     <v-layout row justify-center style="position: relative;">
       <v-dialog v-model="dialog" lazy absolute>
-        <v-btn primary dark slot="activator">寻找答案</v-btn>
         <v-card>
           <v-card-title>
-            <div class="headline">你问题的答案是：</div>
+            <div class="headline">{{question}} 答案是：</div>
           </v-card-title>
           <v-card-text style="text-align:center;">
             <h1 class="py-5">{{item}}</h1>
@@ -56,6 +56,7 @@ export default {
       option: '',
       dialog: false,
       items: ['好', '不好'],
+      question: '',
       item: null,
       preSets: [
         { text: '自定义', options: [] },
@@ -67,6 +68,7 @@ export default {
   },
   watch: {
     e1: function (val) {
+      this.question = val.text
       this.items = val.options
     }
   },
