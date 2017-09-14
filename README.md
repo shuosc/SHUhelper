@@ -65,8 +65,7 @@ UHE采用前后端分离的思路开发。
 
 #### 运行测试服务器
 
- gunicorn -w 10 -k gevent  --reload -D -b 127.0.0.1:4001 wsgi:app
-
+gunicorn -w 10 -k gevent  --reload -D -b 127.0.0.1:4001 --log-file gunicorn.log  --log-level debug --capture-output  wsgi:app
 
 ### 前端-Web
 
