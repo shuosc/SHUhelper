@@ -87,7 +87,7 @@
       </v-btn>
     </v-card-actions>
     <v-card v-if="!show" flat>
-      <v-card v-for="comment in feed.comments.slice(0,3)" :key="comment._id" class="mb-0" flat>
+      <v-card v-for="comment in feed.comments" :key="comment._id" class="mb-0" flat>
         <v-container fluid class="py-1 px-3">
           <v-layout row @click.stop="$router.push(`/profile/${comment.user.cardID}`)">
             <v-flex xs11>
