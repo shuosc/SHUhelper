@@ -79,7 +79,8 @@ axios.interceptors.response.use(function (response) {
     store.commit('showSnackbar', {
       text: `需要先登录`
     })
-    store.commit('showLoginDialog')
+    router.push('/login?redirect=true')
+    // store.commit('showLoginDialog')
   }
   return Promise.reject(error)
 })

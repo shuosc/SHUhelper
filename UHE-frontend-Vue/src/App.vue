@@ -41,7 +41,7 @@
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
     </v-bottom-nav>
-    <login> </login>
+    <!-- <login> </login> -->
     <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>
@@ -86,10 +86,10 @@
 <script>
 import { mapState } from 'vuex'
 import _ from 'lodash'
-import Login from './components/dialog/Login'
+// import Login from './components/dialog/Login'
 export default {
   components: {
-    Login
+    // Login
   },
   data () {
     return {
@@ -121,7 +121,7 @@ export default {
     'snackbar', 'ui'
   ]),
   created () {
-    this.$router.push('/')
+    // this.$router.push('/')
     // this.bottomNavgationIndex = 0
     // for (let index in this.bottomNavs) {
     //   console.log(this.$route.path, this.bottomNavs[index].url)

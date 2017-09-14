@@ -173,47 +173,6 @@ def status():
                                 identifier=__plugin__).get_or_404()
     return jsonify(data.status)
 
-# @my_course.route('/sync', methods=['GET', 'POST'])
-# def sync_index():
-#     if request.method == 'GET':
-#         data = UserData.objects(user=current_user.id,
-#                                 identifier=__plugin__).get_or_404()
-#         return jsonify(data)
-#     else:
-#         post_data = request.get_json()
-#         user_data = UserData.objects(
-#             user=current_user.id, identifier=__plugin__).first()
-#         if user_data is None:
-#             user_data = UserData(identifier=__plugin__,
-#                                  user=current_user.id, status='none')
-#             user_data.save()
-#         task = get_course(post_data['card_id'], post_data['password'])
-#         return jsonify(success='ok')
-
-
-# @celery.task
-# def get_course(card_id, password):
-#     user_data = UserData.objects(user=card_id, identifier=__plugin__).first()
-#     user_data.status = 'pending'
-#     user_data.save()
-#     try:
-#         client = XK(card_id, password)
-#         client.captcha = captcha_solver.create(
-#             client.captcha_img, site='XK')['Result']
-#         print(client.captcha)
-#         client.login()
-#         client.get_data()
-#     except Exception as e:
-#         user_data.status = 'failed'
-#         user_data.save()
-#         print('error')
-#         raise e
-#         return
-#     user_data.data = client.to_json()
-#     user_data.status = 'success'
-#     user_data.last_modified = datetime.datetime.now()
-#     user_data.save()
-
 
 class SHUFin(UHEPlugin):
     settings_key = 'SHU_calendar'

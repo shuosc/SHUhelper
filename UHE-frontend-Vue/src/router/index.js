@@ -25,6 +25,17 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/login',
+      name: 'login',
+      component: function (resolve) {
+        require(['@/views/login.vue'], resolve)
+      },
+      meta: {
+        title: '登陆',
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/external-service/:id',
       name: 'externalService',
       component: function (resolve) {
