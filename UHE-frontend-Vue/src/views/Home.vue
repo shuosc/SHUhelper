@@ -6,11 +6,12 @@
           <v-card-title>
             <div>你好 {{$store.state.user.name}}</div>
             <v-spacer></v-spacer>
+            {{time.year+ '_'+time.term|term}},第{{time.week}}周,周{{time.day}}
             <!-- <div>晴 32C D楼附近</div> -->
           </v-card-title>
           <!-- <v-card-text>
-                                     <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
-                                  </v-card-text> -->
+                                                                                     <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
+                                                                                  </v-card-text> -->
         </v-card>
       </v-flex>
     </v-layout>
@@ -33,10 +34,9 @@
       <!-- <span>动态推荐</span> -->
       <v-spacer></v-spacer>
       <!-- <span style="font-size:0.5rem;color:grey;">管理卡片出现规则
-                              <v-icon>favorite</v-icon> -->
+                                      <v-icon>favorite</v-icon> -->
       </span>
     </v-layout>
-
     <v-card class="mb-2">
       <v-card-title primary-title class="pa-2">通知公告</v-card-title>
       <v-divider></v-divider>
@@ -45,72 +45,38 @@
           <li v-for="publication in publications" :key="publication.title" @click.stop="showPublication(publication)">{{publication.title}}
           </li>
         </ul>
-        <!-- 
-                <!-- <v-divider></v-divider>
-                        * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果
-                         <br/>
-                        <v-divider></v-divider>
-                        * iOS用户可以在safari中点击右上角，将网站发送至桌面，获得和APP一样的浏览效果 -->
       </v-card-text>
-      <!-- <v-card-actions class="pa-0">
-                              <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                            </v-card-actions> -->
     </v-card>
-    <!-- <v-card class="mb-2">
-                            <v-card-title primary-title class="pa-2">迎新频道</v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>SHUhelper3.0已经开始公测 </v-card-text> -->
-    <!-- <v-card-actions class="pa-0">
-                              <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                            </v-card-actions> -->
+    <v-card class="mb-2">
+      <v-card-title primary-title class="pa-2">当前时间是 {{clock}}</v-card-title>
+      <v-divider></v-divider>
+      <v-card-text style="text-align:center;">
+        还有{{timeLeft}}分钟进行第{{parseInt(point)+1%2===1?(parseInt(point)+2)/2+'节课':parseInt(point)/2+'节课间休息'}}
+      </v-card-text>
     </v-card>
-    <!-- <v-card class="mb-2">
-                            <v-card-title primary-title class="pa-2">附近的空教室</v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>喵喵喵</v-card-text>
-                            <v-card-actions class="pa-0">
-                              <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                            </v-card-actions>
-                          </v-card>
-                          <v-card class="mb-2">
-                            <v-card-title primary-title class="pa-2">附近的课程</v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>喵喵喵</v-card-text>
-                            <v-card-actions class="pa-0">
-                              <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                            </v-card-actions>
-                          </v-card>
-                          <v-card class="mb-2">
-                            <v-card-title primary-title class="pa-2">最近的活动</v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>喵喵喵</v-card-text>
-                            <v-card-actions class="pa-0">
-                              <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                            </v-card-actions>
-                          </v-card>
-                          <v-card class="mb-2">
-                            <v-card-title primary-title class="pa-2">最近的活动</v-card-title>
-                            <v-divider></v-divider>
-                            <v-card-text>喵喵喵</v-card-text>
-                            <v-card-actions class="pa-0">
-                              <v-btn block class="orange--text ma-0">查看详情</v-btn>
-                            </v-card-actions>
-                          </v-card> -->
     <v-dialog v-model="dialog">
       <v-card>
         <v-card-title class="headline">{{publication.title}}</v-card-title>
         <v-card-text v-html="publication.content"></v-card-text>
-        <!-- <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree</v-btn>
-              <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Agree</v-btn>
-            </v-card-actions> -->
       </v-card>
     </v-dialog>
   </div>
 </template>
 <script>
+const timeSChedule = [800, 845, 855, 940, 1000, 1045, 1055, 1140, 1210, 1255, 1305, 1350, 1410, 1455, 1505, 1550, 1600, 1645, 1655, 1740, 1800, 1845, 1855, 1940, 1950, 2035]
 export default {
+  filters: {
+    term: function (value) {
+      let map = {
+        '1': '秋',
+        '2': '冬',
+        '3': '春',
+        '4': '夏'
+      }
+      let year = parseInt(value.slice(2, 4))
+      return `${year}-${year + 1}${map[value[5]]}`
+    }
+  },
   data () {
     return {
       items: ['1', '2', '3'],
@@ -141,14 +107,60 @@ export default {
         }
       ],
       dialog: false,
-      publication: {}
+      publication: {},
+      time: {
+        year: '',
+        term: '',
+        week: '',
+        day: '',
+        course: ''
+      },
+      timerID: '',
+      clock: '',
+      timeLeft: '',
+      point: ''
     }
   },
   created () {
     this.getPublications()
-    // this.$router.push('/')
+    this.getTime()
+    this.timerID = setInterval(this.updateTime, 1000)
+  },
+  beforeDestroy () {
+    clearInterval(this.timerID)
   },
   methods: {
+    zeroPadding (num, digit) {
+      var zero = ''
+      for (var i = 0; i < digit; i++) {
+        zero += '0'
+      }
+      return (zero + num).slice(-digit)
+    },
+    updateTime () {
+      var cd = new Date()
+      var time = parseInt(this.zeroPadding(cd.getHours(), 2) + this.zeroPadding(cd.getMinutes(), 2))
+      // console.log(time)
+      for (let i in timeSChedule) {
+        if (timeSChedule[i] - time >= 0) {
+          // console.log(Math.round((timeSChedule[i] - time) / 100) * 60)
+          this.timeLeft = (timeSChedule[i] - time) % 100 + parseInt((timeSChedule[i] - time) / 100) * 60
+          this.point = i
+          break
+        }
+      }
+      this.clock = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
+    },
+    getTime () {
+      this.$http.get('/api/v1/time/')
+        .then((response) => {
+          this.time.year = response.data.year
+          this.time.term = response.data.term
+          this.time.week = response.data.week
+          this.time.day = response.data.day
+          this.time.course = response.data.course
+        })
+    },
     getPublications () {
       this.$http.get('/api/v1/publications/')
         .then((response) => {
