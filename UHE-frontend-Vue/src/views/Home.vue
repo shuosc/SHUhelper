@@ -9,9 +9,6 @@
             {{time.year+ '_'+time.term|term}},第{{time.week}}周,周{{time.day}}
             <!-- <div>晴 32C D楼附近</div> -->
           </v-card-title>
-          <!-- <v-card-text>
-                                                                                     <v-text-field name="input-1-3" label="搜索功能 活动 人 课程 ..." single-line prepend-icon="search" hide-details></v-text-field> 
-                                                                                  </v-card-text> -->
         </v-card>
       </v-flex>
     </v-layout>
@@ -31,10 +28,7 @@
       </v-flex>
     </v-layout>
     <v-layout row class="ma-2">
-      <!-- <span>动态推荐</span> -->
       <v-spacer></v-spacer>
-      <!-- <span style="font-size:0.5rem;color:grey;">管理卡片出现规则
-                                      <v-icon>favorite</v-icon> -->
       </span>
     </v-layout>
     <v-card class="mb-2">
@@ -51,7 +45,7 @@
       <v-card-title primary-title class="pa-2">当前时间是 {{clock}}</v-card-title>
       <v-divider></v-divider>
       <v-card-text style="text-align:center;">
-        还有{{timeLeft}}分钟进行第{{parseInt(point)+1%2===1?(parseInt(point)+2)/2+'节课':parseInt(point)/2+'节课间休息'}}
+        还有{{timeLeft}}分钟进行第{{parseInt(point)%2===1?(parseInt(point)+1)/2+'节课':parseInt(point)/2+'节课间休息'}}
       </v-card-text>
     </v-card>
     <v-dialog v-model="dialog">
@@ -125,6 +119,7 @@ export default {
     this.getPublications()
     this.getTime()
     this.timerID = setInterval(this.updateTime, 1000)
+    this.updateTime()
   },
   beforeDestroy () {
     clearInterval(this.timerID)
@@ -140,13 +135,12 @@ export default {
     updateTime () {
       var cd = new Date()
       var time = parseInt(this.zeroPadding(cd.getHours(), 2) + this.zeroPadding(cd.getMinutes(), 2))
-      // console.log(time)
       for (let i in timeSChedule) {
         let scheduleMinutes = timeSChedule[i] % 100 + parseInt(timeSChedule[i] / 100) * 60
         let timeMinutes = time % 100 + parseInt(time / 100) * 60
-        if (scheduleMinutes - timeMinutes >= 0) {
+        if (scheduleMinutes - timeMinutes > 0) {
           this.timeLeft = scheduleMinutes - timeMinutes
-          this.point = i
+          this.point = parseInt(i) + 1
           break
         }
       }

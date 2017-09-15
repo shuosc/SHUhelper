@@ -69,10 +69,12 @@
           <v-icon x-large v-else style="height:100%;display:flex;" class="blue--text text--darken-2">public</v-icon>
         </v-flex>
         <v-flex xs9>
-          <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0" @click="this.window.open(feed.linkURL)">
-            {{feed.linkTitle}}<br/>
-            <span style="color:grey;font-size:0.8rem;">{{feed.linkURL|urlHost}} </span>
-          </p>
+          <a :href="feed.linkURL" target="_blank">
+            <p style="font-size:1rem;height:100%;" class="black--text text-xs-left py-2 ma-0">
+              {{feed.linkTitle}}<br/>
+              <span style="color:grey;font-size:0.8rem;">{{feed.linkURL|urlHost}} </span>
+            </p>
+          </a>
         </v-flex>
       </v-layout>
     </v-container>
