@@ -142,9 +142,10 @@ export default {
       var time = parseInt(this.zeroPadding(cd.getHours(), 2) + this.zeroPadding(cd.getMinutes(), 2))
       // console.log(time)
       for (let i in timeSChedule) {
-        if (timeSChedule[i] - time >= 0) {
-          // console.log(Math.round((timeSChedule[i] - time) / 100) * 60)
-          this.timeLeft = (timeSChedule[i] - time) % 100 + parseInt((timeSChedule[i] - time) / 100) * 60
+        let scheduleMinutes = timeSChedule[i] % 100 + parseInt(timeSChedule[i] / 100) * 60
+        let timeMinutes = time % 100 + parseInt(time / 100) * 60
+        if (scheduleMinutes - timeMinutes >= 0) {
+          this.timeLeft = scheduleMinutes - timeMinutes
           this.point = i
           break
         }

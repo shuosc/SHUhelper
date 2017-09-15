@@ -80,7 +80,7 @@ class Tiyu(Client):
 
 
 class Services(Client):
-    url_prefix = 'http://services.shu.edu.cn'
+    url_prefix = 'http://xzxx.shu.edu.cn'
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
     }
@@ -96,7 +96,7 @@ class Services(Client):
             'btnOk': '提交(Submit)'
         }
         r = self.session.post(
-            'http://services.shu.edu.cn/Login.aspx', data=post_data, headers=self.headers)
+            'http://xzxx.shu.edu.cn/Login.aspx', data=post_data, headers=self.headers)
         if r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1:
             return True
         return False
@@ -122,6 +122,48 @@ class Services(Client):
 
     def to_json(self):
         return self.data
+
+
+class Fin(Client):
+    url_prefix = 'http://xssf.shu.edu.cn:8100'
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
+
+    def login(self):
+        post_data = {'UserCode': self.card_id,
+                     'PwdCode': self.password,
+                     'Submit1': '登录',
+                     'type': '',
+                     '__VIEWSTATEGENERATOR': 'A73DED55',
+                     '__EVENTVALIDATION': '/wEWBQLMko35DgL3zYGiAQKOv82uCgLVo8avDgKm4dCKDO8RsbBlSEqhvYWeOFF+Ga+ztwpZI3Wux5O4UvtpP2YM',
+                     '__VIEWSTATE': '/wEPDwUKMTI2NTY5MzA4NWRkOsjTos2TNYJ8aBuaWsKwoL7bKphUL1b9OI9QXHfFHAQ='}
+        r = self.session.post(
+            'http://xssf.shu.edu.cn:8088/LocalLogin.aspx', data=post_data, headers=self.headers, timeout=10)
+        r = self.session.get(
+            self.url_prefix + '/SFP_Share/Home/Index', timeout=10)
+
+        return r.text.find('回首页') != -1
+
+    def get_data(self):
+        self.data = {}
+        r = self.session.get(
+            self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_PersonInfo', timeout=10)
+        table = BeautifulSoup(r.text, "html.parser").table.tr
+        personal_info_meta = ('name', 'ID_type', 'ID')
+        for (key, cell) in enumerate(table.findAll("td")[:3]):
+            self.data[personal_info_meta[key]] = cell.get_text(strip=True)
+        self.data = {
+            'name': self.data['name'],
+            'nickname': ''
+        }
+        return True
+
+    def to_html(self):
+        return self.data
+
+    def to_json(self):
+        return json.dumps(self.data)
 
 
 class Lehu(Client):

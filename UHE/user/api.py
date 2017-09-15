@@ -5,7 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from mongoengine.queryset.visitor import Q
 
 from UHE.calendar.models import Activity, Event
-from UHE.client import Services
+from UHE.client import Services,Fin
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
 from UHE.upload import get_avatar
@@ -99,8 +99,16 @@ def login():
     use services.shu.edu.cn to validate user login
     """
     post_data = request.get_json()
-    client = Services(post_data['card_id'], post_data['password'])
-    if client.login() and client.get_data():
+    success = False
+    try:
+        client = Services(post_data['card_id'], post_data['password'])
+        success = client.login() and client.get_data()
+        print('xxb success')
+    except:
+        client = Fin(post_data['card_id'], post_data['password'])
+        success = client.login() and client.get_data()
+        print('xxb,faild fin success')
+    if success:
         user = User.objects(card_id=post_data['card_id']).first()
         if user is None:
             user = User(name=client.data['name'], nickname=client.data['nickname'],
