@@ -1,16 +1,41 @@
 <template>
-  <div>
-    <div style="height:700px; padding-top:10px;">
+  <div style="height:100%;">
+    <!-- <v-toolbar fixed dense class="primary">
+                                                                                                <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
+                                                                                                  <v-icon large>navigate_before</v-icon>
+                                                                                                </v-btn>
+                                                                                                <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
+                                                                                                <v-spacer></v-spacer>
+                                                                                                <v-menu bottom class="ma-0">
+                                                                                                  <v-btn icon slot="activator">
+                                                                                                    <v-icon>iconfont-morevert</v-icon>
+                                                                                                  </v-btn>
+                                                                                                  <v-list>
+                                                                                                    <v-list-tile v-if="$store.state.user.cardID!==''" @click.native="onProfileClick">
+                                                                                                      <v-list-tile-title>资料</v-list-tile-title>
+                                                                                                    </v-list-tile>
+                                                                                                    <v-list-tile v-if="$store.state.user.cardID===''" @click.native="$router.push('/login')">
+                                                                                                      <v-list-tile-title>登陆</v-list-tile-title>
+                                                                                                    </v-list-tile>
+                                                                                                    <v-list-tile v-else @click.native="logout()">
+                                                                                                      <v-list-tile-title>注销</v-list-tile-title>
+                                                                                                    </v-list-tile>
+                                                                                                    <v-list-tile @click.native="aboutDialog=true">
+                                                                                                      <v-list-tile-title>关于</v-list-tile-title>
+                                                                                                    </v-list-tile>
+                                                                                                  </v-list>
+                                                                                                </v-menu>
+                                                                                              </v-toolbar> -->
+    <div style="height:730px; padding-top:10px;">
       <!-- <v-tabs light fixed centered :scrollable="false">
-                            <v-tabs-bar class="white">
-                              <v-tabs-slider class="primary"></v-tabs-slider>
-                              <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
-                                {{ item }}
-                              </v-tabs-item>
-                            </v-tabs-bar>
-                            <v-tabs-items>
-                              <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
-
+                                                                                                              <v-tabs-bar class="white">
+                                                                                                                <v-tabs-slider class="primary"></v-tabs-slider>
+                                                                                                                <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
+                                                                                                                  {{ item }}
+                                                                                                                </v-tabs-item>
+                                                                                                              </v-tabs-bar>
+                                                                                                              <v-tabs-items>
+                                                                                                                <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
       <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
     </div>
     <popup v-model="popupVisible" popup-transition="popup-fade">
@@ -42,19 +67,18 @@
       </v-card>
     </popup>
     <data-status @renewData="renewCourse" :status="status"></data-status>
-    <!-- </v-tabs-content> -->
-    <!-- <v-tabs-content :id="'tab-1'" lazy>
-
-                                <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
-                                <v-card>
-                                  <ul>
-                                    <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
-                                  </ul>
-                                </v-card>
-                              </v-tabs-content> -->
+    <!-- </v-tabs-content> 
+                                                                                                             <v-tabs-content :id="'tab-1'" lazy>
+                                                                                                            <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
+                                                                                                            <v-card>
+                                                                                                              <ul>
+                                                                                                                <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
+                                                                                                              </ul>
+                                                                                                            </v-card>
+                                                                                                            </v-tabs-content> -->
     <!-- </v-tabs-items>
-                            </v-tabs-content>
-                          </v-tabs> -->
+                                                                                                            </v-tabs-content>
+                                                                                                            </v-tabs> -->
   </div>
 </template>
 <script>
@@ -112,7 +136,8 @@ export default {
         week: true
       },
       courses: [],
-      active: null
+      active: null,
+      schoolTime: {}
     }
   },
   computed: {
@@ -138,6 +163,10 @@ export default {
         var rancolor = color[~~(Math.random() * color.length)]
         for (var j = timelist.length - 1; j >= 0; j--) {
           var time = timelist[j]
+          if (!time.thisWeek) {
+            rancolor = '#aaa'
+          }
+          // console.log(time)
           var item = {
             day: time.day,
             Start: time.Start,
@@ -146,7 +175,7 @@ export default {
             courseno: course.no,
             teachname: course.teacher,
             teachno: course.teach_no,
-            place: course.place,
+            place: time.thisWeek ? course.place : '非本周',
             styleObj: {
               height: (time.End - time.Start + 1) * 7.7 + '%',
               top: ((time.Start - 1) * 7.69) + '%',
@@ -181,7 +210,6 @@ export default {
               if (event.key === 'year') {
                 color = '#000'
               } else if (event.key === 'term') {
-
               }
               events.push({
                 color: color,
@@ -194,24 +222,54 @@ export default {
             }
           }
         }
-        console.log(events, 'computed')
+        // console.log(events, 'computed')
         return events
       },
       set: function (range) {
         this.range.start = range.start
         this.range.end = range.end
-        console.log('setter')
+        // console.log('setter')
       }
     }
   },
   created () {
+    // this.refreshToolbar()
     this.resetRange()
     this.getCourses()
-    // var start = new Date(2017, 1, 1, 0, 0)
-    // var end = new Date(2018, 9, 15, 0, 0)
     this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
   },
+  beforeDestroy () {
+    this.$store.commit('clearToolbar')
+  },
   methods: {
+    refreshToolbar () {
+      // console.log(this.$store.state.toolbar.states[0])
+      let createItems = () => {
+        let items = []
+        for (let i = 1; i <= 10; i++) {
+          // console.log('this week', i, this.$store.state.toolbar.states[0], i === this.$store.state.toolbar.states[0])
+          items.push({
+            name: i === this.$store.state.toolbar.states[0] ? `第${i}周(当前)` : `第${i}周`,
+            click: () => {
+              // let index = this.$store.state.toolbar.states[0]
+              this.$store.commit('updateToolbarState', { index: 0, value: i })
+              this.refreshToolbar()
+            }
+          })
+        }
+        return items
+      }
+      let items = createItems()
+      let i = this.$store.state.toolbar.states[0]
+      this.$store.commit('clearToolbar')
+      this.$store.commit('updateToolBar', {
+        actions: [{
+          icon: 'iconfont-calendar',
+          items: items
+        }],
+        states: [i]
+      })
+    },
     showDetail (obj) {
       for (let i in this.courses) {
         if (this.courses[i].no === obj.courseno) {
@@ -232,17 +290,44 @@ export default {
           this.$router.push(`/courses/${response.data.id}`)
         })
     },
+    isCourseInWeek (time, week) {
+      let inWeek = false
+      if (time[4]) {
+        if (time[4] === '单') {
+          if (week % 2 === 1) {
+            inWeek = true
+          } else {
+            inWeek = true
+          }
+        }
+      } else if (time[5]) {
+        if (parseInt(time[5]) <= week && week <= parseInt(time[6])) {
+          inWeek = true
+        }
+      } else if (time[7]) {
+        if (week === parseInt(time[7]) || week === parseInt(time[8])) {
+          inWeek = true
+        }
+      } else {
+        inWeek = true
+      }
+      return inWeek
+    },
     coursetimeToNum (time) {
       var patt = /([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468)\)|\((?:([0-9]+),([0-9]+)\u5468)\))*/
       var timelist = []
       var str = time
+      let week = this.$store.state.toolbar.states[0]
+      console.log('week', week)
       while (patt.test(str)) {
         var coursetime = patt.exec(str)
+        // console.log(coursetime)
         str = str.replace(patt, '')
         var item = {
           day: parseInt(CNNUM[coursetime[1]] - 1),
           Start: parseInt(coursetime[2]),
-          End: parseInt(coursetime[3])
+          End: parseInt(coursetime[3]),
+          thisWeek: this.isCourseInWeek(coursetime, week)
         }
         timelist.push(item)
       }
@@ -259,9 +344,13 @@ export default {
       console.log(this.range)
       console.log(ev)
     },
-    getCourses () {
+    async getCourses () {
       // this.$store.commit('showSnackbar', { text: `查询课表中` })
-      this.$http.get('/api/v1/my-course/')
+      let getTime = this.$http.get('/api/v1/time/').then((response) => {
+        this.schoolTime = response.data
+        // this.$store.commit('updateToolbarAction', 0, this.schoolTime.week, 'name', `第${this.schoolTime.week}周(当前)`)
+      })
+      let getCourses = this.$http.get('/api/v1/my-course/')
         .then((response) => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
@@ -276,6 +365,9 @@ export default {
             this.$store.commit('showSnackbar', { text: `更新失败${err.response.status}` })
           }
         })
+      await getTime + await getCourses
+      this.$store.commit('updateToolbarState', { index: 0, value: this.schoolTime.week })
+      this.refreshToolbar()
     },
     pollingStatus () {
       this.$http.get('/api/v1/my-course/status')

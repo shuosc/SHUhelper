@@ -219,7 +219,8 @@ export default new Router({
       component: Calendar,
       meta: {
         disableBack: true,
-        title: '日程'
+        title: '日程',
+        customToolbar: false
       }
     },
     {

@@ -1,7 +1,7 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="dialog" lazy absolute>
-      <v-btn absolute bottom right fab style="bottom:70px;" slot="activator" :class="{'accent':status.status === 'failed','primary':status.status === 'success'}">
+    <v-dialog v-model="dialog" lazy absolute >
+      <v-btn v-show="$store.state.ui.bottomNavigationVisible" absolute bottom right fab style="bottom:70px;" slot="activator" :class="{'accent':status.status === 'failed','primary':status.status === 'success'}">
         <v-progress-circular indeterminate class="amber--text" v-if="status.status === 'loading'"></v-progress-circular>
         <v-icon v-else>info</v-icon>
       </v-btn>

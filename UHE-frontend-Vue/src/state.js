@@ -28,9 +28,35 @@ const state = {
       text: 'hi',
       context: 'info'
     },
-    showLoginForm: false
+    showLoginForm: false,
+    date: {
+      year: '',
+      term: '',
+      week: '',
+      course: ''
+    },
+    toolbar: {
+      actions: [],
+      states: []
+    }
   },
   mutations: {
+    updateToolBar(state, payload) {
+      state.toolbar = payload
+    },
+    clearToolbar(state) {
+      state.toolbar = {
+        actions: [],
+        states: []
+      }
+    },
+    // updateToolbarAction(state, index, subindex, key, value) {
+    //   state.toolbar.actions[index].items[subindex][key] = value
+    // },
+    updateToolbarState(state, payload) {
+      state.toolbar.states[payload.index] = payload.value
+      console.log(payload.index, payload.value)
+    },
     closeLoginDialog(state) {
       state.ui.loginDialog = false
     },
@@ -64,7 +90,6 @@ const state = {
       state.snackbar.text = payload.text
       state.snackbar.visible = true
     },
-
     updateToken(state, token) {
       state.token = token
     },

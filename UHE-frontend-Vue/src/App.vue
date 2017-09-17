@@ -1,11 +1,21 @@
 <template>
   <v-app toolbar style="height:100%;" :class="$store.state.user.custom.theme">
-    <v-toolbar fixed dense class="primary">
+    <v-toolbar fixed dense class="primary" v-show="!$route.meta.customToolbar">
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
         <v-icon large>navigate_before</v-icon>
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-menu bottom class="ma-0" v-for="action in $store.state.toolbar.actions" :key="action.icon" :max-height="200">
+        <v-btn icon slot="activator">
+          <v-icon>{{action.icon}}</v-icon>
+        </v-btn>
+        <v-list>
+          <v-list-tile v-for="item in action.items" @click.native="item.click" :key="item.name">
+            <v-list-tile-title>{{item.name}}</v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-menu>
       <v-menu bottom class="ma-0">
         <v-btn icon slot="activator">
           <v-icon>iconfont-morevert</v-icon>
@@ -30,7 +40,7 @@
     <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
       <v-slide-y-transition mode="out-in">
         <!-- <keep-alive> -->
-       <router-view ></router-view>
+        <router-view></router-view>
 
         <!-- </keep-alive> -->
       </v-slide-y-transition>

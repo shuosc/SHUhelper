@@ -2,8 +2,7 @@
   <div class="schedule">
     <div class="time-ground">
       <div style="height:3.8%;"></div>
-      <div v-for="time in timeGround" style="height:7.4%;margin:0"
-        :key="time">
+      <div v-for="(time,index)  in timeGround" style="height:7.4%;margin:0" :key="index">
         <div id="time">
           <span style="font-size:0.7rem;color:grey;">{{time.start}}</span><br/>
           <div style="font-size:0.7rem;" id="no"> {{time.no}}</div><br/>
@@ -12,14 +11,12 @@
       </div>
     </div>
     <div class="task-ground">
-      <div v-for="(week,index) in weekGround" class="task-list"
-        :key="index">
+      <div v-for="(week,index) in weekGround" class="task-list" :key="index">
         <div style="height:3.8%;width:100%;">
           <p style="margin:0;">{{week}}</p>
         </div>
         <div class="taskListSty">
-          <div class="task-list-item" v-for="detail in taskDetail[index]"
-            :key="detail" :style="detail.styleObj" @click="showDetail(detail)">
+          <div class="task-list-item" v-for="(detail,index) in taskDetail[index]" :key="index" :style="detail.styleObj" @click="showDetail(detail)">
             <div>
               <h5>{{detail.coursename}}</h5>
               <p>{{detail.teachname}}</p>
@@ -76,12 +73,6 @@ export default {
       default () {
         return [
           '#4DC7C0', '#9BD3C0', '#E2E0BA', '#FFB3B2', ' #FF4A9B', '#BED1FA', '#78FFB5', '#7A00CB'
-          // '#2B2E4A',
-          // '#521262',
-          // '#903749',
-          // '#53354A',
-          // '#40514E',
-          // '#537780'
         ]
       }
     }
@@ -93,7 +84,7 @@ export default {
   },
   methods: {
     showDetail (obj) {
-      console.log('showDetail raw')
+      // console.log('showDetail raw')
       this.$emit('showDetail', obj)
     }
   }
@@ -125,7 +116,7 @@ export default {
   height: 100%;
   position: absolute;
   left: -2rem;
-  width:2rem;
+  width: 2rem;
 }
 
 .time-ground>div {
@@ -140,9 +131,8 @@ export default {
   position: absolute;
   top: 50%;
   text-align: center;
-  width:100%;
+  width: 100%;
   transform: translateY(-50%);
-
 }
 
 .time-ground>div span:first-of-type {
@@ -165,7 +155,7 @@ export default {
   float: left;
   width: 20%;
   box-sizing: border-box;
-  /* border: 1px solid #EAEAEA; */
+  /* border-left: 1px solid #EAEAEA; */
   height: 100%;
 }
 
@@ -177,6 +167,7 @@ export default {
 .task-list-item {
   position: absolute;
   background-color: #577F92;
+  /* border-bottom: 1px solid #EAEAEA; */
   width: 100%;
   cursor: pointer;
   text-align: center;
