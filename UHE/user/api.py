@@ -5,7 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from mongoengine.queryset.visitor import Q
 
 from UHE.calendar.models import Activity, Event
-from UHE.client import Services,Fin
+from UHE.client import Services, Fin
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
 from UHE.upload import get_avatar
@@ -93,6 +93,19 @@ def set_custom_theme():
     })
 
 
+@users.route('/set-custom-shuerlink', methods=['POST'])
+def set_custom_theme():
+    shuerlink = request.get_json()
+    user = User.objects(card_id=current_user.id).first()
+    custom = json.loads(user.custom) if user.custom != '' else {}
+    custom['shuerlink'] = shuerlink
+    user.custom = json.dumps(custom)
+    user.save()
+    return jsonify({
+        'status': 'ok'
+    })
+
+
 @users.route("/login/", methods=['POST'])
 def login():
     """
@@ -119,6 +132,7 @@ def login():
             user.activated = True
         user.token = make_token()
         result = {
+            'avatar': user.avatar,
             'token': user.token,
             'name': user.name,
             'nickname': user.nickname,
@@ -141,6 +155,7 @@ def login_with_token():
     if user:
         user.token = token
         result = {
+            'avatar': user.avatar,
             'token': user.token,
             'name': user.name,
             'nickname': user.nickname,
