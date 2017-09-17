@@ -268,20 +268,23 @@ class Phylab(Client):
                      'verify': self.captcha}
         r = self.session.post(
             self.url_prefix + '/openexp/index.php/Public/checkLogin/', data=post_data, timeout=10)
+        print(json.loads(r.text))
         return r.text.find('false') != -1
 
     def get_data(self):
         r = self.session.get(
             self.url_prefix + '/openexp/index.php/Public/main', timeout=10)
         html = BeautifulSoup(r.text, "html.parser")
-        self.data = html.body.find_all('div')[2].div.table.find_all('tr')[3].find_all('td')[3].table
+        print(html)
+        self.data = html.body.find_all('div')[2].table.find_all('tr')[
+            3].find_all('td')[3].table
         return True
 
     def to_html(self):
         return self.data
 
     def to_json(self):
-        return {'html': self.data}
+        return json.dumps({'html': str(self.data)})
 
 
 class CJ(Client):

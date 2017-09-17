@@ -156,7 +156,7 @@ export default {
             this.$store.commit('showSnackbar', { text: '更新成功' })
           }
         })
-        .catch((err)=>{
+        .catch((err) => {
           console.log(err)
           this.getData()
         })
