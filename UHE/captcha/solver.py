@@ -28,16 +28,9 @@ class Solver:
 
     def create(self, im, im_type=3040, timeout=60, site=''):
         if site == 'XK' or site == 'CJ':
-            params = {
-                'typeid': im_type,
-                'timeout': timeout,
-            }
-            params.update(self.base_params)
-            files = {'captcha': ('captcha.jpg', im)}
-            r = requests.post('https://anti-captcha.shuosc.org/jwc',
-                              data=params, files=files)
-            # print(r.json())
-            return {'Result': r.json()['result']}
+            endpoint = 'jwc'
+        elif site == 'phylab':
+            endpoint = 'phylab'
         else:
             params = {
                 'typeid': im_type,
@@ -48,6 +41,15 @@ class Solver:
             r = requests.post('http://api.ruokuai.com/create.json',
                               data=params, files=files)
             return r.json()
+        params = {
+            'typeid': im_type,
+            'timeout': timeout,
+        }
+        params.update(self.base_params)
+        files = {'captcha': ('captcha.jpg', im)}
+        r = requests.post('https://anti-captcha.shuosc.org/' + endpoint,
+                          data=params, files=files)
+        return {'Result': r.json()['result']}
 
     def report_error(self, im_id):
         params = {

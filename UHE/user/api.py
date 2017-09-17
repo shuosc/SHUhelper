@@ -53,12 +53,6 @@ def change_avatar():
     return jsonify(status='ok')
 
 
-@users.route('/<user_id>')
-def profile(user_id):
-    user = User.objects.get_or_404(card_id=user_id)
-    return jsonify(avatar=user.avatar, nickname=user.nickname, _id=user.id)
-
-
 @users.route('/search/<query>')
 def search(query):
     users = User.objects(Q(card_id__contains=query) |
@@ -80,25 +74,37 @@ def logout():
     })
 
 
+@users.route('/<user_id>')
+def profile(user_id):
+    user = User.objects.get_or_404(card_id=user_id)
+    return jsonify(avatar=user.avatar, nickname=user.nickname, _id=user.id)
+
+
+@users.route('/<user_id>/custom', methods=['GET', 'PATCH'])
+@login_required
+def user_custom(user_id):
+    if card_id != current_user.id:
+        abort(401)
+    if request.method == 'GET':
+        user = User.objects.get_or_404(card_id=current_user.id)
+        return jsonify(user.custom)
+    else:
+        user = User.objects(card_id=current_user.id).first()
+        custom = json.loads(user.custom) if user.custom != '' else {}
+        patch = request.get_json()
+        for key in patch.keys():
+            custom[key] = patch[key]
+        user.custom = json.dumps(custom)
+        user.save()
+    return jsonify(avatar=user.avatar, nickname=user.nickname, _id=user.id)
+
+
 @users.route('/set-custom-theme')
 def set_custom_theme():
     theme = request.args.get('theme')
     user = User.objects(card_id=current_user.id).first()
     custom = json.loads(user.custom) if user.custom != '' else {}
     custom['theme'] = theme
-    user.custom = json.dumps(custom)
-    user.save()
-    return jsonify({
-        'status': 'ok'
-    })
-
-
-@users.route('/set-custom-shuerlink', methods=['POST'])
-def set_custom_theme():
-    shuerlink = request.get_json()
-    user = User.objects(card_id=current_user.id).first()
-    custom = json.loads(user.custom) if user.custom != '' else {}
-    custom['shuerlink'] = shuerlink
     user.custom = json.dumps(custom)
     user.save()
     return jsonify({

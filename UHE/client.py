@@ -250,15 +250,15 @@ class XK(Client):
 class Phylab(Client):
     url_prefix = 'http://www.phylab.shu.edu.cn'
 
-    def __init__(self):
-        Client.__init__(self)
+    def __init__(self, card_id, password, captcha=''):
+        Client.__init__(self, card_id, password, captcha)
         r = self.session.get(
             self.url_prefix + '/openexp/index.php/Public/login/', timeout=10)
         self.hash = re.search(
             r'<input type="hidden" name="__hash__" value="([\s\S]*)" />', r.text, flags=0).group(1)
         r = self.session.get(
             self.url_prefix + '/openexp/index.php/Public/verify/', timeout=10, stream=True)
-        self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
+        self.captcha_img = r.raw.read()
 
     def login(self):
         post_data = {'_hash_': self.hash,
@@ -268,20 +268,20 @@ class Phylab(Client):
                      'verify': self.captcha}
         r = self.session.post(
             self.url_prefix + '/openexp/index.php/Public/checkLogin/', data=post_data, timeout=10)
-        return r.text.find(u'false') != -1
+        return r.text.find('false') != -1
 
     def get_data(self):
         r = self.session.get(
             self.url_prefix + '/openexp/index.php/Public/main', timeout=10)
-        string = re.search(
-            r'(<TABLE([\s\S]*?)</TABLE>)', r.text, flags=0).group(0)
-        string = re.sub(
-            r'<TABLE id="checkList" class="list" cellpadding=0 cellspacing=0 >', '<table>', string)
-        self.data = content
+        table = BeautifulSoup(r.text, "html.parser").table
+        self.data = table.tr[3].td[3].table
         return True
 
     def to_html(self):
         return self.data
+
+    def to_json(self):
+        return {'html': self.data}
 
 
 class CJ(Client):

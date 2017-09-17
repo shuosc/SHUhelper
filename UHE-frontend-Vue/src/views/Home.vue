@@ -86,6 +86,8 @@ export default {
         { name: '课程查询', icon: 'iconfont-book', url: '/courses-query' },
         { name: '学生财务', icon: 'iconfont-money', url: '/fin' },
         { name: '校车运行', icon: 'iconfont-bus', url: '/bus' },
+        { name: '晨跑课外', icon: 'iconfont-tiyujiankang', url: '/sports' },
+        { name: '物理实验', icon: 'iconfont-07', url: '/phylab' },
         { name: '校历', icon: 'iconfont-rili', url: '/school-cal' },
         { name: '就医指导', icon: 'iconfont-yiyuan', url: '/med' },
         { name: '人生解答书', icon: 'iconfont-key', url: '/the-answer' },

@@ -6,6 +6,7 @@ const state = {
       name: '游客',
       nickname: '',
       password: '',
+      phypassword: '',
       token: '',
       custom: {
         theme: 'bluetheme'

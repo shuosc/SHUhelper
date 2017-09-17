@@ -58,6 +58,28 @@ export default new Router({
       }
     },
     {
+      path: '/sports',
+      name: 'sports',
+      component: function (resolve) {
+        require(['@/views/sports.vue'], resolve)
+      },
+      meta: {
+        title: '晨跑课外',
+        unableBottomNavgation: true
+      }
+    },
+    {
+      path: '/phylab',
+      name: 'phylab',
+      component: function (resolve) {
+        require(['@/views/phylab.vue'], resolve)
+      },
+      meta: {
+        title: '物理实验',
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/empty-room',
       name: 'emptyRoom',
       component: emptyRoom,
@@ -115,7 +137,8 @@ export default new Router({
       name: 'fin',
       component: fin,
       meta: {
-        title: '缴费查询'
+        title: '缴费查询',
+        unableBottomNavgation: true
       }
     },
     {
