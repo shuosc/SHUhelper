@@ -126,11 +126,11 @@ def index_sync():
                                  user=current_user.id, status='none')
             user_data.save()
         task = get_data(
-            post_data['card_id'], post_data['phypassword'], post_data['password'])
+            post_data['card_id'], post_data['password'])
         return jsonify(success='ok')
 
 
-def get_data(card_id, password, lock):
+def get_data(card_id, password):
     user_data = UserData.objects(user=card_id, identifier=__plugin__).first()
     user_data.status = 'pending'
     user_data.save()
@@ -146,7 +146,7 @@ def get_data(card_id, password, lock):
     user_data.data = client.to_json()
     user_data.status = 'success'
     user_data.last_modified = datetime.datetime.now()
-    user_data.lock_save(lock)
+    user_data.lock_save(password)
 
 
 @fin.route('/', methods=['GET', 'POST'])

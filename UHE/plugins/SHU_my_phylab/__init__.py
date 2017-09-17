@@ -59,12 +59,13 @@ def sync_index():
         else:
             if user_data.status == 'pending':
                 return jsonify(status='pending')
-        task = get_phylab(current_user.id, post_data['password'])
+        task = get_phylab(
+            current_user.id, post_data['phypassword'], post_data['password'])
         return jsonify(success='ok')
 
 
 @celery.task
-def get_phylab(card_id, password):
+def get_phylab(card_id, password, lock):
     user_data = UserData.objects(user=card_id, identifier=__plugin__).first()
     user_data.status = 'pending'
     user_data.save()
@@ -72,7 +73,7 @@ def get_phylab(card_id, password):
         client = Phylab(card_id, password)
         client.captcha = captcha_solver.create(
             client.captcha_img, site='phylab')['Result']
-        print(card_id, password)
+        # print(card_id, password)
         client.login()
         client.get_data()
     except Exception as e:
@@ -83,7 +84,7 @@ def get_phylab(card_id, password):
     user_data.data = client.to_json()
     user_data.status = 'success'
     user_data.last_modified = datetime.datetime.now()
-    user_data.lock_save(password)
+    user_data.lock_save(lock)
 
 
 class SHUMyPhylab(UHEPlugin):
