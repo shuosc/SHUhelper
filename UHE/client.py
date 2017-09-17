@@ -273,8 +273,8 @@ class Phylab(Client):
     def get_data(self):
         r = self.session.get(
             self.url_prefix + '/openexp/index.php/Public/main', timeout=10)
-        table = BeautifulSoup(r.text, "html.parser").table
-        self.data = table.tr[3].td[3].table
+        html = BeautifulSoup(r.text, "html.parser")
+        self.data = html.body.find_all('div')[2].div.table.find_all('tr')[3].find_all('td')[3].table
         return True
 
     def to_html(self):

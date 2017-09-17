@@ -73,7 +73,6 @@ def get_phylab(card_id, password, lock):
         client = Phylab(card_id, password)
         client.captcha = captcha_solver.create(
             client.captcha_img, site='phylab')['Result']
-        # print(card_id, password)
         client.login()
         client.get_data()
     except Exception as e:
