@@ -31,7 +31,7 @@
       <v-spacer></v-spacer>
       </span>
     </v-layout>
-    <v-card class="mb-2">
+    <!-- <v-card class="mb-2">
       <v-card-title primary-title class="pa-2">通知公告</v-card-title>
       <v-divider></v-divider>
       <v-card-text class="">
@@ -40,7 +40,7 @@
           </li>
         </ul>
       </v-card-text>
-    </v-card>
+    </v-card> -->
     <v-card class="mb-2">
       <v-card-title primary-title class="pa-2">当前时间是 {{clock}}</v-card-title>
       <v-divider></v-divider>
@@ -95,6 +95,7 @@ export default {
         { name: '研习空间', icon: 'iconfont-fangjian', url: '/external-service/yanxi' },
         { name: '排课助手', icon: 'iconfont-paw', url: '/external-service/xk' },
         { name: '上大导航', icon: 'iconfont-iosnavigate', url: '/external-service/shuerlink' }
+        // { name: '快速链接', icon: 'bubble_chart', url: '/info' },
       ],
       publications: [
         {
