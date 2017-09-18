@@ -12,7 +12,7 @@
         </v-btn>
       </v-toolbar>
       <v-container fluid class="pa-1 ">
-        <v-text-field name="input-1"  autofocus full-width v-model="text" label="说点什么.." multi-line></v-text-field>
+        <v-text-field name="input-1" autofocus full-width v-model="text" label="说点什么.." multi-line></v-text-field>
       </v-container>
       <v-container fluid grid-list-sm>
         <v-layout row wrap>
@@ -43,6 +43,9 @@
   </v-dialog>
 </template>
 <script>
+// var html5ImgCompress = require('../../html5ImgCompress/dist/html5ImgCompress.min.js')
+// var html5ImgCompress = require('../../html5ImgCompress/src/html5ImgCompress.js')
+// import html5ImgCompress from '../../html5ImgCompress/src/html5ImgCompress.js'
 export default {
   mounted () {
     this.dialog = true
@@ -114,7 +117,70 @@ export default {
       console.log(this.$refs.testform.userfile.files)
     },
     upload (e) {
-      console.log(e.target)
+      // console.log(e.target)
+      /* eslint-disable no-new */
+      /* eslint-disable new-cap */
+      /* eslint-disable no-undef */
+      // console.log(html5ImgCompress)
+      new html5ImgCompress(e.target.files[0], {
+        before: function (file) {
+          console.log('压缩前...')
+          // 这里一般是对file进行filter，例如用file.type.indexOf('image') > -1来检验是否是图片
+          // 如果为非图片，则return false放弃压缩（不执行后续done、fail、complete），并相应提示
+        },
+        done: (file, base64) => {
+          console.log('压缩成功...')
+          this.$http.get(`/api/v1/upload/token?key=${this.key}`)
+            .then((response) => {
+              this.token = response.data.uptoken
+              this.$nextTick(
+                () => {
+                  var f = new FormData(this.$refs.testform)
+                  f
+                  let index = base64.indexOf(',') + 1
+                  this.key = btoa(this.key)
+                  this.key.replace('+', '-')
+                  this.key.replace('/', '_')
+                  this.key.replace('=', '')
+                  this.$http.post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
+                    headers: {
+                      'Authorization': 'UpToken ' + this.token,
+                      'Content-Type': 'application/octet-stream'
+                    }
+                  })
+                    .then((response) => {
+                      console.log(response)
+                      for (let i in this.uploadImgs) {
+                        console.log(this.uploadImgs[i].url, response.data.key)
+                        if (this.uploadImgs[i].url === response.data.key) {
+                          this.uploadImgs[i].status = 'success'
+                        }
+                      }
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                      for (let i in this.uploadImgs) {
+                        if (this.uploadImgs[i].url === this.key) {
+                          this.uploadImgs[i].status = 'failed'
+                        }
+                      }
+                    })
+                }
+              )
+            })
+          // ajax和服务器通信上传base64图片等操作
+        },
+        fail: function (file) {
+          console.log('压缩失败...')
+        },
+        complete: function (file) {
+          console.log('压缩完成...')
+        },
+        notSupport: function (file) {
+          console.log('浏览器不支持！')
+          // 不支持操作，例如PC在这里可以采用swfupload上传
+        }
+      })
       var userfile = e.target.files[0]
       var selectedFile = userfile.name
       if (selectedFile) {
@@ -124,31 +190,6 @@ export default {
       } else {
         return false
       }
-      this.$http.get(`/api/v1/upload/token?key=${this.key}`)
-        .then((response) => {
-          this.token = response.data.uptoken
-          this.$nextTick(
-            () => {
-              var f = new FormData(this.$refs.testform)
-              this.$http.post('/upload', f)
-                .then((response) => {
-                  for (let i in this.uploadImgs) {
-                    if (this.uploadImgs[i].url === response.data.key) {
-                      this.uploadImgs[i].status = 'success'
-                    }
-                  }
-                })
-                .catch((error) => {
-                  console.log(error)
-                  for (let i in this.uploadImgs) {
-                    if (this.uploadImgs[i].url === this.key) {
-                      this.uploadImgs[i].status = 'failed'
-                    }
-                  }
-                })
-            }
-          )
-        })
     }
   }
 }
