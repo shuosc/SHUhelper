@@ -18,7 +18,7 @@
         <div class="taskListSty">
           <div class="task-list-item" v-for="(detail,index) in taskDetail[index]" :key="index" :style="detail.styleObj" @click="showDetail(detail)">
             <div>
-              <h5>{{detail.coursename}}</h5>
+              <p id="name">{{detail.coursename}}</p>
               <p>{{detail.teachname}}</p>
               <p>@{{detail.place}}</p>
             </div>
@@ -181,15 +181,19 @@ export default {
   margin-bottom: 0.5rem;
 }
 
-.task-list-item h5 {
-  font-size: 0.9rem;
+.task-list-item #name {
+  font-size: 0.8rem;
   font-weight: bold;
   /* color: #E0E7E9; */
   color: #E0E7E9;
   margin-bottom: 0.4rem;
-  padding: 0.1rem;
+  /* padding: 0.1rem; */
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
+  padding-bottom: 0.5rem;
+  padding-top: 1rem;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  /* white-space: nowrap; */
   overflow: hidden;
 }
 
