@@ -41,7 +41,6 @@
       <v-slide-y-transition mode="out-in">
         <!-- <keep-alive> -->
         <router-view></router-view>
-
         <!-- </keep-alive> -->
       </v-slide-y-transition>
     </main>
@@ -51,7 +50,6 @@
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
     </v-bottom-nav>
-    <!-- <login> </login> -->
     <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>

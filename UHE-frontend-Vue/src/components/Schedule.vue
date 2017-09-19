@@ -18,8 +18,7 @@
         <div class="taskListSty">
           <div class="task-list-item" v-for="(detail,index) in taskDetail[index]" :key="index" :style="detail.styleObj" @click="showDetail(detail)">
             <div>
-              <p id="name">{{detail.coursename}}</p>
-              <p>{{detail.teachname}}</p>
+              <p id="name">{{detail.coursename}}<br/>({{detail.teachname}})</p>
               <p>@{{detail.place}}</p>
             </div>
           </div>

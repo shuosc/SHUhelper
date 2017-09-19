@@ -5,7 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from mongoengine.queryset.visitor import Q
 
 from UHE.calendar.models import Activity, Event
-from UHE.client import Services, Fin
+from UHE.client import Services, Fin, Tiyu
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
 from UHE.upload import get_avatar
@@ -15,33 +15,50 @@ import json
 users = Blueprint('users', __name__)
 
 
-# @users.route('/data/<identifier>', methods=['GET', 'POST'])
-# @login_required
-# def user_data(identifier):
-#     if request.method == 'GET':
-#         user_data = UserData.objects.get_or_404(
-#             user=current_user.id, identifier=identifier)
-#         return jsonify(user_data)
-#     else:
-#         args = request.get_json()
-#         user_data = UserData.objects(
-#             user=current_user.id, identifier=identifier).first()
-#         if user_data is None:
-#             user_data = UserData(user=current_user.id, identifier=identifier)
-#             user_data.save()
-#         client = user_data.get_client()
-#         if client is None:
-#             Client = current_app.client[identifier]
-#             client = Client(
-#                 username=args.get('username'),
-#                 password=args.get('password'),
-#             )
-#             user_data.client_id = 'client' + \
-#                 args.get('username') + make_token()
-#             redis_store.set(user_data.client_id, client)
-#         user_data.save()
-#         update_user_data.delay(user_data._id)
-#         return jsonify(user_data)
+@users.route('/<card_id>/data/<identifier>/', methods=['GET', 'POST'])
+@login_required
+def user_data(card_id, identifier):
+    identifier = 'tiyu'
+    if request.method == 'GET':
+        user_data = UserData.objects.get_or_404(
+            user=current_user.id, identifier=identifier)
+        return jsonify(user_data)
+    else:
+        args = request.get_json()
+        user_data = UserData.objects(
+            user=current_user.id, identifier=identifier).first()
+        if user_data is None:
+            user_data = UserData(user=current_user.id, identifier=identifier)
+            user_data.save()
+        post_data = request.get_json()
+        user_data = UserData.objects(
+            user=current_user.id, identifier=identifier).first()
+        if user_data is None:
+            user_data = UserData(identifier=identifier,
+                                 user=current_user.id, status='none')
+            user_data.save()
+        task = get_data(identifier, current_user.id,
+                        post_data['password'], post_data['password'])
+        return jsonify(success='ok')
+
+
+def get_data(identifier, card_id, password, lock):
+    user_data = UserData.objects(user=card_id, identifier=identifier).first()
+    user_data.status = 'pending'
+    user_data.save()
+    try:
+        client = Tiyu(card_id, password)
+        client.login()
+        client.get_data()
+    except Exception as e:
+        user_data.status = 'failed'
+        user_data.save()
+        print('error')
+        raise e
+    user_data.data = client.to_json()
+    user_data.status = 'success'
+    user_data.last_modified = datetime.datetime.now()
+    user_data.lock_save(lock)
 
 
 @users.route('/replace-avatar')
@@ -83,7 +100,7 @@ def profile(user_id):
 @users.route('/<user_id>/custom', methods=['GET', 'PATCH'])
 @login_required
 def user_custom(user_id):
-    if card_id != current_user.id:
+    if user_id != current_user.id:
         abort(401)
     if request.method == 'GET':
         user = User.objects.get_or_404(card_id=current_user.id)

@@ -1,41 +1,6 @@
 <template>
   <div style="height:100%;">
-    <!-- <v-toolbar fixed dense class="primary">
-                                                                                                            <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
-                                                                                                              <v-icon large>navigate_before</v-icon>
-                                                                                                            </v-btn>
-                                                                                                            <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
-                                                                                                            <v-spacer></v-spacer>
-                                                                                                            <v-menu bottom class="ma-0">
-                                                                                                              <v-btn icon slot="activator">
-                                                                                                                <v-icon>iconfont-morevert</v-icon>
-                                                                                                              </v-btn>
-                                                                                                              <v-list>
-                                                                                                                <v-list-tile v-if="$store.state.user.cardID!==''" @click.native="onProfileClick">
-                                                                                                                  <v-list-tile-title>资料</v-list-tile-title>
-                                                                                                                </v-list-tile>
-                                                                                                                <v-list-tile v-if="$store.state.user.cardID===''" @click.native="$router.push('/login')">
-                                                                                                                  <v-list-tile-title>登陆</v-list-tile-title>
-                                                                                                                </v-list-tile>
-                                                                                                                <v-list-tile v-else @click.native="logout()">
-                                                                                                                  <v-list-tile-title>注销</v-list-tile-title>
-                                                                                                                </v-list-tile>
-                                                                                                                <v-list-tile @click.native="aboutDialog=true">
-                                                                                                                  <v-list-tile-title>关于</v-list-tile-title>
-                                                                                                                </v-list-tile>
-                                                                                                              </v-list>
-                                                                                                            </v-menu>
-                                                                                                          </v-toolbar> -->
     <div style="height:730px; padding-top:10px;">
-      <!-- <v-tabs light fixed centered :scrollable="false">
-                                                                                                                          <v-tabs-bar class="white">
-                                                                                                                            <v-tabs-slider class="primary"></v-tabs-slider>
-                                                                                                                            <v-tabs-item v-for="(item, index) in items" :key="index" :href="'#tab-' + index" class="primary--text">
-                                                                                                                              {{ item }}
-                                                                                                                            </v-tabs-item>
-                                                                                                                          </v-tabs-bar>
-                                                                                                                          <v-tabs-items>
-                                                                                                                            <v-tabs-content :id="'tab-0'" style="height:600px;" lazy> -->
       <schedule :task-detail="tasks" @showDetail="showDetail"></schedule>
     </div>
     <popup v-model="popupVisible" popup-transition="popup-fade">
@@ -67,18 +32,6 @@
       </v-card>
     </popup>
     <data-status @renewData="renewCourse" :status="status"></data-status>
-    <!-- </v-tabs-content> 
-                                                                                                                         <v-tabs-content :id="'tab-1'" lazy>
-                                                                                                                        <calendar-events locale="ZH_CN" style="height:20rem;" :events="calendarEvents" :selection="calendarSelection" @action="action"></calendar-events>
-                                                                                                                        <v-card>
-                                                                                                                          <ul>
-                                                                                                                            <li v-for="event in calendarEvents" :style="`color:${event.color};`" :key="event"> {{event.title}} </li>
-                                                                                                                          </ul>
-                                                                                                                        </v-card>
-                                                                                                                        </v-tabs-content> -->
-    <!-- </v-tabs-items>
-                                                                                                                        </v-tabs-content>
-                                                                                                                        </v-tabs> -->
   </div>
 </template>
 <script>

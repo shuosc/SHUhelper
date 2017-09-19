@@ -73,10 +73,9 @@ class Tiyu(Client):
         return self.data
 
     def to_json(self):
-        return {
-            'type': 'html',
-            'data': self.data
-        }
+        return json.dumps({
+            'html': self.data
+        })
 
 
 class Services(Client):
@@ -190,8 +189,7 @@ class Lehu(Client):
 
     def to_json(self):
         return {
-            'type': 'html',
-            'data': self.data
+            'html': self.data
         }
 
 

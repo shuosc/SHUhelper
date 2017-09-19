@@ -42,7 +42,7 @@
       </v-card-text>
     </v-card> -->
     <v-card class="mb-2">
-      <v-card-title primary-title class="pa-2">当前时间是 {{clock}}</v-card-title>
+      <v-card-title primary-title class="pa-2"  v-if="timeLeft">当前时间是 {{clock}}</v-card-title>
       <v-divider></v-divider>
       <v-card-text style="text-align:center;">
         还有{{timeLeft}}分钟进行第{{parseInt(point)%2===1?(parseInt(point)+1)/2+'节课':parseInt(point)/2+'节课间休息'}}
@@ -106,11 +106,11 @@ export default {
       dialog: false,
       publication: {},
       time: {
-        year: '',
-        term: '',
-        week: '',
-        day: '',
-        course: ''
+        year: '喵喵喵',
+        term: '喵喵喵',
+        week: '喵喵喵',
+        day: '喵喵喵',
+        course: '喵喵喵'
       },
       timerID: '',
       clock: '',
