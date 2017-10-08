@@ -5,7 +5,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from mongoengine.queryset.visitor import Q
 
 from UHE.calendar.models import Activity, Event
-from UHE.client import Services, Fin, Tiyu
+from UHE.client import Services, Fin, Tiyu, SZ
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
 from UHE.upload import get_avatar
@@ -139,20 +139,21 @@ def login():
     try:
         client = Services(post_data['card_id'], post_data['password'])
         success = client.login() and client.get_data()
-        print('xxb success')
     except:
-        client = Fin(post_data['card_id'], post_data['password'])
+        client = SZ(post_data['card_id'], post_data['password'])
         success = client.login() and client.get_data()
-        print('xxb,faild fin success')
     if success:
         user = User.objects(card_id=post_data['card_id']).first()
         if user is None:
-            user = User(name=client.data['name'], nickname=client.data['nickname'],
+            user = User(name=client.data['name'], nickname=client.data.get('nickname'),
                         card_id=post_data['card_id'], role='student', activated=True)
         elif not user.activated:
             user.name = client.data['name']
-            user.nickname = client.data['nickname']
+            user.nickname = client.data.get('nickname')
             user.activated = True
+        nickname = client.data.get('nickname')
+        if nickname is not None and user.nickname != nickname:
+            user.nickname = nickname
         user.token = make_token()
         result = {
             'avatar': user.avatar,

@@ -41,12 +41,35 @@ class Client(object):
         self.captcha = captcha
 
 
+class SZ(Client):
+    host = 'http://www.sz.shu.edu.cn'
+    proxies = None
+
+    def login(self):
+        post = {
+            'userName': self.card_id,
+            'password': self.password
+        }
+        r = self.session.post(
+            self.host + '/api/Sys/Users/Login', timeout=30, json=post, proxies=self.proxies)
+        if r.json()['message'] == '成功':
+            self.is_login = True
+            return True
+        return False
+
+    def get_data(self):
+        r = self.session.get(self.host + '/people/personinfo.aspx', timeout=30)
+        name_cell = BeautifulSoup(r.text, "html.parser").find(id='lbXingMing')
+        name = name_cell.get_text(strip=True)
+        self.data = {'name': name}
+        return True
+
+
 class Tiyu(Client):
     proxies = None
     url_prefix = 'http://202.120.127.149:8989/spims'
 
     def login(self):
-        self.s = requests.Session()
         post_data = {'UNumber': self.card_id,
                      'Upwd': self.password,
                      'USnumber': u'上海大学'}
@@ -95,7 +118,7 @@ class Services(Client):
             'btnOk': '提交(Submit)'
         }
         r = self.session.post(
-            'http://xzxx.shu.edu.cn/Login.aspx', data=post_data, headers=self.headers)
+            'http://xzxx.shu.edu.cn/Login.aspx', timeout=10, data=post_data, headers=self.headers)
         if r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1:
             return True
         return False
