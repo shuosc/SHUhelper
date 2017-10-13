@@ -16,6 +16,7 @@ class Time():
             return 0
 
     def week(self):
+        return 3
         week_event = Activity.objects(
             start__lte=self.date, end__gte=self.date, key='week').first()
         if week_event is not None:

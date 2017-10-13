@@ -9,7 +9,14 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from flask import current_app
-proxiess = None
+#from UHE.app import create_app
+
+def get_proxies():
+    proxies = {
+        'http':current_app.config['PROXY'],
+        'https':current_app.config['PROXY']
+        }
+    return proxies
 
 
 class Client(object):
@@ -51,14 +58,14 @@ class SZ(Client):
             'password': self.password
         }
         r = self.session.post(
-            self.host + '/api/Sys/Users/Login', timeout=30, json=post, proxies=self.proxies)
+            self.host + '/api/Sys/Users/Login', timeout=30, json=post, proxies=get_proxies())
         if r.json()['message'] == '成功':
             self.is_login = True
             return True
         return False
 
     def get_data(self):
-        r = self.session.get(self.host + '/people/personinfo.aspx', timeout=30)
+        r = self.session.get(self.host + '/people/personinfo.aspx', timeout=30,proxies=get_proxies())
         name_cell = BeautifulSoup(r.text, "html.parser").find(id='lbXingMing')
         name = name_cell.get_text(strip=True)
         self.data = {'name': name}
@@ -74,16 +81,16 @@ class Tiyu(Client):
                      'Upwd': self.password,
                      'USnumber': u'上海大学'}
         r = self.session.get(
-            self.url_prefix + '/login/index.jsp', timeout=30, proxies=self.proxies)
+            self.url_prefix + '/login/index.jsp', timeout=30, proxies=get_proxies())
         r = self.session.post(self.url_prefix + '/login.do?method=toLogin', data=post_data, timeout=30,
-                              proxies=self.proxies)
+                              proxies=get_proxies())
         if r.headers['Content-Length'] == '784':
             self.is_login = True
         return True
 
     def get_data(self):
         r = self.session.get(
-            self.url_prefix + '/exercise.do?method=seacheload', timeout=10, proxies=self.proxies)
+            self.url_prefix + '/exercise.do?method=seacheload', timeout=10, proxies=get_proxies())
         string = r.text
         content = re.search(
             r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>', string, flags=0).group(0)
@@ -102,7 +109,7 @@ class Tiyu(Client):
 
 
 class Services(Client):
-    url_prefix = 'http://xzxx.shu.edu.cn'
+    url_prefix = 'http://services.shu.edu.cn'
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
     }
@@ -118,7 +125,7 @@ class Services(Client):
             'btnOk': '提交(Submit)'
         }
         r = self.session.post(
-            'http://xzxx.shu.edu.cn/Login.aspx', timeout=10, data=post_data, headers=self.headers)
+            self.url_prefix + '/Login.aspx', timeout=3, data=post_data, headers=self.headers,proxies=get_proxies())
         if r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1:
             return True
         return False
@@ -127,7 +134,7 @@ class Services(Client):
         if self.card_id == 'ghost' and self.password == current_app.config['GHOST']:
             return True
         r = self.session.get(
-            self.url_prefix + '/User/userPerInfo.aspx', timeout=10)
+            self.url_prefix + '/User/userPerInfo.aspx', timeout=10,proxies=get_proxies())
         name = re.search(
             r'<span id="userName">([\s\S]*?)</span>', r.text, flags=0).group(1)
         nickname = re.search(
@@ -136,7 +143,7 @@ class Services(Client):
             'name': name,
             'nickname': nickname
         }
-        self.session.get(self.url_prefix + '/User/Logout.aspx')
+        self.session.get(self.url_prefix + '/User/Logout.aspx',proxies=get_proxies())
         return True
 
     def to_html(self):

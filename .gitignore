@@ -14,3 +14,4 @@ yarn.lock
 celerybeat-schedule
 celery.log
 SHUhelper
+gunicorn.log

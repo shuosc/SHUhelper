@@ -136,12 +136,12 @@ def login():
     """
     post_data = request.get_json()
     success = False
-    try:
-        client = Services(post_data['card_id'], post_data['password'])
-        success = client.login() and client.get_data()
-    except:
-        client = SZ(post_data['card_id'], post_data['password'])
-        success = client.login() and client.get_data()
+    #try:
+    client = Services(post_data['card_id'], post_data['password'])
+    success = client.login() and client.get_data()
+    #except:
+    #    client = SZ(post_data['card_id'], post_data['password'])
+    #    success = client.login() and client.get_data()
     if success:
         user = User.objects(card_id=post_data['card_id']).first()
         if user is None:
