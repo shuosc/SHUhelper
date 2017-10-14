@@ -1,17 +1,20 @@
 <template>
   <v-app toolbar style="height:100%;" :class="$store.state.user.custom.theme">
-    <v-toolbar fixed dense class="primary" v-show="!$route.meta.customToolbar">
+    <v-toolbar fixed dense class="primary" v-show="!$route.meta.customToolbar"
+      app>
       <v-btn icon @click.prevent="back" v-if="!$route.meta.disableBack">
         <v-icon large>navigate_before</v-icon>
       </v-btn>
       <v-toolbar-title v-text="$route.meta.title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-menu bottom class="ma-0" v-for="action in $store.state.toolbar.actions" :key="action.icon" :max-height="200">
+      <v-menu bottom class="ma-0" v-for="action in $store.state.toolbar.actions"
+        :key="action.icon" :max-height="200">
         <v-btn icon slot="activator">
           <v-icon>{{action.icon}}</v-icon>
         </v-btn>
         <v-list>
-          <v-list-tile v-for="item in action.items" @click.native="item.click" :key="item.name">
+          <v-list-tile v-for="item in action.items" @click.native="item.click"
+            :key="item.name">
             <v-list-tile-title>{{item.name}}</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -21,10 +24,12 @@
           <v-icon>iconfont-morevert</v-icon>
         </v-btn>
         <v-list>
-          <v-list-tile v-if="$store.state.user.cardID!==''" @click.native="onProfileClick">
+          <v-list-tile v-if="$store.state.user.cardID!==''"
+            @click.native="onProfileClick">
             <v-list-tile-title>个人资料</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-if="$store.state.user.cardID===''" @click.native="$router.push('/login')">
+          <v-list-tile v-if="$store.state.user.cardID===''"
+            @click.native="$router.push('/login')">
             <v-list-tile-title>登陆</v-list-tile-title>
           </v-list-tile>
           <v-list-tile v-else @click.native="logout()">
@@ -37,20 +42,29 @@
       </v-menu>
     </v-toolbar>
     <!-- overflowY:'scroll' -->
-    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}" class="wrapper" id="main" ref="container" @scroll="handleScroll">
-      <v-slide-y-transition mode="out-in">
-        <!-- <keep-alive> -->
-        <router-view></router-view>
-        <!-- </keep-alive> -->
-      </v-slide-y-transition>
+    <main :style="{paddingBottom:ui.bottomNavigationVisible?'56px':'0',height:'100%'}"
+      class="wrapper" id="main" ref="container" @scroll="handleScroll">
+      <v-content>
+        <v-slide-y-transition mode="out-in">
+          <!-- <keep-alive> -->
+          <router-view></router-view>
+          <!-- </keep-alive> -->
+        </v-slide-y-transition>
+      </v-content>
     </main>
-    <v-bottom-nav class="primary ma-0 pa-0" dark v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
-      <v-btn flat v-for="(nav,index) in bottomNavs" :key="index" @click.native="onBottomNavgationClick(index)">
+    <v-bottom-nav app class="primary ma-0 pa-0" dark
+      v-model="ui.bottomNavigationVisible" :active.sync="bottomNavgationIndex">
+      <v-btn flat v-for="(nav,index) in bottomNavs" :key="index"
+        @click.native="onBottomNavgationClick(index)">
         <span>{{nav.name}}</span>
         <v-icon>{{nav.icon}}</v-icon>
       </v-btn>
     </v-bottom-nav>
-    <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'" :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'" :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'" :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible" style="bottom:100px;">
+    <v-snackbar :timeout="snackbar.timeout" :top="snackbar.y === 'top'"
+      :bottom="snackbar.y === 'bottom'" :right="snackbar.x === 'right'"
+      :left="snackbar.x === 'left'" :multi-line="snackbar.mode === 'multi-line'"
+      :vertical="snackbar.mode === 'vertical'" v-model="snackbar.visible"
+      style="bottom:100px;">
       {{ snackbar.text }}
       <v-btn flat class="pink--text" @click.native="snackbar.visible = false">Close</v-btn>
     </v-snackbar>
@@ -83,7 +97,9 @@
               SHUhelper公众号：shuhelper
             </p>
             <p style="text-align:center;">
-              <img src="/static/built-with-love.svg"><br/><img src="/static/for-you.svg"></p>
+              <img src="/static/built-with-love.svg"><br/>
+              <img
+                src="/static/for-you.svg"></p>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -265,14 +281,18 @@ export default {
 </script>
 <style lang="stylus">
 // $color-pack = false
-@import './stylus/main'
-$unset secondary
-$unset primary
-.lightbox
-  z-index:10 !important
-.fullscreen-v-img
-  z-index:10
-.wrapper 
-  overflow: auto
-  -webkit-overflow-scrolling: touch
+@import './stylus/main';
+
+$unset secondary, $unset primary, .lightbox {
+  z-index: 10 !important;
+}
+
+.fullscreen-v-img {
+  z-index: 10;
+}
+
+.wrapper {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
 </style>

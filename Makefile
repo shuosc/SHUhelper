@@ -29,7 +29,7 @@ buildweb:
 
 run:
 	# celery -A celery_worker.celery worker --loglevel=info & >celery.log
-	export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run
+	source env/bin/activate && export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run
 
 deploycelery:
 	nohup celery -A celery_worker.celery worker --beat --loglevel=info & >celery.log

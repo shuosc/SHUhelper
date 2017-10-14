@@ -7,13 +7,18 @@
             <v-text-field label="一卡通" v-model="cardID"></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-text-field label="密码" :append-icon="passwordVisiable ? 'visibility' : 'visibility_off'" :append-icon-cb="() => (passwordVisiable = !passwordVisiable)" :type="passwordVisiable ? 'password' : 'text'" v-model="password"></v-text-field>
+            <v-text-field label="密码" :append-icon="passwordVisiable ? 'visibility' : 'visibility_off'"
+              :append-icon-cb="() => (passwordVisiable = !passwordVisiable)"
+              :type="passwordVisiable ? 'password' : 'text'"
+              v-model="password"></v-text-field>
           </v-flex>
           <v-flex xs12>
-            <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项" persistent-hint v-model="remeberMe" light></v-checkbox>
+            <v-checkbox v-bind:label="'记住我'" hint="不是自己的设备请不要勾选此项"
+              persistent-hint v-model="remeberMe" light></v-checkbox>
           </v-flex>
           <v-flex xs12>
-            <v-btn primary dark block @click.native="login()" :loading="loginLoading" >
+            <v-btn primary dark block @click.native="login()"
+              :loading="loginLoading">
               登录</v-btn>
           </v-flex>
         </v-layout>
@@ -80,7 +85,11 @@ export default {
             _this.$store.commit('showSnackbar', { text: `${loginText}` })
           }
           this.loginLoading = false
-          this.$router.go(-1)
+          if (this.$route.query.redirect) {
+            this.$router.replace(this.$route.query.redirect)
+          } else {
+            this.$router.push('/')
+          }
         })
         .catch(function (error) {
           error

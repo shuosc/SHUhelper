@@ -5658,9 +5658,9 @@ vue@^2.0.1, vue@^2.0.5, vue@^2.2.6, vue@^2.4.2:
   version "2.4.2"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.4.2.tgz#a9855261f191c978cc0dc1150531b8d08149b58c"
 
-vuetify@^0.15.2:
-  version "0.15.2"
-  resolved "http://registry.npm.taobao.org/vuetify/download/vuetify-0.15.2.tgz#f4978524ca85ada4cc1228fd40e1239f185ae7f2"
+vuetify@^0.16.6:
+  version "0.16.6"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.16.6.tgz#76f3f6eb507116935469261c021f3e50055214cf"
 
 vuex@^2.3.1:
   version "2.3.1"

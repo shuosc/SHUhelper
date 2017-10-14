@@ -17,7 +17,8 @@
         <v-card>
           <v-layout row wrap class="ma-0">
             <v-flex xs3 v-for="(link,index) in navs" :key="index">
-              <div style="width:100%;height:100%;cursor:pointer;" @click="$router.push(link.url)">
+              <div style="width:100%;height:100%;cursor:pointer;"
+                @click="$router.push(link.url)">
                 <v-icon v-html="link.icon" class="blue--text" style="display:flex;">
                 </v-icon>
                 <p style="text-align:center;" class="mb-1">{{link.name}}</p>
@@ -32,22 +33,34 @@
       </span>
     </v-layout>
     <!-- <v-card class="mb-2">
-      <v-card-title primary-title class="pa-2">通知公告</v-card-title>
-      <v-divider></v-divider>
-      <v-card-text class="">
-        <ul>
-          <li v-for="publication in publications" :key="publication.title" @click.stop="showPublication(publication)">{{publication.title}}
-          </li>
-        </ul>
-      </v-card-text>
-    </v-card> -->
+          <v-card-title primary-title class="pa-2">通知公告</v-card-title>
+          <v-divider></v-divider>
+          <v-card-text class="">
+            <ul>
+              <li v-for="publication in publications" :key="publication.title" @click.stop="showPublication(publication)">{{publication.title}}
+              </li>
+            </ul>
+          </v-card-text>
+        </v-card> -->
     <v-card class="mb-2">
-      <v-card-title primary-title class="pa-2"  v-if="timeLeft">当前时间是 {{clock}}</v-card-title>
+      <v-card-title primary-title class="pa-2" v-if="timeLeft">当前时间是 {{clock}}</v-card-title>
       <v-divider></v-divider>
       <v-card-text style="text-align:center;">
         还有{{timeLeft}}分钟进行第{{parseInt(point)%2===1?(parseInt(point)+1)/2+'节课':parseInt(point)/2+'节课间休息'}}
       </v-card-text>
     </v-card>
+    <v-card class="mb-2">
+      <!-- <v-card-title primary-title class="pa-2">广告位招商</v-card-title> -->
+      <v-divider></v-divider>
+      <v-card-text style="text-align:center;padding:0;">
+        <v-carousel style="height:100px" :hide-controls="true"
+          :left-control-icon="false" :right-control-icon="false">
+          <v-carousel-item v-for="(item,i) in ads" v-bind:src="'//static.shuhelper.cn/'+item.img+'-banner100' "
+            :key="i" @click="this.window.open(item.url)"></v-carousel-item>
+        </v-carousel>
+      </v-card-text>
+    </v-card>
+
     <v-dialog v-model="dialog">
       <v-card>
         <v-card-title class="headline">{{publication.title}}</v-card-title>
@@ -73,6 +86,16 @@ export default {
   },
   data () {
     return {
+      ads: [
+        {
+          img: 'adsSchoolMusicContest.jpg',
+          url: 'https://mp.weixin.qq.com/s/ReBaE2neMN6B0CrK-RLHwA'
+        },
+        {
+          img: 'adsjustSearch.jpg',
+          url: 'https://mp.weixin.qq.com/s/_IXDSbh3aNS0FVzQpqwEFw'
+        }
+      ],
       items: ['1', '2', '3'],
       e1: '',
       fab: false,
@@ -173,5 +196,4 @@ export default {
 }
 </script>
 <style lang="stylus">
-
 </style>
