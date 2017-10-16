@@ -26,7 +26,7 @@
 
     </v-card>
     <div v-infinite-scroll="searchCourseQuick" :infinite-scroll-disabled="loading||allLoaded" infinite-scroll-distance="40">
-      <v-card flat v-for="course in courses" :key="course.no" @click.stop="onCourseClick(course)">
+      <v-card flat v-for="course in courses" :key="course.no" @click.native.stop="onCourseClick(course)">
         <v-card-text class="px-1">
           <v-layout row>
             <v-flex xs2>

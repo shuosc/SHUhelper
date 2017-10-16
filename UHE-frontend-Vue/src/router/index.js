@@ -28,7 +28,7 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: function (resolve) {
-        require(['@/views/login.vue'], resolve)
+        require(['@/views/Login.vue'], resolve)
       },
       meta: {
         title: '登陆',
