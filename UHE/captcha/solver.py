@@ -3,6 +3,14 @@ temporary using http://www.ruokuai.com captcha solver api
 replace it later
 """
 import requests
+from flask import current_app
+
+def get_proxies():
+    proxies = {
+        'http': current_app.config['PROXY'],
+        'https': current_app.config['PROXY']
+    }
+    return proxies
 
 
 class Solver:
@@ -48,7 +56,7 @@ class Solver:
         params.update(self.base_params)
         files = {'captcha': ('captcha.jpg', im)}
         r = requests.post('https://anti-captcha.shuosc.org/' + endpoint,
-                          data=params, files=files)
+                          data=params, files=files, proxies=get_proxies())
         return {'Result': r.json()['result']}
 
     def report_error(self, im_id):
