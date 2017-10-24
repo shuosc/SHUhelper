@@ -25,6 +25,7 @@ class User(UserMixin, db.Document):
     activated = BooleanField(default=False)
     robot = BooleanField(default=False)
     deleted = BooleanField(default=False)
+    hash = StringField(default='')
     custom = StringField(default='{}')
     meta = {'strict': False}
 

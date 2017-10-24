@@ -12,6 +12,7 @@ from UHE.upload import get_avatar
 from UHE.user.models import User, UserData
 from UHE.utils import make_token
 import json
+from werkzeug.security import check_password_hash, generate_password_hash
 users = Blueprint('users', __name__)
 
 
@@ -136,49 +137,61 @@ def login():
     """
     post_data = request.get_json()
     success = False
-    #try:
+    user = User.objects(card_id=post_data['card_id']).first()
     client = Services(post_data['card_id'], post_data['password'])
-    success = client.login() and client.get_data()
-    #except:
-    #    client = SZ(post_data['card_id'], post_data['password'])
-    #    success = client.login() and client.get_data()
-    if success:
-        user = User.objects(card_id=post_data['card_id']).first()
-        if user is None:
+    if user is None:
+        if client.login() and client.get_data():
             user = User(name=client.data['name'], nickname=client.data.get('nickname'),
-                        card_id=post_data['card_id'], role='student', activated=True)
-        elif not user.activated:
-            user.name = client.data['name']
-            user.nickname = client.data.get('nickname')
-            user.activated = True
-        nickname = client.data.get('nickname')
-        if nickname is not None and user.nickname != nickname:
-            user.nickname = nickname
-        user.token = make_token()
-        result = {
-            'avatar': user.avatar,
-            'token': user.token,
-            'name': user.name,
-            'nickname': user.nickname,
-            'custom': user.custom
-        }
-        redis_store.set('token_' + user.token, post_data['card_id'], ex=86400)
-        user.last_login = datetime.datetime.now()
-        user.save()
-        login_user(user)
-        return jsonify(result)
+                        card_id=post_data['card_id'], role='student', activated=True, hash=generate_password_hash(post_data['password']))
+        else:
+            abort(403)
     else:
-        abort(401)
-
+        if user.name != '未激活':
+            if user.hash != '':
+                if check_password_hash(user.hash, post_data['password']):
+                    pass
+                else:
+                    if client.login():
+                        user.hash=generate_password_hash(post_data['password'])
+                        user.save()
+                    else:
+                        abort(403)
+            else:
+                if client.login():
+                    user.hash=generate_password_hash(post_data['password'])
+                    user.save()
+                else:
+                    abort(403)
+        else:
+            if  client.login() and client.get_data():
+                user.name = client.data['name']
+                user.nickname = client.data.get('nickname')
+                user.hash=generate_password_hash(post_data['password'])
+                user.save()
+            else:
+                abort(403)
+    user.token=make_token()
+    result={
+        'avatar': user.avatar,
+        'token': user.token,
+        'name': user.name,
+        'nickname': user.nickname,
+        'custom': user.custom
+    }
+    redis_store.set('token_' + user.token, post_data['card_id'], ex=86400)
+    user.last_login=datetime.datetime.now()
+    user.save()
+    login_user(user)
+    return jsonify(result)
 
 @users.route("/login-with-token/")
 def login_with_token():
-    token = request.args.get('token')
-    card_id = redis_store.get('token_' + token)
-    user = User.objects(card_id=card_id).first()
+    token=request.args.get('token')
+    card_id=redis_store.get('token_' + token)
+    user=User.objects(card_id=card_id).first()
     if user:
-        user.token = token
-        result = {
+        user.token=token
+        result={
             'avatar': user.avatar,
             'token': user.token,
             'name': user.name,
@@ -186,7 +199,7 @@ def login_with_token():
             'custom': user.custom
         }
         redis_store.set('token_' + user.token, user.card_id, ex=86400)
-        user.last_login = datetime.datetime.now()
+        user.last_login=datetime.datetime.now()
         user.save()
         login_user(user)
         return jsonify(result)
