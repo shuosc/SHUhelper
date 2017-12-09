@@ -16,9 +16,9 @@ from werkzeug.security import check_password_hash, generate_password_hash
 users = Blueprint('users', __name__)
 
 
-@users.route('/<card_id>/data/<identifier>/', methods=['GET', 'POST'])
+@users.route('/query/<identifier>/', methods=['GET', 'POST'])
 @login_required
-def user_data(card_id, identifier):
+def user_data(identifier):
     identifier = 'tiyu'
     if request.method == 'GET':
         user_data = UserData.objects.get_or_404(

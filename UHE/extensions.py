@@ -21,10 +21,10 @@ allows = Allows()
 
 admin = Admin(name='SHUhelper pikachu', template_mode='bootstrap3')
 
-cache = Cache(config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE_',
+cache = Cache(config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
                       'CACHE_REDIS_URL': 'redis://127.0.0.1:6379/2'})
 
-redis_store = FlaskRedis(decode_responses=True)
+redis_store = FlaskRedis(config_prefix='UHE',decode_responses=True)
 
 db = MongoEngine()
 

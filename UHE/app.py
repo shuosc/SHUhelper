@@ -17,6 +17,7 @@ from UHE.user.models import User
 from UHE.publication.api import publications
 from UHE.time.api import time
 from UHE.link.api import links
+from UHE.goods.api import goods
 
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
@@ -99,6 +100,7 @@ def configure_celery_app(app, celery):
 
 def configure_blueprints(app):
     app.register_blueprint(time, url_prefix='/time')
+    app.register_blueprint(goods, url_prefix='/goods')
     app.register_blueprint(publications, url_prefix='/publications')
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(conversations, url_prefix='/conversations')

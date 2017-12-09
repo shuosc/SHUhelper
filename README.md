@@ -1,5 +1,9 @@
 # SHUhelper
 
+
+[![codebeat badge](https://codebeat.co/badges/97b9864b-ffc5-497a-a4bd-27d73cc95e46)](https://codebeat.co/projects/github-com-shuopensourcecommunity-shuhelper-master)
+
+
 ## 简介
 
 此项目致力于构建一套开源的校园门户系统，解决大多数校园都存在的信息接口碎片化问题，并通过丰富的插件系统提供多样化的订制功能。

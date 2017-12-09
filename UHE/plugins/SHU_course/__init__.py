@@ -13,6 +13,7 @@ from UHE.plugins import UHEPlugin
 from flask import current_app
 from .models import Course, CourseOfTerm
 from .api import courses
+from UHE.SHUapi import get_courses
 from UHE.admin.views import BasicPrivateModelView
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCourse"
@@ -67,7 +68,7 @@ def save_courses(courselist, term):
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
-        if term == '2017_1':
+        if term == '2017_2':
             course_db.this_term = True
             course_db.save()
         course_detail = {
@@ -80,7 +81,6 @@ def save_courses(courselist, term):
         if not course_of_term_db:
             course_of_term_db = CourseOfTerm(**course_detail)
             course_of_term_db.save()
-    print('all done')
 
 TERM_INT = {
     '秋': 1,

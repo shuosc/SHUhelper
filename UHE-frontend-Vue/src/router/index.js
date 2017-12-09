@@ -58,6 +58,17 @@ export default new Router({
       }
     },
     {
+      path: '/sales',
+      name: 'sales',
+      component: function (resolve) {
+        require(['@/views/sales.vue'], resolve)
+      },
+      meta: {
+        title: '售卖记录',
+        unableBottomNavgation: true
+      }
+    },
+    {
       path: '/sports',
       name: 'sports',
       component: function (resolve) {

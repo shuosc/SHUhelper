@@ -55,7 +55,7 @@ class Solver:
         }
         params.update(self.base_params)
         files = {'captcha': ('captcha.jpg', im)}
-        r = requests.post('https://anti-captcha.shuosc.org/' + endpoint,
+        r = requests.post('http://114.115.217.207:5000/' + endpoint,
                           data=params, files=files, proxies=get_proxies())
         return {'Result': r.json()['result']}
 
