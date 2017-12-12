@@ -51,7 +51,7 @@ class SHUCourse(UHEPlugin):
 
 
 
-@celery.task()
+# @celery.task()
 def get_xk(url):
     term = get_term(url)
     courselist = get_latest_course(url)

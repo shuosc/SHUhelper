@@ -99,6 +99,7 @@ class PostView(ModelView):
 
 @celery.task(bind=True, retry_kwargs={'max_retries': 10})
 def async_install(self, ids):
+    print('install')
     try:
         all_plugins = plugin_manager.all_plugins
         plugins_db = Plugin.objects(id__in=ids)
@@ -137,11 +138,12 @@ class PluginView(BasicPrivateModelView):
 
     @action('安装', '安装', '安装选中的插件吗')
     def action_install(self, ids):
-        async_install.delay(ids)
+        async_install(ids)
+        print('install')
 
     @action('卸载', '卸载', '卸载选中的插件吗')
     def action_uninstall(self, ids):
-        async_uninstall.delay(ids)
+        async_uninstall(ids)
 
 
 admin_index = Blueprint('admin_index', __name__)
