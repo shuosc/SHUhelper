@@ -30,6 +30,9 @@ class Time():
             return int(term_event.args.split('_')[-1])
         else:
             return 0
+    
+    def term_string(self):
+        return str(self.year) + '_' + str(self.term)
 
     def day(self):
         return int(time.strftime("%w"))

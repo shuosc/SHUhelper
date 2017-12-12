@@ -8,9 +8,8 @@ from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
 
-from UHE.captcha.solver import Solver
-from UHE.plugin_manager import PluginManager
-
+from UHE.plugins.SHU_captcha.solver import Solver
+from UHE.plugins import PluginManager
 # from UHE.schedule import clock
 
 login_manager = LoginManager()
@@ -22,9 +21,9 @@ allows = Allows()
 admin = Admin(name='SHUhelper pikachu', template_mode='bootstrap3')
 
 cache = Cache(config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
-                      'CACHE_REDIS_URL': 'redis://127.0.0.1:6379/2'})
+                      'CACHE_REDIS_URL': 'redis://dev.shuhelper.cn:6378/0'})
 
-redis_store = FlaskRedis(config_prefix='UHE',decode_responses=True)
+redis_store = FlaskRedis(decode_responses=True)
 
 db = MongoEngine()
 

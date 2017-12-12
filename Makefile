@@ -1,3 +1,4 @@
+#! /bin/bash
 .PHONY: clean install help test lint run dependencies docs
 
 help:
@@ -28,7 +29,6 @@ buildweb:
 	cd ./UHE-frontend-Vue && yarn build
 
 run:
-	# celery -A celery_worker.celery worker --loglevel=info & >celery.log
 	source env/bin/activate && export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run
 
 deploycelery:

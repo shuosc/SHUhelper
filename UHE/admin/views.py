@@ -17,7 +17,7 @@ from UHE.publication.models import Publication
 from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
 from UHE.user.models import User, UserData
-from UHE.link.models import Link
+from UHE.index.models import Link
 from UHE.goods.models import Goods
 from flask import Blueprint
 from UHE.utils import make_token, validate

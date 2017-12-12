@@ -1,9 +1,10 @@
 import datetime
 
-from mongoengine import (DateTimeField, ListField, CASCADE,URLField,
-                         ReferenceField, StringField, GenericReferenceField)
+from mongoengine import (CASCADE, DateTimeField, GenericReferenceField,
+                         ListField, ReferenceField, StringField, URLField)
 
 from UHE.extensions import db
+
 
 class Link(db.Document):
     identifier = StringField(primary_key=True)

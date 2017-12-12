@@ -3,7 +3,8 @@ from flask.views import MethodView
 from flask_login import current_user
 from .client import Services
 SHUapi = Blueprint('shu', __name__)
-
+def get_courses():
+    pass
 def auth_user(username,password):
     pass
     # success = False

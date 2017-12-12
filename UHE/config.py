@@ -38,7 +38,7 @@ class DevelopmentConfig(Config):
     }
 
     # Redis
-    REDIS_URL = "redis://localhost:6379/0"
+    REDIS_URL = "redis://dev.shuhelper.cn:6378/0"
 
     #Babel
     BABEL_DEFAULT_LOCALE = 'zh_CN'

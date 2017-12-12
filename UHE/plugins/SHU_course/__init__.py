@@ -13,7 +13,8 @@ from UHE.plugins import UHEPlugin
 from flask import current_app
 from .models import Course, CourseOfTerm
 from .api import courses
-from UHE.SHUapi import get_courses
+from UHE.plugins.SHU_api import get_courses
+from UHE.time import Time
 from UHE.admin.views import BasicPrivateModelView
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCourse"
@@ -31,7 +32,6 @@ class CourseView(BasicPrivateModelView):
 class SHUCourse(UHEPlugin):
     settings_key = 'SHU_calendar'
     def setup(self,app):
-        self.term = '2017_1'
         admin.add_view(
             CourseView(CourseOfTerm, endpoint='course-term-manage'))
         admin.add_view(CourseView(Course, endpoint='course-manage'))
@@ -68,7 +68,7 @@ def save_courses(courselist, term):
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
-        if term == '2017_2':
+        if term == Time().term_string():
             course_db.this_term = True
             course_db.save()
         course_detail = {
@@ -161,8 +161,8 @@ def get_latest_course(url):
         checkimg = captcha_solver.create(captcha_img, site='xk')
         print('get checkimg success', checkimg)
         postData = {
-            'txtUserName': '15121604',
-            'txtPassword': 'ZYq2010',
+            'txtUserName': current_app.config['TESTING_CARD_ID'],
+            'txtPassword': current_app.config['TESTING_PASSWORD'],
             'txtValiCode': checkimg['Result'],
         }
         r = s.post(url, data=postData, timeout=10)

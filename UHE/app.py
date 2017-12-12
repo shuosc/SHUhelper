@@ -8,7 +8,6 @@ from UHE.extensions import (admin, allows, babel, cache, celery, db,
                             login_manager, mail, plugin_manager, redis_store,
                             captcha_solver)
 from UHE.feed.api import feeds
-from UHE.index import index
 from UHE.message.api import conversations
 from UHE.models import Plugin
 from UHE.upload import upload
@@ -16,8 +15,8 @@ from UHE.user.api import users
 from UHE.user.models import User
 from UHE.publication.api import publications
 from UHE.time.api import time
-from UHE.link.api import links
 from UHE.goods.api import goods
+from UHE.index.api import index
 
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
@@ -109,7 +108,6 @@ def configure_blueprints(app):
     app.register_blueprint(events, url_prefix='/events')
     app.register_blueprint(index, url_prefix='/index')
     app.register_blueprint(comments, url_prefix='/comments')
-    app.register_blueprint(links, url_prefix='/link')
     # print(app.url_map)
     # pass
 

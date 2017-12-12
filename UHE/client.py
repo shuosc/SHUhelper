@@ -299,7 +299,6 @@ class Phylab(Client):
                      'verify': self.captcha}
         r = self.session.post(
             self.url_prefix + '/openexp/index.php/Public/checkLogin/', data=post_data, timeout=10,proxies=get_proxies())
-        print(json.loads(r.text))
         return r.text.find('false') != -1
 
     def get_data(self):

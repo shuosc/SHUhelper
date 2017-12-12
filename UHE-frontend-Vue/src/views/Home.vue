@@ -49,8 +49,7 @@
         还有{{timeLeft}}分钟进行第{{parseInt(point)%2===1?(parseInt(point)+1)/2+'节课':parseInt(point)/2+'节课间休息'}}
       </v-card-text>
     </v-card>
-    <v-card class="mb-2">
-      <!-- <v-card-title primary-title class="pa-2">广告位招商</v-card-title> -->
+    <!-- <v-card class="mb-2">
       <v-divider></v-divider>
       <v-card-text style="text-align:center;padding:0;">
         <v-carousel style="height:100px" :hide-controls="true"
@@ -59,7 +58,7 @@
             :key="i" @click="this.window.open(item.url)"></v-carousel-item>
         </v-carousel>
       </v-card-text>
-    </v-card>
+    </v-card> -->
 
     <v-dialog v-model="dialog">
       <v-card>
