@@ -1,0 +1,9 @@
+backend/env/
+backend/__pycache__/
+backend/instance/
+backend/config.py
+.DS_Store
+frontend/node_modules/
+frontend/dist/
+frontend/npm-debug.log
+frontend/yarn-error.log
