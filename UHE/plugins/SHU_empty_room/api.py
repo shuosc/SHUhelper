@@ -2,18 +2,19 @@
 import re
 
 from flask import Blueprint, current_app, jsonify, request
-
 from UHE.calendar.models import Activity, Event
+from UHE.extensions import redis_store
 from UHE.time import Time
-
-from . import find_empty_room
-
+from .empty_room import EmptyRoom
 
 empty_room = Blueprint('empty_room', __name__)
 
 
 @empty_room.route('/')
 def findemptyroom():
+    this_term = Time().term_string()
+    classroom_dict = redis_store.get('empty_room' + this_term)
+    find_empty_room = EmptyRoom(classroom_dict) 
     campus = request.args.get('campus')
     week = request.args.get('week')
     day = request.args.get('day')
@@ -37,10 +38,10 @@ def findemptyroom():
     return jsonify(result)
 
 
-@empty_room.route('/<room>')
-def room_schedule(room):
-    result = {
-        'room': room,
-        'schedule': find_empty_room.get_room_schedule(room)
-    }
-    return jsonify(result)
+# @empty_room.route('/<room>')
+# def room_schedule(room):
+#     result = {
+#         'room': room,
+#         'schedule': find_empty_room.get_room_schedule(room)
+#     }
+#     return jsonify(result)

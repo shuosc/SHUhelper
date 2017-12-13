@@ -8,7 +8,7 @@ from UHE.plugins import UHEPlugin
 from UHE.plugins.SHU_course.models import CourseOfTerm
 from UHE.time import Time
 
-from .find_empty_room import EmptyRoom
+from .empty_room import EmptyRoom
 from .api import empty_room
 
 # from celery.contrib.methods import task_method
@@ -21,7 +21,6 @@ cn_num = {
     '四': 4,
     '五': 5,
 }
-find_empty_room = EmptyRoom({})
 
 class SHUEmptyRoom(UHEPlugin):
     settings_key = 'SHU_emptyrooom'
@@ -89,16 +88,16 @@ class SHUEmptyRoom(UHEPlugin):
         if classroom_dict is None:
             classroom_dict = self.get_classroom_dict(this_term)
             redis_store.set('empty_room' + this_term, classroom_dict)
-        find_empty_room = EmptyRoom(classroom_dict)
+        # find_empty_room = EmptyRoom(classroom_dict)
 
 
     def install(self, app):
         this_term = Time().term_string()
         classroom_dict = self.get_classroom_dict(this_term)
-        if edis_store.get('empty_room' + this_term) is not None:
+        if redis_store.get('empty_room' + this_term) is not None:
             redis_store.delete('empty_room' + this_term)
         redis_store.set('empty_room' + this_term, classroom_dict)
-        find_empty_room = EmptyRoom(classroom_dict)
+        # find_empty_room = EmptyRoom(classroom_dict)
 
 
     def uninstall(self):
