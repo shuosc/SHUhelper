@@ -13,8 +13,8 @@ from flask import current_app
 
 def get_proxies():
     proxies = {
-        'http':current_app.config['PROXY'],
-        'https':current_app.config['PROXY']
+        # 'http':current_app.config['PROXY'],
+        # 'https':current_app.config['PROXY']
         }
 
     return proxies

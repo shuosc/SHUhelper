@@ -13,7 +13,8 @@ empty_room = Blueprint('empty_room', __name__)
 @empty_room.route('/')
 def findemptyroom():
     this_term = Time().term_string()
-    classroom_dict = redis_store.get('empty_room' + this_term)
+    classroom_dict = redis_store.get('empty_room_' + this_term)
+    assert classroom_dict is not None
     find_empty_room = EmptyRoom(classroom_dict) 
     campus = request.args.get('campus')
     week = request.args.get('week')

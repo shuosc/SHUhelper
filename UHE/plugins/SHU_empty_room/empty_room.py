@@ -10,7 +10,8 @@ import os.path as op
 
 class EmptyRoom():
     def __init__(self,classroom_dict):
-        self.classroom_dict = classroom_dict
+        self.classroom_dict = json.loads(classroom_dict)
+        
 
     def get_room_schedule(self, campus, room):
         """
@@ -32,6 +33,9 @@ class EmptyRoom():
         emptyroom_list = []
         if course == 0 or day == 0 or day == 6:
             return emptyroom_list
+        # print(self.classroom_dict[campus])
+        print(self.classroom_dict)
+        print(type(self.classroom_dict))
         for classroom in self.classroom_dict[campus].keys():
             if self.classroom_dict[campus][classroom][week - 1][day - 1][course - 1] == 1:
                 emptyroom_list.append(classroom)

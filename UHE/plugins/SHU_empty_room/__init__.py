@@ -84,19 +84,19 @@ class SHUEmptyRoom(UHEPlugin):
         print('setup', __plugin__)
         current_app.register_blueprint(empty_room, url_prefix='/empty-room')
         this_term = Time().term_string()
-        classroom_dict = redis_store.get('empty_room' + this_term)
+        classroom_dict = redis_store.get('empty_room_' + this_term)
         if classroom_dict is None:
             classroom_dict = self.get_classroom_dict(this_term)
-            redis_store.set('empty_room' + this_term, classroom_dict)
+            redis_store.set('empty_room_' + this_term, classroom_dict)
         # find_empty_room = EmptyRoom(classroom_dict)
 
 
     def install(self, app):
         this_term = Time().term_string()
         classroom_dict = self.get_classroom_dict(this_term)
-        if redis_store.get('empty_room' + this_term) is not None:
-            redis_store.delete('empty_room' + this_term)
-        redis_store.set('empty_room' + this_term, classroom_dict)
+        if redis_store.get('empty_room_' + this_term) is not None:
+            redis_store.delete('empty_room_' + this_term)
+        redis_store.set('empty_room_' + this_term, classroom_dict)
         # find_empty_room = EmptyRoom(classroom_dict)
 
 
