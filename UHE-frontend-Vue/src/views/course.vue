@@ -6,13 +6,13 @@
       </p>
       <h5 style="text-align:center;" class="ma-0">
         <span class="grey--text" style="font-size:1.2rem;">{{course.course.no}} </span>
-        <span class="teal--text" style="font-size:1.2rem;">{{course.course.teacher}} 17-18秋</span>
+        <span class="teal--text" style="font-size:1.2rem;">{{course.course.teacher}} 17-18冬</span>
       </h5>
       <v-card-text class="px-0 pt-0">
         <div class="text-xs-center">
           <v-chip small class="primary white--text" v-for="term in terms"
             :key="term" @click="getTermCourse(term)">{{term|term}}</v-chip>
-          <v-chip small v-show="terms.indexOf('2017_1')==-1" @click="getTermCourse('2017_1')"
+          <v-chip small v-show="terms.indexOf('2017_2')==-1" @click="getTermCourse('2017_2')"
             class="orange white--text">本学期未开</v-chip>
         </div>
         <navbar v-model="active">

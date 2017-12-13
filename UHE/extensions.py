@@ -20,8 +20,7 @@ allows = Allows()
 
 admin = Admin(name='SHUhelper pikachu', template_mode='bootstrap3')
 
-cache = Cache(config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
-                      'CACHE_REDIS_URL': 'redis://dev.shuhelper.cn:6378/0'})
+cache = Cache()
 
 redis_store = FlaskRedis(decode_responses=True)
 

@@ -130,7 +130,8 @@ def configure_extensions(app):
     db.init_app(app)
 
     # Flask-Cache
-    cache.init_app(app)
+    cache.init_app(app,config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
+                      'CACHE_REDIS_URL': app.config['REDIS_URL']})
 
     # Flask-And-Redis
     redis_store.init_app(app)

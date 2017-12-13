@@ -95,6 +95,8 @@ class SHUEmptyRoom(UHEPlugin):
     def install(self, app):
         this_term = Time().term_string()
         classroom_dict = self.get_classroom_dict(this_term)
+        if edis_store.get('empty_room' + this_term) is not None:
+            redis_store.delete('empty_room' + this_term)
         redis_store.set('empty_room' + this_term, classroom_dict)
         find_empty_room = EmptyRoom(classroom_dict)
 

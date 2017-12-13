@@ -32,7 +32,7 @@ class Time():
             return 0
     
     def term_string(self):
-        return str(self.year) + '_' + str(self.term)
+        return str(self.year()) + '_' + str(self.term())
 
     def day(self):
         return int(time.strftime("%w"))
