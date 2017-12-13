@@ -34,7 +34,7 @@ class EmptyRoom():
         if course == 0 or day == 0 or day == 6:
             return emptyroom_list
         # print(self.classroom_dict[campus])
-        print(self.classroom_dict)
+        # print(self.classroom_dict)
         print(type(self.classroom_dict))
         for classroom in self.classroom_dict[campus].keys():
             if self.classroom_dict[campus][classroom][week - 1][day - 1][course - 1] == 1:

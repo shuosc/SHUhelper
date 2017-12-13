@@ -7,7 +7,7 @@ from UHE.extensions import redis_store
 from UHE.plugins import UHEPlugin
 from UHE.plugins.SHU_course.models import CourseOfTerm
 from UHE.time import Time
-
+import json
 from .empty_room import EmptyRoom
 from .api import empty_room
 
@@ -78,7 +78,7 @@ class SHUEmptyRoom(UHEPlugin):
                     if in_this_week:
                         for i in range(start, end + 1):
                             classroom_dict[campus][classroom][week - 1][day - 1][i - 1] = 0
-        return classroom_dict
+        return json.dumps(classroom_dict)
 
     def setup(self, app):
         print('setup', __plugin__)
