@@ -9,13 +9,11 @@ from .empty_room import EmptyRoom
 
 empty_room = Blueprint('empty_room', __name__)
 
+classroom_dict = redis_store.get('empty_room_' + Time().term_string())
+find_empty_room = EmptyRoom(classroom_dict) 
 
 @empty_room.route('/')
 def findemptyroom():
-    this_term = Time().term_string()
-    classroom_dict = redis_store.get('empty_room_' + this_term)
-    assert classroom_dict is not None
-    find_empty_room = EmptyRoom(classroom_dict) 
     campus = request.args.get('campus')
     week = request.args.get('week')
     day = request.args.get('day')
@@ -34,6 +32,7 @@ def findemptyroom():
             'week': week,
             'day': day,
             'course': course,
+            'campus': campus,
             'rooms': find_empty_room.get_emptyroom(campus, int(week), int(day), int(course))
         }
     return jsonify(result)

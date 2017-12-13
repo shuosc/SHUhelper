@@ -86,7 +86,7 @@ def get_course(card_id, password):
 
 
 class SHUMyCourse(UHEPlugin):
-    settings_key = 'SHU_calendar'
+    settings_key = 'SHU_my_course'
 
     def setup(self, app):
         # self.app = current_app

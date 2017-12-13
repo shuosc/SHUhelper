@@ -30,7 +30,7 @@ class CourseView(BasicPrivateModelView):
 
 
 class SHUCourse(UHEPlugin):
-    settings_key = 'SHU_calendar'
+    settings_key = 'SHU_course'
     def setup(self,app):
         admin.add_view(
             CourseView(CourseOfTerm, endpoint='course-term-manage'))

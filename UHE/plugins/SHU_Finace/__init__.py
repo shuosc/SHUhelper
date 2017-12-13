@@ -177,7 +177,7 @@ def status():
 
 
 class SHUFin(UHEPlugin):
-    settings_key = 'SHU_calendar'
+    settings_key = 'SHU_fin'
 
     def setup(self, app):
         # self.app = current_app
