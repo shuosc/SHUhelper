@@ -40,8 +40,9 @@ class SHUEmptyRoom(UHEPlugin):
             raw_time = course.time
             classroom = course.place
             campus = course.campus
-            # if re.search(r'^([A-G]|[A-G]J)[0-9][0-9][0-9]$', classroom, flags=0) is None:
-            #     continue
+            if re.search(r'^([A-G]|[A-G]J)[0-9][0-9][0-9]$', classroom, flags=0) is None and classroom != '':
+                if classroom[0] not in ['材', '环', '生', '经', '美', '翔', '音', 'Ⅳ', '行', '1', '2', '数', '文']:
+                    continue
             if campus not in classroom_dict:
                 classroom_dict[campus] = {}
             if classroom not in classroom_dict[campus]:

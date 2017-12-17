@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 .PHONY: clean install help test lint run dependencies docs
 
 help:
@@ -8,6 +8,7 @@ help:
 	@echo "  run        run the development server with the development config"
 	@echo "  docs       build the documentation"
 
+SHELL=/bin/bash
 
 dependencies:requirements.txt
 	@echo "Installing dependencies..."

@@ -10,7 +10,7 @@ def get_proxies():
         'http': current_app.config['PROXY'],
         'https': current_app.config['PROXY']
     }
-    return proxies
+    return None
 
 
 class Solver:
