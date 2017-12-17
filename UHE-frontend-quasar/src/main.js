@@ -19,6 +19,28 @@ import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+axios.interceptors.response.use(
+  function(response) {
+    // Do something with response data
+    // console.log(response)
+    return response
+  },
+  function(error) {
+    // console.log('err from interceptor', error)
+    if (error.response.status === 401) {
+      // console.log('401 err', store)
+      // store.commit('showSnackbar', {
+      //   text: `需要先登录`
+      // })
+      // console.log(router.history)
+      if (router.history.current.fullPath !== '/login') {
+        router.push('/login?redirect=' + router.history.current.fullPath)
+      }
+      // store.commit('showLoginDialog')
+    }
+    return Promise.reject(error)
+  }
+)
 Vue.prototype.$http = axios
 // ...
 Vue.use(Quasar, {
