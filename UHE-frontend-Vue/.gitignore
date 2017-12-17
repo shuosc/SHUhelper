@@ -7,6 +7,6 @@ yarn-error.log*
 test/unit/coverage
 UHE-frontend-Vue/static/SHU
 UHE-frontend-nuxt/
+UHE-frontend-quasar/dist
 Course_Of_Term.csv
-yarn.lock
 .idea

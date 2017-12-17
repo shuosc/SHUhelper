@@ -223,7 +223,7 @@ export default {
       this.$store.commit('clearAccount')
       this.$router.push('/')
       this.$store.commit('showSnackbar', { text: '已注销' })
-      this.$http.get('/api/v1/users/logout?token=' + token)
+      this.$http.get('/api/users/logout?token=' + token)
     },
     // login () {
     //   this.$store.commit('showLoginDialog')
