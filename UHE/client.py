@@ -11,13 +11,13 @@ import json
 from flask import current_app
 #from UHE.app import create_app
 
+
 def get_proxies():
     proxies = {
-        # 'http':current_app.config['PROXY'],
-        # 'https':current_app.config['PROXY']
-        }
-
-    return proxies
+        'http': current_app.config['PROXY'],
+        'https': current_app.config['PROXY']
+    }
+    return None
 
 
 class Client(object):
@@ -66,7 +66,8 @@ class SZ(Client):
         return False
 
     def get_data(self):
-        r = self.session.get(self.host + '/people/personinfo.aspx', timeout=30,proxies=get_proxies())
+        r = self.session.get(
+            self.host + '/people/personinfo.aspx', timeout=30, proxies=get_proxies())
         name_cell = BeautifulSoup(r.text, "html.parser").find(id='lbXingMing')
         name = name_cell.get_text(strip=True)
         self.data = {'name': name}
@@ -126,7 +127,7 @@ class Services(Client):
             'btnOk': '提交(Submit)'
         }
         r = self.session.post(
-            self.url_prefix + '/Login.aspx', timeout=3, data=post_data, headers=self.headers)
+            self.url_prefix + '/Login.aspx', timeout=5, data=post_data, headers=self.headers)
         self.validation = r.text.find('用户名密码错误!') == -1
         if r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1:
             return True
@@ -171,7 +172,7 @@ class Fin(Client):
                      '__EVENTVALIDATION': '/wEWBQLMko35DgL3zYGiAQKOv82uCgLVo8avDgKm4dCKDO8RsbBlSEqhvYWeOFF+Ga+ztwpZI3Wux5O4UvtpP2YM',
                      '__VIEWSTATE': '/wEPDwUKMTI2NTY5MzA4NWRkOsjTos2TNYJ8aBuaWsKwoL7bKphUL1b9OI9QXHfFHAQ='}
         r = self.session.post(
-            'http://xssf.shu.edu.cn:8088/LocalLogin.aspx', data=post_data, headers=self.headers, timeout=10,proxies=get_proxies())
+            'http://xssf.shu.edu.cn:8088/LocalLogin.aspx', data=post_data, headers=self.headers, timeout=10, proxies=get_proxies())
         r = self.session.get(
             self.url_prefix + '/SFP_Share/Home/Index', timeout=10)
 
@@ -180,7 +181,7 @@ class Fin(Client):
     def get_data(self):
         self.data = {}
         r = self.session.get(
-            self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_PersonInfo', timeout=10,proxies=get_proxies())
+            self.url_prefix + '/SFP_ChargeSelf/StudentPaymentQuery/Ctrl_PersonInfo', timeout=10, proxies=get_proxies())
         table = BeautifulSoup(r.text, "html.parser").table.tr
         personal_info_meta = ('name', 'ID_type', 'ID')
         for (key, cell) in enumerate(table.findAll("td")[:3]):
@@ -206,7 +207,7 @@ class Lehu(Client):
                      'password': self.password,
                      'url': 'http://www.lehu.shu.edu.cn/'}
         r = self.session.post(
-            'http://passport.lehu.shu.edu.cn/ShowOrgUserInfo.aspx', data=post_data, timeout=30,proxies=get_proxies())
+            'http://passport.lehu.shu.edu.cn/ShowOrgUserInfo.aspx', data=post_data, timeout=30, proxies=get_proxies())
         return r.text != u'1|password|一卡通账号不存在或密码错误！'
 
     def get_data(self):
@@ -235,7 +236,7 @@ class XK(Client):
     def __init__(self, card_id, password, captcha=''):
         Client.__init__(self, card_id, password, captcha)
         r = self.session.get(
-            self.url_prefix + '/Login/GetValidateCode?GetTimestamp()', timeout=20, stream=True,proxies=get_proxies())
+            self.url_prefix + '/Login/GetValidateCode?GetTimestamp()', timeout=20, stream=True, proxies=get_proxies())
         self.captcha_img = r.raw.read()
 
     def login(self):
@@ -244,15 +245,16 @@ class XK(Client):
             'txtPassword': self.password,
             'txtValiCode': self.captcha}
         r = self.session.post(self.url_prefix + '/',
-                              data=post_data, headers=self.headers, timeout=60,proxies=get_proxies())
+                              data=post_data, headers=self.headers, timeout=60, proxies=get_proxies())
         # if r.text.find(u'验证码错误') != -1 or r.text.find(u'帐号或密码错误')!=-1 or r.text.find(u'教学评估') != -1:
         return r.text.find('首页') != -1
 
     def get_data(self):
         time.sleep(2)
         r = self.session.get(
-            self.url_prefix + '/StudentQuery/CtrlViewQueryCourseTable', timeout=20,proxies=get_proxies())
-        self.session.get(self.url_prefix + '/Login/Logout',proxies=get_proxies())
+            self.url_prefix + '/StudentQuery/CtrlViewQueryCourseTable', timeout=20, proxies=get_proxies())
+        self.session.get(self.url_prefix + '/Login/Logout',
+                         proxies=get_proxies())
         string = re.search(
             r'<table class="tbllist">([\s\S]*?)</table>', r.text, flags=0).group(0)
         self.data = string
@@ -284,7 +286,7 @@ class Phylab(Client):
     def __init__(self, card_id, password, captcha=''):
         Client.__init__(self, card_id, password, captcha)
         r = self.session.get(
-            self.url_prefix + '/openexp/index.php/Public/login/', timeout=10,proxies=get_proxies())
+            self.url_prefix + '/openexp/index.php/Public/login/', timeout=10, proxies=get_proxies())
         self.hash = re.search(
             r'<input type="hidden" name="__hash__" value="([\s\S]*)" />', r.text, flags=0).group(1)
         r = self.session.get(
@@ -298,12 +300,12 @@ class Phylab(Client):
                      'password': self.password,
                      'verify': self.captcha}
         r = self.session.post(
-            self.url_prefix + '/openexp/index.php/Public/checkLogin/', data=post_data, timeout=10,proxies=get_proxies())
+            self.url_prefix + '/openexp/index.php/Public/checkLogin/', data=post_data, timeout=10, proxies=get_proxies())
         return r.text.find('false') != -1
 
     def get_data(self):
         r = self.session.get(
-            self.url_prefix + '/openexp/index.php/Public/main', timeout=10,proxies=get_proxies())
+            self.url_prefix + '/openexp/index.php/Public/main', timeout=10, proxies=get_proxies())
         html = BeautifulSoup(r.text, "html.parser")
         # print(html)
         self.data = html.body.find_all('div')[2].table.find_all('tr')[
@@ -322,9 +324,10 @@ class CJ(Client):
 
     def __init__(self):
         Client.__init__(self)
-        r = self.session.get(self.url_prefix + '/', timeout=20,proxies=get_proxies())
+        r = self.session.get(self.url_prefix + '/',
+                             timeout=20, proxies=get_proxies())
         r = self.session.get(self.url_prefix + '/User/GetValidateCode?%20%20+%20GetTimestamp()', timeout=20,
-                             stream=True,proxies=get_proxies())
+                             stream=True, proxies=get_proxies())
         self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
 
     def login(self):
@@ -335,12 +338,12 @@ class CJ(Client):
         r = self.session.post(self.url_prefix + '/',
                               data=post_data, timeout=60)
         r = self.session.get(
-            self.url_prefix + '/Home/StudentIndex', timeout=10,proxies=get_proxies())
+            self.url_prefix + '/Home/StudentIndex', timeout=10, proxies=get_proxies())
         return r.text.find(u'首页') != -1
 
     def get_data(self):
         r = self.session.get(
-            self.url_prefix + '/StudentPortal/ScoreQuery', timeout=20,proxies=get_proxies())
+            self.url_prefix + '/StudentPortal/ScoreQuery', timeout=20, proxies=get_proxies())
         content = re.search(
             r'<table class="tbllist">([\s\S]*?)</table>', r.text, flags=0).group(0)
         self.data = content

@@ -35,7 +35,7 @@ class Time():
         return str(self.year()) + '_' + str(self.term())
 
     def day(self):
-        return int(time.strftime("%w"))
+        return int(time.strftime("%w")) if int(time.strftime("%w")) != 0 else 7
 
     # def course(self):
     #     course_event = Activity.objects(

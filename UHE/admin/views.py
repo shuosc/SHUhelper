@@ -1,5 +1,5 @@
 import flask_login
-from flask import redirect, request, url_for, current_app
+from flask import redirect, request, url_for, current_app, flash
 from flask_admin import Admin, BaseView, expose
 from flask_admin.actions import action
 from flask_admin.contrib import rediscli
