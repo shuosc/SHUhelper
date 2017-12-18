@@ -1,5 +1,5 @@
 <template>
-  <q-layout ref="layout" view="hHr LpR lFf" :right-breakpoint="1100" class="page">
+  <div class="page">
     <div class="content">
       <q-card square flat style="position:absolute;top:-5rem;width:100%;" class="no-margin">
         <q-card-main style="text-align:center;">
@@ -65,8 +65,7 @@
         <rect width="50px" height="50px" x="25px" y="25px" class="bubble" id="bub11" />
       </svg>
     </div>
-  </q-layout>
-
+  </div>
 </template>
 
 <script>
@@ -98,6 +97,13 @@ export default {
       cardID: { required },
       password: { required }
     }
+  },
+  mounted() {
+    // this.$refs.basicModal.open()
+  },
+  beforeDestory() {
+    // this.$refs.basicModal.close()
+    // debugger
   },
   methods: {
     login(e, done) {
@@ -148,11 +154,17 @@ export default {
           } catch (e) {
             console.log(e)
           }
-          createToast(loginText === undefined ? `${response.data.name}，欢迎登陆` : `${loginText}`)
-          if (this.$route.query.redirect) {
-            this.$router.replace(this.$route.query.redirect)
+
+          // debugger
+          createToast(
+            loginText === undefined
+              ? `${response.data.name}，欢迎登陆`
+              : `${loginText}`
+          )
+          if (_this.$route.query.redirect) {
+            _this.$router.replace(_this.$route.query.redirect)
           } else {
-            this.$router.push('/index')
+            _this.$router.push('/index')
           }
         })
         .catch(function(error) {
@@ -166,183 +178,220 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.page
-  background #50a3a2
-  background -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%)
-  background linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%)
-  font-family 'Roboto', sans-serif
-  font-weight 300
-  height 100% /* Allow spacing based on window height */
-  margin 0
-  min-height 240px
+.page {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #50a3a2;
+  background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+  background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+  // font-family: 'Roboto', sans-serif;
+  // font-weight: 300;
+  height: 100vh; /* Allow spacing based on window height */
+  margin: 0;
+  min-height: 240px;
+  z-index: 6000;
+}
 
 /* The background from https://codepen.io/lotap/pen/yNYxRz */
 /* The form part */
-.content
+.content {
   /* A box that the form resides in - centered vertically and horizontally based on the window. The max-width and % width combo allow it to resize for small devices */
-  background #FFF
-  border-radius 8px
-  box-shadow 0 2px 4px rgba(0, 0, 0, 0.1)
-  display block
-  left 50%
-  max-width 360px
-  position absolute
-  top 50%
-  -ms-transform translate(-50%, -50%)
-  -webkit-transform translate(-50%, -50%)
-  transform translate(-50%, -50%)
-  width 90%
-  z-index 2
+  background: #FFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: block;
+  left: 50%;
+  max-width: 360px;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 90%;
+  z-index: 2;
+}
 
 /* The Background Part - Each svg element will act as a column that rises. Within each svg column will be a rect element that rotates. Due to an error FF regarding the transform-origin of objects in an svg, the transform-orgin must be explicitly given without percents */
-.bg-boxes
+.bg-boxes {
   /* Set the container for the svg elements to take up the whole window and hide objects outside of the window */
-  height 100%
-  min-height 240px
-  position absolute
-  overflow hidden
-  width 100%
-  z-index 1
+  height: 100%;
+  min-height: 240px;
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+}
 
-svg
+svg {
   /* Set defaults for svg columns. Opacity set to 0 so the elements are invisible before the animation begins and will not show up on browsers without animation */
-  -webkit-animation riser 20s infinite
-  animation riser 20s infinite
-  opacity 0
-  overflow visible
-  position absolute
+  -webkit-animation: riser 20s infinite;
+  animation: riser 20s infinite;
+  opacity: 0;
+  overflow: visible;
+  position: absolute;
+}
 
-.bubble
+.bubble {
   /* Set the defaults for the "bubbles". transform-origin should always be the center-point of the object including blank-space within the svg. Since the object should be centered, this is equal to the width of the object. The default bubble is 100px by 100px in an svg object with a width of 200px */
-  -webkit-animation rotator 20s linear infinite
-  animation rotator 20s linear infinite
-  fill #FFF
-  -webkit-transform-origin 100px 100px
-  transform-origin 100px 100px
+  -webkit-animation: rotator 20s linear infinite;
+  animation: rotator 20s linear infinite;
+  fill: #FFF;
+  -webkit-transform-origin: 100px 100px;
+  transform-origin: 100px 100px;
+}
 
-#col1
+#col1 {
   /* Since this element is larger than the set default, I want it to rise a little faster to give a subtle sense of depth */
-  -webkit-animation-duration 15s
-  animation-duration 15s
+  -webkit-animation-duration: 15s;
+  animation-duration: 15s;
+}
 
-#bub1
+#bub1 {
   /* The transform-origin has to be redefined because this bubble is not the set default size */
-  -webkit-transform-origin 150px 150px
-  transform-origin 150px 150px
+  -webkit-transform-origin: 150px 150px;
+  transform-origin: 150px 150px;
+}
 
-#col2
+#col2 {
   /* To offset the columns, adjust their left attribute and add an animation-delay */
-  left 15%
-  -webkit-animation-delay 18s
-  animation-delay 18s
+  left: 15%;
+  -webkit-animation-delay: 18s;
+  animation-delay: 18s;
+}
 
-#col3
-  left 30%
-  -webkit-animation-delay 14s
-  animation-delay 14s
-  -webkit-animation-duration 17s
-  animation-duration 17s
+#col3 {
+  left: 30%;
+  -webkit-animation-delay: 14s;
+  animation-delay: 14s;
+  -webkit-animation-duration: 17s;
+  animation-duration: 17s;
+}
 
-#bub3
-  -webkit-animation-delay 14s
-  animation-delay 14s
-  -webkit-transform-origin 130px 130px
-  transform-origin 130px 130px
+#bub3 {
+  -webkit-animation-delay: 14s;
+  animation-delay: 14s;
+  -webkit-transform-origin: 130px 130px;
+  transform-origin: 130px 130px;
+}
 
-#col4
-  left 45%
-  -webkit-animation-delay 8s
-  animation-delay 8s
-  -webkit-animation-duration 22s
-  animation-duration 22s
+#col4 {
+  left: 45%;
+  -webkit-animation-delay: 8s;
+  animation-delay: 8s;
+  -webkit-animation-duration: 22s;
+  animation-duration: 22s;
+}
 
-#bub4
-  -webkit-animation-delay 8s
-  animation-delay 8s
-  -webkit-transform-origin 80px 80px
-  transform-origin 80px 80px
+#bub4 {
+  -webkit-animation-delay: 8s;
+  animation-delay: 8s;
+  -webkit-transform-origin: 80px 80px;
+  transform-origin: 80px 80px;
+}
 
-#col5
-  left 60%
-  -webkit-animation-delay 15s
-  animation-delay 15s
-  -webkit-animation-duration 18s
-  animation-duration 18s
+#col5 {
+  left: 60%;
+  -webkit-animation-delay: 15s;
+  animation-delay: 15s;
+  -webkit-animation-duration: 18s;
+  animation-duration: 18s;
+}
 
-#bub5
-  -webkit-animation-delay 15s
-  animation-delay 15s
-  -webkit-transform-origin 120px 120px
-  transform-origin 120px 120px
+#bub5 {
+  -webkit-animation-delay: 15s;
+  animation-delay: 15s;
+  -webkit-transform-origin: 120px 120px;
+  transform-origin: 120px 120px;
+}
 
-#col6
-  left 75%
-  -webkit-animation-delay 19s
-  animation-delay 19s
+#col6 {
+  left: 75%;
+  -webkit-animation-delay: 19s;
+  animation-delay: 19s;
+}
 
-#col7
-  left 90%
-  -webkit-animation-delay 4s
-  animation-delay 4s
+#col7 {
+  left: 90%;
+  -webkit-animation-delay: 4s;
+  animation-delay: 4s;
+}
 
-#col8
-  left -5%
-  -webkit-animation-delay 11s
-  animation-delay 11s
+#col8 {
+  left: -5%;
+  -webkit-animation-delay: 11s;
+  animation-delay: 11s;
+}
 
-#col9
-  left 25%
-  -webkit-animation-delay 5s
-  animation-delay 5s
+#col9 {
+  left: 25%;
+  -webkit-animation-delay: 5s;
+  animation-delay: 5s;
+}
 
-#col10
-  left 50%
-  -webkit-animation-delay 12s
-  animation-delay 12s
+#col10 {
+  left: 50%;
+  -webkit-animation-delay: 12s;
+  animation-delay: 12s;
+}
 
-#col11
-  left 67%
-  -webkit-animation-delay 1s
-  animation-delay 1s
-  -webkit-animation-duration 25s
-  animation-duration 25s
+#col11 {
+  left: 67%;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+  -webkit-animation-duration: 25s;
+  animation-duration: 25s;
+}
 
-#bub11
-  -webkit-animation-delay 1s
-  animation-delay 1s
-  -webkit-transform-origin 50px 50px
-  transform-origin 50px 50px
+#bub11 {
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+  -webkit-transform-origin: 50px 50px;
+  transform-origin: 50px 50px;
+}
 
 /* Rotation Animation - Should be set to a factor of 360 to prevent jumpiness */
-@keyframes rotator
-  to
-    -webkit-transform rotate(360deg)
-    transform rotate(360deg)
+@keyframes rotator {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 
-@keyframes rotator
-  to
-    -webkit-transform rotate(360deg)
-    transform rotate(360deg)
+@keyframes rotator {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 
-@keyframes riser
-  0%
-    opacity 0.2
-    -webkit-transform translateY(100%)
-    transform translateY(100%)
+@keyframes riser {
+  0% {
+    opacity: 0.2;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
 
-  100%
-    opacity 0.2
-    -webkit-transform translateY(-250px)
-    transform translateY(-250px)
+  100% {
+    opacity: 0.2;
+    -webkit-transform: translateY(-250px);
+    transform: translateY(-250px);
+  }
+}
 
-@keyframes riser
-  0%
-    opacity 0.2
-    -webkit-transform translateY(100%)
-    transform translateY(100%)
+@keyframes riser {
+  0% {
+    opacity: 0.2;
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+  }
 
-  100%
-    opacity 0.2
-    -webkit-transform translateY(-250px)
-    transform translateY(-250px)
+  100% {
+    opacity: 0.2;
+    -webkit-transform: translateY(-250px);
+    transform: translateY(-250px);
+  }
+}
 </style>

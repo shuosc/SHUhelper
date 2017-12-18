@@ -1,8 +1,29 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <!-- <q-scroll-area style="width: 100vw; height: 100vh;"> -->
-    <router-view />
+    <q-layout ref="layout" view="hHh Lpr fff" :left-class="{'bg-grey-2': true}">
+      <q-toolbar slot="header">
+        <q-btn flat @click="$refs.layout.toggleLeft()">
+          <q-icon name="menu" />
+        </q-btn>
+        <q-toolbar-title>
+          首页
+          <!-- <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div> -->
+        </q-toolbar-title>
+        <router-view name="toolbar"/>
+      </q-toolbar>
+
+      <div slot="left">
+        <!--
+        Use <q-side-link> component
+        instead of <q-item> for
+        internal vue-router navigation
+      -->
+        <left-panel/>
+        <!-- <router-view  name="left"/> -->
+      </div>
+      <router-view />
+    </q-layout>
     <!-- </q-scroll-area> -->
   </div>
 </template>
@@ -11,8 +32,12 @@
 /*
  * Root component
  */
+import LeftPanel from '@/LayoutLeftPanel'
 import { Toast } from 'quasar'
 export default {
+  components: {
+    LeftPanel
+  },
   created() {
     this.verifyToken()
   },

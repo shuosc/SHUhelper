@@ -1,62 +1,34 @@
 <template>
-  <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
-    <q-toolbar slot="header">
-      <q-btn flat @click="$refs.layout.toggleLeft()">
-        <q-icon name="menu" />
-      </q-btn>
-      <q-toolbar-title>
-        首页
-        <!-- <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div> -->
-      </q-toolbar-title>
-    </q-toolbar>
-
-    <div slot="left">
-      <!--
-        Use <q-side-link> component
-        instead of <q-item> for
-        internal vue-router navigation
-      -->
-      <left-panel/>
-    </div>
-    <!--
-      Replace following <div> with
-      <router-view /> component
-      if using subRoutes
-    -->
-    <q-pull-to-refresh :handler="refresher" style="height:100vh;">
-
-      <q-card flat class="namecard">
-        <q-card-main>
-          <q-icon name="room" /> 宝山
-        </q-card-main>
-      </q-card>
-      <q-card class="namecard">
-        <q-card-main>
-          <q-item>
-            <q-item-side>
-              <q-spinner-hearts color="red" :size="30" />
-            </q-item-side>
-            <q-item-main>
-              <q-item-tile label>{{$store.state.user.name}}，我们为你准备了这些</q-item-tile>
-            </q-item-main>
-          </q-item>
-        </q-card-main>
-      </q-card>
-      <simple-calendar/>
-      <course-time/>
-      <empty-room/>
-      <quote-card/>
-      <q-card flat>
-        <q-card-main style="text-align:center;">
-          <img src="https://forthebadge.com/images/badges/built-with-love.svg">
-          <br/>
-          <small>2017 SHU OpenSourceCommnuity</small>
-        </q-card-main>
-      </q-card>
-    </q-pull-to-refresh>
-
-  </q-layout>
-
+  <q-pull-to-refresh :handler="refresher" style="height:100vh;">
+    <q-card flat class="namecard">
+      <q-card-main>
+        <q-icon name="room" /> 宝山
+      </q-card-main>
+    </q-card>
+    <q-card class="namecard">
+      <q-card-main>
+        <q-item>
+          <q-item-side>
+            <q-spinner-hearts color="red" :size="30" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>{{$store.state.user.name}}，我们为你准备了这些</q-item-tile>
+          </q-item-main>
+        </q-item>
+      </q-card-main>
+    </q-card>
+    <simple-calendar/>
+    <course-time/>
+    <empty-room/>
+    <quote-card/>
+    <q-card flat>
+      <q-card-main style="text-align:center;">
+        <img src="https://forthebadge.com/images/badges/built-with-love.svg">
+        <br/>
+        <small>2017 SHU OpenSourceCommnuity</small>
+      </q-card-main>
+    </q-card>
+  </q-pull-to-refresh>
 </template>
 
 <script>

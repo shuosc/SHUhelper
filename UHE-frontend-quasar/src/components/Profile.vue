@@ -1,51 +1,38 @@
 <template>
-  <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
-    <q-toolbar slot="header">
-      <q-btn flat @click="$refs.layout.toggleLeft()">
-        <q-icon name="menu" />
-      </q-btn>
-      <q-toolbar-title>
-        日程
-      </q-toolbar-title>
-    </q-toolbar>
-    <div slot="left">
-      <left-panel/>
+  <q-pull-to-refresh :handler="refresher">
+    <div class="flex column items-center no-wrap">
+      <q-card flat color="primary" style="text-align:center;height:40vh;width:100vw;" class="no-margin">
+        <q-card-main>
+          <q-item>
+            <q-item-main class="flex justify-center">
+              <q-item-tile avatar style="height:150px;width:150px;" @click="onImgAdd">
+                <q-spinner style="color: #e2aa6f" v-if="img.status==='pending'" />
+                <img v-else style="width:100%;height:100%;" :src="`//static.shuhelper.cn/${img.url}`" alt="avatar" /></q-item-tile>
+            </q-item-main>
+          </q-item>
+        </q-card-main>
+      </q-card>
+      <q-card style="position:relative;top:-10vh;width:80vw;padding:20px;" class="bg-white ">
+        <q-card-main>
+          <q-btn disable class="full-width" flat>
+            {{user.nickname}}
+          </q-btn>
+          <!-- <p class="content-center item-center"> -->
+          <small style="display:block;" class="text-center ">{{$route.params.id}}</small>
+          <!-- </p> -->
+        </q-card-main>
+        <q-card-actions>
+          <q-btn disable class="full-width" color="primary" @click="getConversation">发消息(维护中 暂不可用)</q-btn>
+        </q-card-actions>
+      </q-card>
     </div>
-    <q-pull-to-refresh :handler="refresher">
-      <div class="flex column items-center no-wrap">
-        <q-card flat color="primary" style="text-align:center;height:40vh;width:100vw;" class="no-margin">
-          <q-card-main>
-            <q-item >
-              <q-item-main class="flex justify-center">
-                <q-item-tile avatar style="height:150px;width:150px;" @click="onImgAdd">
-                  <q-spinner style="color: #e2aa6f" v-if="img.status==='pending'" />
-                  <img v-else style="width:100%;height:100%;" :src="`//static.shuhelper.cn/${img.url}`" alt="avatar" /></q-item-tile>
-              </q-item-main>
-            </q-item>
-          </q-card-main>
-        </q-card>
-        <q-card style="position:relative;top:-10vh;width:80vw;padding:20px;" class="bg-white ">
-          <q-card-main>
-            <q-btn disable class="full-width" flat>
-              {{user.nickname}}
-            </q-btn>
-            <!-- <p class="content-center item-center"> -->
-            <small style="display:block;" class="text-center ">{{$route.params.id}}</small>
-            <!-- </p> -->
-          </q-card-main>
-          <q-card-actions>
-            <q-btn disable class="full-width" color="primary" @click="getConversation">发消息(维护中 暂不可用)</q-btn>
-          </q-card-actions>
-        </q-card>
-      </div>
-      <form id="upload" ref="upload" method="post" enctype="multipart/form-data" style="display:none;">
-        <input name="key" id="key" type="hidden" :value="key">
-        <input name="token" type="hidden" :value="token">
-        <input id="userfile" name="file" type="file" accept="image/*" @change="upload" />
-        <input name="accept" type="hidden" />
-      </form>
-    </q-pull-to-refresh>
-  </q-layout>
+    <form id="upload" ref="upload" method="post" enctype="multipart/form-data" style="display:none;">
+      <input name="key" id="key" type="hidden" :value="key">
+      <input name="token" type="hidden" :value="token">
+      <input id="userfile" name="file" type="file" accept="image/*" @change="upload" />
+      <input name="accept" type="hidden" />
+    </form>
+  </q-pull-to-refresh>
 </template>
 <script>
 import LeftPanel from '@/LayoutLeftPanel'
@@ -125,12 +112,16 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
-                  headers: {
-                    Authorization: 'UpToken ' + this.token,
-                    'Content-Type': 'application/octet-stream'
+                .post(
+                  `/upload/putb64/-1/key/${this.key}`,
+                  base64.slice(index),
+                  {
+                    headers: {
+                      Authorization: 'UpToken ' + this.token,
+                      'Content-Type': 'application/octet-stream'
+                    }
                   }
-                })
+                )
                 .then(response => {
                   if (this.img.url === response.data.key) {
                     this.img.status = 'success'
@@ -142,7 +133,9 @@ export default {
                       }
                     })
                     .then(reponse => {
-                      this.$store.commit('showSnackbar', { text: `更新头像成功` })
+                      this.$store.commit('showSnackbar', {
+                        text: `更新头像成功`
+                      })
                     })
                 })
                 .catch(error => {
@@ -174,11 +167,13 @@ export default {
       })
     },
     onThemeChange() {
-      this.$http.get(`/api/users/set-custom-theme?theme=${this.theme}`).then(response => {
-        this.$store.commit('showSnackbar', { text: `更换主题成功` })
-        this.themeDialog = false
-        this.$store.commit('changeTheme', this.theme)
-      })
+      this.$http
+        .get(`/api/users/set-custom-theme?theme=${this.theme}`)
+        .then(response => {
+          this.$store.commit('showSnackbar', { text: `更换主题成功` })
+          this.themeDialog = false
+          this.$store.commit('changeTheme', this.theme)
+        })
     }
   }
 }

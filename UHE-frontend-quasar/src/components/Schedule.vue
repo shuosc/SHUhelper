@@ -1,36 +1,16 @@
 <template>
-  <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
-    <q-toolbar slot="header">
-      <q-btn flat @click="$refs.layout.toggleLeft()">
-        <q-icon name="menu" />
-      </q-btn>
-
-      <q-toolbar-title>
-        日程
-        <!-- <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div> -->
-      </q-toolbar-title>
-    </q-toolbar>
-
-    <div slot="left">
-      <!--
-        Use <q-side-link> component
-        instead of <q-item> for
-        internal vue-router navigation
-      -->
-      <left-panel/>
-    </div>
-    <!--
+  <!--
       Replace following <div> with
       <router-view /> component
       if using subRoutes
     -->
-    <!-- <router-view /> -->
-    <q-pull-to-refresh :handler="refresher">
+  <!-- <router-view /> -->
+  <q-pull-to-refresh :handler="refresher">
     <div class="schedule-container">
       <time-table :task-detail="tasks" @showDetail="showDetail"></time-table>
     </div>
-    </q-pull-to-refresh>
-    <!-- <q-modal ref="basicModal" minimized>
+  </q-pull-to-refresh>
+  <!-- <q-modal ref="basicModal" minimized>
       <h4>Basic Modal</h4>
       <q-card style="width:300px;">
         <q-card-title class="py-0">
@@ -60,7 +40,6 @@
       </q-card>
       <q-btn color="primary" @click="$refs.basicModal.close()">Close</q-btn>
     </q-modal> -->
-  </q-layout>
 </template>
 
 <script>
@@ -93,7 +72,8 @@ export default {
       status: {
         lastModified: null,
         status: 'loading',
-        remark: '17学年秋季学期课程，信息来自教务网，如果你还没有选课，会看到错误'
+        remark:
+          '17学年秋季学期课程，信息来自教务网，如果你还没有选课，会看到错误'
       },
       fab: false,
       events: {},
@@ -126,7 +106,19 @@ export default {
       var selected = [[], [], [], [], []]
       for (var i = this.courses.length - 1; i >= 0; i--) {
         var timelist = this.coursetimeToNum(this.courses[i].time)
-        var color = ['#2B2E4A', '#521262', '#903749', '#53354A', '#40514E', '#537780', '#3765a4', '#76a5a4', '#579870', '#e391b4', '#b8954e']
+        var color = [
+          '#2B2E4A',
+          '#521262',
+          '#903749',
+          '#53354A',
+          '#40514E',
+          '#537780',
+          '#3765a4',
+          '#76a5a4',
+          '#579870',
+          '#e391b4',
+          '#b8954e'
+        ]
         var course = this.courses[i]
         var rancolor = color[~~(Math.random() * color.length)]
         for (var j = timelist.length - 1; j >= 0; j--) {
@@ -200,7 +192,10 @@ export default {
     // this.refreshToolbar()
     this.resetRange()
     this.getCourses()
-    this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
+    this.getEvents(
+      this.range.start.valueOf() / 1000,
+      this.range.end.valueOf() / 1000
+    )
   },
   beforeDestroy() {
     this.$store.commit('clearToolbar')
@@ -213,7 +208,10 @@ export default {
         for (let i = 1; i <= 10; i++) {
           // console.log('this week', i, this.$store.state.toolbar.states[0], i === this.$store.state.toolbar.states[0])
           items.push({
-            name: i === this.$store.state.toolbar.states[0] ? `第${i}周(当前)` : `第${i}周`,
+            name:
+              i === this.$store.state.toolbar.states[0]
+                ? `第${i}周(当前)`
+                : `第${i}周`,
             click: () => {
               // let index = this.$store.state.toolbar.states[0]
               this.$store.commit('updateToolbarState', { index: 0, value: i })
@@ -307,7 +305,10 @@ export default {
         // console.log(this.range.start !== ev.range.start)
         this.range.start = ev.range.start
         this.range.end = ev.range.end
-        this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
+        this.getEvents(
+          this.range.start.valueOf() / 1000,
+          this.range.end.valueOf() / 1000
+        )
         console.log('not equal')
       }
       console.log(this.range)
@@ -324,7 +325,10 @@ export default {
         .then(response => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
-          this.courses = decrypt(response.data.data, this.$store.state.user.password)
+          this.courses = decrypt(
+            response.data.data,
+            this.$store.state.user.password
+          )
         })
         .catch(err => {
           console.log(err)
@@ -332,12 +336,17 @@ export default {
             this.renewCourse()
           } else {
             this.status.status = 'failed'
-            this.$store.commit('showSnackbar', { text: `更新失败${err.response.status}` })
+            this.$store.commit('showSnackbar', {
+              text: `更新失败${err.response.status}`
+            })
           }
         })
       let i = (await getTime) + (await getCourses)
       console.log(i)
-      this.$store.commit('updateToolbarState', { index: 0, value: this.schoolTime.week })
+      this.$store.commit('updateToolbarState', {
+        index: 0,
+        value: this.schoolTime.week
+      })
       this.refreshToolbar()
     },
     pollingStatus() {
@@ -399,10 +408,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@media screen and (max-height:750px) 
-  .schedule-container
-    height 750px
-@media screen and (min-height:750px) 
-  .schedule-container
-    height 100vh
+@media screen and (max-height: 750px) {
+  .schedule-container {
+    height: 750px;
+  }
+}
+
+@media screen and (min-height: 750px) {
+  .schedule-container {
+    height: 100vh;
+  }
+}
 </style>
