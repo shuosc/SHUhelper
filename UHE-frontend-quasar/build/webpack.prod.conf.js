@@ -17,6 +17,11 @@ module.exports = merge(baseWebpackConfig, {
       postcss: true
     })
   },
+  output: {
+    path: config.build.assetsRoot,
+    filename: 'js/[name].[chunkhash].js',
+    chunkFilename: 'js/[id].[chunkhash].js'
+  },
   devtool: config.build.productionSourceMap ? '#source-map' : false,
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
