@@ -60,8 +60,9 @@ export default new VueRouter({
       // children: [{ path: '/', component: load('Schedule') }]
     },
     {
-      path: '/index',
-      component: Index
+      path: '/',
+      component: Index,
+      alias: '/index'
     },
     // Always leave this last one
     { path: '*', component: Error404 } // Not found
