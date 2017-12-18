@@ -19,6 +19,10 @@ import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+import ga from 'libs/analytics.js'
+router.afterEach((to, from) => {
+  ga.logPage(to.path, to.name, 'UA-111372547-1')
+})
 axios.interceptors.response.use(
   function(response) {
     // Do something with response data

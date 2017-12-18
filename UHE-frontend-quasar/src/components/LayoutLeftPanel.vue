@@ -9,7 +9,8 @@
             <q-item-tile sublabel>{{$store.state.user.cardID}}</q-item-tile>
           </q-item-main>
           <q-item-side>
-            <q-btn flat @click.stop="logout">注销</q-btn>
+            <q-btn flat  v-if="$store.state.user.cardID===''" @click.stop="logout">注销</q-btn>
+            <q-btn flat v-else @click.stop="$router.push('/login')">登陆</q-btn>
           </q-item-side>
         </q-side-link>
       </q-card-main>

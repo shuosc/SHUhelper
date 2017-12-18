@@ -1,9 +1,9 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <q-scroll-area style="width: 100vw; height: 100vh;">
+    <!-- <q-scroll-area style="width: 100vw; height: 100vh;"> -->
     <router-view />
-    </q-scroll-area>
+    <!-- </q-scroll-area> -->
   </div>
 </template>
 
@@ -36,7 +36,7 @@ export default {
           payload = JSON.parse(localStorage.getItem('loginstate'))
         } catch (err) {
           console.log(err)
-          this.$http.get('/api/users/logout')
+          // this.$http.get('/api/users/logout')
         }
       }
       if (token === '') {
@@ -72,4 +72,7 @@ export default {
 </script>
 
 <style>
+/* body {
+  overflow-y: hidden;
+} */
 </style>

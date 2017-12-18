@@ -132,7 +132,7 @@ export default {
             payload.custom = {}
           }
           try {
-            if (this.remeberMe) {
+            if (this.rememberMe) {
               localStorage.setItem('loginstate', JSON.stringify(payload))
             } else {
               sessionStorage.setItem('loginstate', JSON.stringify(payload))

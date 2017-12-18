@@ -1,6 +1,30 @@
 <template>
-  <q-pull-to-refresh :handler="refresher" style="height:100vh;">
-    <q-scroll-area class="full-width full-height" style="height:100vh;">
+  <q-layout ref="layout" view="lHh Lpr fff" :left-class="{'bg-grey-2': true}">
+    <q-toolbar slot="header">
+      <q-btn flat @click="$refs.layout.toggleLeft()">
+        <q-icon name="menu" />
+      </q-btn>
+      <q-toolbar-title>
+        首页
+        <!-- <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div> -->
+      </q-toolbar-title>
+    </q-toolbar>
+
+    <div slot="left">
+      <!--
+        Use <q-side-link> component
+        instead of <q-item> for
+        internal vue-router navigation
+      -->
+      <left-panel/>
+    </div>
+    <!--
+      Replace following <div> with
+      <router-view /> component
+      if using subRoutes
+    -->
+    <q-pull-to-refresh :handler="refresher" style="height:100vh;">
+
       <q-card flat class="namecard">
         <q-card-main>
           <q-icon name="room" /> 宝山
@@ -24,13 +48,14 @@
       <quote-card/>
       <q-card flat>
         <q-card-main style="text-align:center;">
-          <img src="http://forthebadge.com/images/badges/built-with-love.svg">
+          <img src="https://forthebadge.com/images/badges/built-with-love.svg">
           <br/>
           <small>2017 SHU OpenSourceCommnuity</small>
         </q-card-main>
       </q-card>
-    </q-scroll-area>
-  </q-pull-to-refresh>
+    </q-pull-to-refresh>
+
+  </q-layout>
 
 </template>
 
@@ -40,13 +65,15 @@ import CourseTime from '@/IndexCourseTime'
 import SimpleCalendar from '@/IndexSimpleCalendar'
 import QuoteCard from '@/IndexQuote'
 import EmptyRoom from '@/IndexEmptyRoom'
+import LeftPanel from '@/LayoutLeftPanel'
 export default {
   components: {
     Weather,
     CourseTime,
     SimpleCalendar,
     QuoteCard,
-    EmptyRoom
+    EmptyRoom,
+    LeftPanel
   },
   methods: {
     refresher(done) {
@@ -56,6 +83,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="stylus" scoped>
+.namecard {
+  opacity: 0.9;
+  // background #EDE574 /* fallback for old browsers */
+  // background -webkit-linear-gradient(to left, #E1F5C4, #EDE574) /* Chrome 10-25, Safari 5.1-6 */
+  // background linear-gradient(to left, #E1F5C4, #EDE574) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 </style>

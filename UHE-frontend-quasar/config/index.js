@@ -53,7 +53,7 @@ module.exports = {
         }
       },
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://shuhelper.cn',
         changeOrigin: true,
         pathRewrite: {
           '^/api': ''
