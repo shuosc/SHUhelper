@@ -4,14 +4,10 @@
 /.idea
 *.pyc
 *.rdb
-/UHE-frontend-nuxt
-/UHE-frontend-fw7
 /UHE-frontend-Vue/static/SHU
 /UHE-frontend-Vue/dist
 celerybeat-schedule.*
 npm-debug.log
-yarn.lock
 celerybeat-schedule
 celery.log
-SHUhelper
 gunicorn.log
