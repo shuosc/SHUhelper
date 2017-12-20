@@ -15,6 +15,7 @@
     simple-calendar
     course-time
     empty-room
+    sport-card
     quote-card
     q-card(flat='')
       q-card-main(style='text-align:center;')
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import SportCard from '@/IndexSportCard'
 import PullTo from 'vue-pull-to'
 import Weather from '@/IndexWeather'
 import CourseTime from '@/IndexCourseTime'
@@ -40,7 +42,8 @@ export default {
     SimpleCalendar,
     QuoteCard,
     EmptyRoom,
-    LeftPanel
+    LeftPanel,
+    SportCard
   },
   methods: {
     refresher(done) {

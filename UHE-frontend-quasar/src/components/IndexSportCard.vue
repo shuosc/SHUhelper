@@ -4,35 +4,32 @@
       q-card-main
         q-item
           q-item-side
-            q-icon(color='primary', name='date_range', style='font-size:2rem;')
+            q-icon(color='primary', name='fa-tiyujiankang', style='font-size:2rem;')
           q-item-main
-            q-item-tile(label='') 今天是{{time.year+ '_'+time.term|term}}，第{{time.week|cnNum}}周，周{{time.day|cnNum}}
-            q-item-tile(sublabel='') 新学期加油~
-        q-item
-          q-item-main
-            q-progress(:percentage='((time.week-1)*7 + time.day)/84*100', color='teal-4')
-              q-item-tile(sublabel='', style='text-align:center;') 本学期进度 {{((time.week-1)*7 + time.day)}}/84
+            q-item-tile(label='') 晨跑查询稍后上线~
+            q-item-tile(sublabel='') 
+        //- q-item
+        //-   q-item-main
+        //-     q-progress(:percentage='((time.week-1)*7 + time.day)/84*100', color='teal-4')
+        //-       q-item-tile(sublabel='', style='text-align:center;') 本学期进度 {{((time.week-1)*7 + time.day)}}/84
       q-card-separator
       q-card-actions
         q-btn.full-width(flat @click="open()")
-          | 查看本学年校历（图片）
+          | 查看本学期课外活动表（图片）
     q-modal(ref="calendar")
       q-modal-layout
         q-toolbar(slot="header" inverted)
           q-btn(color="primary" flat @click="close")
             q-icon(name="close")
             q-toolbar-title
-              | 17-18学年校历
+              | 课外活动表
         div(v-if="calendarOpen")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E7%A7%8B.jpg")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E5%86%AC.jpg")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E6%98%A5.jpg")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E5%A4%8F.jpg")
+          img.responsive(src="/statics/activities_17_2.jpg")
 </template>
 
 <script>
 export default {
-  name: 'simpleCalendar',
+  name: 'sportCard',
   data() {
     return {
       publication: {},

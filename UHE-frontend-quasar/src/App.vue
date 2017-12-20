@@ -28,9 +28,9 @@
       <div slot="footer" v-if="$q.platform.is.ios">
         <q-tabs>
           <q-route-tab icon="fa-xuexiao" to="/index" exact slot="title" />
-          <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" />
+          <!-- <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" /> -->
           <q-route-tab icon="fa-calendar1" to="/schedule" exact slot="title" />
-          <q-route-tab icon="fa-message" to="/message" exact slot="title" />
+          <!-- <q-route-tab icon="fa-message" to="/message" exact slot="title" /> -->
         </q-tabs>
       </div>
     </q-layout>

@@ -29,16 +29,16 @@ export default {
     return {
       internalNavigationAndroid: [
         { to: '/index', icon: 'fa-xuexiao', name: '首页' },
-        { to: '/square', icon: 'fa-xuexiao', name: '广场' },
-        { to: '/apps', icon: 'fa-xuexiao', name: '应用' },
-        { to: '/schedule', icon: 'fa-calendar1', name: '日程' },
-        { to: '/message', icon: 'fa-xuexiao', name: '消息' },
-        { to: '/config', icon: 'fa-xuexiao', name: '设置  ' }
+        // { to: '/square', icon: 'fa-xuexiao', name: '广场' },
+        // { to: '/apps', icon: 'fa-xuexiao', name: '应用' },
+        { to: '/schedule', icon: 'fa-calendar1', name: '日程' }
+        // { to: '/message', icon: 'fa-xuexiao', name: '消息' },
+        // { to: '/config', icon: 'fa-xuexiao', name: '设置  ' }
       ],
       internalNavigationiOS: [
         { to: '/index', icon: 'fa-xuexiao', name: '首页' },
-        { to: '/schedule', icon: 'fa-calendar1', name: '日程' },
-        { to: '/config', icon: 'fa-xuexiao', name: '设置  ' }
+        { to: '/schedule', icon: 'fa-calendar1', name: '日程' }
+        // { to: '/config', icon: 'fa-xuexiao', name: '设置  ' }
       ]
     }
   },

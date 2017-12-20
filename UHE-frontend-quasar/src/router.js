@@ -67,7 +67,7 @@ export default new VueRouter({
     {
       path: '/',
       component: Index,
-      alias: '/index',
+      alias: ['/index', 'index-su'],
       name: 'index'
     },
     // Always leave this last one
