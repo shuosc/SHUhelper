@@ -1,47 +1,34 @@
-<template>
-  <q-card>
-    <!-- <q-card-title  v-if="timeLeft">当前时间是 {{clock}}</q-card-title> -->
-
-    <q-card-main style="text-align:center;">
-      <!-- <q-list no-border> -->
-      <q-item>
-        <q-item-side style="text-align:center;display:flex;">
-          <q-knob readonly size="2rem" style="font-size: 1rem" color="secondary" track-color="yellow-3" v-model="timeLeft" :min="0" :max="total"></q-knob>
-          <!-- <q-icon color="primary" name="schedule" style="font-size:2rem;" /> -->
-          <!-- <q-item-tile color="primary" icon="date_range" /> -->
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile label>还有{{timeLeft}}分钟进行第{{parseInt(point)%2===1?(parseInt(point)+1)/2+'节课':parseInt(point)/2+'节课间休息'}}</q-item-tile>
-          <q-item-tile sublabel>好好上课不要看手机( •̀ ω •́ )y</q-item-tile>
-        </q-item-main>
-      </q-item>
-      <!-- <q-item-separator />
-      </q-list> -->
-    </q-card-main>
-    <q-card-separator/>
-    <q-card-actions>
-      <q-collapsible dense class="full-width" label="查看你今天的课程安排">
-        <!-- <q-list separator dense no-border>
-          <q-item>
-            <q-item-side>8:00~16:00 </q-item-side>
-            <q-item-main>
-              <q-item-tile label>Java程序设计</q-item-tile>
-              <q-item-tile sublabel>@计408</q-item-tile>
-            </q-item-main>
-          </q-item>
-          <q-item-separator />
-          <q-item>
-             <q-item-side>8:00~16:00 </q-item-side>
-            <q-item-main>
-              <q-item-tile label>John Doe</q-item-tile>
-              <q-item-tile sublabel>Administrator</q-item-tile>
-            </q-item-main>
-          </q-item>
-        </q-list> -->
-        <q-btn flat @click="$router.push('/schedule')" class="full-width"> 查看完整课程表</q-btn>
-      </q-collapsible>
-    </q-card-actions>
-  </q-card>
+<template lang="pug">
+  q-card
+    q-card-main.text-align
+      q-item
+        q-item-side.text-align.flex
+          q-knob(readonly='', size='2rem', style='font-size: 1rem', color='secondary', track-color='yellow-3', v-model='timeLeft', :min='0', :max='total')
+        q-item-main
+          q-item-tile(label='')
+            | 还有{{timeLeft}}分钟进行第{{parseInt(point)%2===1?(parseInt(point)+1)/2+'节课':parseInt(point)/2+'节课间休息'}}
+          q-item-tile(sublabel='') 好好上课不要看手机( •̀ ω •́ )y
+    q-card-separator
+    q-card-actions
+      q-collapsible.full-width(dense='', label='查看你今天的课程安排')
+        q-btn.full-width(flat='', @click="$router.push('/schedule')")  查看完整课程表
+  //- <q-list separator dense no-border>
+  //- <q-item>
+  //- <q-item-side>8:00~16:00 </q-item-side>
+  //- <q-item-main>
+  //- <q-item-tile label>Java程序设计</q-item-tile>
+  //- <q-item-tile sublabel>@计408</q-item-tile>
+  //- </q-item-main>
+  //- </q-item>
+  //- <q-item-separator />
+  //- <q-item>
+  //- <q-item-side>8:00~16:00 </q-item-side>
+  //- <q-item-main>
+  //- <q-item-tile label>John Doe</q-item-tile>
+  //- <q-item-tile sublabel>Administrator</q-item-tile>
+  //- </q-item-main>
+  //- </q-item>
+  //- </q-list>
 </template>
 
 <script>
@@ -113,10 +100,15 @@ export default {
     },
     updateTime() {
       var cd = new Date()
-      var time = parseInt(this.zeroPadding(cd.getHours(), 2) + this.zeroPadding(cd.getMinutes(), 2))
+      var time = parseInt(
+        this.zeroPadding(cd.getHours(), 2) +
+          this.zeroPadding(cd.getMinutes(), 2)
+      )
       for (let i in timeSChedule) {
-        let lastScheduleMinutes = timeSChedule[i - 1] % 100 + parseInt(timeSChedule[i - 1] / 100) * 60
-        let scheduleMinutes = timeSChedule[i] % 100 + parseInt(timeSChedule[i] / 100) * 60
+        let lastScheduleMinutes =
+          timeSChedule[i - 1] % 100 + parseInt(timeSChedule[i - 1] / 100) * 60
+        let scheduleMinutes =
+          timeSChedule[i] % 100 + parseInt(timeSChedule[i] / 100) * 60
         let timeMinutes = time % 100 + parseInt(time / 100) * 60
         if (scheduleMinutes - timeMinutes > 0) {
           this.timeLeft = scheduleMinutes - timeMinutes
@@ -125,7 +117,12 @@ export default {
           break
         }
       }
-      this.clock = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
+      this.clock =
+        this.zeroPadding(cd.getHours(), 2) +
+        ':' +
+        this.zeroPadding(cd.getMinutes(), 2) +
+        ':' +
+        this.zeroPadding(cd.getSeconds(), 2)
     }
   }
 }

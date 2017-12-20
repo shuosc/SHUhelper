@@ -11,6 +11,9 @@ const state = {
       avatar: '',
       custom: {
         theme: 'bluetheme'
+      },
+      config: {
+        locale: '本部'
       }
     },
     ui: {

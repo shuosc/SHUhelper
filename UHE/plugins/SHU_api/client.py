@@ -17,7 +17,7 @@ def get_proxies():
         'https':current_app.config['PROXY']
         }
 
-    return proxies
+    return None
 
 
 class Client(object):

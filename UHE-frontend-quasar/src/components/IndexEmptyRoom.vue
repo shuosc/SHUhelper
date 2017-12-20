@@ -1,38 +1,24 @@
-<template>
-  <q-card>
-    <q-card-main style="text-align:center;">
-      <q-item>
-        <q-item-side style="text-align:center;display:flex;">          <q-icon color="primary" name="fa-xiangtongfangjianrenwu" style="font-size:2rem;" />
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile label>现在共有{{count}}间空教室</q-item-tile>
-          <q-item-tile sublabel>其实不一定准确，结果仅供参考</q-item-tile>
-        </q-item-main>
-      </q-item>
-    </q-card-main>
-    <q-card-separator/>
-    <q-card-actions>
-      <q-collapsible dense class="full-width " style="padding:0 !important;" label="查看全部空教室">
-        <q-card flat class="no-margin">
-          <!-- <q-card-main> -->
-          <q-select :options="campus" v-model="time.campus" float-label="校区" class="full-width"></q-select>
-          <div v-if="count">
-            <q-collapsible dense class="full-width "  v-for="building in rooms" :key="building" style="padding:0 !important;" :label="building[0][0]">
-              <q-card-main class="py-0">
-                <span v-for="room in rooms[building[0][0]]" :key="room">{{ room + ' '}}</span>
-              </q-card-main>
-             </q-collapsible>
-          </div>
-          <div v-else>
-            <q-card flat>
-              <q-card-title>该时间没有任何可用教室</q-card-title>
-            </q-card>
-          </div>
-          <!-- </q-card-main> -->
-        </q-card>
-      </q-collapsible>
-    </q-card-actions>
-  </q-card>
+<template lang="pug">
+  q-card
+    q-card-main.text-center
+      q-item
+        q-item-side.text-center.flex
+          q-icon(color='primary', name='fa-xiangtongfangjianrenwu', style='font-size:2rem;')
+        q-item-main
+          q-item-tile(label) 现在共有{{count}}间空教室
+          q-item-tile(sublabel) 其实不一定准确，结果仅供参考
+    q-card-separator
+    q-card-actions
+      q-collapsible.full-width(dense, style='padding:0 !important;', label='查看全部空教室')
+        q-card.no-margin(flat)
+          q-select.full-width(:options='campus', v-model='time.campus', float-label='校区')
+          div(v-if='count')
+            q-collapsible.full-width(dense='', v-for='building in rooms', :key='building[0][0]', style='padding:0 !important;', :label='building[0][0]')
+              q-card-main.py-0
+                span(v-for='(room,index) in rooms[building[0][0]]', :key='index') {{ room + ' '}}
+          div(v-else='')
+            q-card(flat='')
+              q-card-title 该时间没有任何可用教室
 </template>
 
 <script>

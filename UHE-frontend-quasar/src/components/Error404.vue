@@ -1,23 +1,16 @@
-<template>
-  <div class="error-page window-height window-width bg-light column items-center no-wrap">
-    <div class="error-code bg-primary flex items-center content-center justify-center">
-      404
-    </div>
-    <div>
-      <div class="error-card shadow-4 bg-white column items-center justify-center no-wrap">
-        <q-icon name="error_outline" color="grey-5" />
-        <p class="caption text-center">你访问的页面可能已被删除或移到别处</p>
-        <p class="text-center group">
-          <q-btn v-if="canGoBack" color="primary" push @click="goBack" icon="keyboard_arrow_left">
-            返回上一页
-          </q-btn>
-          <q-btn color="primary" push @click="$router.replace('/')" icon-right="home">
-            回到首页
-          </q-btn>
-        </p>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+.error-page.window-height.window-width.bg-light.column.items-center.no-wrap
+  .error-code.bg-primary.flex.items-center.content-center.justify-center
+    | 404
+  div
+    .error-card.shadow-4.bg-white.column.items-center.justify-center.no-wrap
+      q-icon(name='error_outline', color='grey-5')
+      p.caption.text-center 你访问的页面可能已被删除或移到别处
+      p.text-center.group
+        q-btn(v-if='canGoBack', color='primary', push='', @click='goBack', icon='keyboard_arrow_left')
+          | 返回上一页
+        q-btn(color='primary', push='', @click="$router.replace('/')", icon-right='home')
+          | 回到首页
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <q-layout ref="layout" view="hHh Lpr fff" :left-class="{'bg-grey-2': true}">
+    <q-layout ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}" >
       <q-toolbar slot="header">
         <q-btn flat @click="$refs.layout.toggleLeft()">
           <q-icon name="menu" />
@@ -10,7 +10,7 @@
           首页
           <!-- <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div> -->
         </q-toolbar-title>
-        <router-view name="toolbar"/>
+        <router-view name="toolbar" />
       </q-toolbar>
 
       <div slot="left">
@@ -22,7 +22,17 @@
         <left-panel/>
         <!-- <router-view  name="left"/> -->
       </div>
+      <!-- <q-scroll-area style="width: 100%; height: 100%;"> -->
       <router-view />
+      <!-- </q-scroll-area> -->
+      <div slot="footer" v-if="$q.platform.is.ios">
+        <q-tabs>
+          <q-route-tab icon="fa-xuexiao" to="/index" exact slot="title" />
+          <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" />
+          <q-route-tab icon="fa-calendar1" to="/schedule" exact slot="title" />
+          <q-route-tab icon="fa-message" to="/message" exact slot="title" />
+        </q-tabs>
+      </div>
     </q-layout>
     <!-- </q-scroll-area> -->
   </div>
@@ -99,5 +109,21 @@ export default {
 <style>
 /* body {
   overflow-y: hidden;
+}
+.q-app {
+  height:100vh;
+}
+.layout {
+  height:100vh;
+}
+.layout-page {
+  height:100%;
+}
+.layout-page-container {
+  overflow-y: scroll;
+  height:100%;
+}
+.pull-to-refresh {
+  height:100%;
 } */
 </style>

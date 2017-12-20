@@ -67,13 +67,53 @@ import 'quasar-extras/material-icons'
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
-
+Vue.filter('cnNum', function(value) {
+  value = value.toString()
+  let map = {
+    '1': '一',
+    '2': '二',
+    '3': '三',
+    '4': '四',
+    '5': '五',
+    '6': '六',
+    '7': '七',
+    '8': '八',
+    '9': '九'
+  }
+  return map[value]
+})
+Vue.filter('term', function(value) {
+  let map = {
+    '1': '秋',
+    '2': '冬',
+    '3': '春',
+    '4': '夏'
+  }
+  let year = parseInt(value.slice(2, 4))
+  return `${year}-${year + 1}${map[value[5]]}`
+})
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({
     el: '#q-app',
     router,
     store,
-    render: h => h(require('./App').default)
+    render: h => h(require('./App').default),
+    filters: {
+      capitalize: function(value) {
+        if (!value) return ''
+        value = value.toString()
+        return value.charAt(0).toUpperCase() + value.slice(1)
+      },
+      term: function(value) {
+        let map = {
+          '1': '秋',
+          '2': '冬',
+          '3': '春',
+          '4': '夏'
+        }
+        return value.slice(2, 4) + map[value[5]]
+      }
+    }
   })
 })

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  logEvent(category, action, label, sessionId = 'UA-111372547-1') {
+  logEvent(category, action, label, sessionId) {
     dataLayer.push({
       appEventCategory: category,
       appEventAction: action,
@@ -9,7 +9,7 @@ export default {
     })
     dataLayer.push({ event: 'appEvent' })
   },
-  logPage(path, name, sessionId = 'UA-111372547-1') {
+  logPage(path, name, sessionId) {
     dataLayer.push({
       screenPath: path,
       screenName: name,

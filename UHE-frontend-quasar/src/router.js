@@ -28,19 +28,22 @@ export default new VueRouter({
    */
 
   mode: 'history',
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
 
   routes: [
     {
       path: '/login',
-      component: Login
+      component: Login,
+      name: 'login'
       // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/square',
+      name: 'square',
       component: Square // children: [{ path: '/', component: load('Schedule') }]
     },
-
     {
       path: '/profile/:id',
       name: 'profile',
@@ -51,20 +54,27 @@ export default new VueRouter({
     },
     {
       path: '/apps',
+      name: 'apps',
       component: Apps
       // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/schedule',
-      component: Schedule
+      component: Schedule,
+      name: 'schedule'
       // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/',
       component: Index,
-      alias: '/index'
+      alias: '/index',
+      name: 'index'
     },
     // Always leave this last one
-    { path: '*', component: Error404 } // Not found
+    {
+      path: '*',
+      component: Error404,
+      name: '404'
+    } // Not found
   ]
 })

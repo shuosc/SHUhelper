@@ -1,37 +1,31 @@
-<template>
-  <q-pull-to-refresh :handler="refresher" style="height:100vh;">
-    <q-card flat class="namecard">
-      <q-card-main>
-        <q-icon name="room" /> 宝山
-      </q-card-main>
-    </q-card>
-    <q-card class="namecard">
-      <q-card-main>
-        <q-item>
-          <q-item-side>
-            <q-spinner-hearts color="red" :size="30" />
-          </q-item-side>
-          <q-item-main>
-            <q-item-tile label>{{$store.state.user.name}}，我们为你准备了这些</q-item-tile>
-          </q-item-main>
-        </q-item>
-      </q-card-main>
-    </q-card>
-    <simple-calendar/>
-    <course-time/>
-    <empty-room/>
-    <quote-card/>
-    <q-card flat>
-      <q-card-main style="text-align:center;">
-        <img src="https://forthebadge.com/images/badges/built-with-love.svg">
-        <br/>
-        <small>2017 SHU OpenSourceCommnuity</small>
-      </q-card-main>
-    </q-card>
-  </q-pull-to-refresh>
+<template lang="pug">
+  //- q-pull-to-refresh(:handler='refresher')
+  pull-to(:top-load-method="refresher")
+    q-card.namecard(flat='')
+      q-card-main
+        q-icon(name='room')
+          | 宝山
+    q-card.namecard
+      q-card-main
+        q-item
+          q-item-side
+            q-spinner-hearts(color='red', :size='30')
+          q-item-main
+            q-item-tile(label='') {{$store.state.user.name}}，我们为你准备了这些
+    simple-calendar
+    course-time
+    empty-room
+    quote-card
+    q-card(flat='')
+      q-card-main(style='text-align:center;')
+        //- img(src="https://forthebadge.com/images/badges/built-with-love.svg")
+        //- br
+        small(style='color:grey;') 2017 SHU OpenSourceCommnuity
+
 </template>
 
 <script>
+import PullTo from 'vue-pull-to'
 import Weather from '@/IndexWeather'
 import CourseTime from '@/IndexCourseTime'
 import SimpleCalendar from '@/IndexSimpleCalendar'
@@ -41,6 +35,7 @@ import LeftPanel from '@/LayoutLeftPanel'
 export default {
   components: {
     Weather,
+    PullTo,
     CourseTime,
     SimpleCalendar,
     QuoteCard,
@@ -57,6 +52,7 @@ export default {
 
 <style lang="stylus" scoped>
 .namecard {
+  transform: translateZ(0);
   opacity: 0.9;
   // background #EDE574 /* fallback for old browsers */
   // background -webkit-linear-gradient(to left, #E1F5C4, #EDE574) /* Chrome 10-25, Safari 5.1-6 */

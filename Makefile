@@ -24,10 +24,10 @@ test:
 	py.test
 
 runweb:
-	cd ./UHE-frontend-Vue && yarn dev
+	cd ./UHE-frontend-quasar && yarn dev
 
 buildweb:
-	cd ./UHE-frontend-Vue && yarn build
+	bash buildweb.sh
 
 run:
 	source env/bin/activate && export FLASK_APP=run.py && export FLASK_DEBUG=1 && flask run

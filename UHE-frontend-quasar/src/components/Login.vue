@@ -1,71 +1,50 @@
-<template>
-  <div class="page">
-    <div class="content">
-      <q-card square flat style="position:absolute;top:-5rem;width:100%;" class="no-margin">
-        <q-card-main style="text-align:center;">
-          <span style="font-weight:bold;font-size:2rem;color:white;text-shadow:yellow 0 1px 0;">SHUhelper.cn Beta</span>
-          <br/>
-          <small style="color:white;text-shadow:green 0 1px 0;">
-            <span style="color:red;">♥ </span>Do have faith in what you're doing. </small>
-        </q-card-main>
-      </q-card>
-      <q-card flat class="no-margin">
-        <q-card-main>
-          <q-input @blur="$v.form.cardID.$touch" v-model="form.cardID" type="number" required float-label="一卡通账号" />
-          <q-input @blur="$v.form.password.$touch" v-model="form.password" type="password" required float-label="密码" />
-          <q-checkbox v-model="rememberMe" label="记住我" />
-        </q-card-main>
-        <q-card-actions>
-          <q-btn loader color="primary" class="full-width" @click="login">
-            登录
-          </q-btn>
-        </q-card-actions>
-      </q-card>
-      <q-card square flat style="position:absolute;bottom:-4rem;width:100%;" class="no-margin">
-        <q-card-main style="text-align:center;color:white;">
-          <small>上海大学开源社区</small>
-          <br/>
-          <small>SHU Open Source Community</small>
-        </q-card-main>
-      </q-card>
-    </div>
-    <div class="bg-boxes">
-      <svg width="300px" height="100%" id="col1">
-        <rect width="150px" height="150px" x="75px" y="75px" class="bubble" id="bub1" />
-      </svg>
-      <svg width="200px" height="100%" id="col2">
-        <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub2" />
-      </svg>
-      <svg width="260px" height="100%" id="col3">
-        <rect width="130px" height="130px" x="65px" y="65px" class="bubble" id="bub3" />
-      </svg>
-      <svg width="160px" height="100%" id="col4">
-        <rect width="80px" height="80px" x="40px" y="40px" class="bubble" id="bub4" />
-      </svg>
-      <svg width="240px" height="100%" id="col5">
-        <rect width="120px" height="120px" x="60px" y="60px" class="bubble" id="bub5" />
-      </svg>
-      <!--Here is a triangle-->
-      <svg width="200px" height="100%" id="col6">
-        <polygon points="50,150 100,50 150,150" class="bubble" id="bub6" />
-      </svg>
-      <svg width="200px" height="100%" id="col7">
-        <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub7" />
-      </svg>
-      <svg width="200px" height="100%" id="col8">
-        <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub8" />
-      </svg>
-      <svg width="200px" height="100%" id="col9">
-        <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub9" />
-      </svg>
-      <svg width="200px" height="100%" id="col10">
-        <rect width="100px" height="100px" x="50px" y="50px" class="bubble" id="bub10" />
-      </svg>
-      <svg width="100px" height="100%" id="col11">
-        <rect width="50px" height="50px" x="25px" y="25px" class="bubble" id="bub11" />
-      </svg>
-    </div>
-  </div>
+<template lang="pug">
+  .page
+   .content
+    q-card.no-margin(square='', flat='', style='position:absolute;top:-5rem;width:100%;')
+      q-card-main(style='text-align:center;')
+        span(style='font-weight:bold;font-size:2rem;color:white;text-shadow:yellow 0 1px 0;') SHUhelper.cn Beta
+        br
+        small(style='color:white;text-shadow:green 0 1px 0;')
+          span(style='color:red;') ♥ 
+          | Do have faith in what you're doing.
+    q-card.no-margin(flat='')
+      q-card-main
+        q-input(@blur='$v.form.cardID.$touch', v-model='form.cardID', type='number', required='', float-label='一卡通账号')
+        q-input(@blur='$v.form.password.$touch', v-model='form.password', type='password', required='', float-label='密码')
+        q-checkbox(v-model='rememberMe', label='记住我')
+      q-card-actions
+        q-btn.full-width(loader='', color='primary', @click='login')
+          | 登录
+    q-card.no-margin(square='', flat='', style='position:absolute;bottom:-4rem;width:100%;')
+      q-card-main(style='text-align:center;color:white;')
+        small 上海大学开源社区
+        br
+        small SHU Open Source Community
+    .bg-boxes
+      svg#col1(width='300px', height='100%')
+        rect#bub1.bubble(width='150px', height='150px', x='75px', y='75px')
+      svg#col2(width='200px', height='100%')
+        rect#bub2.bubble(width='100px', height='100px', x='50px', y='50px')
+      svg#col3(width='260px', height='100%')
+        rect#bub3.bubble(width='130px', height='130px', x='65px', y='65px')
+      svg#col4(width='160px', height='100%')
+        rect#bub4.bubble(width='80px', height='80px', x='40px', y='40px')
+      svg#col5(width='240px', height='100%')
+        rect#bub5.bubble(width='120px', height='120px', x='60px', y='60px')
+      // Here is a triangle
+      svg#col6(width='200px', height='100%')
+        polygon#bub6.bubble(points='50,150 100,50 150,150')
+      svg#col7(width='200px', height='100%')
+        rect#bub7.bubble(width='100px', height='100px', x='50px', y='50px')
+      svg#col8(width='200px', height='100%')
+        rect#bub8.bubble(width='100px', height='100px', x='50px', y='50px')
+      svg#col9(width='200px', height='100%')
+        rect#bub9.bubble(width='100px', height='100px', x='50px', y='50px')
+      svg#col10(width='200px', height='100%')
+        rect#bub10.bubble(width='100px', height='100px', x='50px', y='50px')
+      svg#col11(width='100px', height='100%')
+        rect#bub11.bubble(width='50px', height='50px', x='25px', y='25px')
 </template>
 
 <script>

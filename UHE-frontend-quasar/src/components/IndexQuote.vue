@@ -1,11 +1,9 @@
-<template>
-  <q-card class="quote-card">
-    <blockquote class="no-margin">
-      <p>SHUhelper V4现已开始测试，功能将逐步恢复，我们努力不鸽！！</p>
-      <small>SHUhelper开发委员会
-      </small>
-    </blockquote>
-  </q-card>
+<template lang="pug">
+  q-card.quote-card
+    blockquote.no-margin
+      p SHUhelper V4现已开始测试，功能将逐步恢复，我们努力不鸽！！
+      small
+        | SHUhelper开发委员会
 </template>
 
 <script>

@@ -1,48 +1,15 @@
-<template>
-  <!--
-      Replace following <div> with
-      <router-view /> component
-      if using subRoutes
-    -->
-  <!-- <router-view /> -->
-  <q-pull-to-refresh :handler="refresher">
-    <div class="schedule-container">
-      <time-table :task-detail="tasks" @showDetail="showDetail"></time-table>
-    </div>
-  </q-pull-to-refresh>
-  <!-- <q-modal ref="basicModal" minimized>
-      <h4>Basic Modal</h4>
-      <q-card style="width:300px;">
-        <q-card-title class="py-0">
-          <h4 class="pa-0 teal--text ma-0" style="text-align:center; font-size:1rem;">{{popupContent.name}}
-            <span class="grey--text" style="font-size:0.8rem;">{{popupContent.no}}
-            </span>
-          </h4>
-        </q-card-title>
-        <q-card-text class="pa-2" style="font-size:1rem !important;">
-          <cell title="学分">
-            {{popupContent.credit}}</cell>
-          <cell title="教师名">{{popupContent.teacher}}({{popupContent.teacher_no}})
-          </cell>
-          <cell title="时间">
-            <p class="ma-0" style="font-size:0.8rem;">{{popupContent.time}}</p>
-          </cell>
-          <cell title="地点">
-            {{popupContent.place}}</cell>
-          <cell title="答疑时间">
-            {{popupContent.q_time}}</cell>
-          <cell title="答疑地点">
-            {{popupContent.q_place}}</cell>
-        </q-card-text>
-        <q-card-actions>
-          <v-btn flat block class="orange--text" @click="getID()">前往课程主页</v-btn>
-        </q-card-actions>
-      </q-card>
-      <q-btn color="primary" @click="$refs.basicModal.close()">Close</q-btn>
-    </q-modal> -->
+<template lang="pug">
+ div
+    pull-to(:top-load-method="refresher")
+      .schedule-container
+        time-table(:task-detail="tasks" @showDetail="showDetail")
+    //- q-fixed-position(corner="bottom-right" :offset="[18, 18]")
+      q-btn(round @click="capture")
+        q-icon(name="mail")
 </template>
 
 <script>
+import PullTo from 'vue-pull-to'
 import LeftPanel from '@/LayoutLeftPanel'
 import TimeTable from '@/ScheduleTimeTable'
 import { randomColor, decrypt } from '@/../libs/utils.js'
@@ -59,6 +26,7 @@ const CNNUM = {
 export default {
   components: {
     LeftPanel,
+    PullTo,
     TimeTable
     // Popup,
     // Cell
@@ -72,8 +40,7 @@ export default {
       status: {
         lastModified: null,
         status: 'loading',
-        remark:
-          '17学年秋季学期课程，信息来自教务网，如果你还没有选课，会看到错误'
+        remark: '17学年秋季学期课程，信息来自教务网，如果你还没有选课，会看到错误'
       },
       fab: false,
       events: {},
@@ -201,6 +168,7 @@ export default {
     this.$store.commit('clearToolbar')
   },
   methods: {
+    capture() {},
     refreshToolbar() {
       // console.log(this.$store.state.toolbar.states[0])
       let createItems = () => {
