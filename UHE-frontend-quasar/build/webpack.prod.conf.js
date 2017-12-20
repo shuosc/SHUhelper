@@ -1,9 +1,9 @@
-var
-  path = require('path'),
+var path = require('path'),
   config = require('../config'),
   cssUtils = require('./css-utils'),
   webpack = require('webpack'),
   merge = require('webpack-merge'),
+  env = require('./env-utils'),
   baseWebpackConfig = require('./webpack.base.conf'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
@@ -40,7 +40,7 @@ module.exports = merge(baseWebpackConfig, {
     }),
     // extract css into its own file
     new ExtractTextPlugin({
-      filename: '[name].[contenthash].css'
+      filename: env.platform.theme === 'ios' ? '[name].ios.[contenthash].css' : '[name].mat.[contenthash].css'
     }),
     new HtmlWebpackPlugin({
       filename: path.resolve(__dirname, '../dist/index.html'),
@@ -59,17 +59,12 @@ module.exports = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: function (module, count) {
+      minChunks: function(module, count) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
           /\.js$/.test(module.resource) &&
-          (
-            module.resource.indexOf('quasar') > -1 ||
-            module.resource.indexOf(
-              path.join(__dirname, '../node_modules')
-            ) === 0
-          )
+          (module.resource.indexOf('quasar') > -1 || module.resource.indexOf(path.join(__dirname, '../node_modules')) === 0)
         )
       }
     }),

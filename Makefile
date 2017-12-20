@@ -26,6 +26,9 @@ test:
 runweb:
 	cd ./UHE-frontend-quasar && yarn dev
 
+installweb:
+	cd ./UHE-frontend-quasar && yarn install
+
 buildweb:
 	bash buildweb.sh
 
