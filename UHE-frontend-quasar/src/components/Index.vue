@@ -1,6 +1,7 @@
 <template lang="pug">
-  //- q-pull-to-refresh(:handler='refresher')
-  pull-to(:top-load-method="refresher")
+  q-pull-to-refresh(:handler='refresher')
+    //- q-scroll-area.window-height
+    //- pull-to(:top-load-method="refresher" :is-bottom-bounce="false" :is-top-bounce="false")
     q-card.namecard(flat='')
       q-card-main
         q-icon(name='room')

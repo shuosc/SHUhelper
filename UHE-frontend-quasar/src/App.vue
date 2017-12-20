@@ -107,23 +107,4 @@ export default {
 </script>
 
 <style>
-/* body {
-  overflow-y: hidden;
-}
-.q-app {
-  height:100vh;
-}
-.layout {
-  height:100vh;
-}
-.layout-page {
-  height:100%;
-}
-.layout-page-container {
-  overflow-y: scroll;
-  height:100%;
-}
-.pull-to-refresh {
-  height:100%;
-} */
 </style>

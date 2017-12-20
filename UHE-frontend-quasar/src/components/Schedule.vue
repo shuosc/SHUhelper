@@ -1,6 +1,7 @@
 <template lang="pug">
- div
-    pull-to(:top-load-method="refresher")
+ div( style="padding-botom:51px;")
+    //- pull-to(:top-load-method="refresher")
+    q-pull-to-refresh(:handler='refresher')
       .schedule-container
         time-table(:task-detail="tasks" @showDetail="showDetail")
     //- q-fixed-position(corner="bottom-right" :offset="[18, 18]")
