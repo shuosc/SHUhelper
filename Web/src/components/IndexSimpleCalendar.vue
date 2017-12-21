@@ -16,18 +16,18 @@
       q-card-actions
         q-btn.full-width(flat @click="open()")
           | 查看本学年校历（图片）
-    q-modal(ref="calendar")
+    q-modal(ref="calendar" :content-css="{minWidth: '80vw', minHeight: '80vh'}")
       q-modal-layout
-        q-toolbar(slot="header" inverted)
-          q-btn(color="primary" flat @click="close")
+        q-toolbar(slot="header" color="primary")
+          q-btn(color="white" flat @click="close")
             q-icon(name="close")
             q-toolbar-title
               | 17-18学年校历
         div(v-if="calendarOpen")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E7%A7%8B.jpg")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E5%86%AC.jpg")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E6%98%A5.jpg")
-          img.responsive(src="http://api.shu.edu.cn/CampusFileList/2016-2017%E5%A4%8F.jpg")
+          img.responsive(src="/statics/2017-2018秋.jpg")
+          img.responsive(src="/statics/2017-2018冬.jpg")
+          img.responsive(src="/statics/2017-2018春.jpg")
+          img.responsive(src="/statics/2017-2018夏.jpg")
 </template>
 
 <script>

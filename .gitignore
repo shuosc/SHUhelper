@@ -5,7 +5,7 @@
 *.pyc
 *.rdb
 /UHE-frontend-Vue/static/SHU
-/UHE-frontend-Vue/dist
+/Web/dist
 celerybeat-schedule.*
 npm-debug.log
 celerybeat-schedule

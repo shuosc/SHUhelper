@@ -50,6 +50,7 @@
 <script>
 import { Toast } from 'quasar'
 import { required } from 'vuelidate/lib/validators'
+import ga from '../libs/analytics'
 function createToast(text) {
   Toast.create({
     html: text,
@@ -140,6 +141,7 @@ export default {
               ? `${response.data.name}，欢迎登陆`
               : `${loginText}`
           )
+          ga.loginUser(payload.cardID)
           if (_this.$route.query.redirect) {
             _this.$router.replace(_this.$route.query.redirect)
           } else {

@@ -7,7 +7,9 @@ export default {
       appEventLabel: label,
       sessionId: sessionId
     })
-    dataLayer.push({ event: 'appEvent' })
+    dataLayer.push({
+      event: 'appEvent'
+    })
   },
   logPage(path, name, sessionId) {
     dataLayer.push({
@@ -15,6 +17,11 @@ export default {
       screenName: name,
       sessionId: sessionId
     })
-    dataLayer.push({ event: 'appScreenView' })
+    dataLayer.push({
+      event: 'appScreenView'
+    })
+  },
+  loginUser(id) {
+    ga('set', 'userId', id);
   }
 }

@@ -44,6 +44,7 @@
  */
 import LeftPanel from '@/LayoutLeftPanel'
 import { Toast } from 'quasar'
+import ga from 'libs/analytics.js'
 export default {
   components: {
     LeftPanel
@@ -92,6 +93,7 @@ export default {
           payload.custom = custom
           payload.avatar = response.data.avatar
           _this.$store.commit('updateAccount', payload)
+          ga.loginUser(payload.cardID)
           if (custom.loginText === undefined) {
             Toast.create(`${response.data.name}，欢迎登陆`)
           } else {
