@@ -24,10 +24,11 @@ test:
 	py.test
 
 runweb:
-	cd ./UHE-frontend-quasar && yarn dev
+	cd ./Web && yarn dev
+	cd ./Web && PORT=8081 yarn dev ios
 
 installweb:
-	cd ./UHE-frontend-quasar && yarn install
+	cd ./Web && yarn install
 
 buildweb:
 	bash buildweb.sh
@@ -40,7 +41,9 @@ deploycelery:
 
 runcelery:
 	celery -A celery_worker.celery worker --beat --loglevel=info
-
+	
+deploy:
+	gunicorn -w 10 -k gevent  --reload -D -b 127.0.0.1:4001 --log-file gunicorn.log  --log-level debug --capture-output  wsgi:app
 
 stopcelery:
 	pkill -9 -f 'celery worker'

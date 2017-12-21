@@ -1,5 +1,5 @@
 #!/bin/bash   
-cd UHE-frontend-quasar
+cd Web
 mkdir ios
 yarn install
 yarn build ios
