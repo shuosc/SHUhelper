@@ -14,7 +14,7 @@ class Feed(db.Document):
     created = DateTimeField(default=datetime.datetime.now)
     comments = ListField(ReferenceField(
         Comment, reverse_delete_rule=PULL), default=lambda: [])
-    feed_type = StringField()  # external-link internal-link imgs text post
+    feed_type = StringField(default='ordinary')  # external-link internal-link imgs text post
     text = StringField(default='')
     link_URL = StringField()
     link_title = StringField()

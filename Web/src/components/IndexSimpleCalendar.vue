@@ -11,7 +11,7 @@
         q-item
           q-item-main
             q-progress(:percentage='((time.week-1)*7 + time.day)/84*100', color='teal-4')
-              q-item-tile(sublabel='', style='text-align:center;') 本学期进度 {{((time.week-1)*7 + time.day)}}/84
+            q-item-tile(sublabel='', style='text-align:center;') 本学期进度 {{((time.week-1)*7 + time.day)}}/84
       q-card-separator
       q-card-actions
         q-btn.full-width(flat @click="open()")
