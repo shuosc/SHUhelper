@@ -55,6 +55,9 @@ const state = {
         states: []
       }
     },
+    setAvatar(state, avatar) {
+      state.user.avatar = avatar
+    },
     // updateToolbarAction(state, index, subindex, key, value) {
     //   state.toolbar.actions[index].items[subindex][key] = value
     // },

@@ -24,6 +24,7 @@
       input(name='accept', type='hidden')
 </template>
 <script>
+import { Toast } from 'quasar'
 import LeftPanel from '@/LayoutLeftPanel'
 export default {
   components: {
@@ -122,9 +123,8 @@ export default {
                       }
                     })
                     .then(reponse => {
-                      this.$store.commit('showSnackbar', {
-                        text: `更新头像成功`
-                      })
+                      Toast.create(`更新头像成功`)
+                      this.$store.commit('setAvatar', this.img.url)
                     })
                 })
                 .catch(error => {
