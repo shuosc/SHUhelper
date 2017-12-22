@@ -1,7 +1,7 @@
 # SHUhelper v4
 
 [![codebeat badge](https://codebeat.co/badges/97b9864b-ffc5-497a-a4bd-27d73cc95e46)](https://codebeat.co/projects/github-com-shuopensourcecommunity-shuhelper-master)
-
+[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 > 还在开发中呢，写文档是不可能的，这辈子都写不了文档，只能在commit里卖卖萌这样，勉强过过日子
 
 ## 简介
