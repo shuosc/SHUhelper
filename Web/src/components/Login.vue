@@ -127,6 +127,7 @@ export default {
             createToast('本地存储失败，如果在使用浏览器，请关闭无痕浏览模式')
           }
           _this.$store.commit('updateAccount', payload)
+          done()
           // _this.$store.commit('closeLoginDialog')
           try {
             var custom = JSON.parse(payload.custom)
