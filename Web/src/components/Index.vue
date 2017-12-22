@@ -15,7 +15,7 @@
             q-item-tile(label='') {{$store.state.user.name}}，我们为你准备了这些
     simple-calendar
     course-time
-    empty-room
+    empty-room(v-if="$store.state.time.updated")
     sport-card
     quote-card
     q-card(flat='')

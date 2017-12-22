@@ -31,24 +31,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'simpleCalendar',
   data() {
     return {
       publication: {},
-      calendarOpen: false,
-      time: {
-        year: '喵喵喵',
-        term: '喵喵喵',
-        week: '喵喵喵',
-        day: '喵喵喵',
-        course: '喵喵喵'
-      }
+      calendarOpen: false
     }
   },
-  created() {
-    this.getTime()
-  },
+  computed: mapState([
+    'time'
+  ]),
+  created() {},
   methods: {
     open() {
       this.calendarOpen = true
@@ -64,15 +59,6 @@ export default {
         zero += '0'
       }
       return (zero + num).slice(-digit)
-    },
-    getTime() {
-      this.$http.get('/api/time/').then(response => {
-        this.time.year = response.data.year
-        this.time.term = response.data.term
-        this.time.week = response.data.week
-        this.time.day = response.data.day
-        this.time.course = response.data.course
-      })
     }
   }
 }

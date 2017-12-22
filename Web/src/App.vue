@@ -1,7 +1,7 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <q-layout ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}" >
+    <q-layout ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}">
       <q-toolbar slot="header" v-if="!$route.meta.disableLayout">
         <q-btn flat @click="$refs.layout.toggleLeft()">
           <q-icon name="menu" />
@@ -51,8 +51,14 @@ export default {
   },
   created() {
     this.verifyToken()
+    this.getTime()
   },
   methods: {
+    getTime() {
+      this.$http.get('/api/time/').then(response => {
+        this.$store.commit('updateTime', response.data)
+      })
+    },
     verifyToken() {
       var _this = this
       var token = ''
@@ -109,4 +115,5 @@ export default {
 </script>
 
 <style>
+
 </style>

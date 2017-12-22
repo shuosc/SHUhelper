@@ -74,15 +74,10 @@ export default {
     }
   },
   created() {
-    this.$http.get('/api/time/').then(response => {
-      this.time.week = response.data.week
-      this.time.day = response.data.day
-      this.time.course = response.data.course
-      // this.time.week = 1
-      // this.time.day = 1
-      // this.time.course = 2
-      this.getEmptyRooms(this.time)
-    })
+    this.time.week = this.$store.state.time.week
+    this.time.day = this.$store.state.time.day
+    this.time.course = this.$store.state.time.course
+    this.getEmptyRooms(this.time)
   },
   methods: {
     getEmptyRooms(time) {
