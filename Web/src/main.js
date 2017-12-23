@@ -19,6 +19,14 @@ import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+import VueAMap from 'vue-amap'
+Vue.use(VueAMap)
+VueAMap.initAMapApiLoader({
+  key: 'ad8f18c4339cb057e3290e15c0bf3ce7',
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType'],
+  uiVersion: '1.0'
+})
+Vue.prototype.$map = VueAMap
 import ga from 'libs/analytics.js'
 router.afterEach((to, from) => {
   ga.logPage(to.path, to.name, 'UA-111372547-1')

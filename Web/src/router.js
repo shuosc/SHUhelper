@@ -14,6 +14,7 @@ import Square from '@/Square'
 import Apps from '@/Apps'
 import Schedule from '@/Schedule'
 import Index from '@/Index'
+import Map from '@/Map'
 export default new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
@@ -43,6 +44,11 @@ export default new VueRouter({
       path: '/square',
       name: 'square',
       component: Square // children: [{ path: '/', component: load('Schedule') }]
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: Map // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/profile/:id',
