@@ -39,9 +39,9 @@ class CommonFeedsAPI(MethodView):
         if not feed_id:
             namespace = request.args.get('namespace', 'ordinary')
             page = int(request.args.get('page', 1))
-            paginated_feeds = Feed.objects.paginate(
-                page=page, per_page=10, namespace=namespace)
-            total = Feed.objects.count()
+            paginated_feeds = Feed.objects(namespace=namespace).paginate(
+                page=page, per_page=10)
+            total = Feed.objects(namespace=namespace).count()
             return jsonify(total=total, feeds=[feed.to_dict() for feed in paginated_feeds.items])
         else:
             feed = Feed.objects.get_or_404(id=feed_id)
