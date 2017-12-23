@@ -39,7 +39,7 @@ export default new VueRouter({
       name: 'login'
     },
     {
-      path: '/2017',
+      path: '/2018',
       component: load('NewYearWish'),
       name: 'NewYearWish',
       meta: {

@@ -82,7 +82,7 @@ export default {
         }
       }
       if (token === '') {
-        this.$router.push('/login')
+        // this.$router.push('/login')
         return
       }
       this.$http

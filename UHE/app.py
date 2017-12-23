@@ -57,6 +57,11 @@ def configure_manger_accounts(app):
             user = User(card_id=plugin.identifier,
                         name=plugin.identifier, activated=True, robot=True)
             user.save()
+    user = User.objects(card_id='00000001').first()
+    if user is None:
+        user = User(card_id='00000001',
+                    name='匿名用户', activated=True, robot=True)
+        user.save()
 
 
 def configure_app(app, config):
