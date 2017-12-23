@@ -3,7 +3,7 @@ from flask_admin import Admin
 from flask_allows import Allows
 from flask_babelex import Babel
 from flask_caching import Cache
-from flask_login import LoginManager
+from flask_login import LoginManager, AnonymousUserMixin
 from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
@@ -12,8 +12,14 @@ from UHE.plugins.SHU_captcha.solver import Solver
 from UHE.plugins import PluginManager
 # from UHE.schedule import clock
 
-login_manager = LoginManager()
 
+class AnonymousUser(AnonymousUserMixin):
+    id = '00000001'
+    def get_id(self):
+        return '00000001'
+
+login_manager = LoginManager()
+login_manager.anonymous_user = AnonymousUser
 mail = Mail()
 
 allows = Allows()

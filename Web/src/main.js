@@ -53,6 +53,15 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+Vue.filter('two_digits', value => {
+  if (value < 0) {
+    return '00'
+  }
+  if (value.toString().length <= 1) {
+    return `0${value}`
+  }
+  return value
+})
 Vue.prototype.$http = axios
 // ...
 Vue.use(Quasar, {
@@ -106,22 +115,6 @@ Quasar.start(() => {
     el: '#q-app',
     router,
     store,
-    render: h => h(require('./App').default),
-    filters: {
-      capitalize: function(value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.charAt(0).toUpperCase() + value.slice(1)
-      },
-      term: function(value) {
-        let map = {
-          '1': '秋',
-          '2': '冬',
-          '3': '春',
-          '4': '夏'
-        }
-        return value.slice(2, 4) + map[value[5]]
-      }
-    }
+    render: h => h(require('./App').default)
   })
 })

@@ -11,10 +11,11 @@ from UHE.comment.models import Comment
 
 class Feed(db.Document):
     user = ReferenceField(User, reverse_delete_rule=CASCADE)
+    display_name = StringField()
     created = DateTimeField(default=datetime.datetime.now)
     comments = ListField(ReferenceField(
         Comment, reverse_delete_rule=PULL), default=lambda: [])
-    feed_type = StringField()  # external-link internal-link imgs text post
+    namespace = StringField(default='ordinary')  # external-link internal-link imgs text post
     text = StringField(default='')
     link_URL = StringField()
     link_title = StringField()
@@ -33,9 +34,10 @@ class Feed(db.Document):
         # print(current_user.id,list(map(lambda user: user.id,self.like)))
         return {
             'user': self.user.to_dict_public(),
+            'displayName': self.display_name,
             'created': str(self.created),
             'comments': [comment.to_dict() for comment in self.comments],
-            'type': self.feed_type,
+            'namespace': self.namespace,
             'text': self.text,
             'linkURL': self.link_URL,
             'linkTitle': self.link_title,

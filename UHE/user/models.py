@@ -1,7 +1,7 @@
 import datetime
 
 from flask import abort
-from flask_login import UserMixin
+from flask_login import UserMixin, AnonymousUserMixin
 from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,
                          StringField)
 
@@ -9,6 +9,7 @@ from UHE.client import Services
 from UHE.extensions import db, celery
 from Crypto.Cipher import AES
 import base64
+
 
 
 class User(UserMixin, db.Document):

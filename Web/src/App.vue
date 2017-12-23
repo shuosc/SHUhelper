@@ -1,8 +1,8 @@
 <template>
   <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <q-layout ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}" >
-      <q-toolbar slot="header">
+    <q-layout ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}">
+      <q-toolbar slot="header" v-if="!$route.meta.disableLayout">
         <q-btn flat @click="$refs.layout.toggleLeft()">
           <q-icon name="menu" />
         </q-btn>
@@ -25,7 +25,7 @@
       <!-- <q-scroll-area style="width: 100%; height: 100%;"> -->
       <router-view />
       <!-- </q-scroll-area> -->
-      <div slot="footer" v-if="$q.platform.is.ios">
+      <div slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableLayout">
         <q-tabs>
           <q-route-tab icon="fa-xuexiao" to="/" exact slot="title" />
           <!-- <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" /> -->
@@ -51,8 +51,14 @@ export default {
   },
   created() {
     this.verifyToken()
+    this.getTime()
   },
   methods: {
+    getTime() {
+      this.$http.get('/api/time/').then(response => {
+        this.$store.commit('updateTime', response.data)
+      })
+    },
     verifyToken() {
       var _this = this
       var token = ''
@@ -76,7 +82,7 @@ export default {
         }
       }
       if (token === '') {
-        this.$router.push('/login')
+        // this.$router.push('/login')
         return
       }
       this.$http
@@ -109,4 +115,5 @@ export default {
 </script>
 
 <style>
+
 </style>

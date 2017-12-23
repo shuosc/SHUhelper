@@ -38,7 +38,8 @@ export const parseURL = function (url) {
     segments: a.pathname.replace(/^\//, '').split('/')
   }
 }
-import CryptoJS from './encryption.js'
+// import CryptoJS from './encryption.js'
+var CryptoJS = require("crypto-js");
 export function decrypt(data, pw) {
   function pad(str, n) {
     var i = (str).length
