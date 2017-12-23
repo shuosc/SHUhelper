@@ -117,6 +117,7 @@ export default {
           this.feeds = []
           this.$refs.infiniteScroll.reset()
           this.$refs.infiniteScroll.resume()
+          this.msg.content = ''
         })
         .catch(error => {
           _this.$store.commit('showSnackbar', { text: '登陆失败' + error })
