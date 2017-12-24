@@ -74,7 +74,13 @@ class SZ(Client):
         return True
 
 
-class Tiyu(Client):
+class Tiyu(Client): 
+    def __init__(self, card_id, password):
+        self.sport=''
+        self.sport_rec=''
+        self.act=''
+        self.act_rec=''
+        Client.__init__(self, card_id, password)
     proxies = None
     url_prefix = 'http://202.120.127.149:8989/spims'
 
@@ -94,11 +100,23 @@ class Tiyu(Client):
         r = self.session.get(
             self.url_prefix + '/exercise.do?method=seacheload', timeout=10, proxies=get_proxies())
         string = r.text
-        content = re.search(
+        soup = BeautifulSoup(string, 'html.parser')
+        content = soup.find('table',class_='table_bg')
+        line = []
+        for td in content.find_all('td',class_=''):
+            line.append(td.text.strip())
+        self.sport=line[4]
+        self.sport_rec= 0 if line[8]=='' else line[8]
+        try:
+            self.act=line[26]
+            self.act_rec=line[35]
+        except:
+            self.act=0
+            self.act_rec=0
+        '''content = re.search(
             r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>', string, flags=0).group(0)
         content = re.sub(
-            r'<table cellpadding="3" cellspacing="1" class="table_bg">', '<table>', content)
-        self.data = content
+            r'<table cellpadding="3" cellspacing="1" class="table_bg">', '<table>', content)'''
         return True
 
     def to_html(self):
@@ -106,7 +124,10 @@ class Tiyu(Client):
 
     def to_json(self):
         return json.dumps({
-            'html': self.data
+            'sport': self.sport,
+            'sport_reduce': self.sport_rec,
+            'act': self.act,
+            'act_reduce': self.act_rec
         })
 
 
