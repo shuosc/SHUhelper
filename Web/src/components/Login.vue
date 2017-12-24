@@ -1,26 +1,26 @@
 <template lang="pug">
   .page
-   .content
-    q-card.no-margin(square='', flat='', style='position:absolute;top:-5rem;width:100%;')
-      q-card-main(style='text-align:center;')
-        span(style='font-weight:bold;font-size:2rem;color:white;text-shadow:yellow 0 1px 0;') SHUhelper.cn Beta
-        br
-        small(style='color:white;text-shadow:green 0 1px 0;')
-          span(style='color:red;') ♥ 
-          | Do have faith in what you're doing.
-    q-card.no-margin(flat='')
-      q-card-main
-        q-input(@blur='$v.form.cardID.$touch', v-model='form.cardID', type='number', required='', float-label='一卡通账号')
-        q-input(@blur='$v.form.password.$touch', v-model='form.password', type='password', required='', float-label='密码')
-        q-checkbox(v-model='rememberMe', label='记住我')
-      q-card-actions
-        q-btn.full-width(loader='', color='primary', @click='login')
-          | 登录
-    q-card.no-margin(square='', flat='', style='position:absolute;bottom:-4rem;width:100%;')
-      q-card-main(style='text-align:center;color:white;')
-        small 上海大学开源社区
-        br
-        small SHU Open Source Community
+    .content
+      q-card.no-margin(square='', flat='', style='position:absolute;top:-5rem;width:100%;')
+        q-card-main(style='text-align:center;')
+          span(style='font-weight:bold;font-size:2rem;color:white;text-shadow:yellow 0 1px 0;') SHUhelper.cn Beta
+          br
+          small(style='color:white;text-shadow:green 0 1px 0;')
+            span(style='color:red;') ♥ 
+            | Do have faith in what you're doing.
+      q-card.no-margin(flat='')
+        q-card-main
+          q-input(@blur='$v.form.cardID.$touch', v-model='form.cardID', type='number', required='', float-label='一卡通账号')
+          q-input(@blur='$v.form.password.$touch', v-model='form.password', type='password', required='', float-label='密码')
+          q-checkbox(v-model='rememberMe', label='记住我')
+        q-card-actions
+          q-btn.full-width(loader='', color='primary', @click='login')
+            | 登录
+      q-card.no-margin(square='', flat='', style='position:absolute;bottom:-4rem;width:100%;')
+        q-card-main(style='text-align:center;color:white;')
+          small 上海大学开源社区
+          br
+          small SHU Open Source Community
     .bg-boxes
       svg#col1(width='300px', height='100%')
         rect#bub1.bubble(width='150px', height='150px', x='75px', y='75px')
@@ -127,6 +127,7 @@ export default {
             createToast('本地存储失败，如果在使用浏览器，请关闭无痕浏览模式')
           }
           _this.$store.commit('updateAccount', payload)
+          done()
           // _this.$store.commit('closeLoginDialog')
           try {
             var custom = JSON.parse(payload.custom)

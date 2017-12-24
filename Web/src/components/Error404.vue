@@ -1,5 +1,5 @@
 <template lang="pug">
-.error-page.window-height.window-width.bg-light.column.items-center.no-wrap
+.error-page.window-width.bg-light.column.items-center.no-wrap
   .error-code.bg-primary.flex.items-center.content-center.justify-center
     | 404
   div
@@ -36,10 +36,11 @@ export default {
 
 <style lang="stylus">
 .error-page
+  height 93vh
   .error-code
-    height 50vh
+    height 40vh
     width 100%
-    padding-top 15vh
+    padding-top 0vh
 
     @media (orientation: landscape)
       font-size 30vw
@@ -55,7 +56,7 @@ export default {
     margin-top -50px
     width 80vw
     max-width 600px
-    padding 25px
+    padding 10px
 
     > i
       font-size 5rem

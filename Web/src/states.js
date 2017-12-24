@@ -34,11 +34,13 @@ const state = {
       context: 'info'
     },
     showLoginForm: false,
-    date: {
-      year: '',
-      term: '',
-      week: '',
-      course: ''
+    time: {
+      year: 17,
+      term: 2,
+      week: 0,
+      course: 0,
+      day: 0,
+      updated: false
     },
     toolbar: {
       actions: [],
@@ -49,15 +51,19 @@ const state = {
     updateToolBar(state, payload) {
       state.toolbar = payload
     },
+    updateTime(state, payload) {
+      state.time = payload
+      state.time.updated = true
+    },
     clearToolbar(state) {
       state.toolbar = {
         actions: [],
         states: []
       }
     },
-    // updateToolbarAction(state, index, subindex, key, value) {
-    //   state.toolbar.actions[index].items[subindex][key] = value
-    // },
+    setAvatar(state, avatar) {
+      state.user.avatar = avatar
+    },
     updateToolbarState(state, payload) {
       state.toolbar.states[payload.index] = payload.value
       console.log(payload.index, payload.value)

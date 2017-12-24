@@ -14,11 +14,14 @@
   "dependencies": {
     "axios": "^0.17.1",
     "babel-runtime": "^6.25.0",
+    "crypto-js": "^3.1.9-1",
     "quasar-extras": "0.x",
     "quasar-framework": "^0.14.7",
     "vue": "^2.5.0",
+    "vue-amap": "^0.4.4",
     "vue-pull-to": "^0.1.6",
     "vue-router": "^3.0.1",
+    "vue-waterfall": "^1.0.6",
     "vuelidate": "^0.6.1",
     "vuex": "^3.0.1"
   },

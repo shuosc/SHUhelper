@@ -9,39 +9,52 @@
           q-item-tile(sublabel) 其实不一定准确，结果仅供参考
     q-card-separator
     q-card-actions
-      q-collapsible.full-width(dense, style='padding:0 !important;', label='查看全部空教室')
-        q-card.no-margin(flat)
-          q-select.full-width(:options='campus', v-model='time.campus', float-label='校区')
+      q-btn.full-width(style='padding:0 !important;' flat @click="emptyRoom=true")
+        | 查看全部空教室
+    q-modal(ref="emptyRoomModal" v-model="emptyRoom" :content-css="{minWidth: '80vw', minHeight: '80vh'}")
+      q-modal-layout
+        q-toolbar(slot="header" color="primary")
+          q-btn(color="white" flat @click="emptyRoom=false")
+            q-icon(name="close")
+            q-toolbar-title
+              | 空教室查询
+        q-card(flat)
+          div.flex.row
+            q-select.col-3(:options='campus', v-model='time.campus', float-label='校区')
+            q-select.col-3(:options='weeks', v-model='time.week', float-label='周')
+            q-select.col-3(:options='days', v-model='time.day', float-label='星期')
+            q-select.col-3(:options='courses', v-model='time.course', float-label='节')
+          q-card(flat)
+            q-card-main.text-center
+              | 这时共有{{count}}间空教室
           div(v-if='count')
-            q-collapsible.full-width(dense='', v-for='building in rooms', :key='building[0][0]', style='padding:0 !important;', :label='building[0][0]')
+            q-collapsible.full-width(opened dense='', v-for='building in rooms', :key='building[0][0]', style='padding:0 !important;', :label='building[0][0]')
               q-card-main.py-0
                 span(v-for='(room,index) in rooms[building[0][0]]', :key='index') {{ room + ' '}}
           div(v-else='')
             q-card(flat='')
               q-card-title 该时间没有任何可用教室
+
 </template>
 
 <script>
+function listToSelect(l) {
+  return l.map(x => {
+    return { label: x, value: x }
+  })
+}
+const campus = listToSelect(['本部', '延长', '嘉定'])
+const weeks = listToSelect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+const days = listToSelect([1, 2, 3, 4, 5])
+const courses = listToSelect([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
 export default {
   data() {
     return {
-      campus: [
-        {
-          label: '本部',
-          value: '本部'
-        },
-        {
-          label: '延长',
-          value: '延长'
-        },
-        {
-          label: '嘉定',
-          value: '嘉定'
-        }
-      ],
-      weeks: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      days: [1, 2, 3, 4, 5],
-      courses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      emptyRoom: false,
+      campus: campus,
+      weeks: weeks,
+      days: days,
+      courses: courses,
       rooms: {},
       time: {
         campus: '本部',
@@ -61,15 +74,10 @@ export default {
     }
   },
   created() {
-    this.$http.get('/api/time/').then(response => {
-      this.time.week = response.data.week
-      this.time.day = response.data.day
-      this.time.course = response.data.course
-      // this.time.week = 1
-      // this.time.day = 1
-      // this.time.course = 2
-      this.getEmptyRooms(this.time)
-    })
+    this.time.week = this.$store.state.time.week
+    this.time.day = this.$store.state.time.day
+    this.time.course = this.$store.state.time.course
+    this.getEmptyRooms(this.time)
   },
   methods: {
     getEmptyRooms(time) {

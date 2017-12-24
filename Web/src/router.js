@@ -3,10 +3,10 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-// function load(component) {
-//   // '@' is aliased to src/components
-//   return () => import(`@/${component}.vue`)
-// }
+function load(component) {
+  // '@' is aliased to src/components
+  return () => import(`@/${component}.vue`)
+}
 import Login from '@/Login'
 import Error404 from '@/Error404'
 import Profile from '@/Profile'
@@ -14,6 +14,7 @@ import Square from '@/Square'
 import Apps from '@/Apps'
 import Schedule from '@/Schedule'
 import Index from '@/Index'
+import Map from '@/Map'
 export default new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
@@ -37,12 +38,24 @@ export default new VueRouter({
       path: '/login',
       component: Login,
       name: 'login'
-      // children: [{ path: '/', component: load('Schedule') }]
+    },
+    {
+      path: '/2018',
+      component: load('NewYearWish'),
+      name: 'NewYearWish',
+      meta: {
+        disableLayout: true
+      }
     },
     {
       path: '/square',
       name: 'square',
-      component: Square // children: [{ path: '/', component: load('Schedule') }]
+      component: Square
+    },
+    {
+      path: '/map',
+      name: 'map',
+      component: Map // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/profile/:id',
@@ -67,7 +80,12 @@ export default new VueRouter({
     {
       path: '/',
       component: Index,
-      alias: ['/index', 'index-su'],
+      redirect: '/index'
+    },
+    {
+      path: '/index',
+      component: Index,
+      alias: ['index-su'],
       name: 'index'
     },
     // Always leave this last one

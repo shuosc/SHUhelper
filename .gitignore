@@ -11,3 +11,4 @@ npm-debug.log
 celerybeat-schedule
 celery.log
 gunicorn.log
+.cache
