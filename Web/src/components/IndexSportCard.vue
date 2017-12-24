@@ -11,7 +11,7 @@
       q-card-separator
       q-card-actions
         q-btn.full-width(flat @click="open()")
-          | 查看本学期课外活动表（图片）
+          | 查看本学期课外活动表<del>（图片）</del>
     q-modal(ref="activitiesTable" :content-css="{minWidth: '80vw', minHeight: '80vh'}")
       q-modal-layout
         q-toolbar(slot="header" color="primary")
@@ -44,10 +44,6 @@
               </q-item>
             </q-list>
           </q-card>
-
-
-          //q-list(v-for="sport in sports")
-          //img.responsive(src="/statics/activities_17_2.jpg")
 
 </template>
 
@@ -642,13 +638,5 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~variables'
-.card-examples
-  .q-card
-    width 300px
-  .bigger
-    width 450px
-  @media (max-width $breakpoint-xs-max)
-    .q-card
-      width 100%
+
 </style>
