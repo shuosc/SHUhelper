@@ -2,7 +2,8 @@
   div
     q-card.namecard
       q-card-title(style="margin: 0;padding: 0")
-        q-icon(slot="right" name="refresh" @click="this.renewData")
+        q-spinner(slot="right" v-if="loading" style="color: #e2aa6f")
+        q-icon(slot="right" v-else name="refresh" @click="this.renewData")
         q-icon(slot="right" name="info" @click="dialog.handler()")
       q-card-main
         q-list(class="no-border")
@@ -19,7 +20,7 @@
       q-card-separator
       q-card-actions
         q-btn.full-width(flat @click="open()")
-          | 查看本学期课外活动表<del>（图片）</del>
+          | 查看本学期课外活动表
     q-modal(ref="activitiesTable" :content-css="{minWidth: '80vw', minHeight: '80vh'}")
       q-modal-layout
         q-toolbar(slot="header" color="primary")
@@ -30,17 +31,16 @@
         div(v-if="activitiesTableOpen")
           <q-card>
             <q-card-title>
-              Card  筛选
+              |  筛选
             </q-card-title>
-            <div class="rlayout-padding row justify-center">
-            <div class="row" style="width: 500px; max-width: 90vw;">
-              <q-checkbox class="col-6" v-for="sport in sports" v-model="sportFilter" :label='sport.name' :val='sport.val' :key="sport.val" />
-            </div>
-          </div>
+            q-card-main
+              div(class="rlayout-padding row justify-center")
+              div(class="row" style="width: 500px; max-width: 90vw;")
+                q-checkbox(class="col-6" v-for="sport in sports" v-model="sportFilter" :label='sport.name' :val='sport.val' :key="sport.val")
           </q-card>
           <q-card v-for="sport in sportsFiltered" :key="sport.val" >
             <q-card-title>
-              Card  {{sport.name}}  @{{sport.place}}
+              |  {{sport.name}}  @{{sport.place}}
             </q-card-title>
             <q-card-separator />
             <q-list>
@@ -603,7 +603,7 @@ const sports = [
   }
 ]
 import { decrypt } from 'src/libs/utils.js'
-import { Dialog } from 'quasar'
+import { Dialog, Toast } from 'quasar'
 export default {
   name: 'sportCard',
   data() {
@@ -630,6 +630,7 @@ export default {
         run: 2,
         act: 3
       },
+      loading: false,
       popup: false,
       detail: null,
       phypassword: '',
@@ -639,7 +640,6 @@ export default {
         remark: '信息来自上海大学体育学院'
       },
       activitiesTableOpen: false,
-
       sportFilter: [],
       sportsFiltered: [],
       sports: sports
@@ -687,6 +687,7 @@ export default {
       this.$refs.activitiesTable.close()
     },
     getData() {
+      this.loading = true
       this.$http
         .get(`/api/users/query/tiyu/`)
         .then(response => {
@@ -694,15 +695,19 @@ export default {
           this.status.time = response.data.last_modified.$date
           this.data = decrypt(response.data.data, this.$store.state.user.password)
           console.log(this.data)
+          this.loading = false
         })
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) {
             this.renewData()
+            this.loading = false
           }
         })
     },
     renewData() {
+      Toast.create('更新体育数据中')
+      this.loading = true
       this.status.status = 'loading'
       this.$http
         .post(`/api/users/query/tiyu/`, {
@@ -714,9 +719,12 @@ export default {
             this.getData()
             this.$store.commit('showSnackbar', { text: '更新成功' })
           }
+          this.loading = false
         })
         .catch(err => {
           console.log(err)
+          this.loading = false
+          Toast.create('更新体育数据失败')
           this.getData()
         })
     }
