@@ -701,8 +701,8 @@ export default {
           console.log(err)
           if (err.response.status === 404) {
             this.renewData()
-            this.loading = false
           }
+          this.loading = false
         })
     },
     renewData() {
