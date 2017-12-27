@@ -6,7 +6,8 @@
         q-btn.full-width(flat color="white" @click="$router.push('/')")
           q-icon(name="card_giftcard")
           | 回到首页
-        index-merry-christmas
+        //- index-merry-christmas
+        index-happy-new-year
         q-card-main
           blockquote.no-margin.text-white(style='font-weight:400;font-size:0.8rem;')
             span(style="color:white;text-shadow:pink 0 1px 0;")
@@ -65,11 +66,12 @@
 </template>
 
 <script>
-import IndexMerryChristmas from '@/IndexMerryChristmas'
+// import IndexMerryChristmas from '@/IndexMerryChristmas'
+import IndexHappyNewYear from '@/IndexHappyNewYear'
 import { AppFullscreen } from 'quasar'
 export default {
   components: {
-    IndexMerryChristmas
+    IndexHappyNewYear
   },
   data() {
     return {

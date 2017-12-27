@@ -1,3 +1,5 @@
+.DS_Store
+.thumbs.db
 /env
 /.vscode
 /instance/config.py
@@ -5,7 +7,6 @@
 *.pyc
 *.rdb
 /UHE-frontend-Vue/static/SHU
-/Web/dist
 celerybeat-schedule.*
 npm-debug.log
 celerybeat-schedule

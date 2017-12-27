@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { Toast } from 'quasar'
 import PullTo from 'vue-pull-to'
 import LeftPanel from '@/LayoutLeftPanel'
 import TimeTable from '@/ScheduleTimeTable'
@@ -298,6 +299,9 @@ export default {
             response.data.data,
             this.$store.state.user.password
           )
+          if (this.status.status === 'failed') {
+            this.renewCourse()
+          }
         })
         .catch(err => {
           console.log(err)
@@ -305,9 +309,7 @@ export default {
             this.renewCourse()
           } else {
             this.status.status = 'failed'
-            this.$store.commit('showSnackbar', {
-              text: `更新失败${err.response.status}`
-            })
+            Toast.create(`更新失败${err.response.status}`)
           }
         })
       let i = (await getTime) + (await getCourses)
