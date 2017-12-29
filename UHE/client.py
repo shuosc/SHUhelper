@@ -106,19 +106,19 @@ class Tiyu(Client):
         for td in content.find_all('td',class_=''):
             line.append(td.text.strip())
         self.sport=line[4]
-        self.sport_rec= 0 if line[8]=='' else line[8]
+        self.sport_rec= line[8] if line[8].isdigit() else 0
         try:
-            self.act=line[26]
-            self.act_rec=line[35]
+            self.act=line[27]
+            self.act_rec=line[36]
         except:
             self.act=0
             self.act_rec=0
+        self.act_rec= line[36] if line[36].isdigit() else 0
         '''content = re.search(
             r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>', string, flags=0).group(0)
         content = re.sub(
             r'<table cellpadding="3" cellspacing="1" class="table_bg">', '<table>', content)'''
         return True
-
     def to_html(self):
         return self.data
 
