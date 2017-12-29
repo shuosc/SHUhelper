@@ -22,7 +22,7 @@
       q-infinite-scroll(:handler="loadMore" style="z-index: 2;"  ref="infiniteScroll")
         div.flex.row
           div.col-6(style="z-index: 1;")
-            q-card.wish-card(v-for="(item, index) in feeds" v-if="index%2===0")
+            q-card.wish-card(v-for="(item, index) in feeds" v-if="index%2===0" :key="index")
               q-item()
                 q-item-main.text-grey-3(style="text-shadow:grey 0 1px 0;")
                   q-item-tile {{item.displayName}}
@@ -37,7 +37,7 @@
                   span(style="color:white;font-size:1rem;")
                     | {{item.likecount}}
           div.col-6(style="z-index: 2;")
-            q-card.wish-card( v-for="(item, index) in feeds" v-if="index%2===1")
+            q-card.wish-card( v-for="(item, index) in feeds" v-if="index%2===1" :key="index")
               q-item()
                 q-item-main.text-grey-3(style="text-shadow:grey 0 1px 0;")
                   q-item-tile {{item.displayName}}

@@ -1,41 +1,27 @@
-<template>
-  <!-- Don't drop "q-app" class -->
-  <div id="q-app">
-    <q-layout ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}">
-      <q-toolbar slot="header" v-if="!$route.meta.disableLayout">
-        <q-btn flat @click="$refs.layout.toggleLeft()">
-          <q-icon name="menu" />
-        </q-btn>
-        <q-toolbar-title>
-          首页
-          <!-- <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div> -->
-        </q-toolbar-title>
-        <router-view name="toolbar" />
-      </q-toolbar>
-
-      <div slot="left">
-        <!--
-        Use <q-side-link> component
-        instead of <q-item> for
-        internal vue-router navigation
-      -->
-        <left-panel/>
-        <!-- <router-view  name="left"/> -->
-      </div>
-      <!-- <q-scroll-area style="width: 100%; height: 100%;"> -->
-      <router-view />
-      <!-- </q-scroll-area> -->
-      <div slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableLayout">
-        <q-tabs>
-          <q-route-tab icon="fa-xuexiao" to="/" exact slot="title" />
-          <!-- <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" /> -->
-          <q-route-tab icon="fa-calendar1" to="/schedule" exact slot="title" />
-          <!-- <q-route-tab icon="fa-message" to="/message" exact slot="title" /> -->
-        </q-tabs>
-      </div>
-    </q-layout>
-    <!-- </q-scroll-area> -->
-  </div>
+<template lang="pug">
+  // Don't drop "q-app" class
+  div#q-app
+    q-layout(ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}")
+      q-toolbar(slot="header" v-if="!$route.meta.disableLayout")
+        q-btn(flat @click="$refs.layout.toggleLeft()")
+          q-icon(name="menu")
+        q-toolbar-title {{title}}
+          // <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div>
+        router-view(name="toolbar")
+      div(slot="left")
+        // Use <q-side-link> component instead of <q-item> for internal vue-router navigation
+        left-panel
+        // <router-view  name="left"/>
+      // <q-scroll-area style="width: 100%; height: 100%;">
+      router-view
+      //</q-scroll-area>
+      div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableLayout")
+        q-tabs
+          q-route-tab(icon="fa-xuexiao" to="/" exact slot="title" @click="changeTitle('首页')")
+          // <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" /> 
+          q-route-tab(icon="fa-calendar1" to="/schedule" exact slot="title" @click="changeTitle('日程')")
+          // <q-route-tab icon="fa-message" to="/message" exact slot="title" /> 
+          //</q-scroll-area>
 </template>
 
 <script>
@@ -49,11 +35,19 @@ export default {
   components: {
     LeftPanel
   },
+  data() {
+    return {
+      title: '首页'
+    }
+  },
   created() {
     this.verifyToken()
     this.getTime()
   },
   methods: {
+    changeTitle(newTitle) {
+      this.title = newTitle
+    },
     getTime() {
       this.$http.get('/api/time/').then(response => {
         this.$store.commit('updateTime', response.data)
