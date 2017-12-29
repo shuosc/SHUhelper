@@ -16,7 +16,7 @@
               q-item-tile(sublabel='' ) 晨跑辛苦啦(´▽｀)
           q-item(v-if="this.data.sport<=5")
             q-item-main
-               q-progress(:percentage='(this.data.sport + this.data.act + this.data.sport_reduce + this.data.act_reduce)/10',color='teal-4')
+               q-progress(:percentage='(this.data.sport + this.data.act + this.data.sport_reduce + this.data.act_reduce)/10*100',color='teal-4')
       q-card-separator
       q-card-actions
         q-btn.full-width(flat @click="open()")
@@ -694,6 +694,10 @@ export default {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
           this.data = decrypt(response.data.data, this.$store.state.user.password)
+          this.data.sport = parseInt(this.data.sport)
+          this.data.act = parseInt(this.data.act)
+          this.data.sport_reduce = parseInt(this.data.sport_reduce)
+          this.data.act_reduce = parseInt(this.data.act_reduce)
           console.log(this.data)
           this.loading = false
         })
