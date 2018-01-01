@@ -68,6 +68,15 @@ class User(UserMixin, db.Document):
             'lastLogin': str(self.last_login)
         }
         return result
+    def to_login_result(self,token):
+        result={
+            'avatar': self.avatar,
+            'token': token,
+            'name': self.name,
+            'nickname': self.nickname,
+            'custom': self.custom
+        }
+        return result
 
 
 class UserData(db.Document):

@@ -130,78 +130,48 @@ def set_custom_theme():
     })
 
 
-@users.route("/login/", methods=['POST'])
+@users.route("/login/", methods=['GET','POST'])
 def login():
-    """
-    use services.shu.edu.cn to validate user login
-    """
-    post_data = request.get_json()
-    success = False
-    user = User.objects(card_id=post_data['card_id']).first()
-    client = Services(post_data['card_id'], post_data['password'])
-    if user is None:
-        if client.login() and client.get_data():
-            user = User(name=client.data['name'], nickname=client.data.get('nickname'),
-                        card_id=post_data['card_id'], role='student', activated=True, hash=generate_password_hash(post_data['password']))
-        else:
+    if request.method == 'GET':
+        token = request.args.get('token')
+        card_id = redis_store.get('token:' + token)
+        if card_id is None:
             abort(403)
-    else:
-        if user.name != '未激活':
-            if user.hash != '':
-                if check_password_hash(user.hash, post_data['password']):
-                    pass
-                else:
-                    if client.login():
-                        user.hash=generate_password_hash(post_data['password'])
-                        user.save()
-                    else:
-                        abort(403)
-            else:
-                if client.login():
-                    user.hash=generate_password_hash(post_data['password'])
-                    user.save()
-                else:
-                    abort(403)
-        else:
-            if  client.login() and client.get_data():
-                user.name = client.data['name']
-                user.nickname = client.data.get('nickname')
-                user.hash=generate_password_hash(post_data['password'])
-                user.save()
-            else:
-                abort(403)
-    user.token=make_token()
-    result={
-        'avatar': user.avatar,
-        'token': user.token,
-        'name': user.name,
-        'nickname': user.nickname,
-        'custom': user.custom
-    }
-    redis_store.set('token:' + user.token, post_data['card_id'], ex=864000)
-    user.last_login=datetime.datetime.now()
-    user.save()
-    login_user(user)
-    return jsonify(result)
-
-@users.route("/login-with-token/")
-def login_with_token():
-    token=request.args.get('token')
-    card_id=redis_store.get('token:' + token)
-    user=User.objects(card_id=card_id).first()
-    if user:
-        user.token=token
-        result={
-            'avatar': user.avatar,
-            'token': user.token,
-            'name': user.name,
-            'nickname': user.nickname,
-            'custom': user.custom
-        }
-        redis_store.set('token_' + user.token, user.card_id, ex=864000)
+        user = User.objects(card_id=card_id).first()
+        result = user.to_login_result(token)
+        redis_store.set('token:' + user.token, card_id, ex=864000)
         user.last_login=datetime.datetime.now()
         user.save()
         login_user(user)
         return jsonify(result)
     else:
-        abort(401)
+        post_data = request.get_json()
+        user = User.objects(card_id=post_data['card_id']).first()
+        client = Services(post_data['card_id'], post_data['password'])
+        if user is None:
+            if client.login() and client.get_data():
+                user = User(name=client.data['name'], nickname=client.data.get('nickname'),
+                            card_id=post_data['card_id'], role='student', activated=True, hash=generate_password_hash(post_data['password']))
+            else:
+                abort(403)
+        else:
+            if user.name != '未激活':
+                if not check_password_hash(user.hash, post_data['password']):
+                    if client.login():
+                        user.hash=generate_password_hash(post_data['password'])
+                    else:
+                        abort(403)
+            else:
+                if  client.login() and client.get_data():
+                    user.name = client.data['name']
+                    user.nickname = client.data.get('nickname')
+                    user.hash=generate_password_hash(post_data['password'])
+                else:
+                    abort(403)
+        token = make_token()
+        user.to_login_result(token)
+        redis_store.set('token:' + token, post_data['card_id'], ex=864000)
+        user.last_login=datetime.datetime.now()
+        user.save()
+        login_user(user)
+        return jsonify(result)
