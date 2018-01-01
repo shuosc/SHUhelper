@@ -139,7 +139,7 @@ def login():
             abort(403)
         user = User.objects(card_id=card_id).first()
         result = user.to_login_result(token)
-        redis_store.set('token:' + user.token, card_id, ex=864000)
+        redis_store.set('token:' + token, card_id, ex=864000)
         user.last_login=datetime.datetime.now()
         user.save()
         login_user(user)
