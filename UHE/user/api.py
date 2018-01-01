@@ -169,7 +169,7 @@ def login():
                 else:
                     abort(403)
         token = make_token()
-        user.to_login_result(token)
+        result = user.to_login_result(token)
         redis_store.set('token:' + token, post_data['card_id'], ex=864000)
         user.last_login=datetime.datetime.now()
         user.save()
