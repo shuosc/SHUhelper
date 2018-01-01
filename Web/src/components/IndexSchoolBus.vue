@@ -4,34 +4,128 @@
       q-card-main
         q-item
           q-item-side
-            q-icon(color='primary', name='date_range', style='font-size:2rem;')
+            q-icon(color='primary', name='fa-bus', style='font-size:2rem;')
           q-item-main
-            q-item-tile(label='') 今天是{{time.year+ '_'+time.term|term}}，第{{time.week|cnNum}}周，周{{time.day|cnNum}}
-            q-item-tile(sublabel='') 新学期加油~
-        q-item
-          q-item-main
-            q-progress(:percentage='((time.week-1)*7 + time.day)/84*100', color='teal-4')
-            q-item-tile(sublabel='', style='text-align:center;') 本学期进度 {{((time.week-1)*7 + time.day)}}/84
+            q-item-tile(label='') 校车时刻表
+            q-item-tile(sublabel='') 周一到周五
+        div.flex.row
+          q-select.col-6(
+            v-model="station.from"
+            float-label="起点站"
+            radio
+            :options="stations")
+          q-select.col-6(
+            v-model="station.to"
+            float-label="终点站"
+            radio
+            :options="stations")
+      q-item(v-if="nearestDepartures.last||nearestDepartures.next")
+        q-item-side(v-if="nearestDepartures.last")
+          | 上一趟 {{nearestDepartures.last}}
+        q-item-main(v-if="nearestDepartures.next")
+          q-item-tile
+            | 下一趟还有 {{nearestDepartures.next}}
+        q-item-side(v-if="nearestDepartures.next")
+          | 下一趟
       q-card-separator
       q-card-actions
-        q-btn.full-width(flat @click="open()")
-          | 查看本学年校历（图片）
-    q-modal(ref="calendar" :content-css="{minWidth: '80vw', minHeight: '80vh'}")
-      q-modal-layout
-        q-toolbar(slot="header" color="primary")
-          q-btn(color="white" flat @click="close")
-            q-icon(name="close")
-            q-toolbar-title
-              | 17-18学年校历
-        div(v-if="calendarOpen")
-          img.responsive(src="/statics/2017-2018秋.jpg")
-          img.responsive(src="/statics/2017-2018冬.jpg")
-          img.responsive(src="/statics/2017-2018春.jpg")
-          img.responsive(src="/statics/2017-2018夏.jpg")
+        q-collapsible.full-width(dense='', label='查看完整时刻表')
+          q-list(no-border dense)
+            q-item(v-for="(departure,index) in departures")
+              q-item-side
+                | {{index+1}}
+              q-item-main
+                | {{departure}}
+        
 </template>
 <script>
+function listToSelect(l) {
+  return l.map(x => {
+    return { label: x, value: x }
+  })
+}
+const BusSchedule = {
+  嘉定校区南门: {
+    校本部: [
+      '09:00',
+      '10:00',
+      '11:00',
+      '12:00',
+      '13:00',
+      '14:00',
+      '15:00',
+      '17:00',
+      '21:00'
+    ],
+    延长校区北门: ['18:00', '21:00', '途径校本部']
+  },
+  校本部: {
+    延长校区北门: [
+      '09:30',
+      '10:30',
+      '11:30',
+      '12:30',
+      '13:30',
+      '14:30',
+      '15:30',
+      '18:00',
+      '21:40'
+    ],
+    嘉定校区南门: [
+      '08:00',
+      '09:30',
+      '10:30',
+      '11:30',
+      '12:30',
+      '13:30',
+      '14:30',
+      '15:30',
+      '18:00',
+      '21:00'
+    ]
+  },
+  延长校区北门: {
+    校本部: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+    嘉定校区南门: ['21:00']
+  }
+}
 export default {
-  name: 'SchoolBus'
+  name: 'SchoolBus',
+  data() {
+    return {
+      busSchedule: BusSchedule,
+      station: {
+        from: '嘉定校区南门',
+        to: '校本部'
+      },
+      stations: listToSelect(['校本部', '延长校区北门', '嘉定校区南门'])
+    }
+  },
+  computed: {
+    departures: function() {
+      return this.busSchedule[this.station.from][this.station.to]
+    },
+    nearestDepartures: function() {
+      let time = new Date()
+      let minutes = time.getMinutes()
+      let hours = time.getHours()
+      for (let i = 0; i < this.departures.length; i++) {
+        let departure = this.departures[i]
+        let dHours = parseInt(departure.slice(0, 2))
+        let dMinutes = parseInt(departure.slice(2, 4))
+        if (dHours < hours || (dHours === hours && dMinutes < minutes)) {
+          return {
+            last: i > 0 ? this.departures[i - 1] : null,
+            next: this.departures[i]
+          }
+        }
+      }
+      return {
+        last: null,
+        next: null
+      }
+    }
+  }
 }
 </script>
 <style scoped>
