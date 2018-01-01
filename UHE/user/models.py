@@ -2,7 +2,7 @@ import datetime
 
 from flask import abort
 from flask_login import UserMixin, AnonymousUserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,
+from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,ListField,
                          StringField)
 
 from UHE.client import Services
@@ -28,6 +28,7 @@ class User(UserMixin, db.Document):
     deleted = BooleanField(default=False)
     hash = StringField(default='')
     custom = StringField(default='{}')
+    token = ListField(StringField())
     meta = {'strict': False}
 
     def get_id(self):

@@ -178,7 +178,7 @@ def login():
         'nickname': user.nickname,
         'custom': user.custom
     }
-    redis_store.set('token_' + user.token, post_data['card_id'], ex=86400)
+    redis_store.set('token:' + user.token, post_data['card_id'], ex=864000)
     user.last_login=datetime.datetime.now()
     user.save()
     login_user(user)
@@ -187,7 +187,7 @@ def login():
 @users.route("/login-with-token/")
 def login_with_token():
     token=request.args.get('token')
-    card_id=redis_store.get('token_' + token)
+    card_id=redis_store.get('token:' + token)
     user=User.objects(card_id=card_id).first()
     if user:
         user.token=token
@@ -198,7 +198,7 @@ def login_with_token():
             'nickname': user.nickname,
             'custom': user.custom
         }
-        redis_store.set('token_' + user.token, user.card_id, ex=86400)
+        redis_store.set('token_' + user.token, user.card_id, ex=864000)
         user.last_login=datetime.datetime.now()
         user.save()
         login_user(user)
