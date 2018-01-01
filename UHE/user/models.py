@@ -28,7 +28,6 @@ class User(UserMixin, db.Document):
     deleted = BooleanField(default=False)
     hash = StringField(default='')
     custom = StringField(default='{}')
-    token = ListField(StringField())
     meta = {'strict': False}
 
     def get_id(self):
