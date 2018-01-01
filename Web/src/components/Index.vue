@@ -21,11 +21,11 @@
       index-merry-christmas
       q-btn.full-width(@click="$router.push('/2018')")
         | 写下你的新年愿望
-    school-bus
     course-time(v-if="$store.state.time.day<=5")
     empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
     //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
     sport-card(v-if="$store.state.user.cardID!==''")
+    school-bus
     quote-card
     q-card(flat='')
       q-card-main(style='text-align:center;')
