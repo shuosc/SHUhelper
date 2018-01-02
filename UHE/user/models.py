@@ -2,7 +2,7 @@ import datetime
 
 from flask import abort
 from flask_login import UserMixin, AnonymousUserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,
+from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,ListField,
                          StringField)
 
 from UHE.client import Services
@@ -66,6 +66,15 @@ class User(UserMixin, db.Document):
             'nickname': self.nickname,
             'email': self.email,
             'lastLogin': str(self.last_login)
+        }
+        return result
+    def to_login_result(self,token):
+        result={
+            'avatar': self.avatar,
+            'token': token,
+            'name': self.name,
+            'nickname': self.nickname,
+            'custom': self.custom
         }
         return result
 

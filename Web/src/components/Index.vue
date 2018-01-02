@@ -14,7 +14,7 @@
           q-item-main
             q-item-tile(label='') {{$store.state.user.name}}，我们为你准备了这些
     simple-calendar
-    q-card.no-margin
+    // q-card.no-margin
       q-card-title.text-center.full-width.no-margin(flat style="padding-bottom:0;")
         q-icon(name="card_giftcard")
         | 圣诞快乐&元旦快乐
@@ -23,7 +23,9 @@
         | 写下你的新年愿望
     course-time(v-if="$store.state.time.day<=5")
     empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
-    sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
+    //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
+    sport-card(v-if="$store.state.user.cardID!==''")
+    school-bus
     quote-card
     q-card(flat='')
       q-card-main(style='text-align:center;')
@@ -43,6 +45,7 @@ import QuoteCard from '@/IndexQuote'
 import EmptyRoom from '@/IndexEmptyRoom'
 import LeftPanel from '@/LayoutLeftPanel'
 import IndexMerryChristmas from '@/IndexMerryChristmas'
+import SchoolBus from '@/IndexSchoolBus'
 export default {
   components: {
     Weather,
@@ -53,6 +56,7 @@ export default {
     EmptyRoom,
     LeftPanel,
     SportCard,
+    SchoolBus,
     IndexMerryChristmas
   },
   methods: {
