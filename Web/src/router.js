@@ -79,7 +79,6 @@ export default new VueRouter({
     },
     {
       path: '/',
-      component: Index,
       redirect: '/index'
     },
     {
