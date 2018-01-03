@@ -23,7 +23,7 @@ import VueAMap from 'vue-amap'
 Vue.use(VueAMap)
 VueAMap.initAMapApiLoader({
   key: 'ad8f18c4339cb057e3290e15c0bf3ce7',
-  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType'],
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.Geolocation', 'AMap.ControlBar'],
   uiVersion: '1.0'
 })
 Vue.prototype.$map = VueAMap
