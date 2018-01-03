@@ -80,7 +80,7 @@ export default {
         return
       }
       this.$http
-        .get(`/api/users/login-with-token/?token=${token}`)
+        .get(`/api/users/login/?token=${token}`)
         .then(response => {
           // var payload = JSON.parse(localStorage.getItem('loginstate'))
           var custom = {}

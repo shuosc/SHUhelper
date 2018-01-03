@@ -31,7 +31,15 @@ import ga from 'libs/analytics.js'
 router.afterEach((to, from) => {
   ga.logPage(to.path, to.name, 'UA-111372547-1')
 })
-axios.interceptors.response.use(
+var instance = axios
+if (PROD) {
+  instance = axios.create({
+    baseURL: 'https://www.shuhelper.cn/',
+    timeout: 1000
+    // headers: { 'X-Custom-Header': 'foobar' }
+  })
+}
+instance.interceptors.response.use(
   function(response) {
     // Do something with response data
     // console.log(response)
@@ -62,7 +70,7 @@ Vue.filter('two_digits', value => {
   }
   return value
 })
-Vue.prototype.$http = axios
+Vue.prototype.$http = instance
 // ...
 Vue.use(Quasar, {
   components: All,
