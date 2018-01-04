@@ -22,6 +22,8 @@ def findemptyroom():
         time_tuple = Time().time_tuple()
         result = {
             'time': {'campus': '本部',
+                'year': time_tuple[0],
+                'term': time_tuple[1],
                 'week': time_tuple[2],
                 'day': time_tuple[3],
                 'course': time_tuple[4]

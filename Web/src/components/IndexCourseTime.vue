@@ -10,8 +10,8 @@
           q-item-tile(sublabel='') 好好上课不要看手机( •̀ ω •́ )y
     q-card-separator
     q-card-actions
-      q-collapsible.full-width(dense='', label='查看你今天的课程安排')
-        q-btn.full-width(flat='', @click="$router.push('/schedule')")  查看完整课程表
+      //- q-collapsible.full-width(dense='', label='查看你今天的课程安排')
+      q-btn.full-width(flat='', @click="$router.push('/schedule')")  查看完整课程表
   //- <q-list separator dense no-border>
   //- <q-item>
   //- <q-item-side>8:00~16:00 </q-item-side>

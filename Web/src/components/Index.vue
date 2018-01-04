@@ -25,6 +25,7 @@
       //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       school-bus
+      map-card
       quote-card
       q-card(flat='')
         q-card-main(style='text-align:center;')
@@ -45,6 +46,7 @@ import EmptyRoom from '@/IndexEmptyRoom'
 import LeftPanel from '@/LayoutLeftPanel'
 import IndexMerryChristmas from '@/IndexMerryChristmas'
 import SchoolBus from '@/IndexSchoolBus'
+import MapCard from '@/IndexMapCard'
 export default {
   components: {
     Weather,
@@ -56,7 +58,8 @@ export default {
     LeftPanel,
     SportCard,
     SchoolBus,
-    IndexMerryChristmas
+    IndexMerryChristmas,
+    MapCard
   },
   data() {
     return {
