@@ -140,30 +140,30 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
+//    @Override
+//    protected void onResume() {
+//        // TODO Auto-generated method stub
+//        super.onResume();
+//
+//        // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
+//        PgyFeedbackShakeManager.setShakingThreshold(1000);
+//
+//        // 以对话框的形式弹出
+//        PgyFeedbackShakeManager.register(MainActivity.this);
+//
+//        // 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
+//        // 打开沉浸式,默认为false
+//        // FeedbackActivity.setBarImmersive(true);
+//        PgyFeedbackShakeManager.register(MainActivity.this, false);
+//
+//    }
 
-        // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
-        PgyFeedbackShakeManager.setShakingThreshold(1000);
-
-        // 以对话框的形式弹出
-        PgyFeedbackShakeManager.register(MainActivity.this);
-
-        // 以Activity的形式打开，这种情况下必须在AndroidManifest.xml配置FeedbackActivity
-        // 打开沉浸式,默认为false
-        // FeedbackActivity.setBarImmersive(true);
-        PgyFeedbackShakeManager.register(MainActivity.this, false);
-
-    }
-
-    @Override
-    protected void onPause() {
-        // TODO Auto-generated method stub
-        super.onPause();
-        PgyFeedbackShakeManager.unregister();
-    }
+//    @Override
+//    protected void onPause() {
+//        TODO Auto-generated method stub
+//        super.onPause();
+//        PgyFeedbackShakeManager.unregister();
+//    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void onActivityResultAboveL(int requestCode, int resultCode, Intent intent) {

@@ -143,11 +143,12 @@ export default {
               : `${loginText}`
           )
           ga.loginUser(payload.cardID)
-          if (_this.$route.query.redirect) {
-            _this.$router.replace(_this.$route.query.redirect)
-          } else {
-            _this.$router.push('/index')
-          }
+          _this.$router.push('/index')
+          // if (_this.$route.query.redirect) {
+          //   _this.$router.replace(_this.$route.query.redirect)
+          // } else {
+          //   _this.$router.push('/index')
+          // }
         })
         .catch(function(error) {
           console.log(error)
