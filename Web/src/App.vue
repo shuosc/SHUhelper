@@ -43,10 +43,10 @@ export default {
   created() {
     this.verifyToken()
     this.getTime()
-    // this.$q.events.$on('app:hideLeft', () => {
-    //   console.log(this.$refs)
-    //   this.$refs.layout.hideLeft()
-    // })
+    this.$q.events.$on('app:hideLeft', () => {
+      this.$refs.layout.hideLeft()
+      this.$refs.layout.hideLeft()
+    })
   },
   methods: {
     login() {
