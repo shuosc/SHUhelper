@@ -8,7 +8,7 @@ const state = {
       password: '',
       phypassword: '',
       token: '',
-      avatar: '',
+      avatar: 'avatar_default.jpg',
       custom: {
         theme: 'bluetheme'
       },

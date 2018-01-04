@@ -76,23 +76,20 @@ export default {
         to: '延长校区北门'
       },
       stations: listToSelect(['校本部', '延长校区北门', '嘉定校区南门']),
-      timerID: ''
+      timerID: '',
+      time: new Date()
     }
   },
   created() {
-    this.nearestDepartures()
-    this.timerID = setInterval(this.nearestDepartures, 30000)
-  },
-  watch: {
-    station: {
-      handler: function(val, oldval) {
-        this.nearestDepartures()
-      },
-      deep: true
-    }
+    this.timerID = setInterval(this.updateTime, 30000)
   },
   beforeDestroy() {
     clearInterval(this.timerID)
+  },
+  methods: {
+    updateTime() {
+      this.time = new Date()
+    }
   },
   computed: {
     departures: function() {
@@ -105,9 +102,8 @@ export default {
         minutes = 40
         hours = 14
       } else {
-        let time = new Date()
-        minutes = time.getMinutes()
-        hours = time.getHours()
+        minutes = this.time.getMinutes()
+        hours = this.time.getHours()
       }
       for (let i = 0; i < this.departures.length; i++) {
         let departure = this.departures[i]

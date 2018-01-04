@@ -22,8 +22,8 @@
           | 写下你的新年愿望
       course-time(v-if="$store.state.time.day<=5")
       empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
-      //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
+      //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       school-bus
       map-card
       quote-card

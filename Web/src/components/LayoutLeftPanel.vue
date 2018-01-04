@@ -9,7 +9,7 @@
             q-item-tile(sublabel='') {{$store.state.user.cardID}}
           q-item-side
             q-btn(flat='', v-if="$store.state.user.cardID!==''", @click.stop='logout') 注销
-            q-btn(flat='', v-else='', @click.stop="$router.push('/login')") 登陆
+            q-btn(flat='', v-else='', @click.stop="login") 登陆
     // <q-list-header>Essential Links</q-list-header>
     div(v-if="$q.platform.is.ios")
       q-side-link(v-for="link in internalNavigationiOS" :key="link.name" item='', sparse='', :to='link.to', @click.native="handleTitleChange(link.name)")
@@ -46,14 +46,18 @@ export default {
     handleTitleChange(title) {
       this.$parent.$parent.changeTitle(title)
     },
+    login() {
+      this.$router.push('/login')
+      this.$emit('login')
+    },
     logout() {
       localStorage.clear()
       sessionStorage.clear()
       let token = this.$store.state.user.token
       this.$store.commit('clearAccount')
-      this.$router.push('/login')
-      Toast.create({ html: '已注销' })
+      this.$emit('logout')
       this.$http.get('/api/users/logout?token=' + token)
+      Toast.create({ html: '已注销' })
     }
   }
 }

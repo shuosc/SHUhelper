@@ -8,9 +8,8 @@
         q-toolbar-title {{title}}
           // <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div>
         router-view(name="toolbar")
-      div(slot="left")
         // Use <q-side-link> component instead of <q-item> for internal vue-router navigation
-        left-panel
+      left-panel(@login="login" slot="left")
         // <router-view  name="left"/>
       // <q-scroll-area style="width: 100%; height: 100%;">
       q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
@@ -44,8 +43,15 @@ export default {
   created() {
     this.verifyToken()
     this.getTime()
+    // this.$q.events.$on('app:hideLeft', () => {
+    //   console.log(this.$refs)
+    //   this.$refs.layout.hideLeft()
+    // })
   },
   methods: {
+    login() {
+      // this.$router.push('/login')
+    },
     resetScroll(el, done) {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0
