@@ -72,8 +72,8 @@ export default {
     return {
       busSchedule: BusSchedule,
       station: {
-        from: '嘉定校区南门',
-        to: '校本部'
+        from: '校本部',
+        to: '延长校区北门'
       },
       stations: listToSelect(['校本部', '延长校区北门', '嘉定校区南门']),
       timerID: ''

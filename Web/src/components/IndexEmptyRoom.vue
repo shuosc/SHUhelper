@@ -32,8 +32,8 @@
               q-card-main.py-0
                 span(v-for='(room,index) in rooms[building[0][0]]', :key='index') {{ room + ' '}}
           div(v-else='')
-            q-card(flat='')
-              q-card-title 该时间没有任何可用教室
+            q-card.text-center(flat='')
+              q-card-title 啊 现在一间空教室都没有呢
 
 </template>
 
@@ -62,24 +62,41 @@ export default {
         day: '',
         course: ''
       },
+      inited: false,
       count: 0
     }
   },
   watch: {
     time: {
       handler: function(val, oldval) {
-        this.getEmptyRooms(val)
+        if (this.inited) {
+          this.getEmptyRooms(val)
+        }
       },
       deep: true
     }
   },
   created() {
-    this.time.week = this.$store.state.time.week
-    this.time.day = this.$store.state.time.day
-    this.time.course = this.$store.state.time.course
-    this.getEmptyRooms(this.time)
+    this.getEmptyRoomsNow()
   },
   methods: {
+    getEmptyRoomsNow() {
+      this.rooms = {}
+      this.$http.get('/api/empty-room/').then(response => {
+        this.count = response.data.rooms.length
+        this.$store.commit('updateTime', response.data.time)
+        this.time.week = this.$store.state.time.week
+        this.time.day = this.$store.state.time.day
+        this.time.course = this.$store.state.time.course
+        this.$nextTick(() => (this.inited = true))
+        for (let room of response.data.rooms) {
+          if (this.rooms[room[0]] === undefined) {
+            this.$set(this.rooms, room[0], [])
+          }
+          this.rooms[room[0]].push(room)
+        }
+      })
+    },
     getEmptyRooms(time) {
       this.rooms = {}
       this.$http
@@ -94,11 +111,9 @@ export default {
         .then(response => {
           this.count = response.data.rooms.length
           for (let room of response.data.rooms) {
-            // console.log(room[0])
             if (this.rooms[room[0]] === undefined) {
               this.$set(this.rooms, room[0], [])
             }
-            // console.log(this.rooms[room[0]])
             this.rooms[room[0]].push(room)
           }
         })

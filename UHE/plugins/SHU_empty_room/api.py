@@ -21,18 +21,21 @@ def findemptyroom():
     if not week or not day or not course:
         time_tuple = Time().time_tuple()
         result = {
-            'campus': '本部',
-            'week': time_tuple[2],
-            'day': time_tuple[3],
-            'course': time_tuple[4],
+            'time': {'campus': '本部',
+                'week': time_tuple[2],
+                'day': time_tuple[3],
+                'course': time_tuple[4]
+            },
             'rooms': find_empty_room.get_emptyroom_now()
         }
     else:
         result = {
-            'week': week,
-            'day': day,
-            'course': course,
-            'campus': campus,
+            'time': {
+                'week': week,
+                'day': day,
+                'course': course,
+                'campus': campus
+            },
             'rooms': find_empty_room.get_emptyroom(campus, int(week), int(day), int(course))
         }
     return jsonify(result)

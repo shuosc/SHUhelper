@@ -13,7 +13,8 @@
         left-panel
         // <router-view  name="left"/>
       // <q-scroll-area style="width: 100%; height: 100%;">
-      router-view
+      q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
+        router-view
       //</q-scroll-area>
       div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableLayout")
         q-tabs
@@ -45,6 +46,11 @@ export default {
     this.getTime()
   },
   methods: {
+    resetScroll(el, done) {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+      done()
+    },
     changeTitle(newTitle) {
       this.title = newTitle
     },

@@ -91,7 +91,7 @@ if (__THEME === 'mat') {
 import 'quasar-extras/material-icons'
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
-// import 'quasar-extras/animate'
+import 'quasar-extras/animate'
 Vue.filter('cnNum', function(value) {
   value = value.toString()
   let map = {
