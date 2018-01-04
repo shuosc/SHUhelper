@@ -3,7 +3,8 @@
     q-card.full-width.no-margin.left-banner(flat='')
       q-card-main
         q-side-link(item='', :to="$store.state.user.cardID===''?'/login':`/profile/${$store.state.user.cardID}`")
-          q-item-side(:avatar='`//static.shuhelper.cn/${$store.state.user.avatar}`')
+          q-item-side(v-if="$store.state.user.avatar" :avatar='`//static.shuhelper.cn/${$store.state.user.avatar}`')
+          q-item-side(v-else :avatar='`//static.shuhelper.cn/avatar_default.jpg`')
           q-item-main
             q-item-tile(label='') {{$store.state.user.name}}
             q-item-tile(sublabel='') {{$store.state.user.cardID}}
