@@ -9,8 +9,9 @@ from .empty_room import EmptyRoom
 
 empty_room = Blueprint('empty_room', __name__)
 
-classroom_dict = redis_store.get('empty_room_' + Time().term_string())
-find_empty_room = EmptyRoom(classroom_dict) 
+classroom_dict = redis_store.get('empty_room:' + Time().term_string())
+find_empty_room = EmptyRoom(classroom_dict)
+
 
 @empty_room.route('/')
 def findemptyroom():
@@ -22,13 +23,13 @@ def findemptyroom():
         time_tuple = Time().time_tuple()
         result = {
             'time': {'campus': '本部',
-                'year': time_tuple[0],
-                'term': time_tuple[1],
-                'week': time_tuple[2],
-                'day': time_tuple[3],
-                'course': time_tuple[4]
-            },
-            'rooms': find_empty_room.get_emptyroom_now()
+                     'year': time_tuple[0],
+                     'term': time_tuple[1],
+                     'week': time_tuple[2],
+                     'day': time_tuple[3],
+                     'course': time_tuple[4]
+                     },
+            'rooms': find_empty_room.get_emptyroom('本部', int(time_tuple[2]), int(time_tuple[3]), int(time_tuple[4]))
         }
     else:
         result = {

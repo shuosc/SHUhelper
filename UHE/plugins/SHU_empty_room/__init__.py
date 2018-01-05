@@ -42,7 +42,7 @@ class SHUEmptyRoom(UHEPlugin):
             classroom = course.place
             campus = course.campus
             if re.search(r'^([A-G]|[A-G]J)[0-9][0-9][0-9]$', classroom, flags=0) is None and classroom != '':
-                if classroom[0] not in ['材', '环', '生', '经', '美', '翔', '音', 'Ⅳ', '研', '行', '1', '2', '数', '文']:
+                if classroom[0] in ['另', '合', '学', '打', '机', '校', '游', '第', '绘', '训', 'I', 'K', '不', '企', '咨', '篮', '网', '体', '排', '足', '']:
                     continue
             if campus not in classroom_dict:
                 classroom_dict[campus] = {}
@@ -87,18 +87,19 @@ class SHUEmptyRoom(UHEPlugin):
         print('setup', __plugin__)
         current_app.register_blueprint(empty_room, url_prefix='/empty-room')
         this_term = Time().term_string()
-        classroom_dict = redis_store.get('empty_room_' + this_term)
+        classroom_dict = redis_store.get('empty_room:' + this_term)
         if classroom_dict is None:
+            print('getting _classroom_dict')
             classroom_dict = self.get_classroom_dict(this_term)
-            redis_store.set('empty_room_' + this_term, classroom_dict)
+            redis_store.set('empty_room:' + this_term, classroom_dict)
         # find_empty_room = EmptyRoom(classroom_dict)
 
     def install(self, app):
         this_term = Time().term_string()
         classroom_dict = self.get_classroom_dict(this_term)
-        if redis_store.get('empty_room_' + this_term) is not None:
-            redis_store.delete('empty_room_' + this_term)
-        redis_store.set('empty_room_' + this_term, classroom_dict)
+        if redis_store.get('empty_room:' + this_term) is not None:
+            redis_store.delete('empty_room:' + this_term)
+        redis_store.set('empty_room:' + this_term, classroom_dict)
         # find_empty_room = EmptyRoom(classroom_dict)
 
     def uninstall(self):

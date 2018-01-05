@@ -28,7 +28,7 @@
             q-card-main.text-center
               | 这时共有{{count}}间空教室
           div(v-if='count')
-            q-collapsible.full-width(opened dense='', v-for='building in rooms', :key='building[0][0]', style='padding:0 !important;', :label='building[0][0].toString()')
+            q-collapsible.full-width(opened dense='', v-for='building in rooms', :key='building[0][0]', style='padding:0 !important;', :label='building[0][0]')
               q-card-main.py-0
                 span(v-for='(room,index) in rooms[building[0][0]]', :key='index') {{ room + ' '}}
           div(v-else='')
@@ -116,6 +116,9 @@ export default {
             }
             this.rooms[room[0]].push(room)
           }
+        })
+        .catch(err => {
+          console.log(err)
         })
     }
   }
