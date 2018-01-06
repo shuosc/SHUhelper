@@ -16,12 +16,7 @@
         router-view
       //</q-scroll-area>
       div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableLayout")
-        q-tabs
-          q-route-tab(icon="fa-xuexiao" to="/" exact slot="title" @click="changeTitle('首页')")
-          // <q-route-tab icon="fa-filtervintage" to="/square" exact slot="title" /> 
-          q-route-tab(icon="fa-calendar1" to="/schedule" exact slot="title" @click="changeTitle('日程')")
-          // <q-route-tab icon="fa-message" to="/message" exact slot="title" /> 
-          //</q-scroll-area>
+        bottom-navigation
 </template>
 
 <script>
@@ -29,11 +24,13 @@
  * Root component
  */
 import LeftPanel from '@/LayoutLeftPanel'
+import BottomNavigation from '@/BottomNavigation'
 import { Toast } from 'quasar'
 import ga from 'libs/analytics.js'
 export default {
   components: {
-    LeftPanel
+    LeftPanel,
+    BottomNavigation
   },
   data() {
     return {
@@ -47,14 +44,20 @@ export default {
       this.$refs.layout.hideLeft()
       this.$refs.layout.hideLeft()
     })
+    this.$q.events.$on('app:imgShow', closeModal => {
+      this.$store.commit('showImageModal', closeModal)
+    })
+    this.$q.events.$on('app:imgHide', () => {
+      this.$store.commit('hideImageModal')
+    })
   },
   methods: {
     login() {
       // this.$router.push('/login')
     },
     resetScroll(el, done) {
-      document.documentElement.scrollTop = 0
-      document.body.scrollTop = 0
+      // document.documentElement.scrollTop = 0
+      // document.body.scrollTop = 0
       done()
     },
     changeTitle(newTitle) {
@@ -121,5 +124,7 @@ export default {
 </script>
 
 <style>
-
+.fullscreen-v-img {
+  z-index: 3000;
+}
 </style>

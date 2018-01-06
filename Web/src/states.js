@@ -19,7 +19,8 @@ const state = {
     ui: {
       toolbarVisible: true,
       bottomNavigationVisible: true,
-      loginDialog: false
+      loginDialog: false,
+      closeModal: null
     },
     passwords: {
       main: ''
@@ -60,6 +61,12 @@ const state = {
         actions: [],
         states: []
       }
+    },
+    showImageModal(state, close) {
+      state.ui.closeModal = close
+    },
+    hideImageModal(state) {
+      state.ui.closeModal = null
     },
     setAvatar(state, avatar) {
       state.user.avatar = avatar

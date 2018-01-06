@@ -5,7 +5,7 @@ from flask import Blueprint, jsonify, request, abort
 from flask.views import MethodView
 from flask_login import current_user, login_required
 from UHE.user.models import User
-from UHE.feed.models import Feed
+from UHE.feed.models import Feed,Comment
 
 feeds = Blueprint('feeds', __name__)
 
@@ -20,7 +20,6 @@ def like(feed_id):
     else:
         Feed.objects(id=feed_id).update_one(pull__like=current_user.to_dbref())
     return jsonify(id=str(feed_id))
-
 
 @feeds.route('/link')
 def get_link_detail():
@@ -53,9 +52,7 @@ class CommonFeedsAPI(MethodView):
             'user': current_user.id,
             'namespace': args.get('namespace', 'ordinary'),
             'text': args.get('text', ''),
-            'link_URL': args.get('linkURL', ''),
-            'link_title': args.get('linkTitle', ''),
-            'link_img': args.get('linkImg', ''),
+            'link': args.get('link', {}),
             'img': args.get('img', [])
         }
         if feed_data['text'] is None:
@@ -65,7 +62,15 @@ class CommonFeedsAPI(MethodView):
         return jsonify({'id': str(feed.id)})
 
     def put(self, feed_id):
-        pass
+        args = request.get_json()
+        comment = Comment(
+            user = current_user.id,
+            text = args.get('text', ''),
+            reply = args.get('replly',-1)
+        )
+        Feed.objects(id=feed_id).update_one(push__comment_list=comment)
+        return jsonify('ok')
+
 
     def delete(self, feed_id):
         feed = Feed.objects(id=feed_id).get_or_404()

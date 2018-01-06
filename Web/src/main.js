@@ -18,6 +18,10 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
+// import History from 'plugins/history.js'
+// Vue.use(History)
+// History.install()
+// Vue.prototype.$History = History
 Vue.use(Vuelidate)
 import VueAMap from 'vue-amap'
 Vue.use(VueAMap)
@@ -28,9 +32,16 @@ VueAMap.initAMapApiLoader({
 })
 Vue.prototype.$map = VueAMap
 import ga from 'libs/analytics.js'
+
 router.afterEach((to, from) => {
   ga.logPage(to.path, to.name, 'UA-111372547-1')
 })
+const moment = require('moment')
+require('moment/locale/zh-cn')
+Vue.use(require('vue-moment'), {
+  moment
+})
+
 var instance = axios
 if (PROD) {
   instance = axios.create({
