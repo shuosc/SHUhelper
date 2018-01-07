@@ -18,10 +18,6 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
-// import History from 'plugins/history.js'
-// Vue.use(History)
-// History.install()
-// Vue.prototype.$History = History
 Vue.use(Vuelidate)
 import VueAMap from 'vue-amap'
 Vue.use(VueAMap)

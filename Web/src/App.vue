@@ -9,7 +9,7 @@
           // <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div>
         router-view(name="toolbar")
         // Use <q-side-link> component instead of <q-item> for internal vue-router navigation
-      left-panel(@login="login" slot="left")
+      left-panel( slot="left")
         // <router-view  name="left"/>
       // <q-scroll-area style="width: 100%; height: 100%;">
       q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
@@ -40,21 +40,8 @@ export default {
   created() {
     this.verifyToken()
     this.getTime()
-    this.$q.events.$on('app:hideLeft', () => {
-      this.$refs.layout.hideLeft()
-      this.$refs.layout.hideLeft()
-    })
-    this.$q.events.$on('app:imgShow', closeModal => {
-      this.$store.commit('showImageModal', closeModal)
-    })
-    this.$q.events.$on('app:imgHide', () => {
-      this.$store.commit('hideImageModal')
-    })
   },
   methods: {
-    login() {
-      // this.$router.push('/login')
-    },
     resetScroll(el, done) {
       // document.documentElement.scrollTop = 0
       // document.body.scrollTop = 0
@@ -124,7 +111,4 @@ export default {
 </script>
 
 <style>
-.fullscreen-v-img {
-  z-index: 3000;
-}
 </style>

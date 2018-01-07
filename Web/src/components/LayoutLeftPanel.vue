@@ -1,16 +1,19 @@
 <template lang="pug">
   q-list.no-padding(no-border='')
     q-card.full-width.no-margin.left-banner(flat='')
-      q-card-main
-        q-side-link(item='', :to="$store.state.user.cardID===''?'/login':`/profile/${$store.state.user.cardID}`")
-          q-item-side(v-if="$store.state.user.avatar" :avatar='`//static.shuhelper.cn/${$store.state.user.avatar}`')
-          q-item-side(v-else :avatar='`//static.shuhelper.cn/avatar_default.jpg`')
+      q-card-main( v-if="$store.state.user.cardID!==''")
+        q-side-link(item='', :to="`/profile/${$store.state.user.cardID}`")
           q-item-main
             q-item-tile(label='') {{$store.state.user.name}}
             q-item-tile(sublabel='') {{$store.state.user.cardID}}
           q-item-side
-            q-btn(flat='', v-if="$store.state.user.cardID!==''", @click.stop='logout') 注销
-            q-btn(flat='', v-else='', @click.stop="login") 登陆
+            q-btn(flat='' @click='logout') 注销
+      q-card-main( v-else)
+        q-side-link(item='', :to="'/login'")
+          q-item-side(:avatar='`//static.shuhelper.cn/avatar_default.jpg`')
+          q-item-main
+            q-item-tile(label='') 游客
+          q-item-side 登陆
     // <q-list-header>Essential Links</q-list-header>
     div(v-if="$q.platform.is.ios")
       q-side-link(v-for="link in internalNavigationiOS" :key="link.name" item='', sparse='', :to='link.to', @click.native="handleTitleChange(link.name)")
@@ -47,10 +50,6 @@ export default {
   methods: {
     handleTitleChange(title) {
       this.$parent.$parent.changeTitle(title)
-    },
-    login() {
-      this.$router.push('/login')
-      this.$emit('login')
     },
     logout() {
       localStorage.clear()
