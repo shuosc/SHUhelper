@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { Toast, Events } from 'quasar'
+import { Toast, Events, QInput, QCheckbox } from 'quasar'
 import { required } from 'vuelidate/lib/validators'
 import ga from '../libs/analytics'
 function createToast(text) {
@@ -63,6 +63,10 @@ function createToast(text) {
   })
 }
 export default {
+  components: {
+    QCheckbox,
+    QInput
+  },
   data() {
     return {
       form: {

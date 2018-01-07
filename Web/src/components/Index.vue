@@ -47,6 +47,7 @@ import LeftPanel from '@/LayoutLeftPanel'
 import IndexMerryChristmas from '@/IndexMerryChristmas'
 import SchoolBus from '@/IndexSchoolBus'
 import MapCard from '@/IndexMapCard'
+import { QSpinnerHearts } from 'quasar'
 export default {
   components: {
     Weather,
@@ -59,7 +60,8 @@ export default {
     SportCard,
     SchoolBus,
     IndexMerryChristmas,
-    MapCard
+    MapCard,
+    QSpinnerHearts
   },
   data() {
     return {

@@ -32,7 +32,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import { QProgress } from 'quasar'
 export default {
+  components: {
+    QProgress
+  },
   name: 'simpleCalendar',
   data() {
     return {
@@ -40,9 +44,7 @@ export default {
       calendarOpen: false
     }
   },
-  computed: mapState([
-    'time'
-  ]),
+  computed: mapState(['time']),
   created() {},
   methods: {
     open() {

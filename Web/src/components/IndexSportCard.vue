@@ -57,9 +57,10 @@
 <script>
 // const sports =
 import { decrypt } from 'src/libs/utils.js'
-import { Dialog, Toast } from 'quasar'
+import { Dialog, Toast, QProgress } from 'quasar'
 export default {
   name: 'sportCard',
+  components: { QProgress },
   data() {
     return {
       dialog: {
@@ -153,10 +154,7 @@ export default {
         .then(response => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
-          this.data = decrypt(
-            response.data.data,
-            this.$store.state.user.password
-          )
+          this.data = decrypt(response.data.data, this.$store.state.user.password)
           this.data.sport = parseInt(this.data.sport)
           this.data.act = parseInt(this.data.act)
           this.data.sport_reduce = parseInt(this.data.sport_reduce)

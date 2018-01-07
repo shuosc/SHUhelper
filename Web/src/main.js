@@ -14,8 +14,6 @@ require(`./themes/app.${__THEME}.styl`)
 import Vue from 'vue'
 // import Quasar from 'quasar'
 import router from './router'
-import Quasar, * as All from 'quasar'
-import { Toast } from 'quasar'
 import Vuex from 'vuex'
 import axios from 'axios'
 import state from './states'
@@ -30,7 +28,70 @@ VueAMap.initAMapApiLoader({
 })
 Vue.prototype.$map = VueAMap
 import ga from 'libs/analytics.js'
-
+import Quasar, {
+  Toast,
+  QBtn,
+  QIcon,
+  QList,
+  QItem,
+  QItemSide,
+  QLayout,
+  QToolbar,
+  QToolbarTitle,
+  QCard,
+  QCardMain,
+  QCardActions,
+  QCardTitle,
+  QCardSeparator,
+  QItemMain,
+  QSideLink,
+  QTransition,
+  QCollapsible,
+  QItemTile,
+  QSelect,
+  QModal,
+  QModalLayout,
+  QPullToRefresh,
+  QInfiniteScroll,
+  QSpinnerDots,
+  QFixedPosition,
+  QField,
+  QListHeader,
+  QItemSeparator
+} from 'quasar'
+Vue.use(Quasar, {
+  components: {
+    QBtn,
+    QModal,
+    QModalLayout,
+    QTransition,
+    QCardSeparator,
+    QIcon,
+    QList,
+    QItemSide,
+    QItemTile,
+    QItem,
+    QToolbar,
+    QLayout,
+    QSelect,
+    QCollapsible,
+    QCard,
+    QCardTitle,
+    QToolbarTitle,
+    QCardMain,
+    QCardActions,
+    QItemMain,
+    QSideLink,
+    QPullToRefresh,
+    QInfiniteScroll,
+    QSpinnerDots,
+    QFixedPosition,
+    QField,
+    QListHeader,
+    QItemSeparator
+  },
+  directives: {}
+})
 router.afterEach((to, from) => {
   ga.logPage(to.path, to.name, 'UA-111372547-1')
 })
@@ -82,10 +143,7 @@ Vue.filter('two_digits', value => {
 })
 Vue.prototype.$http = instance
 // ...
-Vue.use(Quasar, {
-  components: All,
-  directives: All
-})
+
 Vue.use(Vuex)
 const store = new Vuex.Store(state)
 Vue.config.productionTip = false

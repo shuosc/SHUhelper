@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { QKnob } from 'quasar'
 const timeSChedule = [
   800,
   845,
@@ -61,6 +62,7 @@ const timeSChedule = [
   2035
 ]
 export default {
+  components: { QKnob },
   name: 'courseTime',
   filters: {
     term: function(value) {
@@ -100,15 +102,10 @@ export default {
     },
     updateTime() {
       var cd = new Date()
-      var time = parseInt(
-        this.zeroPadding(cd.getHours(), 2) +
-          this.zeroPadding(cd.getMinutes(), 2)
-      )
+      var time = parseInt(this.zeroPadding(cd.getHours(), 2) + this.zeroPadding(cd.getMinutes(), 2))
       for (let i in timeSChedule) {
-        let lastScheduleMinutes =
-          timeSChedule[i - 1] % 100 + parseInt(timeSChedule[i - 1] / 100) * 60
-        let scheduleMinutes =
-          timeSChedule[i] % 100 + parseInt(timeSChedule[i] / 100) * 60
+        let lastScheduleMinutes = timeSChedule[i - 1] % 100 + parseInt(timeSChedule[i - 1] / 100) * 60
+        let scheduleMinutes = timeSChedule[i] % 100 + parseInt(timeSChedule[i] / 100) * 60
         let timeMinutes = time % 100 + parseInt(time / 100) * 60
         if (scheduleMinutes - timeMinutes > 0) {
           this.timeLeft = scheduleMinutes - timeMinutes
@@ -117,12 +114,7 @@ export default {
           break
         }
       }
-      this.clock =
-        this.zeroPadding(cd.getHours(), 2) +
-        ':' +
-        this.zeroPadding(cd.getMinutes(), 2) +
-        ':' +
-        this.zeroPadding(cd.getSeconds(), 2)
+      this.clock = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2)
     }
   }
 }

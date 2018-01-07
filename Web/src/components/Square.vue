@@ -37,7 +37,7 @@
                   | {{feed.likecount}}
           q-card(flat)
             q-list(dense)
-              q-item.no-padding(v-for="comment in feed.comments")
+              q-item.no-padding(v-for="(comment,index) in feed.comments" :key="index")
                 q-item-side 
                   | {{comment.user.name}}:
                 q-item-main
@@ -80,7 +80,7 @@
         q-list
           q-list-header(v-if="feed.comments.length > 0") 共有{{feed.comments.length}}条评论
           q-item-separator
-          q-card(flat v-for="(comment,index) in feed.comments" style="margin:1rem 0 0 0")
+          q-card(flat v-for="(comment,index) in feed.comments" :key="index" style="margin:1rem 0 0 0")
             q-card-title.no-padding 
             q-item(dense)
               q-item-side
