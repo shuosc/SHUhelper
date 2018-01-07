@@ -141,9 +141,9 @@ export default {
   },
   created() {
     // this.refreshToolbar()
-    this.resetRange()
+    // this.resetRange()
     this.getCourses()
-    this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
+    // this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
   },
   beforeDestroy() {
     this.$store.commit('clearToolbar')
@@ -270,13 +270,13 @@ export default {
           this.status.time = response.data.last_modified.$date
           this.courses = decrypt(response.data.data, this.$store.state.user.password)
           if (this.status.status === 'failed') {
-            this.renewCourse()
+            this.refresher()
           }
         })
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) {
-            this.renewCourse()
+            this.refresher()
           } else {
             this.status.status = 'failed'
             Toast.create(`更新失败${err.response.status}`)
@@ -302,15 +302,17 @@ export default {
     },
     refresher(done) {
       this.status.status = 'loading'
-      this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
+      // this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
       this.$http
         .post('/api/my-course/sync', {
           card_id: this.$store.state.user.cardID,
           password: this.$store.state.user.password
         })
         .then(response => {
-          done()
-          this.pollingStatus()
+          if (done !== undefined) {
+            done()
+          }
+          // this.pollingStatus()
         })
         .catch(err => {
           this.status.status = 'failed'
