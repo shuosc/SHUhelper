@@ -105,7 +105,7 @@ var instance = axios
 if (PROD) {
   instance = axios.create({
     baseURL: 'https://www.shuhelper.cn/',
-    timeout: 1000
+    timeout: 30000
     // headers: { 'X-Custom-Header': 'foobar' }
   })
 }
