@@ -27,8 +27,7 @@ class Comment(db.EmbeddedDocument):
         return {
             'user': self.user.to_dict_public(),
             'created': str(self.created),
-            'text': self.text,
-            'id': str(self.id)
+            'text': self.text
         }
 
 class Feed(db.Document):

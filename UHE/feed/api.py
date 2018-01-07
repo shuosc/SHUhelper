@@ -66,7 +66,7 @@ class CommonFeedsAPI(MethodView):
         comment = Comment(
             user = current_user.id,
             text = args.get('text', ''),
-            reply = args.get('replly',-1)
+            reply = args.get('reply',-1)
         )
         Feed.objects(id=feed_id).update_one(push__comment_list=comment)
         return jsonify('ok')

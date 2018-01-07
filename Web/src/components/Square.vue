@@ -7,7 +7,7 @@
             //- p 欢迎来到广场，在这里您可以畅所欲言
             small
               | 欢迎来到广场，在这里您可以畅所欲言
-        q-card(v-for="feed in feeds" :key="feed.id")
+        q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
           q-card-title.no-padding 
           q-item(dense)
             q-item-side
@@ -24,25 +24,98 @@
               img(:src="`${img}-slim75`" @click="showImg(img)"
               style="object-fit: cover;width:100%;height:100%;" 
               alt="lorem")
+          q-card-separator
+          q-card-actions
+            div.full-width
+              q-btn.pull-right(flat small)
+                q-icon(name="comment")
+                span(style="color:grey;font-size:1rem;")
+                  | {{feed.comments.length}}
+              q-btn.pull-right(small :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(index)")
+                q-icon(name="favorite")
+                span(style="color:grey;font-size:1rem;")
+                  | {{feed.likecount}}
+          q-card(flat)
+            q-list(dense)
+              q-item.no-padding(v-for="comment in feed.comments")
+                q-item-side 
+                  | {{comment.user.name}}:
+                q-item-main
+                  | {{ comment.text }}
         div.text-center(slot="message")
           q-spinner-dots( :size="40")
-    q-fixed-position(corner="bottom-right" :offset="[18, 18]" style="z-index: 2;")
-      q-btn(round color="primary" @click="$refs.modal.open()" icon="add")
+    q-modal(ref="feedModal" maximized)
+      q-modal-layout
+        q-toolbar(slot="header" color="primary")
+          q-btn(color="white" flat @click="$refs.feedModal.close()")
+            q-icon(name="close")
+          q-toolbar-title
+              | 详情
+        q-card(flat style="margin:1rem 0 0 0")
+          q-card-title.no-padding 
+          q-item(dense)
+            q-item-side
+              q-item-tile(avatar)
+                img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
+            q-item-main
+              q-item-tile(label) {{feed.user.name}}
+              q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
+          q-card-separator
+          q-card-main 
+            | {{feed.text}}
+          div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
+            div.col-4(v-for="(img,index) in feed.img" :key="index" style="height:10rem;" @click.stop="")
+              img(:src="`${img}-slim75`" @click="showImg(img)"
+              style="object-fit: cover;width:100%;height:100%;" 
+              alt="lorem")
+          q-card-separator
+          q-card-actions
+            div.full-width
+              q-btn.pull-right(flat)
+                q-icon(name="comment")
+              q-btn.pull-right.text-pink(flat @click.stop="onLikeClick(index)")
+                q-icon(name="favorite")
+                span(style="color:white;font-size:1rem;")
+                  | 2
+        q-list
+          q-list-header(v-if="feed.comments.length > 0") 共有{{feed.comments.length}}条评论
+          q-item-separator
+          q-card(flat v-for="(comment,index) in feed.comments" style="margin:1rem 0 0 0")
+            q-card-title.no-padding 
+            q-item(dense)
+              q-item-side
+                q-item-tile(avatar)
+                  img(:src="`https://static.shuhelper.cn/${comment.user.avatar}`")
+              q-item-main
+                q-item-tile(label) {{comment.user.name}}
+                q-item-tile(sublabel)  {{[comment.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
+              q-item-side(:stamp="`\#${index+1}`")
+            q-card-separator
+            q-card-main 
+              | {{comment.text}}
+          q-list-header 没有更多评论
+        q-toolbar(slot="footer" color="white")
+          q-toolbar-title
+            mt-field(placeholder="请输入评论" v-model="comment")
+          <q-btn flat color="primary" @click="publishComment(feed.id)">
+            <q-icon name="send" />
+          </q-btn>
     q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
-      img.responsive(:src="img" )
+      img.responsive(:src="img")
     q-modal(ref="modal" maximized)
       q-modal-layout
         q-toolbar(slot="header" color="primary")
           q-btn(color="white" flat @click="$refs.modal.close()")
             q-icon(name="close")
-            q-toolbar-title
+          q-toolbar-title
               | 发布动态
+          q-btn(flat @click="publish") 发布
         q-card(flat)
           q-card-main
-            q-field( :count="450")
-              q-input( stack-label="想说的话" type="textarea" :min-rows="5" v-model="text")
-            q-btn.full-width(@click="publish")
-              | 发布
+            q-field(helper="分享你的见闻")
+              mt-field(placeholder="想说的话" type="textarea" rows="4" v-model="text")
+            //- text-area(v-model.lazy="text")
+            //- q-input( stack-label="想说的话" type="textarea" :min-rows="5" v-model.lazy="text")
         q-card(flat)
           q-card-main
             div.row.flex.xs-gutter
@@ -51,7 +124,7 @@
                 q-spinner(v-else-if="img.status==='pending'" style="height:100%" color="secondary" :size="50")
                 q-btn(v-else round block big) X
               div.col-4.flex( style="height:20vh;")
-                q-btn.flat.full-height.full-width.text-center(style="background-color:#eee;" @click="$refs.imgform.userfile.click()") 添加图片
+                q-btn.text-center( big flat style="background-color:#eee;height:100%;width:100%;" @click="$refs.imgform.userfile.click()") 添加图片
         form(id="imgform" ref="imgform" method="post" style="display:none;" enctype="multipart/form-data")
           input(name="key" id="key" type="hidden" :value="key")
           input(name="token" type="hidden" :value="token")
@@ -59,7 +132,8 @@
           input(id="takephoto" name="file" accept="image/*" type="file")
           input(id="takevideo" name="file" type="file" accept="video/*")
           input(name="accept" type="hidden")
-
+    q-fixed-position(corner="bottom-right" :offset="[18, 18]" style="z-index: 2;")
+      q-btn(round color="primary" @click="$refs.modal.open()" icon="add")
 </template>
 
 <script>
@@ -88,12 +162,25 @@ export default {
   },
   data() {
     return {
+      comment: '',
       feeds: [],
+      feed: {
+        img: [],
+        text: '',
+        user: {
+          avatar: '',
+          name: ''
+        },
+        comments: [],
+        like: [],
+        created: '0000000000000000'
+      },
       uploadImgs: [],
       text: '',
       token: '',
       key: '',
-      img: ''
+      img: '',
+      currentIndex: 0
     }
   },
   methods: {
@@ -112,6 +199,26 @@ export default {
         this.feeds[index].liked = true
       }
     },
+    publishComment(feedID) {
+      if (this.comment === '') return
+      this.$http
+        .put(`/api/feeds/${this.feed.id}`, {
+          text: this.comment
+        })
+        .then(response => {
+          this.comment = ''
+          this.getFeed(feedID)
+        })
+    },
+    getFeed(feedID) {
+      this.$http.get(`/api/feeds/${this.feed.id}`).then(response => {
+        this.feed = response.data
+      })
+    },
+    onCommentClick(index) {
+      this.currentIndex = index
+      // this.$refs.commentModal.open()
+    },
     refresher(done) {
       this.feeds = []
       this.$refs.infiniteScroll.reset()
@@ -120,15 +227,16 @@ export default {
     },
     onFeedClick(index) {
       this.feed = this.feeds[index]
-      this.$router.push(`/feed-detail/${this.feed.id}`)
+      this.$refs.feedModal.open()
+      // this.$router.push(`/feed-detail/${this.feed.id}`)
     },
     onFeedDelete(index) {
       this.feeds.splice(index, 1)
     },
-    handleTopChange(status) {
-      this.topStatus = status
-    },
     publish() {
+      if (this.text === '') {
+        return
+      }
       this.$http
         .post('/api/feeds/', {
           type: 'text',
@@ -167,9 +275,6 @@ export default {
           done()
         })
     },
-    resetFeeds() {
-      // this.getFeeds()
-    },
     upload(e) {
       // console.log(e.target)
       /* eslint-disable no-new */
@@ -195,16 +300,12 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(
-                  `/upload/putb64/-1/key/${this.key}`,
-                  base64.slice(index),
-                  {
-                    headers: {
-                      Authorization: 'UpToken ' + this.token,
-                      'Content-Type': 'application/octet-stream'
-                    }
+                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
+                  headers: {
+                    Authorization: 'UpToken ' + this.token,
+                    'Content-Type': 'application/octet-stream'
                   }
-                )
+                })
                 .then(response => {
                   console.log(response)
                   for (let i in this.uploadImgs) {
@@ -259,20 +360,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@media screen and (max-height: 750px) {
-  .schedule-container {
-    height: 750px;
-  }
-}
+@media screen and (max-height: 750px)
+  .schedule-container
+    height 750px
 
-@media screen and (min-height: 750px) {
-  .schedule-container {
-    height: 100vh;
-  }
-}
-img {
-    margin-left: auto; 
-    margin-right:auto; 
-    display:block;
-}
+@media screen and (min-height: 750px)
+  .schedule-container
+    height 100vh
+
+img
+  margin-left auto
+  margin-right auto
+  display block
 </style>

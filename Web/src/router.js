@@ -54,12 +54,18 @@ export default new VueRouter({
     {
       path: '/square',
       name: 'square',
-      component: Square
+      component: Square,
+      meta: {
+        title: '广场'
+      }
     },
     {
       path: '/map',
       name: 'map',
-      component: Map // children: [{ path: '/', component: load('Schedule') }]
+      component: Map,
+      meta: {
+        title: '地图'
+      } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/profile/:id',
@@ -78,7 +84,10 @@ export default new VueRouter({
     {
       path: '/schedule',
       component: Schedule,
-      name: 'schedule'
+      name: 'schedule',
+      meta: {
+        title: '日程'
+      }
       // children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -88,14 +97,20 @@ export default new VueRouter({
     {
       path: '/index',
       component: Index,
-      alias: ['index-su'],
-      name: 'index'
+      alias: ['index-su', 'home'],
+      name: 'index',
+      meta: {
+        title: '首页'
+      }
     },
     // Always leave this last one
     {
       path: '*',
       component: Error404,
-      name: '404'
+      name: '404',
+      meta: {
+        title: '404'
+      }
     } // Not found
   ]
 })

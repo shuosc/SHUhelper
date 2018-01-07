@@ -127,6 +127,8 @@ Vue.filter('term', function(value) {
   let year = parseInt(value.slice(2, 4))
   return `${year}-${year + 1}${map[value[5]]}`
 })
+import { Field } from 'mint-ui'
+Vue.component(Field.name, Field)
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({

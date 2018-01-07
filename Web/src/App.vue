@@ -5,7 +5,7 @@
       q-toolbar(slot="header" v-if="!$route.meta.disableLayout")
         q-btn(flat @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")
-        q-toolbar-title {{title}}
+        q-toolbar-title {{$route.meta.title}}
           // <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div>
         router-view(name="toolbar")
         // Use <q-side-link> component instead of <q-item> for internal vue-router navigation
