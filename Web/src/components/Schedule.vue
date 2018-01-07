@@ -11,8 +11,6 @@
 
 <script>
 import { Toast } from 'quasar'
-import PullTo from 'vue-pull-to'
-import LeftPanel from '@/LayoutLeftPanel'
 import TimeTable from '@/ScheduleTimeTable'
 import { randomColor, decrypt } from '@/../libs/utils.js'
 // import { Popup, Cell } from 'mint-ui'
@@ -27,11 +25,7 @@ const CNNUM = {
 }
 export default {
   components: {
-    LeftPanel,
-    PullTo,
     TimeTable
-    // Popup,
-    // Cell
   },
   data() {
     return {

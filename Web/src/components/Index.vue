@@ -37,7 +37,6 @@
 
 <script>
 import SportCard from '@/IndexSportCard'
-import PullTo from 'vue-pull-to'
 import Weather from '@/IndexWeather'
 import CourseTime from '@/IndexCourseTime'
 import SimpleCalendar from '@/IndexSimpleCalendar'
@@ -51,7 +50,6 @@ import { QSpinnerHearts } from 'quasar'
 export default {
   components: {
     Weather,
-    PullTo,
     CourseTime,
     SimpleCalendar,
     QuoteCard,
