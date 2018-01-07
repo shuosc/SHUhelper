@@ -64,7 +64,7 @@
           q-card-main 
             | {{feed.text}}
           div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
-            div.col-4(v-for="(img,index) in feed.img" :key="index" style="height:10rem;" @click.stop="")
+            div.col-4(v-for="(img,index) in feed.img" :key="index" style="height:20vh;" @click.stop="")
               img(:src="`${img}-slim75`" @click="showImg(img)"
               style="object-fit: cover;width:100%;height:100%;" 
               alt="lorem")
@@ -73,10 +73,12 @@
             div.full-width
               q-btn.pull-right(flat)
                 q-icon(name="comment")
-              q-btn.pull-right.text-pink(flat @click.stop="onLikeClick(index)")
+                span(style="color:grey;font-size:1rem;")
+                  | {{feed.comments.length}}
+              q-btn.pull-right( :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(currentIndex)")
                 q-icon(name="favorite")
-                span(style="color:white;font-size:1rem;")
-                  | 2
+                span(style="color:grey;font-size:1rem;")
+                  | {{feed.likecount}}
         q-list
           q-list-header(v-if="feed.comments.length > 0") 共有{{feed.comments.length}}条评论
           q-item-separator
@@ -97,9 +99,8 @@
         q-toolbar(slot="footer" color="white")
           q-toolbar-title
             mt-field(placeholder="请输入评论" v-model="comment")
-          <q-btn flat color="primary" @click="publishComment(feed.id)">
-            <q-icon name="send" />
-          </q-btn>
+          q-btn(flat color="primary" @click="publishComment(feed.id)")
+            q-icon(name="send")
     q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
       img.responsive(:src="img")
     q-modal(ref="modal" maximized)
@@ -158,29 +159,36 @@ export default {
         }
       }
       return img
+    },
+    feed: function() {
+      if (this.currentIndex === -1) {
+        return {
+          img: [],
+          text: '',
+          user: {
+            avatar: '',
+            name: ''
+          },
+          comments: [],
+          like: [],
+          created: '2018-01-07 12:58:59.359000',
+          index: 0
+        }
+      } else {
+        return this.feeds[this.currentIndex]
+      }
     }
   },
   data() {
     return {
       comment: '',
       feeds: [],
-      feed: {
-        img: [],
-        text: '',
-        user: {
-          avatar: '',
-          name: ''
-        },
-        comments: [],
-        like: [],
-        created: '0000000000000000'
-      },
       uploadImgs: [],
       text: '',
       token: '',
       key: '',
       img: '',
-      currentIndex: 0
+      currentIndex: -1
     }
   },
   methods: {
@@ -212,7 +220,12 @@ export default {
     },
     getFeed(feedID) {
       this.$http.get(`/api/feeds/${this.feed.id}`).then(response => {
-        this.feed = response.data
+        let feed = response.data
+        this.$set(this.feeds, this.currentIndex, feed)
+        this.feeds[this.currentIndex].likecount = feed.like.length
+        this.feeds[this.currentIndex].img = feed.img.map(x => {
+          return 'https://static.shuhelper.cn/' + x
+        })
       })
     },
     onCommentClick(index) {
@@ -220,13 +233,14 @@ export default {
       // this.$refs.commentModal.open()
     },
     refresher(done) {
+      this.currentIndex = -1
       this.feeds = []
       this.$refs.infiniteScroll.reset()
       this.$refs.infiniteScroll.resume()
       done()
     },
     onFeedClick(index) {
-      this.feed = this.feeds[index]
+      this.currentIndex = index
       this.$refs.feedModal.open()
       // this.$router.push(`/feed-detail/${this.feed.id}`)
     },

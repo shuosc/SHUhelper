@@ -8,7 +8,13 @@
 </template>
 
 <script>
-export default {}
+import { QTabs, QRouteTab } from 'quasar'
+export default {
+  components: {
+    QTabs,
+    QRouteTab
+  }
+}
 </script>
 
 <style>
