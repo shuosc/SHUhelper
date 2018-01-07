@@ -3,6 +3,7 @@
     q-card.full-width.no-margin.left-banner(flat='')
       q-card-main( v-if="$store.state.user.cardID!==''")
         q-side-link(item='', :to="`/profile/${$store.state.user.cardID}`")
+          q-item-side(:avatar='`//static.shuhelper.cn/${$store.state.user.avatar}`')
           q-item-main
             q-item-tile(label='') {{$store.state.user.name}}
             q-item-tile(sublabel='') {{$store.state.user.cardID}}
