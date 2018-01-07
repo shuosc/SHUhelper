@@ -1,3 +1,4 @@
+/* eslint-disable */
 // === DEFAULT / CUSTOM STYLE ===
 // WARNING! always comment out ONE of the two require() calls below.
 // 1. use next line to activate CUSTOM STYLE (./src/themes)
@@ -14,6 +15,7 @@ import Vue from 'vue'
 // import Quasar from 'quasar'
 import router from './router'
 import Quasar, * as All from 'quasar'
+import { Toast } from 'quasar'
 import Vuex from 'vuex'
 import axios from 'axios'
 import state from './states'
@@ -60,6 +62,7 @@ instance.interceptors.response.use(
       //   text: `需要先登录`
       // })
       // console.log(router.history)
+      Toast.create(`需要先登录`)
       if (router.history.current.fullPath !== '/login') {
         router.push('/login?redirect=' + router.history.current.fullPath)
       }

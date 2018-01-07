@@ -2,6 +2,11 @@
   div(style="min-height: calc(100vh - 105px)")
     q-pull-to-refresh(:handler='refresher')
       q-infinite-scroll(:handler="loadMore" ref="infiniteScroll")
+        q-card.quote-card
+          blockquote.no-margin
+            //- p 欢迎来到广场，在这里您可以畅所欲言
+            small
+              | 欢迎来到广场，在这里您可以畅所欲言
         q-card(v-for="feed in feeds" :key="feed.id")
           q-card-title.no-padding 
           q-item(dense)
