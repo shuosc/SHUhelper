@@ -278,7 +278,7 @@ export default {
           if (err.response.status === 404) {
             this.refresher()
           } else {
-            this.status.status = 'failed'
+            // this.status.status = 'failed'
             Toast.create(`更新失败${err.response.status}`)
           }
         })
@@ -301,7 +301,6 @@ export default {
       })
     },
     refresher(done) {
-      this.status.status = 'loading'
       // this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
       this.$http
         .post('/api/my-course/sync', {
@@ -315,7 +314,9 @@ export default {
           // this.pollingStatus()
         })
         .catch(err => {
-          this.status.status = 'failed'
+          if (done !== undefined) {
+            done()
+          }
           console.log(err)
         })
     },
