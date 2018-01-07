@@ -38,10 +38,11 @@
           q-card(flat)
             q-list(dense)
               q-item.no-padding(v-for="(comment,index) in feed.comments" :key="index")
-                q-item-side 
-                  | {{comment.user.name}}:
                 q-item-main
-                  | {{ comment.text }}
+                  small
+                    span.text-primary
+                      | {{comment.user.name}}: 
+                    | {{ comment.text }}
         div.text-center(slot="message")
           q-spinner-dots( :size="40")
     q-modal(ref="feedModal" maximized)
