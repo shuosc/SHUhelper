@@ -113,7 +113,8 @@ class Tiyu(Client):
         except:
             self.act=0
             self.act_rec=0
-        self.act_rec= line[36] if line[36].isdigit() else 0
+        if line[36]:
+            self.act_rec= line[36] if line[36].isdigit() else 0
         '''content = re.search(
             r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>', string, flags=0).group(0)
         content = re.sub(
