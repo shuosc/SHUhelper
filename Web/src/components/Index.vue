@@ -22,7 +22,8 @@
           | 写下你的新年愿望
       course-time(v-if="$store.state.time.day<=5")
       empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
-      sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
+      course-card
+      sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=15120000")
       //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       school-bus
       map-card
@@ -46,11 +47,13 @@ import LeftPanel from '@/LayoutLeftPanel'
 import IndexMerryChristmas from '@/IndexMerryChristmas'
 import SchoolBus from '@/IndexSchoolBus'
 import MapCard from '@/IndexMapCard'
+import CourseCard from '@/IndexCourseCard'
 import { QSpinnerHearts } from 'quasar'
 export default {
   components: {
     Weather,
     CourseTime,
+    CourseCard,
     SimpleCalendar,
     QuoteCard,
     EmptyRoom,

@@ -7,7 +7,7 @@
             q-icon(color='primary', name='date_range', style='font-size:2rem;')
           q-item-main
             q-item-tile(label='') 今天是{{time.year+ '_'+time.term|term}}，第{{time.week|cnNum}}周，周{{time.day|cnNum}}
-            q-item-tile(sublabel='') 新学期加油~
+            q-item-tile(sublabel='') 今天努力学习了吗
         q-item
           q-item-main
             q-progress(:percentage='((time.week-1)*7 + time.day)/84*100', color='teal-4')

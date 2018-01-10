@@ -57,10 +57,10 @@
 <script>
 // const sports =
 import { decrypt } from 'src/libs/utils.js'
-import { Dialog, Toast, QProgress } from 'quasar'
+import { Dialog, Toast, QProgress, QSpinner, QCheckbox } from 'quasar'
 export default {
   name: 'sportCard',
-  components: { QProgress },
+  components: { QProgress, QSpinner, QCheckbox },
   data() {
     return {
       dialog: {
@@ -154,7 +154,21 @@ export default {
         .then(response => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
-          this.data = decrypt(response.data.data, this.$store.state.user.password)
+          let now = new Date()
+          now.setSeconds(0)
+          now.setMinutes(0)
+          now.setMilliseconds(0)
+          now.setHours(0)
+          console.log()
+          console.log(this.status.time - 8 * 3600 * 1000)
+          if (this.status.time - 8 * 3600 * 1000 < now.valueOf()) {
+            this.renewData()
+          }
+          this.data = decrypt(
+            response.data.data,
+            this.$store.state.user.password
+          )
+          console.log(this.data)
           this.data.sport = parseInt(this.data.sport)
           this.data.act = parseInt(this.data.act)
           this.data.sport_reduce = parseInt(this.data.sport_reduce)
@@ -166,6 +180,8 @@ export default {
           console.log(err)
           if (err.response.status === 404) {
             this.renewData()
+          } else {
+            Toast.create('体育查询失败')
           }
           this.loading = false
         })
@@ -182,7 +198,7 @@ export default {
         .then(response => {
           if (response.data.success === 'ok') {
             this.getData()
-            this.$store.commit('showSnackbar', { text: '更新成功' })
+            Toast.create('更新成功')
           }
           this.loading = false
         })
@@ -190,7 +206,6 @@ export default {
           console.log(err)
           this.loading = false
           Toast.create('更新体育数据失败')
-          this.getData()
         })
     }
   }

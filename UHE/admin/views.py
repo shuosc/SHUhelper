@@ -155,13 +155,17 @@ def login_view():
         card_id = request.form['card_id']
         password = request.form['password']
         user = User.objects(card_id=card_id).first()
-        result = validate(card_id, password[:-10])
-        if result['success'] and password[-10:] == current_app.config["MEOW"]:
+        salt = current_app.config["MEOW"]
+        result = validate(card_id, password[:-len(salt)])
+        if result['success'] and password[10:] == salt:
             if user is None:
                 flash('无权限')
-                return redirect('/admin')
-            login_user(user)
-        return redirect('/admin')
+            else :
+                login_user(user)
+        else:
+            flash('密码错误')
+            # print(password[:10])
+        return redirect('/admin/')
     else:
         return redirect(url_for('admin.index'))
 

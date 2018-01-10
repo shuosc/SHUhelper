@@ -20,6 +20,12 @@ clean:
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -rf {} +
 
+install:
+	@sudo pip3 install virtualenv
+	@virtualenv env -p python3
+	@source env/bin/activate
+	@pip install -r requirements.txt
+
 test:
 	py.test
 

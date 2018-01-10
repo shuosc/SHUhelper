@@ -76,10 +76,10 @@ class SZ(Client):
 
 class Tiyu(Client): 
     def __init__(self, card_id, password):
-        self.sport=''
-        self.sport_rec=''
-        self.act=''
-        self.act_rec=''
+        self.moring_run=0
+        self.exercise=0
+        self.moring_run_rec=0
+        self.exercise_rec=0
         Client.__init__(self, card_id, password)
     proxies = None
     url_prefix = 'http://202.120.127.149:8989/spims'
@@ -99,36 +99,34 @@ class Tiyu(Client):
     def get_data(self):
         r = self.session.get(
             self.url_prefix + '/exercise.do?method=seacheload', timeout=10, proxies=get_proxies())
-        string = r.text
-        soup = BeautifulSoup(string, 'html.parser')
-        content = soup.find('table',class_='table_bg')
+        soup = BeautifulSoup(r.text, 'html.parser')
+        tables = soup.find('table',class_='table_bg')
         line = []
-        for td in content.find_all('td',class_=''):
-            line.append(td.text.strip())
-        self.sport=line[4]
-        self.sport_rec= line[8] if line[8].isdigit() else 0
-        try:
-            self.act=line[27]
-            self.act_rec=line[36]
-        except:
-            self.act=0
-            self.act_rec=0
-        if line[36]:
-            self.act_rec= line[36] if line[36].isdigit() else 0
-        '''content = re.search(
-            r'<table cellpadding="3" cellspacing="1" class="table_bg">([\s\S]*)</table>', string, flags=0).group(0)
-        content = re.sub(
-            r'<table cellpadding="3" cellspacing="1" class="table_bg">', '<table>', content)'''
+        tds =  iter(tables.find_all('td'))
+        for td in tds: 
+            text = td.text.strip()
+            if text == '课外锻炼':
+                td = next(tds)
+                self.exercise = td.text.strip() if len(td.text.strip()) else 0
+            elif text == '早操' :
+                td = next(tds)
+                self.moring_run = td.text.strip() if len(td.text.strip()) else 0
+            elif text == '早操减免次数' and self.moring_run != 0:
+                td = next(tds)
+                self.moring_run_rec = int(td.text.strip()) if len(td.text.strip()) else 0
+            elif text == '课外锻炼减免次数' and self.exercise_rec != 0:
+                td = next(tds)
+                self.exercise_rec = int(td.text.strip()) if len(td.text.strip()) else 0
         return True
     def to_html(self):
         return self.data
 
     def to_json(self):
         return json.dumps({
-            'sport': self.sport,
-            'sport_reduce': self.sport_rec,
-            'act': self.act,
-            'act_reduce': self.act_rec
+            'sport': self.moring_run,
+            'sport_reduce': self.moring_run_rec,
+            'act': self.exercise,
+            'act_reduce': self.exercise_rec
         })
 
 

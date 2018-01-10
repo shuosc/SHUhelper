@@ -53,6 +53,7 @@ def get_data(identifier, card_id, password, lock):
         client.get_data()
     except Exception as e:
         user_data.status = 'failed'
+        user_data.last_modified = datetime.datetime.now()
         user_data.save()
         print('error')
         raise e

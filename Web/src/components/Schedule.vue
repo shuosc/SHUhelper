@@ -69,7 +69,19 @@ export default {
       var selected = [[], [], [], [], []]
       for (var i = this.courses.length - 1; i >= 0; i--) {
         var timelist = this.coursetimeToNum(this.courses[i].time)
-        var color = ['#2B2E4A', '#521262', '#903749', '#53354A', '#40514E', '#537780', '#3765a4', '#76a5a4', '#579870', '#e391b4', '#b8954e']
+        var color = [
+          '#2B2E4A',
+          '#521262',
+          '#903749',
+          '#53354A',
+          '#40514E',
+          '#537780',
+          '#3765a4',
+          '#76a5a4',
+          '#579870',
+          '#e391b4',
+          '#b8954e'
+        ]
         var course = this.courses[i]
         var rancolor = color[~~(Math.random() * color.length)]
         for (var j = timelist.length - 1; j >= 0; j--) {
@@ -157,7 +169,10 @@ export default {
         for (let i = 1; i <= 10; i++) {
           // console.log('this week', i, this.$store.state.toolbar.states[0], i === this.$store.state.toolbar.states[0])
           items.push({
-            name: i === this.$store.state.toolbar.states[0] ? `第${i}周(当前)` : `第${i}周`,
+            name:
+              i === this.$store.state.toolbar.states[0]
+                ? `第${i}周(当前)`
+                : `第${i}周`,
             click: () => {
               // let index = this.$store.state.toolbar.states[0]
               this.$store.commit('updateToolbarState', { index: 0, value: i })
@@ -251,7 +266,10 @@ export default {
         // console.log(this.range.start !== ev.range.start)
         this.range.start = ev.range.start
         this.range.end = ev.range.end
-        this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
+        this.getEvents(
+          this.range.start.valueOf() / 1000,
+          this.range.end.valueOf() / 1000
+        )
         console.log('not equal')
       }
       console.log(this.range)
@@ -268,7 +286,10 @@ export default {
         .then(response => {
           this.status.status = response.data.status
           this.status.time = response.data.last_modified.$date
-          this.courses = decrypt(response.data.data, this.$store.state.user.password)
+          this.courses = decrypt(
+            response.data.data,
+            this.$store.state.user.password
+          )
           if (this.status.status === 'failed') {
             this.refresher()
           }
@@ -276,6 +297,7 @@ export default {
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) {
+            Toast.create(`更新课标中`)
             this.refresher()
           } else {
             // this.status.status = 'failed'
@@ -301,23 +323,22 @@ export default {
       })
     },
     refresher(done) {
-      // this.$store.commit('showSnackbar', { text: `更新课表数据中...` })
+      if (done === undefined) {
+        done = () => {}
+      }
+      Toast.create(`更新课表数据中...`)
       this.$http
         .post('/api/my-course/sync', {
           card_id: this.$store.state.user.cardID,
           password: this.$store.state.user.password
         })
         .then(response => {
-          if (done !== undefined) {
-            done()
-          }
-          // this.pollingStatus()
+          this.pollingStatus()
+          done()
         })
         .catch(err => {
-          if (done !== undefined) {
-            done()
-          }
           console.log(err)
+          done()
         })
     },
     resetRange() {
@@ -352,11 +373,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@media screen and (max-height: 750px)
-  .schedule-container
-    height 750px
+@media screen and (max-height: 750px) {
+  .schedule-container {
+    height: 750px;
+  }
+}
 
-@media screen and (min-height: 750px)
-  .schedule-container
-    height 100vh
+@media screen and (min-height: 750px) {
+  .schedule-container {
+    height: 100vh;
+  }
+}
 </style>
