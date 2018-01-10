@@ -14,7 +14,7 @@ import Square from '@/Square'
 import Apps from '@/Apps'
 import Schedule from '@/Schedule'
 import Index from '@/Index'
-import Map from '@/Map'
+// import Map from '@/Map'
 export default new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
@@ -62,7 +62,7 @@ export default new VueRouter({
     {
       path: '/map',
       name: 'map',
-      component: Map,
+      component: load('Map'),
       meta: {
         title: '地图'
       } // children: [{ path: '/', component: load('Schedule') }]
@@ -89,6 +89,14 @@ export default new VueRouter({
         title: '日程'
       }
       // children: [{ path: '/', component: load('Schedule') }]
+    },
+    {
+      path: '/about',
+      component: load('About'),
+      name: 'about',
+      meta: {
+        title: '关于'
+      }
     },
     {
       path: '/',
