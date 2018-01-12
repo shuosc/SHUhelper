@@ -14,7 +14,7 @@
                 q-icon(name="fa-shu" size="2.5rem" color="white")
               div.col-5.self-center.text-white(style="font-size:1.1rem;")
                 | 树洞
-          q-card.love.col-xs-5.col-md-4(@click="$router.push('/love-board')")
+          q-card.love.col-xs-5.col-md-4(style="height:4rem;" @click="$router.push('/love-board')")
             div.row.flex.full-height
               div.col-5.self-center
                 q-icon(name="favorite" size="2.5rem" color="white")
