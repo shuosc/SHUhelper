@@ -12,9 +12,11 @@ empty_room = Blueprint('empty_room', __name__)
 
 # find_empty_room = None
 
+
 @app_start.connect
 def init_rooms(app):
-    classroom_dict = redis_store.get('empty_room:' + app.school_time.term_string)
+    classroom_dict = redis_store.get(
+        'empty_room:' + app.school_time.term_string)
     app.find_empty_room = EmptyRoom(classroom_dict)
 
 
@@ -28,6 +30,8 @@ def findemptyroom():
         time = current_app.school_time.time
         result = {
             'time': {'campus': '本部',
+                     'year': time.year,
+                     'term': time.term,
                      'week': time.week,
                      'day': time.day,
                      'course': time.course

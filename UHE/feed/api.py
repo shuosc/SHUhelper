@@ -89,13 +89,11 @@ class AnonymousFeedsAPI(CommonFeedsAPI):
     def post(self):
         args = request.get_json()
         feed_data = {
-            'user': current_user.id,
+            'user': '00000001',
             'display_name': args.get('name', '匿名'),
             'namespace': args.get('namespace', 'ordinary'),
             'text': args.get('text', ''),
-            'link_URL': args.get('linkURL', ''),
-            'link_title': args.get('linkTitle', ''),
-            'link_img': args.get('linkImg', ''),
+            'link': args.get('link', {}),
             'img': args.get('img', [])
         }
         if len(feed_data['text']) == 0:

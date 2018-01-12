@@ -182,7 +182,11 @@ Vue.filter('term', function(value) {
     '3': '春',
     '4': '夏'
   }
+  value = value.toString()
+  // console.log(value)
   let year = parseInt(value.slice(2, 4))
+  // console.log(year)
+  // console.log(map[value[5]])
   return `${year}-${year + 1}${map[value[5]]}`
 })
 import { Field } from 'mint-ui'
