@@ -2,7 +2,7 @@ import mongoengine
 from mongoengine import (BooleanField, DateTimeField, NULLIFY, PULL, CASCADE,
                          ListField, ReferenceField, StringField)
 
-from UHE.comment.models import Comment
+# from UHE.comment.models import Comment
 from UHE.extensions import db, celery
 from UHE.user.models import User
 
@@ -16,8 +16,8 @@ class Event(db.Document):
     need_update = BooleanField(default=True)
     liked = ListField(ReferenceField(
         User, reverse_delete_rule=PULL), default=lambda: [])
-    comments = ListField(ReferenceField(
-        Comment, reverse_delete_rule=PULL), default=lambda: [])
+    # comments = ListField(ReferenceField(
+    #     Comment, reverse_delete_rule=PULL), default=lambda: [])
     attend = ListField(ReferenceField(
         User, reverse_delete_rule=PULL), default=lambda: [])
 

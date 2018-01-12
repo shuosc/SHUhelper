@@ -14,7 +14,6 @@ from flask import current_app
 from .models import Course, CourseOfTerm
 from .api import courses
 from UHE.plugins.SHU_api import get_courses
-from UHE.time import Time
 from UHE.admin.views import BasicPrivateModelView
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCourse"
@@ -68,7 +67,7 @@ def save_courses(courselist, term):
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
-        if term == Time().term_string():
+        if term == current_app.school_time.term_string:
             course_db.this_term = True
             course_db.save()
         course_detail = {

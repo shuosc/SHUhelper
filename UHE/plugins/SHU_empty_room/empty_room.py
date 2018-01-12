@@ -4,7 +4,6 @@ Find Empty Room
 import json
 import os
 import time
-from UHE.utils import this_course, this_term, this_week, this_year
 import os.path as op
 # from flask import current_app
 
@@ -41,11 +40,11 @@ class EmptyRoom():
                 emptyroom_list.append(classroom)
         return sorted(emptyroom_list)
 
-    def get_emptyroom_now(self):
-        """
-        uses present time to get a list contain all free rooms
-        """
-        week = this_week()
-        day = int(time.strftime("%w"))
-        course = this_course()
-        return self.get_emptyroom('本部', week, day, course)
+    # def get_emptyroom_now(self):
+    #     """
+    #     uses present time to get a list contain all free rooms
+    #     """
+    #     week = this_week()
+    #     day = int(time.strftime("%w"))
+    #     course = this_course()
+    #     return self.get_emptyroom('本部', week, day, course)

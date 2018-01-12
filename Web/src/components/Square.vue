@@ -7,6 +7,19 @@
             //- p 欢迎来到广场，在这里您可以畅所欲言
             small
               | 欢迎来到广场，在这里您可以畅所欲言
+        div.flex.row.justify-center.text-center
+          q-card.tree-hole.col-xs-5.col-md-4(style="height:4rem;" @click="$router.push('/tree-hole')")
+            div.row.flex.full-height
+              div.col-5.self-center
+                q-icon(name="fa-shu" size="2.5rem" color="white")
+              div.col-5.self-center.text-white(style="font-size:1.1rem;")
+                | 树洞
+          q-card.love.col-xs-5.col-md-4(@click="$router.push('/love-board')")
+            div.row.flex.full-height
+              div.col-5.self-center
+                q-icon(name="favorite" size="2.5rem" color="white")
+              div.col-5.self-center.text-white(style="font-size:1.1rem;")
+                | 表白墙
         q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
           q-card-title.no-padding 
           q-item(dense)
@@ -18,9 +31,10 @@
               q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
           q-card-separator
           q-card-main 
-            | {{feed.text}}
+            p(v-for="paragraph in feed.text.split('\\n')")
+              | {{ paragraph }}
           div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
-            div.col-4(v-for="(img,key) in feed.img" :key="key" style="height:10rem;" @click.stop="")
+            div.col-4(v-for="(img,key) in feed.img" :key="key" @click.stop="")
               img(:src="`${img}-slim75`" @click="showImg(img)"
               style="object-fit: cover;width:100%;height:100%;" 
               alt="lorem")
@@ -63,9 +77,10 @@
               q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
           q-card-separator
           q-card-main 
-            | {{feed.text}}
+            p(v-for="paragraph in feed.text.split('\\n')")
+              | {{ paragraph }}
           div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
-            div.col-4(v-for="(img,index) in feed.img" :key="index" style="height:20vh;" @click.stop="")
+            div.col-4(v-for="(img,index) in feed.img" :key="index" @click.stop="")
               img(:src="`${img}-slim75`" @click="showImg(img)"
               style="object-fit: cover;width:100%;height:100%;" 
               alt="lorem")
@@ -375,6 +390,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.tree-hole
+  background: #9D50BB;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #6E48AA, #9D50BB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.love
+  background: #FF5F6D;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 @media screen and (max-height: 750px)
   .schedule-container
     height 750px

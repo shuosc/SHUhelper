@@ -4,13 +4,18 @@ import re
 from flask import Blueprint, current_app, jsonify, request
 from UHE.calendar.models import Activity, Event
 from UHE.extensions import redis_store
-from UHE.time import Time
 from .empty_room import EmptyRoom
+from blinker import signal
 
+app_start = signal('app_start')
 empty_room = Blueprint('empty_room', __name__)
 
-classroom_dict = redis_store.get('empty_room:' + Time().term_string())
-find_empty_room = EmptyRoom(classroom_dict)
+# find_empty_room = None
+
+@app_start.connect
+def init_rooms(app):
+    classroom_dict = redis_store.get('empty_room:' + app.school_time.term_string)
+    app.find_empty_room = EmptyRoom(classroom_dict)
 
 
 @empty_room.route('/')
@@ -20,16 +25,14 @@ def findemptyroom():
     day = request.args.get('day')
     course = request.args.get('course')
     if not week or not day or not course:
-        time_tuple = Time().time_tuple()
+        time = current_app.school_time.time
         result = {
             'time': {'campus': '本部',
-                     'year': time_tuple[0],
-                     'term': time_tuple[1],
-                     'week': time_tuple[2],
-                     'day': time_tuple[3],
-                     'course': time_tuple[4]
+                     'week': time.week,
+                     'day': time.day,
+                     'course': time.course
                      },
-            'rooms': find_empty_room.get_emptyroom('本部', int(time_tuple[2]), int(time_tuple[3]), int(time_tuple[4]))
+            'rooms': current_app.find_empty_room.get_emptyroom('本部', int(time.week), int(time.day), int(time.course))
         }
     else:
         result = {
@@ -39,7 +42,7 @@ def findemptyroom():
                 'course': course,
                 'campus': campus
             },
-            'rooms': find_empty_room.get_emptyroom(campus, int(week), int(day), int(course))
+            'rooms': current_app.find_empty_room.get_emptyroom(campus, int(week), int(day), int(course))
         }
     return jsonify(result)
 

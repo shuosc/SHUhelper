@@ -7,7 +7,7 @@ from mongoengine import (BooleanField, DateTimeField, EmailField, DecimalField, 
 
 from UHE.client import Services
 from UHE.extensions import db
-from UHE.comment.models import Comment
+# from UHE.comment.models import Comment
 
 
 class Course(db.Document):
@@ -16,8 +16,8 @@ class Course(db.Document):
     teacher = StringField()
     credit = StringField()
     liked = IntField(default=0)
-    comments = ListField(ReferenceField(
-        Comment, reverse_delete_rule=PULL), default=lambda: [])
+    # comments = ListField(ReferenceField(
+    #     Comment, reverse_delete_rule=PULL), default=lambda: [])
     school = StringField()
     tag = ListField(StringField())
     this_term = BooleanField(default=False)

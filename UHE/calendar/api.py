@@ -1,21 +1,23 @@
 import datetime
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request,current_app
 # from flask_login import current_user.
 from flask.views import MethodView
 from flask_login import current_user, login_required
 from mongoengine.queryset.visitor import Q
+from UHE.calendar.models import Activity, Event
 
-from UHE.calendar.models import Event, Activity
-from UHE.utils import this_course, this_term, this_week
+# from UHE.utils import this_course, this_term, this_week
+from .time import Time
 
 events = Blueprint('events', __name__)
 
 
 @events.route('/now')
 def now():
-    return jsonify(year=this_course(), term=this_term(), week=this_week(), course=this_course())
-
+    time = current_app.school_time.time
+    return jsonify(year=time.year, term=time.term, 
+        week=time.week, course=time.course,day=time.day)
 
 class EventAPI(MethodView):
     decorators = [login_required]

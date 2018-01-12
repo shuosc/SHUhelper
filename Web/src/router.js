@@ -68,6 +68,24 @@ export default new VueRouter({
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
+      path: '/tree-hole',
+      name: 'tree-hole',
+      component: load('TreeHole'),
+      meta: {
+        title: '树洞',
+        disableLayout: true
+      }// children: [{ path: '/', component: load('Schedule') }]
+    },
+    {
+      path: '/love-board',
+      name: 'love-board',
+      component: load('LoveBoard'),
+      meta: {
+        title: '表白墙',
+        disableLayout: true
+      } // children: [{ path: '/', component: load('Schedule') }]
+    },
+    {
       path: '/profile/:id',
       name: 'profile',
       component: Profile,

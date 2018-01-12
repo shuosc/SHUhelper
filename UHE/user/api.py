@@ -8,7 +8,6 @@ from UHE.calendar.models import Activity, Event
 from UHE.client import Services, Fin, Tiyu, SZ
 from UHE.email import send_async_email
 from UHE.extensions import captcha_solver, redis_store
-from UHE.upload import get_avatar
 from UHE.user.models import User, UserData
 from UHE.utils import make_token
 import json

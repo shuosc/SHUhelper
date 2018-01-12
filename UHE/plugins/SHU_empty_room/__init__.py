@@ -6,7 +6,6 @@ from UHE.calendar.models import Activity, Event
 from UHE.extensions import redis_store
 from UHE.plugins import UHEPlugin
 from UHE.plugins.SHU_course.models import CourseOfTerm
-from UHE.time import Time
 import json
 from .empty_room import EmptyRoom
 from .api import empty_room
@@ -86,7 +85,7 @@ class SHUEmptyRoom(UHEPlugin):
     def setup(self, app):
         print('setup', __plugin__)
         current_app.register_blueprint(empty_room, url_prefix='/empty-room')
-        this_term = Time().term_string()
+        this_term = current_app.school_time.term_string
         classroom_dict = redis_store.get('empty_room:' + this_term)
         if classroom_dict is None:
             print('getting _classroom_dict')
@@ -95,7 +94,7 @@ class SHUEmptyRoom(UHEPlugin):
         # find_empty_room = EmptyRoom(classroom_dict)
 
     def install(self, app):
-        this_term = Time().term_string()
+        this_term = current_app.school_time.term_string
         classroom_dict = self.get_classroom_dict(this_term)
         if redis_store.get('empty_room:' + this_term) is not None:
             redis_store.delete('empty_room:' + this_term)

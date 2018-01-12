@@ -23,7 +23,7 @@
       course-time(v-if="$store.state.time.day<=5")
       empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
       course-card
-      sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=15120000")
+      sport-card(v-if="$store.state.user.cardID!==''")
       //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       school-bus
       map-card

@@ -10,15 +10,14 @@ from flask_login import current_user
 from redis import Redis
 from UHE.extensions import celery
 from UHE.calendar.models import Activity, Event
-from UHE.comment.models import Comment
+# from UHE.comment.models import Comment
 from UHE.extensions import admin, plugin_manager
 from UHE.feed.models import Feed
-from UHE.publication.models import Publication
+# from UHE.publication.models import Publication
 from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
 from UHE.user.models import User, UserData
 from UHE.index.models import Link
-from UHE.goods.models import Goods
 from flask import Blueprint
 from UHE.utils import make_token, validate
 from flask_login import logout_user, login_user
@@ -211,12 +210,10 @@ class AnalyticsView(BaseView):
 def configure_admin(app):
     admin.add_view(AnalyticsView(name='Analytics', endpoint='analytics'))
     app.register_blueprint(admin_index, url_prefix='/admin/index')
-    admin.add_view(BasicPrivateModelView(
-        Publication, endpoint='publication-manage'))
+    # admin.add_view(BasicPrivateModelView(
+    #     Publication, endpoint='publication-manage'))
     admin.add_view(BasicPrivateModelView(
         Link, endpoint='link-manage'))
-    admin.add_view(BasicPrivateModelView(
-        Goods, endpoint='goods-manage'))
     admin.add_view(UserDataView(UserData, endpoint='userdata-manage'))
     admin.add_view(PluginView(Plugin, endpoint='plugin-manage'))
     admin.add_view(BasicPrivateModelView(
@@ -227,7 +224,7 @@ def configure_admin(app):
     admin.add_view(BasicPrivateModelView(
         Activity, endpoint='sub-event-manage'))
     admin.add_view(BasicPrivateModelView(Feed, endpoint='feed-manage'))
-    admin.add_view(BasicPrivateModelView(Comment, endpoint='comment-manage'))
+    # admin.add_view(BasicPrivateModelView(Comment, endpoint='comment-manage'))
     # admin.add_view(rediscli.RedisCli(Redis()))
     admin.add_link(NotAuthenticatedMenuLink(name='登录',
                                             endpoint='admin_index.login_view'))

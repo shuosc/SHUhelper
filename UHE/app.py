@@ -3,21 +3,20 @@ from flask import Flask
 from flask_login import current_user
 from UHE.admin.views import configure_admin
 from UHE.calendar.api import events
-from UHE.comment.api import comments
+# from UHE.comment.api import comments
 from UHE.extensions import (admin, allows, babel, cache, celery, db,
                             login_manager, mail, plugin_manager, redis_store,
                             captcha_solver)
 from UHE.feed.api import feeds
 from UHE.message.api import conversations
 from UHE.models import Plugin
-from UHE.upload import upload
 from UHE.user.api import users
 from UHE.user.models import User
-from UHE.publication.api import publications
-from UHE.time.api import time
-from UHE.goods.api import goods
+from UHE.calendar.time import Time
 from UHE.index.api import index
+from blinker import signal
 
+app_start = signal('app_start')
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
     configure_app(app, config)
@@ -29,8 +28,10 @@ def create_app(config=None):
     configure_extensions(app)
     configure_admin(app)
     configure_blueprints(app)
+    
     configure_plugins(app)
     configure_manger_accounts(app)
+    app_start.send(app)
     # configure_tasks(app,celery)
     return app
 
@@ -65,7 +66,7 @@ def configure_manger_accounts(app):
 
 
 def configure_app(app, config):
-    app.config.from_object('UHE.config.DevelopmentConfig')
+    # app.config.from_object('UHE.config.DevelopmentConfig')
     app.config.from_pyfile('config.py', silent=True)
     # try to update the config via the environment variable
     # Parse the env for UHE_ prefixed env variables and set
@@ -103,16 +104,14 @@ def configure_celery_app(app, celery):
 
 
 def configure_blueprints(app):
-    app.register_blueprint(time, url_prefix='/time')
-    app.register_blueprint(goods, url_prefix='/goods')
-    app.register_blueprint(publications, url_prefix='/publications')
+    app.register_blueprint(index, url_prefix='')
+    # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(conversations, url_prefix='/conversations')
-    app.register_blueprint(upload, url_prefix='/upload')
+    # app.register_blueprint(upload, url_prefix='/upload')
     app.register_blueprint(feeds, url_prefix='/feeds')
     app.register_blueprint(events, url_prefix='/events')
-    app.register_blueprint(index, url_prefix='/index')
-    app.register_blueprint(comments, url_prefix='/comments')
+    # app.register_blueprint(comments, url_prefix='/comments')
     # print(app.url_map)
     # pass
 
@@ -149,6 +148,7 @@ def configure_extensions(app):
     allows.identity_loader(lambda: current_user)
     login_manager.init_app(app)
     # Flask-Plugins
+    app.school_time = Time()
     plugin_manager.init_app(app)
 
     # @login_manager.request_loader
