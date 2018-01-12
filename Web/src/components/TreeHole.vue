@@ -169,7 +169,7 @@ random(min, max)
   height 100vh
   margin 0
   overflow hidden
-  position absolute
+  position fixed
   background-image radial-gradient(center, ellipse cover, rgba(39,54,79,1) 0%,rgba(17,17,34,1) 50%,rgba(17,17,34,1) 100%)
   background -moz-radial-gradient(center, ellipse cover, rgba(39,54,79,1) 0%, rgba(17,17,34,1) 50%, rgba(17,17,34,1) 100%)
   background -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(39,54,79,1)), color-stop(50%,rgba(17,17,34,1)), color-stop(100%,rgba(17,17,34,1)))
