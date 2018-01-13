@@ -17,11 +17,11 @@
           q-item-side 登陆
     // <q-list-header>Essential Links</q-list-header>
     div(v-if="$q.platform.is.ios")
-      q-side-link(v-for="link in internalNavigationiOS" :key="link.name" item='', sparse='', :to='link.to', @click.native="handleTitleChange(link.name)")
+      q-side-link(v-for="link in internalNavigationiOS" :key="link.name" item='', sparse='', :to='link.to')
         q-item-side(:icon='link.icon')
         q-item-main(:label='link.name')
     div(v-else)
-      q-side-link(v-for="link in internalNavigationAndroid" :key="link.name" item='', sparse='', :to='link.to', @click.native="handleTitleChange(link.name)")
+      q-side-link(v-for="link in internalNavigationAndroid" :key="link.name" item='', sparse='', :to='link.to')
         q-item-side(:icon='link.icon')
         q-item-main(:label='link.name')
 </template>

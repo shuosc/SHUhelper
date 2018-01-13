@@ -10,6 +10,7 @@ class Time():
         self.refresh()
     
     def refresh(self):
+        self.now = datetime.datetime.now()
         self.year,self.__year_expire = self.get_year()
         self.term,self.__term_expire  = self.get_term()
         self.day = self.get_day()
