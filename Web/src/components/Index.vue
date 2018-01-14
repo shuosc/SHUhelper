@@ -27,6 +27,7 @@
       //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       school-bus
       map-card
+      random-choice
       quote-card
       q-card(flat='')
         q-card-main(style='text-align:center;')
@@ -48,6 +49,7 @@ import IndexMerryChristmas from '@/IndexMerryChristmas'
 import SchoolBus from '@/IndexSchoolBus'
 import MapCard from '@/IndexMapCard'
 import CourseCard from '@/IndexCourseCard'
+import RandomChoice from '@/IndexRandomChoice'
 import { QSpinnerHearts } from 'quasar'
 export default {
   components: {
@@ -60,6 +62,7 @@ export default {
     LeftPanel,
     SportCard,
     SchoolBus,
+    RandomChoice,
     IndexMerryChristmas,
     MapCard,
     QSpinnerHearts
