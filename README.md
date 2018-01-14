@@ -1,14 +1,18 @@
+
+<div  align="center">    
+<img src="logo.png" width = "200" height = "200" alt="SHUhelper" align=center />
+</div>
+
 # SHUhelper v4
 
+[![flask](http://flask.pocoo.org/static/badges/made-with-flask-s.png)](http://flask.pocoo.org/)
 [![codebeat badge](https://codebeat.co/badges/97b9864b-ffc5-497a-a4bd-27d73cc95e46)](https://codebeat.co/projects/github-com-shuopensourcecommunity-shuhelper-master)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![travis ci](https://api.travis-ci.org/shuopensourcecommunity/SHUhelper.svg?branch=master)](https://travis-ci.org/shuopensourcecommunity/SHUhelper)
-[![flask](http://flask.pocoo.org/static/badges/made-with-flask-s.png)](http://flask.pocoo.org/)
 
 > 还在开发中呢，写文档是不可能的，这辈子都写不了文档，只能在commit里卖卖萌这样，勉强过过日子
 
 ## 简介
-
     SHUhelper是一个校园服务平台，集成了整合了已有的校园服务和信息，并在此之上提供更多。
 
 ## 特色
