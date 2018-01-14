@@ -1,9 +1,9 @@
 
 <div  align="center">    
 <img src="logo.png" width = "200" height = "200" alt="SHUhelper" align=center />
+<h3>SHUhelper</h3>
 </div>
 
-# SHUhelper v4
 
 [![flask](http://flask.pocoo.org/static/badges/made-with-flask-s.png)](http://flask.pocoo.org/)
 [![codebeat badge](https://codebeat.co/badges/97b9864b-ffc5-497a-a4bd-27d73cc95e46)](https://codebeat.co/projects/github-com-shuopensourcecommunity-shuhelper-master)
