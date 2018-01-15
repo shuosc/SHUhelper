@@ -7,18 +7,24 @@
             //- p 欢迎来到广场，在这里您可以畅所欲言
             small
               | 欢迎来到广场，在这里您可以畅所欲言
-        div.flex.row.justify-center.text-center
-          q-card.tree-hole.col-xs-5.col-md-4(style="height:4rem;" @click="$router.push('/tree-hole')")
+        q-scroll-area.text-center(style="width: 100vw; height: 5rem;white-space:nowrap;")
+          q-card.news(inline style="height:4rem;width:6.5rem;" @click="$router.push('/news')")
+            div.row.flex.full-height
+              div.col-5.self-center
+                q-icon(name="public" size="2.5rem" color="white")
+              div.col-5.self-center.text-white(style="font-size:1rem;")
+                | 新闻
+          q-card.tree-hole(inline style="height:4rem;width:6.5rem;"  @click="$router.push('/tree-hole')")
             div.row.flex.full-height
               div.col-5.self-center
                 q-icon(name="fa-shu" size="2.5rem" color="white")
-              div.col-5.self-center.text-white(style="font-size:1.1rem;")
+              div.col-5.self-center.text-white(style="font-size:1rem;")
                 | 树洞
-          q-card.love.col-xs-5.col-md-4(style="height:4rem;" @click="$router.push('/love-board')")
+          q-card.love(inline style="height:4rem;width:6.5rem;" @click="$router.push('/love-board')")
             div.row.flex.full-height
               div.col-5.self-center
                 q-icon(name="favorite" size="2.5rem" color="white")
-              div.col-5.self-center.text-white(style="font-size:1.1rem;")
+              div.col-5.self-center.text-white(style="font-size:1rem;")
                 | 表白墙
         q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
           q-card-title.no-padding 
@@ -154,8 +160,11 @@
 </template>
 
 <script>
-import { Toast } from 'quasar'
+import { Toast, QScrollArea } from 'quasar'
 export default {
+  components: {
+    QScrollArea
+  },
   created() {
     // this.resetFeeds()
     // this.getFeeds()
@@ -330,12 +339,16 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
-                  headers: {
-                    Authorization: 'UpToken ' + this.token,
-                    'Content-Type': 'application/octet-stream'
+                .post(
+                  `/upload/putb64/-1/key/${this.key}`,
+                  base64.slice(index),
+                  {
+                    headers: {
+                      Authorization: 'UpToken ' + this.token,
+                      'Content-Type': 'application/octet-stream'
+                    }
                   }
-                })
+                )
                 .then(response => {
                   console.log(response)
                   for (let i in this.uploadImgs) {
@@ -390,28 +403,42 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.tree-hole
-  background: #9D50BB;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB);  /* Chrome 10-25, Safari 5.1-6 */
+.news {
+  background: #4e54c8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.tree-hole {
+  background: #9D50BB; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #6E48AA, #9D50BB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-.love
+}
+
+.love {
   // background: #FF5F6D;  /* fallback for old browsers */
   // background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
   // background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: #E44D26;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #F16529, #E44D26);  /* Chrome 10-25, Safari 5.1-6 */
+  background: #E44D26; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #F16529, #E44D26); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
-@media screen and (max-height: 750px)
-  .schedule-container
-    height 750px
+@media screen and (max-height: 750px) {
+  .schedule-container {
+    height: 750px;
+  }
+}
 
-@media screen and (min-height: 750px)
-  .schedule-container
-    height 100vh
+@media screen and (min-height: 750px) {
+  .schedule-container {
+    height: 100vh;
+  }
+}
 
-img
-  margin-left auto
-  margin-right auto
-  display block
+img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
 </style>

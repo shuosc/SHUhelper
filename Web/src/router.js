@@ -39,6 +39,19 @@ export default new VueRouter({
 
   routes: [
     {
+      path: '/',
+      redirect: '/index',
+      alias: ['index-su', 'home']
+    },
+    {
+      path: '/index',
+      component: Index,
+      name: 'index',
+      meta: {
+        title: '首页'
+      }
+    },
+    {
       path: '/login',
       component: Login,
       name: 'login'
@@ -73,6 +86,15 @@ export default new VueRouter({
       component: load('TreeHole'),
       meta: {
         title: '树洞',
+        disableLayout: true
+      }// children: [{ path: '/', component: load('Schedule') }]
+    },
+    {
+      path: '/news',
+      name: 'news',
+      component: load('News'),
+      meta: {
+        title: '新闻',
         disableLayout: true
       }// children: [{ path: '/', component: load('Schedule') }]
     },
@@ -114,19 +136,6 @@ export default new VueRouter({
       name: 'about',
       meta: {
         title: '关于'
-      }
-    },
-    {
-      path: '/',
-      redirect: '/index'
-    },
-    {
-      path: '/index',
-      component: Index,
-      alias: ['index-su', 'home'],
-      name: 'index',
-      meta: {
-        title: '首页'
       }
     },
     // Always leave this last one

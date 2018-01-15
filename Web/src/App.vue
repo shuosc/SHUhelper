@@ -38,6 +38,7 @@ export default {
     }
   },
   created() {
+    ga.loginUser('00000001')
     this.verifyToken()
     this.getTime()
   },

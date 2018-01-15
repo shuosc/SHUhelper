@@ -65,6 +65,20 @@ module.exports = {
         pathRewrite: {
           '^/upload': ''
         }
+      },
+      '/szapi': {
+        target: 'http://sz.shuhelper.cn',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/szpi': '^/api'
+        }
+      },
+      '/mobile': {
+        target: 'http://api.shu.edu.cn',
+        changeOrigin: true
+        // pathRewrite: {
+        //   '^/api': '^/api'
+        // }
       }
     }
   }
