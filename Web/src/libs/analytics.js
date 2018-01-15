@@ -22,6 +22,6 @@ export default {
     })
   },
   loginUser(id) {
-    ga('set', 'userId', id);
+    // ga('set', 'userId', id);
   }
 }
