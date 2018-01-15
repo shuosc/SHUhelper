@@ -7,20 +7,20 @@
             //- p 欢迎来到广场，在这里您可以畅所欲言
             small
               | 欢迎来到广场，在这里您可以畅所欲言
-        q-scroll-area(style="width: 100%; height: 5rem;white-space:nowrap;")
-          q-card.news.text-center(inline style="height:4rem;min-width:30vw;" @click="$router.push('/news')")
+        q-scroll-area.text-center(style="width: 100%; height: 5rem;white-space:nowrap;overflow:scroll;")
+          q-card.news(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/news')")
             div.row.flex.full-height
               div.col-5.self-center
                 q-icon(name="public" size="2.5rem" color="white")
               div.col-5.self-center.text-white(style="font-size:1rem;")
                 | 新闻
-          q-card.tree-hole.text-center(inline style="height:4rem;min-width:30vw;"  @click="$router.push('/tree-hole')")
+          q-card.tree-hole.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;"  @click="$router.push('/tree-hole')")
             div.row.flex.full-height
               div.col-5.self-center
                 q-icon(name="fa-shu" size="2.5rem" color="white")
               div.col-5.self-center.text-white(style="font-size:1rem;")
                 | 树洞
-          q-card.love.text-center(inline style="height:4rem;min-width:30vw;" @click="$router.push('/love-board')")
+          q-card.love.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/love-board')")
             div.row.flex.full-height
               div.col-5.self-center
                 q-icon(name="favorite" size="2.5rem" color="white")

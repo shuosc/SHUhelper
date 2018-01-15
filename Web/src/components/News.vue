@@ -2,7 +2,7 @@
   <div>
     <q-toolbar color="primary">
       <q-toolbar-title>
-        <q-btn flat round small class="primary" v-go-back="'/index'">
+        <q-btn flat round small class="primary" @click="$router.back()">
           <q-icon name="keyboard_backspace" /></q-btn>
         新闻
       </q-toolbar-title>
