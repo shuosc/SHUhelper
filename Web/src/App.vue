@@ -1,7 +1,7 @@
 <template lang="pug">
   // Don't drop "q-app" class
   div#q-app
-    q-layout(ref="layout" view="hHh Lpr fFf" :left-class="{'bg-grey-2': true}")
+    q-layout(ref="layout" view="lHh Lpr lFf" :left-class="{'bg-grey-2': true}")
       q-toolbar(slot="header" v-if="!$route.meta.disableLayout")
         q-btn(flat @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")

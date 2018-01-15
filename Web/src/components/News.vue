@@ -42,7 +42,7 @@
       <q-btn v-back-to-top v-back-to-top.animate="{offset: 500, duration: 200}" round color="teal-5" class="fixed-bottom-right" style="margin: 0 15px 15px 0">
         <q-icon name="keyboard_arrow_up" />
       </q-btn>
-      <q-modal v-model="open">
+      <q-modal v-model="open" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
         <q-modal-layout>
           <q-toolbar slot="header" inverted>
             <q-btn color="primary" flat @click="open = false">

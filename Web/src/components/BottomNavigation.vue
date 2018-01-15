@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-tabs
+  q-tabs(align="justify")
     q-route-tab(icon="fa-xuexiao" to="/" exact slot="title")
     q-route-tab(icon="fa-filtervintage" to="/square" exact slot="title")
     q-route-tab(icon="fa-calendar1" to="/schedule" exact slot="title")
