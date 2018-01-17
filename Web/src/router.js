@@ -77,7 +77,9 @@ export default new VueRouter({
       name: 'map',
       component: load('Map'),
       meta: {
-        title: '地图'
+        title: '地图',
+        disableBottom: true,
+        disableToolbar: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -86,7 +88,8 @@ export default new VueRouter({
       component: load('TreeHole'),
       meta: {
         title: '树洞',
-        disableLayout: true
+        disableBottom: true,
+        disableToolbar: true
       }// children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -95,7 +98,8 @@ export default new VueRouter({
       component: load('News'),
       meta: {
         title: '新闻',
-        disableLayout: true
+        disableBottom: true,
+        disableToolbar: true
       }// children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -104,7 +108,8 @@ export default new VueRouter({
       component: load('LoveBoard'),
       meta: {
         title: '表白墙',
-        disableLayout: true
+        disableBottom: true,
+        disableToolbar: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -118,7 +123,10 @@ export default new VueRouter({
     {
       path: '/apps',
       name: 'apps',
-      component: Apps
+      component: Apps,
+      meta: {
+        title: '应用'
+      }
       // children: [{ path: '/', component: load('Schedule') }]
     },
     {

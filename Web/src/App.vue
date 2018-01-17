@@ -2,7 +2,7 @@
   // Don't drop "q-app" class
   div#q-app
     q-layout(ref="layout" view="lHh Lpr lFf" :left-class="{'bg-grey-2': true}")
-      q-toolbar(slot="header" v-if="!$route.meta.disableLayout")
+      q-toolbar(slot="header" v-if="!$route.meta.disableToolbar")
         q-btn(flat @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")
         q-toolbar-title {{$route.meta.title}}
@@ -15,7 +15,7 @@
       q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
         router-view
       //</q-scroll-area>
-      div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableLayout")
+      div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableBottom")
         bottom-navigation
 </template>
 

@@ -56,7 +56,9 @@ import Quasar, {
   QSpinnerDots,
   QFixedPosition,
   QField,
+  BackToTop,
   QListHeader,
+  GoBack,
   QItemSeparator
 } from 'quasar'
 Vue.use(Quasar, {
@@ -90,17 +92,34 @@ Vue.use(Quasar, {
     QListHeader,
     QItemSeparator
   },
-  directives: {}
+  directives: {
+    BackToTop,
+    GoBack
+  }
 })
 router.afterEach((to, from) => {
   ga.logPage(to.path, to.name, 'UA-111372547-1')
+  // console.log(history)
 })
 const moment = require('moment')
 require('moment/locale/zh-cn')
 Vue.use(require('vue-moment'), {
   moment
 })
-
+Vue.directive('back', {
+  // 当被绑定的元素插入到 DOM 中时……
+  bind: function (el, binding, vnode) {
+    el.onclick = function () {
+      console.log(binding)
+      console.log(vnode)
+      if (history.length > 1) {
+        router.back()
+      } else {
+        router.push('/index')
+      }
+    }
+  }
+})
 var instance = axios
 if (PROD) {
   instance = axios.create({
@@ -110,12 +129,12 @@ if (PROD) {
   })
 }
 instance.interceptors.response.use(
-  function(response) {
+  function (response) {
     // Do something with response data
     // console.log(response)
     return response
   },
-  function(error) {
+  function (error) {
     // console.log('err from interceptor', error)
     if (error.response.status === 401) {
       // console.log('401 err', store)
@@ -160,7 +179,7 @@ import 'quasar-extras/material-icons'
 // import 'quasar-extras/ionicons'
 // import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
-Vue.filter('cnNum', function(value) {
+Vue.filter('cnNum', function (value) {
   value = value.toString()
   let map = {
     '1': '一',
@@ -175,7 +194,7 @@ Vue.filter('cnNum', function(value) {
   }
   return map[value]
 })
-Vue.filter('term', function(value) {
+Vue.filter('term', function (value) {
   let map = {
     '1': '秋',
     '2': '冬',
@@ -189,7 +208,9 @@ Vue.filter('term', function(value) {
   // console.log(map[value[5]])
   return `${year}-${year + 1}${map[value[5]]}`
 })
-import { Field } from 'mint-ui'
+import {
+  Field
+} from 'mint-ui'
 Vue.component(Field.name, Field)
 Quasar.start(() => {
   /* eslint-disable no-new */

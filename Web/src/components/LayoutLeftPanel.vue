@@ -34,15 +34,17 @@ export default {
     return {
       internalNavigationAndroid: [
         { to: '/index', icon: 'fa-xuexiao', name: '首页' },
+        { to: '/apps', icon: 'explore', name: '应用' },
         { to: '/square', icon: 'fa-filtervintage', name: '广场' },
-        // { to: '/apps', icon: 'fa-xuexiao', name: '应用' },
         { to: '/schedule', icon: 'fa-calendar1', name: '日程' },
+
         { to: '/about', icon: 'info', name: '关于' }
         // { to: '/message', icon: 'fa-xuexiao', name: '消息' },
         // { to: '/config', icon: 'fa-xuexiao', name: '设置  ' }
       ],
       internalNavigationiOS: [
         { to: '/index', icon: 'fa-xuexiao', name: '首页' },
+        { to: '/apps', icon: 'explore', name: '应用' },
         { to: '/square', icon: 'fa-filtervintage', name: '广场' },
         { to: '/schedule', icon: 'fa-calendar1', name: '日程' },
         { to: '/about', icon: 'info', name: '关于' }

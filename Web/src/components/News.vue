@@ -1,9 +1,9 @@
 <template>
   <div>
     <q-toolbar color="primary">
-      <q-toolbar-title>
-        <q-btn flat round small class="primary" @click="$router.back()">
+      <q-btn slot="left" flat round small class="primary" v-go-back="'/square'">
           <q-icon name="keyboard_backspace" /></q-btn>
+      <q-toolbar-title>
         新闻
       </q-toolbar-title>
     </q-toolbar>

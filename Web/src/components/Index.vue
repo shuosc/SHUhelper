@@ -5,6 +5,7 @@
         q-card-main
           q-icon(name='room')
             | 宝山
+      //- <q-gallery-carousel :src="slider"></q-gallery-carousel>
       q-card.namecard
         q-card-main
           q-item
@@ -17,23 +18,24 @@
         q-card-title.text-center.full-width.no-margin(flat style="padding-bottom:0;")
           q-icon(name="card_giftcard")
           | 圣诞快乐&元旦快乐
-        index-merry-christmas
+        index-merry-christmas 
         q-btn.full-width(@click="$router.push('/2018')")
           | 写下你的新年愿望
       course-time(v-if="$store.state.time.day<=5")
       empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
       course-card
       sport-card(v-if="$store.state.user.cardID!==''")
+      //- navigator-card
       //- sport-card(v-if="$store.state.user.cardID!=='' && parseInt($store.state.user.cardID)>=16120000")
       school-bus
       map-card
       random-choice
-      quote-card
+      //- quote-card
       q-card(flat='')
         q-card-main(style='text-align:center;')
           //- img(src="https://forthebadge.com/images/badges/built-with-love.svg")
           //- br
-          small(style='color:grey;') 2017 SHU OpenSourceCommnuity
+          small(style='color:grey;') 2018 SHU OpenSourceCommnuity
 
 </template>
 
@@ -50,7 +52,9 @@ import SchoolBus from '@/IndexSchoolBus'
 import MapCard from '@/IndexMapCard'
 import CourseCard from '@/IndexCourseCard'
 import RandomChoice from '@/IndexRandomChoice'
+import NavigatorCard from '@/IndexNavigator'
 import { QSpinnerHearts } from 'quasar'
+// q-gallery-carousel
 export default {
   components: {
     Weather,
@@ -64,6 +68,7 @@ export default {
     SchoolBus,
     RandomChoice,
     IndexMerryChristmas,
+    NavigatorCard,
     MapCard,
     QSpinnerHearts
   },
@@ -85,10 +90,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.namecard
-  transform translateZ(0)
-  opacity 0.9
+.namecard {
+  transform: translateZ(0);
+  opacity: 0.9;
   // background #EDE574 /* fallback for old browsers */
   // background -webkit-linear-gradient(to left, #E1F5C4, #EDE574) /* Chrome 10-25, Safari 5.1-6 */
   // background linear-gradient(to left, #E1F5C4, #EDE574) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 </style>

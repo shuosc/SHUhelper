@@ -4,8 +4,11 @@
       q-card-title.text-center
         | SHUhelper V4
       q-card-main
+        blockquote.light-paragraph.text-center
+          | helper在手 校园无忧
         p.light-paragraph
           | SHUhelper 是设立于16年9月1日的网站，旨在让所有人的生活更加便利。
+
         //- p
           | 目前，您可以通过有效的校园一卡通和一卡通密码使用本应用的服务，您的数据都经过您的密码加密，您的数据没有泄漏的风险。
         p
@@ -39,7 +42,7 @@
           small(style='color:grey;')
             | 上海大学开源社区 
             br
-            | 2017 SHU OpenSourceCommnuity
+            | 2018 SHU OpenSourceCommnuity
             
 </template>
 <script>
