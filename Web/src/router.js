@@ -14,6 +14,7 @@ import Square from '@/Square'
 import Apps from '@/Apps'
 import Schedule from '@/Schedule'
 import Index from '@/Index'
+import FeedDetail from '@/FeedDetail'
 // import Map from '@/Map'
 export default new VueRouter({
   /*
@@ -85,7 +86,7 @@ export default new VueRouter({
     {
       path: '/tree-hole',
       name: 'tree-hole',
-      component: load('TreeHole'),
+      component: () => import(`@/TreeHole.vue`),
       meta: {
         title: '树洞',
         disableBottom: true,
@@ -117,7 +118,19 @@ export default new VueRouter({
       name: 'profile',
       component: Profile,
       meta: {
-        title: '个人资料'
+        title: '个人资料',
+        disableBottom: true,
+        disableToolbar: true
+      }
+    },
+    {
+      path: '/feeds/:id',
+      name: 'feed',
+      component: FeedDetail,
+      meta: {
+        title: '查看详情',
+        disableBottom: true,
+        disableToolbar: true
       }
     },
     {

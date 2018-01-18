@@ -1,5 +1,12 @@
 <template lang="pug">
   q-pull-to-refresh(:handler='refresher')
+    <q-toolbar color="primary">
+      <q-btn slot="left" flat round small class="primary" v-back>
+          <q-icon name="keyboard_backspace" /></q-btn>
+      <q-toolbar-title>
+        | 个人资料
+      </q-toolbar-title>
+    </q-toolbar>
     .flex.column.items-center.no-wrap
       q-card.no-margin(flat='', color='primary', style='text-align:center;height:40vh;width:100vw;')
         q-card-main
@@ -102,16 +109,12 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(
-                  `/upload/putb64/-1/key/${this.key}`,
-                  base64.slice(index),
-                  {
-                    headers: {
-                      Authorization: 'UpToken ' + this.token,
-                      'Content-Type': 'application/octet-stream'
-                    }
+                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
+                  headers: {
+                    Authorization: 'UpToken ' + this.token,
+                    'Content-Type': 'application/octet-stream'
                   }
-                )
+                })
                 .then(response => {
                   if (this.img.url === response.data.key) {
                     this.img.status = 'success'
@@ -156,13 +159,11 @@ export default {
       })
     },
     onThemeChange() {
-      this.$http
-        .get(`/api/users/set-custom-theme?theme=${this.theme}`)
-        .then(response => {
-          this.$store.commit('showSnackbar', { text: `更换主题成功` })
-          this.themeDialog = false
-          this.$store.commit('changeTheme', this.theme)
-        })
+      this.$http.get(`/api/users/set-custom-theme?theme=${this.theme}`).then(response => {
+        this.$store.commit('showSnackbar', { text: `更换主题成功` })
+        this.themeDialog = false
+        this.$store.commit('changeTheme', this.theme)
+      })
     }
   }
 }

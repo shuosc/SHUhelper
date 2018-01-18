@@ -16,6 +16,7 @@ const state = {
         locale: '本部'
       }
     },
+    feeds: [],
     ui: {
       toolbarVisible: true,
       bottomNavigationVisible: true,
@@ -48,7 +49,26 @@ const state = {
       states: []
     }
   },
+  getters: {
+    feeds: state => {
+      return state.feeds
+    }
+  },
   mutations: {
+    addFeed(state, payload) {
+      state.feeds.push(payload)
+    },
+    cancelFeedLike(state, index) {
+      state.feeds[index].likecount -= 1
+      state.feeds[index].liked = false
+    },
+    clickFeedLike(state, index) {
+      state.feeds[index].likecount += 1
+      state.feeds[index].liked = true
+    },
+    clearFeeds(state) {
+      state.feeds = []
+    },
     updateToolBar(state, payload) {
       state.toolbar = payload
     },

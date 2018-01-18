@@ -13,7 +13,8 @@
         // <router-view  name="left"/>
       // <q-scroll-area style="width: 100%; height: 100%;">
       q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
-        router-view
+        navigation
+          router-view
       //</q-scroll-area>
       div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableBottom")
         bottom-navigation

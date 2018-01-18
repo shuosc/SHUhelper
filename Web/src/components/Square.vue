@@ -14,6 +14,12 @@
                 q-icon(name="public" size="2.5rem" color="white")
               div.col-5.self-center.text-white(style="font-size:1rem;")
                 | 新闻
+          //- q-card.news(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/news')")
+            div.row.flex.full-height
+              div.col-5.self-center
+                q-icon(name="public" size="2.5rem" color="white")
+              div.col-5.self-center.text-white(style="font-size:1rem;")
+                | 活动
           q-card.tree-hole.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;"  @click="$router.push('/tree-hole')")
             div.row.flex.full-height
               div.col-5.self-center
@@ -28,7 +34,7 @@
                 | 表白墙
         q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
           q-card-title.no-padding 
-          q-item(dense)
+          q-item(dense @click.stop="$router.push(`/profile/${feed.user.cardID}`)")
             q-item-side
               q-item-tile(avatar)
                 img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
@@ -65,64 +71,6 @@
                     | {{ comment.text }}
         div.text-center(slot="message")
           q-spinner-dots( :size="40")
-    q-modal(ref="feedModal" maximized)
-      q-modal-layout
-        q-toolbar(slot="header" color="primary")
-          q-btn(color="white" flat @click="$refs.feedModal.close()")
-            q-icon(name="close")
-          q-toolbar-title
-              | 详情
-        q-card(flat style="margin:1rem 0 0 0")
-          q-card-title.no-padding 
-          q-item(dense)
-            q-item-side
-              q-item-tile(avatar)
-                img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
-            q-item-main
-              q-item-tile(label) {{feed.user.name}}
-              q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
-          q-card-separator
-          q-card-main 
-            p(v-for="paragraph in feed.text.split('\\n')")
-              | {{ paragraph }}
-          div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
-            div.col-4(v-for="(img,index) in feed.img" :key="index" @click.stop="")
-              img(:src="`${img}-slim75`" @click="showImg(img)"
-              style="object-fit: cover;width:100%;height:100%;" 
-              alt="lorem")
-          q-card-separator
-          q-card-actions
-            div.full-width
-              q-btn.pull-right(flat)
-                q-icon(name="comment")
-                span(style="color:grey;font-size:1rem;")
-                  | {{feed.comments.length}}
-              q-btn.pull-right( :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(currentIndex)")
-                q-icon(name="favorite")
-                span(style="color:grey;font-size:1rem;")
-                  | {{feed.likecount}}
-        q-list
-          q-list-header(v-if="feed.comments.length > 0") 共有{{feed.comments.length}}条评论
-          q-item-separator
-          q-card(flat v-for="(comment,index) in feed.comments" :key="index" style="margin:1rem 0 0 0")
-            q-card-title.no-padding 
-            q-item(dense)
-              q-item-side
-                q-item-tile(avatar)
-                  img(:src="`https://static.shuhelper.cn/${comment.user.avatar}`")
-              q-item-main
-                q-item-tile(label) {{comment.user.name}}
-                q-item-tile(sublabel)  {{[comment.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
-              q-item-side(:stamp="`\#${index+1}`")
-            q-card-separator
-            q-card-main 
-              | {{comment.text}}
-          q-list-header 没有更多评论
-        q-toolbar(slot="footer" color="white")
-          q-toolbar-title
-            mt-field(placeholder="请输入评论" v-model="comment")
-          q-btn(flat color="primary" @click="publishComment(feed.id)")
-            q-icon(name="send")
     q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
       q-card.no-margin(flat v-if="imgLoading" style="min-height:100px;min-width:100px;")
         q-inner-loading(:visible="imgLoading")
@@ -164,6 +112,7 @@
 
 <script>
 import { Toast, QScrollArea, QInnerLoading, QSpinnerGears } from 'quasar'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     QScrollArea,
@@ -181,6 +130,7 @@ export default {
     next()
   },
   computed: {
+    ...mapGetters(['feeds']),
     imgs: function() {
       let img = []
       for (let i in this.uploadImgs) {
@@ -196,7 +146,7 @@ export default {
           img: [],
           text: '',
           user: {
-            avatar: '',
+            avatar: 'avatar_default.jpg',
             name: ''
           },
           comments: [],
@@ -212,7 +162,7 @@ export default {
   data() {
     return {
       comment: '',
-      feeds: [],
+      // feeds: [],
       uploadImgs: [],
       text: '',
       token: '',
@@ -224,35 +174,23 @@ export default {
   },
   methods: {
     imgLoad() {
-      console.log('img loaded')
       this.imgLoading = false
     },
     showImg(img) {
+      if (this.img !== img) {
+        this.imgLoading = true
+      }
       this.img = img
-      this.imgLoading = true
       this.$refs.imgModal.open()
     },
     onLikeClick(index) {
       let id = this.feeds[index].id
       this.$http.get(`/api/feeds/${id}/like`)
       if (this.feeds[index].liked) {
-        this.feeds[index].likecount -= 1
-        this.feeds[index].liked = false
+        this.$store.commit('cancelFeedLike', index)
       } else {
-        this.feeds[index].likecount += 1
-        this.feeds[index].liked = true
+        this.$store.commit('clickFeedLike', index)
       }
-    },
-    publishComment(feedID) {
-      if (this.comment === '') return
-      this.$http
-        .put(`/api/feeds/${this.feed.id}`, {
-          text: this.comment
-        })
-        .then(response => {
-          this.comment = ''
-          this.getFeed(feedID)
-        })
     },
     getFeed(feedID) {
       this.$http.get(`/api/feeds/${this.feed.id}`).then(response => {
@@ -270,15 +208,16 @@ export default {
     },
     refresher(done) {
       this.currentIndex = -1
-      this.feeds = []
+      this.$store.commit('clearFeeds')
       this.$refs.infiniteScroll.reset()
       this.$refs.infiniteScroll.resume()
       done()
     },
     onFeedClick(index) {
-      this.currentIndex = index
-      this.$refs.feedModal.open()
-      // this.$router.push(`/feed-detail/${this.feed.id}`)
+      // this.currentIndex = index
+      // this.$refs.feedModal.open()
+      this.$router.push(`/feeds/${this.feeds[index].id}?index=${index}`)
+      console.log('on feed click' + this.feeds[index].id)
     },
     onFeedDelete(index) {
       this.feeds.splice(index, 1)
@@ -314,9 +253,10 @@ export default {
             feed.img = feed.img.map(x => {
               return 'https://static.shuhelper.cn/' + x
             })
-            this.feeds.push(feed)
+            this.$store.commit('addFeed', feed)
+            // this.feeds.push(feed)
           }
-          console.log('loaded')
+          // console.log('loaded')
           done()
         })
         .catch(error => {

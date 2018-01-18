@@ -18,15 +18,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
-Vue.use(Vuelidate)
+import Navigation from 'libs/Nav'
 import VueAMap from 'vue-amap'
-Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  key: 'ad8f18c4339cb057e3290e15c0bf3ce7',
-  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.Geolocation', 'AMap.ControlBar'],
-  uiVersion: '1.0'
-})
-Vue.prototype.$map = VueAMap
 import ga from 'libs/analytics.js'
 import Quasar, {
   Toast,
@@ -61,6 +54,29 @@ import Quasar, {
   GoBack,
   QItemSeparator
 } from 'quasar'
+if (__THEME === 'mat') {
+  require('quasar-extras/roboto-font')
+}
+import 'quasar-extras/material-icons'
+// import 'quasar-extras/ionicons'
+// import 'quasar-extras/fontawesome'
+import 'quasar-extras/animate'
+import {
+  Field
+} from 'mint-ui'
+
+Vue.component(Field.name, Field)
+
+Vue.use(Vuelidate)
+
+Vue.use(VueAMap)
+VueAMap.initAMapApiLoader({
+  key: 'ad8f18c4339cb057e3290e15c0bf3ce7',
+  plugin: ['AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.Geolocation', 'AMap.ControlBar'],
+  uiVersion: '1.0'
+})
+Vue.prototype.$map = VueAMap
+
 Vue.use(Quasar, {
   components: {
     QBtn,
@@ -97,71 +113,12 @@ Vue.use(Quasar, {
     GoBack
   }
 })
+
 router.afterEach((to, from) => {
   ga.logPage(to.path, to.name, 'UA-111372547-1')
   // console.log(history)
 })
-const moment = require('moment')
-require('moment/locale/zh-cn')
-Vue.use(require('vue-moment'), {
-  moment
-})
-Vue.directive('back', {
-  // 当被绑定的元素插入到 DOM 中时……
-  bind: function (el, binding, vnode) {
-    el.onclick = function () {
-      console.log(binding)
-      console.log(vnode)
-      if (history.length > 1) {
-        router.back()
-      } else {
-        router.push('/index')
-      }
-    }
-  }
-})
-var instance = axios
-if (PROD) {
-  instance = axios.create({
-    baseURL: 'https://www.shuhelper.cn/',
-    timeout: 30000
-    // headers: { 'X-Custom-Header': 'foobar' }
-  })
-}
-instance.interceptors.response.use(
-  function (response) {
-    // Do something with response data
-    // console.log(response)
-    return response
-  },
-  function (error) {
-    // console.log('err from interceptor', error)
-    if (error.response.status === 401) {
-      // console.log('401 err', store)
-      // store.commit('showSnackbar', {
-      //   text: `需要先登录`
-      // })
-      // console.log(router.history)
-      Toast.create(`需要先登录`)
-      if (router.history.current.fullPath !== '/login') {
-        router.push('/login?redirect=' + router.history.current.fullPath)
-      }
-      // store.commit('showLoginDialog')
-    }
-    return Promise.reject(error)
-  }
-)
-Vue.filter('two_digits', value => {
-  if (value < 0) {
-    return '00'
-  }
-  if (value.toString().length <= 1) {
-    return `0${value}`
-  }
-  return value
-})
-Vue.prototype.$http = instance
-// ...
+
 
 Vue.use(Vuex)
 const store = new Vuex.Store(state)
@@ -172,13 +129,62 @@ Vue.prototype.$UHE = {
   appName: 'SHUhelper',
   schoolName: '上海大学'
 }
-if (__THEME === 'mat') {
-  require('quasar-extras/roboto-font')
+
+Vue.use(Navigation, { router, store })
+
+const moment = require('moment')
+require('moment/locale/zh-cn')
+Vue.use(require('vue-moment'), {
+  moment
+})
+
+
+var instance = axios
+if (PROD) {
+  instance = axios.create({
+    baseURL: 'https://www.shuhelper.cn/',
+    timeout: 30000
+    // headers: { 'X-Custom-Header': 'foobar' }
+  })
 }
-import 'quasar-extras/material-icons'
-// import 'quasar-extras/ionicons'
-// import 'quasar-extras/fontawesome'
-import 'quasar-extras/animate'
+Vue.directive('back', {
+  bind: function (el, binding, vnode) {
+    el.onclick = function () {
+      if (history.length > 1) {
+        router.go(-1)
+      } else {
+        router.push('/index')
+      }
+    }
+  }
+})
+instance.interceptors.response.use(
+  function (response) {
+    return response
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      Toast.create(`需要先登录`)
+      if (router.history.current.fullPath !== '/login') {
+        router.push('/login?redirect=' + router.history.current.fullPath)
+      }
+    }
+    return Promise.reject(error)
+  }
+)
+Vue.prototype.$http = instance
+
+Vue.filter('two_digits', value => {
+  if (value < 0) {
+    return '00'
+  }
+  if (value.toString().length <= 1) {
+    return `0${value}`
+  }
+  return value
+})
+
+
 Vue.filter('cnNum', function (value) {
   value = value.toString()
   let map = {
@@ -208,10 +214,7 @@ Vue.filter('term', function (value) {
   // console.log(map[value[5]])
   return `${year}-${year + 1}${map[value[5]]}`
 })
-import {
-  Field
-} from 'mint-ui'
-Vue.component(Field.name, Field)
+
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({

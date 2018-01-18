@@ -1,8 +1,8 @@
 <template>
   <div>
     <q-toolbar color="primary">
-      <q-btn slot="left" flat round small class="primary" v-go-back="'/square'">
-          <q-icon name="keyboard_backspace" /></q-btn>
+      <q-btn slot="left" flat round small class="primary" v-back>
+        <q-icon name="keyboard_backspace" /></q-btn>
       <q-toolbar-title>
         新闻
       </q-toolbar-title>
@@ -67,15 +67,7 @@
 
 <script>
 import NewsCard from '@/NewsCard.vue'
-import {
-  QTabs,
-  QTab,
-  QTabPane,
-  QSpinnerGears,
-  QInnerLoading,
-  BackToTop,
-  GoBack
-} from 'quasar'
+import { QTabs, QTab, QTabPane, QSpinnerGears, QInnerLoading, BackToTop, GoBack } from 'quasar'
 export default {
   components: {
     NewsCard,
