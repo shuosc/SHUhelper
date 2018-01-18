@@ -124,7 +124,10 @@
           q-btn(flat color="primary" @click="publishComment(feed.id)")
             q-icon(name="send")
     q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
-      img.responsive(:src="img")
+      q-card.no-margin(flat v-if="imgLoading" style="min-height:100px;min-width:100px;")
+        q-inner-loading(:visible="imgLoading")
+          q-spinner-gears(size="50px" color="primary")
+      img.responsive(:src="img" v-show="!imgLoading" @load="imgLoad")
     q-modal(ref="modal" maximized)
       q-modal-layout
         q-toolbar(slot="header" color="primary")
@@ -160,10 +163,12 @@
 </template>
 
 <script>
-import { Toast, QScrollArea } from 'quasar'
+import { Toast, QScrollArea, QInnerLoading, QSpinnerGears } from 'quasar'
 export default {
   components: {
-    QScrollArea
+    QScrollArea,
+    QInnerLoading,
+    QSpinnerGears
   },
   created() {
     // this.resetFeeds()
@@ -213,12 +218,18 @@ export default {
       token: '',
       key: '',
       img: '',
+      imgLoading: false,
       currentIndex: -1
     }
   },
   methods: {
+    imgLoad() {
+      console.log('img loaded')
+      this.imgLoading = false
+    },
     showImg(img) {
       this.img = img
+      this.imgLoading = true
       this.$refs.imgModal.open()
     },
     onLikeClick(index) {
@@ -339,16 +350,12 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(
-                  `/upload/putb64/-1/key/${this.key}`,
-                  base64.slice(index),
-                  {
-                    headers: {
-                      Authorization: 'UpToken ' + this.token,
-                      'Content-Type': 'application/octet-stream'
-                    }
+                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
+                  headers: {
+                    Authorization: 'UpToken ' + this.token,
+                    'Content-Type': 'application/octet-stream'
                   }
-                )
+                })
                 .then(response => {
                   console.log(response)
                   for (let i in this.uploadImgs) {
@@ -403,42 +410,34 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.news {
-  background: #4e54c8; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+.news
+  background #4e54c8 /* fallback for old browsers */
+  background -webkit-linear-gradient(to right, #8f94fb, #4e54c8) /* Chrome 10-25, Safari 5.1-6 */
+  background linear-gradient(to right, #8f94fb, #4e54c8) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-.tree-hole {
-  background: #9D50BB; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #6E48AA, #9D50BB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+.tree-hole
+  background #9D50BB /* fallback for old browsers */
+  background -webkit-linear-gradient(to right, #6E48AA, #9D50BB) /* Chrome 10-25, Safari 5.1-6 */
+  background linear-gradient(to right, #6E48AA, #9D50BB) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-.love {
+.love
   // background: #FF5F6D;  /* fallback for old browsers */
   // background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
   // background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: #E44D26; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #F16529, #E44D26); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+  background #E44D26 /* fallback for old browsers */
+  background -webkit-linear-gradient(to right, #F16529, #E44D26) /* Chrome 10-25, Safari 5.1-6 */
+  background linear-gradient(to right, #F16529, #E44D26) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-@media screen and (max-height: 750px) {
-  .schedule-container {
-    height: 750px;
-  }
-}
+@media screen and (max-height: 750px)
+  .schedule-container
+    height 750px
 
-@media screen and (min-height: 750px) {
-  .schedule-container {
-    height: 100vh;
-  }
-}
+@media screen and (min-height: 750px)
+  .schedule-container
+    height 100vh
 
-img {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
+img
+  margin-left auto
+  margin-right auto
+  display block
 </style>
