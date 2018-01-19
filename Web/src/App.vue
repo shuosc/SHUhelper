@@ -123,6 +123,7 @@ body {
   height: 100%;
   width: 100%;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .router-backward-enter-active,
 .router-forward-enter-active,
