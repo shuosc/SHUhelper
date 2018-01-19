@@ -11,21 +11,21 @@ courses = Blueprint('courses', __name__)
 def migrate():
     if current_user.role != 'superadmin':
         abort(401)
-    for course in Course.objects.no_dereference():
-        if type(course.liked) == type(1):
-            course.liked = []
-        print(course.teacher.id)
-        teacher = Teacher.objects(name=course.teacher.id).first()
+    for course_of_term in CourseOfTerm.objects.no_dereference():
         try:
-            if teacher is None:
-                teacher = Teacher.objects(name=course.teacher.id[:-1]).first()
-            if teacher is None:
-                teacher = Teacher(name=course.teacher.id,no=course.teacher.id)
-                teacher.save()
-            course.teacher = teacher
-            course.save()
+            course = course_of_term.course
+            teacher = course.teacher
+            if teacher.name[-1] == ')':
+                course_of_term.delete()
         except:
-            continue
+            course_of_term.delete()
+    for course in Course.objects.no_dereference():
+        try:
+            teacher = course.teacher
+            if teacher.name[-1] == ')':
+                course.delete()
+        except:
+            course.delete()
     return jsonify(success='ok')
 
 @courses.route('/manage/update-teachers')

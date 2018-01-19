@@ -82,7 +82,7 @@ def save_courses(courselist, term):
             if name is None:
                 teacher = Teacher(name=name,no=course['teacher'])
                 teacher.save()
-            course['teacher'] = teacher
+        course['teacher'] = teacher
         course_db = Course.objects(
             no=course['no'], teacher=course['teacher']).first()
         if course_db is None:
