@@ -120,14 +120,14 @@ export default {
 <style>
 html,
 body {
-  height: 100%;
-  width: 100%;
-  overflow: auto;
+  /* height: 100%; */
+  /* width: 100%; */
+  /* overflow: auto; */
   -webkit-overflow-scrolling: touch;
 }
-#q-app {
+/* #q-app {
   height: 100%;
-}
+} */
 .router-backward-enter-active,
 .router-forward-enter-active,
 .router-backward-leave-active,
