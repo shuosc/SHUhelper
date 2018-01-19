@@ -4,10 +4,11 @@
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
+    <preference name="DisallowOverscroll" value="true" />
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
+    <content src="http://localhost:8080" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -24,5 +25,5 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <engine name="ios" spec="^4.5.4" />
-    <engine name="android" spec="~7.0.0" />
+    <engine name="android" spec="^7.0.0" />
 </widget>
