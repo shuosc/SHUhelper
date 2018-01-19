@@ -223,7 +223,8 @@ export default {
       this.feeds.splice(index, 1)
     },
     publish() {
-      if (this.text === '') {
+      if (this.text === '' && this.imgs.length === 0) {
+        Toast.create('内容不能为空')
         return
       }
       this.$http

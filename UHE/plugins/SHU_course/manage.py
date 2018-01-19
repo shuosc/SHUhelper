@@ -20,9 +20,7 @@ def get_xk(url):
     courselist = get_latest_course(url)
     save_courses(courselist, term)
 
-
-def get_teachers():
-    url = 'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid='
+def get_teacher(url,no):
     convert = {
         '姓名:': 'name',
         '性别:': 'sex',
@@ -33,44 +31,32 @@ def get_teachers():
         '工号:': 'no',
         '自我简介': 'intro'
     }
+    p_url = url + str(no)
+    r = requests.get(p_url)
+    soup = BeautifulSoup(r.text, "html.parser")
+    table = soup.table
+    if table is None:
+        return
+    teacher = {}
+    tds = iter(table.find_all('td'))
+    for td in tds:
+        text = td.text.strip()
+        if text in convert.keys():
+            td = next(tds)
+            key = convert[text]
+            teacher[key] = td.text.strip()
+    teacher = Teacher(**teacher)
+    print('saving', teacher)
+    teacher.save()
+
+def get_teachers():
+    url = 'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid='
     for no in range(10000000, 10010620):
         print('getting no:', no)
-        p_url = url + str(no)
-        r = requests.get(p_url)
-        soup = BeautifulSoup(r.text, "html.parser")
-        table = soup.table
-        if table is None:
-            continue
-        teacher = {}
-        tds = iter(table.find_all('td'))
-        for td in tds:
-            text = td.text.strip()
-            if text in convert.keys():
-                td = next(tds)
-                key = convert[text]
-                teacher[key] = td.text.strip()
-        teacher = Teacher(**teacher)
-        print('saving', teacher)
-        teacher.save()
-    for no in range(61000000,61005000):
+        get_teacher(url,no)
+    for no in range(61000000, 61005000):
         print('getting no:', no)
-        p_url = url + str(no)
-        r = requests.get(p_url)
-        soup = BeautifulSoup(r.text, "html.parser")
-        table = soup.table
-        if table is None:
-            continue
-        teacher = {}
-        tds = iter(table.find_all('td'))
-        for td in tds:
-            text = td.text.strip()
-            if text in convert.keys():
-                td = next(tds)
-                key = convert[text]
-                teacher[key] = td.text.strip()
-        teacher = Teacher(**teacher)
-        print('saving', teacher)
-        teacher.save()
+        get_teacher(url, no)
 
 
 def save_courses(courselist, term):
@@ -79,8 +65,14 @@ def save_courses(courselist, term):
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tag')
         }
         if course['teacher'][0] == '1':
-            course['teacher'] = Teacher.objects(no=course['teacher']).first()
-            assert course['teacher'] is not None
+            teacher = Teacher.objects(no=course['teacher']).first()
+            if teacher is None:
+                get_teacher(
+                    'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid=', course['teacher'])
+                teacher = Teacher.objects(no=course['teacher']).first()
+            if teacher is None:
+                teacher = Teacher(name=name, no=course['teacher'])
+                teacher.save()
         else:
             name = course['teacher']
             teacher = Teacher.objects(name=course['teacher']).first()
