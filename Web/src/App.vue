@@ -125,6 +125,9 @@ body {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
+#q-app {
+  height: 100%;
+}
 .router-backward-enter-active,
 .router-forward-enter-active,
 .router-backward-leave-active,

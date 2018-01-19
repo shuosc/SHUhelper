@@ -2089,6 +2089,10 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "http://registry.npm.taobao.org/fast-levenshtein/download/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
+fastclick@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/fastclick/-/fastclick-1.0.6.tgz#161625b27b1a5806405936bda9a2c1926d06be6a"
+
 fastparse@^1.1.1:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/fastparse/download/fastparse-1.1.1.tgz#d1e2643b38a94d7583b479060e6c4affc94071f8"
@@ -4992,12 +4996,6 @@ vue-moment@^3.1.0:
   dependencies:
     moment "^2.11.1"
 
-vue-pull-to@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/vue-pull-to/-/vue-pull-to-0.1.6.tgz#07688e6ae062a94041bd78ac6d59fdc0eb060dc5"
-  dependencies:
-    vue "^2.2.6"
-
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "http://registry.npm.taobao.org/vue-router/download/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
@@ -5020,11 +5018,7 @@ vue-template-es2015-compiler@^1.6.0:
   version "1.6.0"
   resolved "http://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.6.0.tgz#dc42697133302ce3017524356a6c61b7b69b4a18"
 
-vue-waterfall@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/vue-waterfall/-/vue-waterfall-1.0.6.tgz#00324a8f97f449bf6f8cdebb4974b60cffac9eed"
-
-vue@^2.2.6, vue@^2.5.0:
+vue@^2.5.0:
   version "2.5.11"
   resolved "http://registry.npm.taobao.org/vue/download/vue-2.5.11.tgz#80ca2657aa81f03545cd8dd5a2f55454641e6405"
 

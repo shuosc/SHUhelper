@@ -21,6 +21,7 @@ import Vuelidate from 'vuelidate'
 import Navigation from 'libs/Nav'
 import VueAMap from 'vue-amap'
 import ga from 'libs/analytics.js'
+import FastClick from 'fastclick'
 import Quasar, {
   Toast,
   QBtn,
@@ -76,6 +77,8 @@ VueAMap.initAMapApiLoader({
   uiVersion: '1.0'
 })
 Vue.prototype.$map = VueAMap
+
+FastClick.attach(document.body)
 
 Vue.use(Quasar, {
   components: {
