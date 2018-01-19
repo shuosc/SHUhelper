@@ -118,6 +118,12 @@ export default {
 </script>
 
 <style>
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
 .router-backward-enter-active,
 .router-forward-enter-active,
 .router-backward-leave-active,
