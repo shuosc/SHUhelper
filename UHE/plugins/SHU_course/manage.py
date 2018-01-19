@@ -213,7 +213,7 @@ def get_latest_course(url):
             teachno = cells[3].get_text(strip=True)
             teachid = cells[4].get('onclick')
             if teachid is not None:
-                teachname = teachid
+                teachname = teachid[-10:-2]
             else:
                 teachname = cells[4].get_text(strip=True)
             coursetime = cells[5].get_text(strip=True)
@@ -228,7 +228,7 @@ def get_latest_course(url):
             teachno = cells[0].get_text(strip=True)
             teachid = cells[1].get('onclick')
             if teachid is not None:
-                teachname = teachid
+                teachname = teachid[-10:-2]
             else:
                 teachname = cells[1].get_text(strip=True)
             coursetime = cells[2].get_text(strip=True)
