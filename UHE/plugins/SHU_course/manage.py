@@ -54,6 +54,9 @@ def get_teachers():
     for no in range(10000000, 10010620):
         print('getting no:', no)
         get_teacher(url,no)
+    for no in range(51000000, 51005000):
+        print('getting no:', no)
+        get_teacher(url, no)
     for no in range(61000000, 61005000):
         print('getting no:', no)
         get_teacher(url, no)
