@@ -12,6 +12,7 @@ class Comment(db.EmbeddedDocument):
     user = ReferenceField(User)
     text = StringField(default='')
     liked = ListField(ReferenceField(User, deref=True), default=lambda: [])
+    liked_count = IntField()
     reply = IntField(default=-1)
     deleted = BooleanField(default=False)
     created = DateTimeField(default=datetime.datetime.now)

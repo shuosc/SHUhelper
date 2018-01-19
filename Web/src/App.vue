@@ -12,6 +12,7 @@
       left-panel( slot="left")
         // <router-view  name="left"/>
       // <q-scroll-area style="width: 100%; height: 100%;">
+      //- transition(:name="'router-' + stack.direction")      
       q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
         navigation
           router-view
@@ -25,6 +26,7 @@
  * Root component
  */
 import LeftPanel from '@/LayoutLeftPanel'
+import { mapState } from 'vuex'
 import BottomNavigation from '@/BottomNavigation'
 import { Toast } from 'quasar'
 import ga from 'libs/analytics.js'
@@ -37,6 +39,9 @@ export default {
     return {
       title: '首页'
     }
+  },
+  computed: {
+    ...mapState(['stack'])
   },
   created() {
     ga.loginUser('00000001')
@@ -113,4 +118,36 @@ export default {
 </script>
 
 <style>
+.router-backward-enter-active,
+.router-forward-enter-active,
+.router-backward-leave-active,
+.router-forward-leave-active {
+  will-change: transform;
+  transition: all 500ms ease-out;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.router-backward-enter {
+  opacity: 1;
+  transform: translate3d(-50%, 0, 0);
+}
+
+.router-backward-leave-active {
+  opacity: 0.5;
+  z-index: 100;
+  transform: translate3d(100%, 0, 0);
+}
+
+.router-forward-enter {
+  opacity: 1;
+  transform: translate3d(100%, 0, 0);
+}
+
+.router-forward-leave-active {
+  opacity: 0.5;
+  transform: translate3d(-50%, 0, 0);
+}
 </style>
