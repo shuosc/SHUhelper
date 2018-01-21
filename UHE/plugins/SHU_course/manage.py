@@ -75,24 +75,20 @@ def save_courses(courselist, term):
         }
         teacher_name = course['teacher_name']
         teacher_no = course['teacher_id']
-        if teacher_name[0] in ['1', '3', '5', '6']:
+        if teacher_no is not None:
             teacher = Teacher.objects(no=teacher_no).first()
             if teacher is None:
                 get_teacher(
                     'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid=', teacher_no)
                 teacher = Teacher.objects(no=teacher_no).first()
-            if teacher is None:
-                teacher = Teacher(
-                    name=teacher_name, no=teacher_no)
-                teacher.save()
         else:
             teacher = Teacher.objects(name=teacher_name).first()
             if teacher is None:
                 if teacher_name[-1] == '等':
                     teacher = Teacher.objects(name=teacher_name[:-1]).first()
-                if teacher is None:
-                    teacher = Teacher(name=teacher_name, no=teacher_no)
-                    teacher.save()
+        if teacher is None:
+            teacher = Teacher(name=teacher_name, no=teacher_no)
+            teacher.save()
         course_db = Course.objects(
             no=course['no'], teacher=teacher).first()
         if course_db is None:
