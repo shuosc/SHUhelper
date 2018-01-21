@@ -3,30 +3,34 @@ from flask_login import current_user, login_required
 from mongoengine.queryset.visitor import Q
 
 from .manage import get_xk, get_teachers
-from .models import Course, CourseOfTerm,Teacher
+from .models import Course, CourseOfTerm, Teacher
 
 courses = Blueprint('courses', __name__)
+
+
 @courses.route('/manage/migrate')
 @login_required
 def migrate():
     if current_user.role != 'superadmin':
         abort(401)
-    for course_of_term in CourseOfTerm.objects.no_dereference():
-        try:
-            course = course_of_term.course
-            teacher = course.teacher
-            if teacher.name[-1] == ')':
-                course_of_term.delete()
-        except:
-            course_of_term.delete()
-    for course in Course.objects.no_dereference():
-        try:
-            teacher = course.teacher
-            if teacher.name[-1] == ')':
-                course.delete()
-        except:
-            course.delete()
+    for course_of_term in CourseOfTerm.objects():
+        course_of_term.course_no = course_of_term.course.no
+        course_of_term.course_name = course_of_term.course.name
+        course_of_term.teacher_name = course_of_term.teacher.name
+        course_of_term.credit = course_of_term.course.credit
+        course_of_term.save()
     return jsonify(success='ok')
+
+
+@courses.route('/manage/update-term')
+@login_required
+def update_term():
+    if current_user.role != 'superadmin':
+        abort(401)
+    for course in Course.objects():
+        course.this_term = False
+        course.save()
+    return jsonify(status='ok')
 
 @courses.route('/manage/update-teachers')
 @login_required
@@ -58,22 +62,32 @@ def get_courses_8080():
 @courses.route('/')
 def get_courses():
     args = request.args
-    # print(args)
-    # print(args)
-    if args.get('quick'):
+    query_type = args.get('type')
+    if query_type == 'quick':
         page = args['page']
         query = args['query']
+        this_term = args['thisTerm']
         courses = Course.objects(
-            Q(no__contains=query) |
-            Q(name__contains=query) |
-            Q(teacher__contains=query)).paginate(page=int(page), per_page=30)
+            (
+                Q(no__contains=query) |
+                Q(name__contains=query) |
+                Q(teacher__contains=query)
+            ) &
+                Q(this_term=this_term)
+            ).paginate(page=int(page), per_page=30)
         return jsonify(courses.items)
-    elif args.get('id'):
-        print(args)
-        course = Course.objects(
-            Q(no__contains=args.get('no')) &
-            Q(teacher__contains=args.get('teacher'))).get_or_404()
-        return jsonify(id=str(course.id))
+    elif query_type == 'advance':
+        page = args['page']
+        courses = CourseOfTerm.objects(
+            Q(course_no__contains=args.get('no')) &
+            Q(course_name__contains=args.get('name')) &
+            Q(time__contains=args.get('time')) &
+            Q(teacher_name__contains=args.get('teacher')) & 
+            Q(campus__contains=args.get('campus')) & 
+            Q(credit__contains=args.get('credit')) &
+            Q(term=args.get('term'))
+        ).paginate(page=int(page), per_page=30)
+        return jsonify(courses.items)
     else:
         page = args['page']
         courses = Course.objects(

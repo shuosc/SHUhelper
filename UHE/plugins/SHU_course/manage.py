@@ -79,9 +79,12 @@ def save_courses(courselist, term):
         else:
             name = course['teacher']
             teacher = Teacher.objects(name=course['teacher']).first()
-            if name is None:
-                teacher = Teacher(name=name,no=course['teacher'])
-                teacher.save()
+            if teacher is None:
+                if name[-1] == '等':
+                    teacher = Teacher.objects(name=name[:-1]).first()
+                if teacher is None:
+                    teacher = Teacher(name=name,no=course['teacher'])
+                    teacher.save()
         course['teacher'] = teacher
         course_db = Course.objects(
             no=course['no'], teacher=course['teacher']).first()
@@ -95,7 +98,11 @@ def save_courses(courselist, term):
             key: course.get(key) for key in ('course', 'q_time', 'q_place', 'teacher_no', 'time', 'place', 'capacity', 'enroll', 'campus')
         }
         course_detail['course'] = course_db
+        course_detail['course_no'] = course_db.no
+        course_detail['course_name'] = course_db.name
         course_detail['term'] = term
+        course_detail['credit'] = course_db.credit
+        course_detail['teacher_name'] = teacher.name
         course_of_term_db = CourseOfTerm.objects(
             course=course_db, teacher_no=course['teacher_no']).update(**course_detail)
         if not course_of_term_db:

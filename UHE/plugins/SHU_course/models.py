@@ -3,7 +3,7 @@ import datetime
 from flask import abort
 from flask_login import UserMixin
 from mongoengine import (BooleanField, DateTimeField, EmailField, DecimalField, ReferenceField, ListField, PULL, CASCADE,
-                         StringField, IntField,URLField,EmbeddedDocument,EmbeddedDocumentField)
+                         StringField, IntField,URLField,EmbeddedDocument,EmbeddedDocumentField,FloatField)
 
 from UHE.client import Services
 from UHE.extensions import db
@@ -75,10 +75,10 @@ class Course(db.Document):
     liked = ListField(ReferenceField(User, deref=True), default=lambda: [])
     liked_count = IntField()
     evaluations = ListField(EmbeddedDocumentField(Evaluation), default=lambda: [])
+    rating = FloatField()
     school = StringField()
     tag = ListField(StringField())
     this_term = BooleanField(default=False)
-    remark = StringField(default='')
     meta = {
         'strict': False
     }
@@ -89,7 +89,12 @@ class Course(db.Document):
 
 class CourseOfTerm(db.Document):
     course = ReferenceField(Course, reverse_delete_rule=CASCADE)
+    course_no = StringField()
+    course_name = StringField()
+    credit = StringField()
+    teacher = ReferenceField(Teacher)
     teacher_no = StringField()
+    teacher_name = StringField()
     time = StringField()
     place = StringField()
     capacity = IntField()
