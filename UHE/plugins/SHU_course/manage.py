@@ -59,6 +59,9 @@ def get_teachers():
     for no in range(51000000, 51005000):
         print('getting no:', no)
         get_teacher(url, no)
+    for no in range(31000000, 31005000):
+        print('getting no:', no)
+        get_teacher(url, no)
     for no in range(61000000, 61005000):
         print('getting no:', no)
         get_teacher(url, no)
@@ -67,31 +70,31 @@ def get_teachers():
 def save_courses(courselist, term):
     term_string = current_app.school_time.term_string
     for course in courselist:
-        print(term_string, term)
         course_basic = {
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tag')
         }
-        if course['teacher'][0] == '1':
-            teacher = Teacher.objects(no=course['teacher']).first()
+        teacher_name = course['teacher_name']
+        teacher_no = course['teacher_id']
+        if course['teacher'][0] in ['1', '3', '5', '6']:
+            teacher = Teacher.objects(no=teacher_no).first()
             if teacher is None:
                 get_teacher(
-                    'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid=', course['teacher'])
-                teacher = Teacher.objects(no=course['teacher']).first()
+                    'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid=', teacher_no)
+                teacher = Teacher.objects(no=teacher_no).first()
             if teacher is None:
-                teacher = Teacher(name=name, no=course['teacher'])
+                teacher = Teacher(
+                    name=teacher_name, no=teacher_no)
                 teacher.save()
         else:
-            name = course['teacher']
-            teacher = Teacher.objects(name=course['teacher']).first()
+            teacher = Teacher.objects(name=teacher_name).first()
             if teacher is None:
                 if name[-1] == '等':
                     teacher = Teacher.objects(name=name[:-1]).first()
                 if teacher is None:
-                    teacher = Teacher(name=name, no=course['teacher'])
+                    teacher = Teacher(name=teacher_name, no=teacher_no)
                     teacher.save()
-        course['teacher'] = teacher
         course_db = Course.objects(
-            no=course['no'], teacher=course['teacher']).first()
+            no=course['no'], teacher=teacher).first()
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
@@ -228,9 +231,8 @@ def get_latest_course(url):
             teachno = cells[3].get_text(strip=True)
             teachid = cells[4].get('onclick')
             if teachid is not None:
-                teachname = teachid[-10:-2]
-            else:
-                teachname = cells[4].get_text(strip=True)
+                teachid = teachid[-10:-2]
+            teachname = cells[4].get_text(strip=True)
             coursetime = cells[5].get_text(strip=True)
             courseplace = cells[6].get_text(strip=True)
             capacity = cells[7].get_text(strip=True)
@@ -243,9 +245,8 @@ def get_latest_course(url):
             teachno = cells[0].get_text(strip=True)
             teachid = cells[1].get('onclick')
             if teachid is not None:
-                teachname = teachid[-10:-2]
-            else:
-                teachname = cells[1].get_text(strip=True)
+                teachid = teachid[-10:-2]
+            teachname = cells[1].get_text(strip=True)
             coursetime = cells[2].get_text(strip=True)
             courseplace = cells[3].get_text(strip=True)
             capacity = cells[4].get_text(strip=True)
@@ -261,7 +262,8 @@ def get_latest_course(url):
                 'name': coursename,
                 'credit': credit,
                 'teacher_no': teachno,
-                'teacher': teachname,
+                'teacher_id': teachid,
+                'teacher_name': teachname,
                 'time': coursetime,
                 'place': courseplace,
                 'capacity': capacity,
