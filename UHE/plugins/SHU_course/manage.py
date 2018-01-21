@@ -20,7 +20,8 @@ def get_xk(url):
     courselist = get_latest_course(url)
     save_courses(courselist, term)
 
-def get_teacher(url,no):
+
+def get_teacher(url, no):
     convert = {
         '姓名:': 'name',
         '性别:': 'sex',
@@ -49,11 +50,12 @@ def get_teacher(url,no):
     print('saving', teacher)
     teacher.save()
 
+
 def get_teachers():
     url = 'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid='
     for no in range(10000000, 10010620):
         print('getting no:', no)
-        get_teacher(url,no)
+        get_teacher(url, no)
     for no in range(51000000, 51005000):
         print('getting no:', no)
         get_teacher(url, no)
@@ -63,7 +65,9 @@ def get_teachers():
 
 
 def save_courses(courselist, term):
+    term_string = current_app.school_time.term_string
     for course in courselist:
+        print(term_string, term)
         course_basic = {
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tag')
         }
@@ -83,7 +87,7 @@ def save_courses(courselist, term):
                 if name[-1] == '等':
                     teacher = Teacher.objects(name=name[:-1]).first()
                 if teacher is None:
-                    teacher = Teacher(name=name,no=course['teacher'])
+                    teacher = Teacher(name=name, no=course['teacher'])
                     teacher.save()
         course['teacher'] = teacher
         course_db = Course.objects(
@@ -91,7 +95,7 @@ def save_courses(courselist, term):
         if course_db is None:
             course_db = Course(**course_basic)
             course_db.save()
-        if term == current_app.school_time.term_string:
+        if term == term_string:
             course_db.this_term = True
             course_db.save()
         course_detail = {
