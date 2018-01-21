@@ -92,8 +92,8 @@ def get_courses():
             Q(campus__contains=args.get('campus')) &
             Q(credit__contains=args.get('credit')) &
             Q(term=args.get('term'))
-        ).paginate(page=int(page), per_page=30)
-        return jsonify(courses.items)
+        )
+        return jsonify(total=courses.count(), courses=courses.paginate(page=int(page), per_page=20).items)
     else:
         page = args['page']
         courses = Course.objects(
