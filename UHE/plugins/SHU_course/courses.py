@@ -16,7 +16,8 @@ def migrate():
     for course_of_term in CourseOfTerm.objects():
         course_of_term.course_no = course_of_term.course.no
         course_of_term.course_name = course_of_term.course.name
-        course_of_term.teacher_name = course_of_term.teacher.name
+        course_of_term.teacher = course_of_term.course.teacher
+        course_of_term.teacher_name = course_of_term.course.teacher.name
         course_of_term.credit = course_of_term.course.credit
         course_of_term.save()
     return jsonify(success='ok')

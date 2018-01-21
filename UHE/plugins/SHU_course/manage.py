@@ -102,6 +102,7 @@ def save_courses(courselist, term):
         course_detail['course_name'] = course_db.name
         course_detail['term'] = term
         course_detail['credit'] = course_db.credit
+        course_detail['teacher'] = teacher
         course_detail['teacher_name'] = teacher.name
         course_of_term_db = CourseOfTerm.objects(
             course=course_db, teacher_no=course['teacher_no']).update(**course_detail)
