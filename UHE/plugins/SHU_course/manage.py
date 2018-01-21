@@ -75,7 +75,7 @@ def save_courses(courselist, term):
         }
         teacher_name = course['teacher_name']
         teacher_no = course['teacher_id']
-        if course['teacher'][0] in ['1', '3', '5', '6']:
+        if teacher_name[0] in ['1', '3', '5', '6']:
             teacher = Teacher.objects(no=teacher_no).first()
             if teacher is None:
                 get_teacher(

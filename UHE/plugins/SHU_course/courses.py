@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, jsonify, request
+from flask import Blueprint, abort, jsonify, request, current_app
 from flask_login import current_user, login_required
 from mongoengine.queryset.visitor import Q
 
@@ -26,12 +26,17 @@ def migrate():
 @courses.route('/manage/update-term')
 @login_required
 def update_term():
+    term = current_app.school_time.term_string
     if current_user.role != 'superadmin':
         abort(401)
     for course in Course.objects():
-        course.this_term = False
+        if CourseOfTerm.objects(course=course, term=term).get() is not None:
+            course.this_term = True
+        else:
+            course.this_term = False
         course.save()
     return jsonify(status='ok')
+
 
 @courses.route('/manage/update-teachers')
 @login_required
@@ -74,8 +79,8 @@ def get_courses():
                 Q(name__contains=query) |
                 Q(teacher__contains=query)
             ) &
-                Q(this_term=this_term)
-            ).paginate(page=int(page), per_page=30)
+            Q(this_term=this_term)
+        ).paginate(page=int(page), per_page=30)
         return jsonify(courses.items)
     elif query_type == 'advance':
         page = args['page']
@@ -83,8 +88,8 @@ def get_courses():
             Q(course_no__contains=args.get('no')) &
             Q(course_name__contains=args.get('name')) &
             Q(time__contains=args.get('time')) &
-            Q(teacher_name__contains=args.get('teacher')) & 
-            Q(campus__contains=args.get('campus')) & 
+            Q(teacher_name__contains=args.get('teacher')) &
+            Q(campus__contains=args.get('campus')) &
             Q(credit__contains=args.get('credit')) &
             Q(term=args.get('term'))
         ).paginate(page=int(page), per_page=30)
