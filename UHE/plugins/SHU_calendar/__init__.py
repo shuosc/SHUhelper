@@ -19,7 +19,7 @@ class SHUCalendar(UHEPlugin):
 
     def setup(self, app):
         self.year = 2017
-
+        
         print('setup', __plugin__)
         # celery.add_periodic_task(5.0, clock.s('five'))
         # plugin = Plugin.objects(name=)
@@ -38,17 +38,17 @@ class SHUCalendar(UHEPlugin):
             self.event = Event(identifier='SHU_calendar_%s' % self.year,
                                title='上海大学%s-%s学年校历' % (self.year, self.year + 1))
             self.event.save()
-        print('install school_term_%s start' % self.year)
-        if self.event.need_update:
-            print('update school_term_%s start' % self.year)
+        else:
             Activity.objects(event=self.event).delete()
-            print('delete old school_term_%s start' % self.year)
-            self.install_acdemic_year()
-            self.install_school_term()
-            self.install_school_week()
-            self.install_basic_schedule_course()
-            self.event.need_update = False
-            self.event.save()
+            self.event.delete()
+        print('install school_term_%s start' % self.year)
+        print('update school_term_%s start' % self.year)
+        self.install_acdemic_year()
+        self.install_school_term()
+        self.install_school_week()
+        self.install_basic_schedule_course()
+        self.event.need_update = False
+        self.event.save()
 
     def install_acdemic_year(self):
         if self.year == 2017:
@@ -79,8 +79,8 @@ class SHUCalendar(UHEPlugin):
     def create_week(*start, start_week, end_week, term, key_prefix):
         week_events = []
         for i in range(start_week, end_week):
-            week = {'start': date(*start) + delta(days=i * 7),
-                    'end': date(*start) + delta(days=(i + 1) * 7),
+            week = {'start': date(*start) + delta(days=(i-start_week) * 7),
+                    'end': date(*start) + delta(days=(i-start_week + 1) * 7),
                     'title': term + '第%s周' % (i + 1),
                     'key': 'week',
                     'args': '{}_{}'.format(key_prefix, i + 1)}
