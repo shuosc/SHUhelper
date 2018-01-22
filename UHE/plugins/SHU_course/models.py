@@ -107,10 +107,7 @@ class CourseOfTerm(db.Document):
     meta = {
         'strict': False,
         'indexes': [
-            '$course_no',
             '$course_name',
-            '$teacher_name',
-            '$time',
             '#credit',
             '#campus'
         ]
