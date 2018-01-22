@@ -110,7 +110,7 @@ class CourseOfTerm(db.Document):
             '$course_no',
             '$course_name',
             '$teacher_name',
-            '$time'
+            '$time',
             '#credit',
             '#campus'
         ]
