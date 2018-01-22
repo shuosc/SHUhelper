@@ -105,5 +105,13 @@ class CourseOfTerm(db.Document):
     term = StringField()
     updated = BooleanField(default=True)
     meta = {
-        'strict': False
+        'strict': False,
+        'indexes': [
+            '$course_no',
+            '$course_name',
+            '$teacher_name',
+            '$time'
+            '#credit',
+            '#campus'
+        ]
     }
