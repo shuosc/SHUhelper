@@ -3,7 +3,10 @@
   div#q-app
     q-layout(ref="layout" view="lHh Lpr lFf" :left-class="{'bg-grey-2': true}" reveal)
       q-toolbar(slot="header" v-show="!$route.meta.disableToolbar")
-        q-btn(flat @click="$refs.layout.toggleLeft()")
+        <q-btn v-show="$route.meta.back" slot="left" flat round small class="primary" v-back>
+          <q-icon name="keyboard_backspace" />
+        </q-btn>
+        q-btn(flat v-show="!$route.meta.back" @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")
         q-toolbar-title {{$route.meta.title}}
           // <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div>

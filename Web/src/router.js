@@ -58,6 +58,26 @@ export default new VueRouter({
       name: 'login'
     },
     {
+      path: '/courses',
+      component: load('Courses'),
+      name: 'course',
+      meta: {
+        title: '课程',
+        disableBottom: true,
+        back: true
+      }
+    },
+    {
+      path: '/courses/:id',
+      component: load('CoursesDetail'),
+      name: 'course',
+      meta: {
+        title: '课程',
+        disableBottom: true,
+        back: true
+      }
+    },
+    {
       path: '/2018',
       component: load('NewYearWish'),
       name: 'NewYearWish',

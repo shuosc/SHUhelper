@@ -65,7 +65,7 @@ export default {
             // { name: '体育活动', icon: 'bubble_chart', url: '/info' },
             { name: '校园地图', icon: 'fa-map-o', url: '/map' },
             // { name: '快速链接', icon: 'bubble_chart', url: '/info' },
-            // { name: '课程查询', icon: 'fa-book', url: '/courses-query' },
+            { name: '课程评估', icon: 'fa-book', url: '/courses' },
             // { name: '学生财务', icon: 'fa-money', url: '/fin' },
             // { name: '校车运行', icon: 'fa-bus', url: '/bus' },
             // { name: '晨跑课外', icon: 'fa-tiyujiankang', url: '/sports' },

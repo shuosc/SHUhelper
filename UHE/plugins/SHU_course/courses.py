@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from mongoengine.queryset.visitor import Q
 
 from .manage import get_xk, get_teachers
-from .models import Course, CourseOfTerm, Teacher
+from .models import Course, CourseOfTerm, Teacher, Evaluation
 
 courses = Blueprint('courses', __name__)
 
@@ -13,13 +13,28 @@ courses = Blueprint('courses', __name__)
 def migrate():
     if current_user.role != 'superadmin':
         abort(401)
-    for course_of_term in CourseOfTerm.objects():
-        course_of_term.course_no = course_of_term.course.no
-        course_of_term.course_name = course_of_term.course.name
-        course_of_term.teacher = course_of_term.course.teacher
-        course_of_term.teacher_name = course_of_term.course.teacher.name
-        course_of_term.credit = course_of_term.course.credit
-        course_of_term.save()
+    i = 0
+    for course in Course.objects():
+        i += 1
+        print(i)
+        course_of_term = CourseOfTerm.objects(course=course)
+        new_course = Course(
+            no=course.no,
+            name=course.name,
+            teacher=course.teacher,
+            teacher_name=course.teacher_name,
+            credit=course.credit,
+            school=course.school,
+            terms=course.terms,
+            liked=[],
+            evaluations=[],
+            tags=[]
+        )
+        course.no = course.no + '0'
+        course.save()
+        new_course.save()
+        course_of_term.update(course=new_course)
+        course.delete()
     return jsonify(success='ok')
 
 
@@ -69,21 +84,23 @@ def get_courses_8080():
 def get_courses():
     args = request.args
     query_type = args.get('type')
-    page = args['page']
-    per_page = args.get('perPage', 30)
+    page = int(args['page'])
+    per_page = int(args.get('perPage', 10))
     if query_type == 'quick':
         query = args['query']
-        this_term = args['thisTerm']
+        # this_term = args['thisTerm']
         courses = Course.objects(
             (
                 Q(no__contains=query) |
                 Q(name__contains=query) |
-                Q(teacher__contains=query)
-            ) &
-            Q(this_term=this_term)
-        ).paginate(page=int(page), per_page=30)
-        return jsonify(courses.items)
+                Q(teacher_name__contains=query)
+            )
+        )[per_page * (page - 1):per_page * page]
+        return jsonify(
+            total=courses.count(),
+            courses=courses)
     elif query_type == 'advance':
+        per_page = 30
         courses = CourseOfTerm.objects(
             course_no__contains=args.get('no'), course_name__contains=args.get('name'),
             time__contains=args.get('time'), teacher_name__contains=args.get('teacher'),
@@ -99,11 +116,28 @@ def get_courses():
         return jsonify(courses.items)
 
 
-@courses.route('/<oid>')
+@courses.route('/<oid>', methods=['GET', 'PUT'])
 def get_course(oid):
-    course = Course.objects.get_or_404(id=oid)
-    term_courses = CourseOfTerm.objects(course=course)
-    return jsonify(course=course, terms=list(set(term_course.term for term_course in term_courses)))
+    if request.method == 'GET':
+        course = Course.objects.get_or_404(id=oid)
+        # term_courses = CourseOfTerm.objects(course=course)
+        for evaluation in course.evaluations:
+            evaluation.user = evaluation.user.to_dict_public()
+        return jsonify(course=course)
+    if request.method == 'PUT':
+        args = request.get_json()
+        # evaluation = Evaluation(rating=args['rating'],text=args['text'],term=args['term'])
+        course = Course.objects(id=oid).get_or_404()
+        course.evaluations.create(
+            rating=args['rating'], text=args['text'], term=args['term'], user=current_user.id
+        )
+        count = len(course.evaluations)
+        star = 0
+        for evaluation in course.evaluations:
+            star += evaluation.rating
+        course.rating = star / count
+        course.save()
+        return jsonify(success=True)
 
 # @course.route('/')
 # def get_course_id():
