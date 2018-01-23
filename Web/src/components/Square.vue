@@ -122,10 +122,10 @@ export default {
     QSpinnerGears
     // PullTo
   },
-  created() {
+  activated() {
     this.$q.events.$on('app:refresh:square', this.refresher)
   },
-  beforeDestroy() {
+  deactivated: function() {
     this.$q.events.$off('app:refresh:square', this.refresher)
   },
   beforeRouteUpdate(to, from, next) {

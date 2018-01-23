@@ -83,11 +83,10 @@ export default {
       refresh: true
     }
   },
-  created() {
+  activated() {
     this.$q.events.$on('app:refresh:index', this.refresher)
   },
-  beforeDestroy: function() {
-    console.log('destroy')
+  deactivated: function() {
     this.$q.events.$off('app:refresh:index', this.refresher)
   },
   computed: {

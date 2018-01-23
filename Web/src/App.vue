@@ -2,7 +2,7 @@
   // Don't drop "q-app" class
   div#q-app
     q-layout(ref="layout" view="lHh Lpr lFf" :left-class="{'bg-grey-2': true}" reveal)
-      q-toolbar(slot="header" v-if="!$route.meta.disableToolbar")
+      q-toolbar(slot="header" v-show="!$route.meta.disableToolbar")
         q-btn(flat @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")
         q-toolbar-title {{$route.meta.title}}
@@ -17,7 +17,7 @@
       navigation
         router-view
       //</q-scroll-area>
-      div(slot="navigation" v-if="!$route.meta.disableBottom")
+      div(slot="navigation" v-show="!$route.meta.disableBottom && $q.platform.is.mobile")
         bottom-navigation
 </template>
 

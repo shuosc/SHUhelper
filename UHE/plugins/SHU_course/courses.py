@@ -69,8 +69,9 @@ def get_courses_8080():
 def get_courses():
     args = request.args
     query_type = args.get('type')
+    page = args['page']
+    per_page = args.get('perPage', 30)
     if query_type == 'quick':
-        page = args['page']
         query = args['query']
         this_term = args['thisTerm']
         courses = Course.objects(
@@ -83,19 +84,13 @@ def get_courses():
         ).paginate(page=int(page), per_page=30)
         return jsonify(courses.items)
     elif query_type == 'advance':
-        page = args['page']
         courses = CourseOfTerm.objects(
-            Q(course_no__contains=args.get('no')) &
-            Q(course_name__contains=args.get('name')) &
-            Q(time__contains=args.get('time')) &
-            Q(teacher_name__contains=args.get('teacher')) &
-            Q(campus__contains=args.get('campus')) &
-            Q(credit__contains=args.get('credit')) &
-            Q(term=args.get('term'))
-        )
-        return jsonify(total=courses.count(), courses=courses.paginate(page=int(page), per_page=20).items)
+            course_no__contains=args.get('no'), course_name__contains=args.get('name'),
+            time__contains=args.get('time'), teacher_name__contains=args.get('teacher'),
+            campus__contains=args.get('campus'), credit__contains=args.get('credit'),
+            term=args.get('term')).no_dereference()
+        return jsonify(total=courses.count(), courses=courses.paginate(page=int(page), per_page=per_page).items)
     else:
-        page = args['page']
         courses = Course.objects(
             no__contains=args['no'],
             name__contains=args['name'],

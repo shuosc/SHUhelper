@@ -72,6 +72,7 @@ class Course(db.Document):
     teacher = ReferenceField(Teacher)
     # teacher = StringField()
     credit = StringField()
+    detail = StringField()
     liked = ListField(ReferenceField(User, deref=True), default=lambda: [])
     liked_count = IntField()
     evaluations = ListField(EmbeddedDocumentField(Evaluation), default=lambda: [])
@@ -107,7 +108,6 @@ class CourseOfTerm(db.Document):
     meta = {
         'strict': False,
         'indexes': [
-            '$course_name',
             '#credit',
             '#campus'
         ]
