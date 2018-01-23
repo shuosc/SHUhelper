@@ -159,8 +159,8 @@ export default {
           now.setMinutes(0)
           now.setMilliseconds(0)
           now.setHours(0)
-          console.log()
-          console.log(this.status.time - 8 * 3600 * 1000)
+          // console.log()
+          // console.log(this.status.time - 8 * 3600 * 1000)
           if (this.status.time - 8 * 3600 * 1000 < now.valueOf()) {
             this.renewData()
           }
@@ -168,12 +168,12 @@ export default {
             response.data.data,
             this.$store.state.user.password
           )
-          console.log(this.data)
+          // console.log(this.data)
           this.data.sport = parseInt(this.data.sport)
           this.data.act = parseInt(this.data.act)
           this.data.sport_reduce = parseInt(this.data.sport_reduce)
           this.data.act_reduce = parseInt(this.data.act_reduce)
-          console.log(this.data)
+          // console.log(this.data)
           this.loading = false
         })
         .catch(err => {

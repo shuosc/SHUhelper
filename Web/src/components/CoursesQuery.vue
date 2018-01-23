@@ -44,7 +44,7 @@
         <v-divider></v-divider>
       </v-card>
       <div style="text-align:center;height:60px;">
-         <v-progress-circular v-show="loading" indeterminate class="primary--text"></v-progress-circular>
+        <v-progress-circular v-show="loading" indeterminate class="primary--text"></v-progress-circular>
         <span v-show="allLoaded" class="primary--text">no more data :)</span>
       </div>
     </div>
@@ -98,7 +98,15 @@
 </template>
 <script>
 import _ from 'lodash'
-import { Popup, Cell, TabContainer, TabContainerItem, Navbar, TabItem, InfiniteScroll } from 'mint-ui'
+import {
+  Popup,
+  Cell,
+  TabContainer,
+  TabContainerItem,
+  Navbar,
+  TabItem,
+  InfiniteScroll
+} from 'mint-ui'
 export default {
   components: {
     Popup,
@@ -109,7 +117,7 @@ export default {
     TabItem,
     InfiniteScroll
   },
-  data () {
+  data() {
     return {
       query: '',
       quickQuery: '',
@@ -117,8 +125,7 @@ export default {
       page: 1,
       dialog: false,
       course: {
-        course: {
-        },
+        course: {},
         classes: []
       },
       active: 0,
@@ -128,18 +135,18 @@ export default {
     }
   },
   watch: {
-    active: function (val) {
+    active: function(val) {
       console.log(val)
     },
     query: {
-      handler: function (val) {
+      handler: function(val) {
         this.page = 1
         this.searchCourse(val)
         console.log('change', val)
       },
       deep: true
     },
-    quickQuery: function (val) {
+    quickQuery: function(val) {
       this.page = 1
       this.courses = null
       this.courses = []
@@ -148,16 +155,17 @@ export default {
       console.log('change', val)
     }
   },
-  created () {
+  created() {
     // this.searchCourseQuick()
   },
   methods: {
-    onCourseClick (course) {
+    onCourseClick(course) {
       this.courseLoading = true
       this.course = course
       this.dialog = true
-      this.$http.get(`/api/v1/courses/${course._id.$oid}/2017_1`)
-        .then((response) => {
+      this.$http
+        .get(`/api/v1/courses/${course._id.$oid}/2017_1`)
+        .then(response => {
           this.course = response.data
           this.courseLoading = false
           this.$nextTick(() => {
@@ -166,48 +174,46 @@ export default {
           // console.log(this.courses)
         })
     },
-    searchCourseQuick: _.debounce(
-      function () {
-        if (this.loading) return
-        this.loading = true
-        this.$http.get('/api/v1/courses/', {
+    searchCourseQuick: _.debounce(function() {
+      if (this.loading) return
+      this.loading = true
+      this.$http
+        .get('/api/v1/courses/', {
           params: {
             quick: true,
             query: this.quickQuery,
             page: this.page
           }
         })
-          .then((response) => {
-            this.page += 1
-            this.courses.push(...response.data)
-            this.loading = false
-            if (response.data.length === 0) {
-              this.allLoaded = true
-            }
-            console.log(this.courses)
-          })
-          .catch((err) => {
-            console.log(err)
-            this.loading = false
+        .then(response => {
+          this.page += 1
+          this.courses.push(...response.data)
+          this.loading = false
+          if (response.data.length === 0) {
             this.allLoaded = true
-          })
-      }, 500
-    ),
-    searchCourse: _.debounce(
-      function () {
-        this.$http.get('/api/v1/courses/', {
+          }
+          console.log(this.courses)
+        })
+        .catch(err => {
+          console.log(err)
+          this.loading = false
+          this.allLoaded = true
+        })
+    }, 500),
+    searchCourse: _.debounce(function() {
+      this.$http
+        .get('/api/v1/courses/', {
           params: {
             quick: true,
             query: this.query,
             page: this.query.page
           }
         })
-          .then((response) => {
-            this.courses = response.data
-            console.log(this.courses)
-          })
-      }, 500
-    )
+        .then(response => {
+          this.courses = response.data
+          console.log(this.courses)
+        })
+    }, 500)
   }
 }
 </script>

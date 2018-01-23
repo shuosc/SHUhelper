@@ -1,5 +1,9 @@
 <template lang="pug">
-  q-pull-to-refresh(:handler='refresher')
+      
+  div
+    //- q-pull-to-refresh(:handler="refresher", :refresh-icon="false")
+    //- pull-to(:top-load-method='refresher' :wrapper-height="'500px'" :is-bottom-bounce="false" :is-top-bounce="false")
+    //- div(style="height: calc(100vh - 105px)")
     div(v-if="refresh")
       q-card.namecard(flat='')
         q-card-main
@@ -54,9 +58,11 @@ import CourseCard from '@/IndexCourseCard'
 import RandomChoice from '@/IndexRandomChoice'
 import NavigatorCard from '@/IndexNavigator'
 import { QSpinnerHearts } from 'quasar'
+// import PullTo from 'vue-pull-to'
 // q-gallery-carousel
 export default {
   components: {
+    // PullTo,
     Weather,
     CourseTime,
     CourseCard,
@@ -76,6 +82,13 @@ export default {
     return {
       refresh: true
     }
+  },
+  created() {
+    this.$q.events.$on('app:refresh:index', this.refresher)
+  },
+  beforeDestroy: function() {
+    console.log('destroy')
+    this.$q.events.$off('app:refresh:index', this.refresher)
   },
   computed: {
     welcome: function() {
@@ -119,10 +132,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.namecard
-  transform translateZ(0)
-  opacity 0.9
+.namecard {
+  transform: translateZ(0);
+  opacity: 0.9;
   // background #EDE574 /* fallback for old browsers */
   // background -webkit-linear-gradient(to left, #E1F5C4, #EDE574) /* Chrome 10-25, Safari 5.1-6 */
   // background linear-gradient(to left, #E1F5C4, #EDE574) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 </style>

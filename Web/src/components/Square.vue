@@ -1,76 +1,77 @@
 <template lang="pug">
-  div(style="min-height: calc(100vh - 105px)")
-    q-pull-to-refresh(:handler='refresher')
-      q-infinite-scroll(:handler="loadMore" ref="infiniteScroll")
-        q-card.quote-card
-          blockquote.no-margin
-            //- p 欢迎来到广场，在这里您可以畅所欲言
-            small
-              | 欢迎来到广场，在这里您可以畅所欲言
-        q-scroll-area.text-center(style="width: 100%; height: 5rem;white-space:nowrap;overflow:scroll;")
-          q-card.news(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/news')")
-            div.row.flex.full-height
-              div.col-5.self-center
-                q-icon(name="public" size="2.5rem" color="white")
-              div.col-5.self-center.text-white(style="font-size:1rem;")
-                | 新闻
-          //- q-card.news(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/news')")
-            div.row.flex.full-height
-              div.col-5.self-center
-                q-icon(name="public" size="2.5rem" color="white")
-              div.col-5.self-center.text-white(style="font-size:1rem;")
-                | 活动
-          q-card.tree-hole.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;"  @click="$router.push('/tree-hole')")
-            div.row.flex.full-height
-              div.col-5.self-center
-                q-icon(name="fa-shu" size="2.5rem" color="white")
-              div.col-5.self-center.text-white(style="font-size:1rem;")
-                | 树洞
-          q-card.love.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/love-board')")
-            div.row.flex.full-height
-              div.col-5.self-center
-                q-icon(name="favorite" size="2.5rem" color="white")
-              div.col-5.self-center.text-white(style="font-size:1rem;")
-                | 表白墙
-        q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
-          q-card-title.no-padding 
-          q-item(dense @click.stop="$router.push(`/profile/${feed.user.cardID}`)")
-            q-item-side
-              q-item-tile(avatar)
-                img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
-            q-item-main
-              q-item-tile(label) {{feed.user.name}}
-              q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
-          q-card-separator
-          q-card-main 
-            p(v-for="paragraph in feed.text.split('\\n')")
-              | {{ paragraph }}
-          div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
-            div.col-4(v-for="(img,key) in feed.img" :key="key" @click.stop="")
-              img(:src="`${img}-slim75`" @click="showImg(img)"
-              style="object-fit: cover;width:100%;height:100%;" 
-              alt="lorem")
-          q-card-separator
-          q-card-actions
-            div.full-width
-              q-btn.pull-right(flat small)
-                q-icon(name="comment")
-                span(style="color:grey;font-size:1rem;")
-                  | {{feed.comments.length}}
-              q-btn.pull-right(small :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(index)")
-                q-icon(name="favorite")
-                span(style="color:grey;font-size:1rem;")
-                  | {{feed.likecount}}
-          q-card(flat)
-            q-list(dense)
-              q-item.no-padding(v-for="(comment,index) in feed.comments" :key="index")
-                q-item-main
-                  small
-                    span.text-primary
-                      | {{comment.user.name}}: 
-                    | {{ comment.text }}
-        div.text-center(slot="message")
-          q-spinner-dots( :size="40")
+  div
+    //- q-pull-to-refresh(:handler='refresher')
+    //- pull-to(:top-load-method="refresher")
+    q-infinite-scroll(:handler="loadMore" ref="infiniteScroll")
+      q-card.quote-card
+        blockquote.no-margin
+          //- p 欢迎来到广场，在这里您可以畅所欲言
+          small
+            | 欢迎来到广场，在这里您可以畅所欲言
+      q-scroll-area.text-center(style="width: 100%; height: 5rem;white-space:nowrap;overflow:scroll;")
+        q-card.news(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/news')")
+          div.row.flex.full-height
+            div.col-5.self-center
+              q-icon(name="public" size="2.5rem" color="white")
+            div.col-5.self-center.text-white(style="font-size:1rem;")
+              | 新闻
+        //- q-card.news(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/news')")
+          div.row.flex.full-height
+            div.col-5.self-center
+              q-icon(name="public" size="2.5rem" color="white")
+            div.col-5.self-center.text-white(style="font-size:1rem;")
+              | 活动
+        q-card.tree-hole.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;"  @click="$router.push('/tree-hole')")
+          div.row.flex.full-height
+            div.col-5.self-center
+              q-icon(name="fa-shu" size="2.5rem" color="white")
+            div.col-5.self-center.text-white(style="font-size:1rem;")
+              | 树洞
+        q-card.love.text-center(inline style="height:4rem;min-width:20vw;width:6.5rem;" @click="$router.push('/love-board')")
+          div.row.flex.full-height
+            div.col-5.self-center
+              q-icon(name="favorite" size="2.5rem" color="white")
+            div.col-5.self-center.text-white(style="font-size:1rem;")
+              | 表白墙
+      q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
+        q-card-title.no-padding 
+        q-item(dense @click.stop="$router.push(`/profile/${feed.user.cardID}`)")
+          q-item-side
+            q-item-tile(avatar)
+              img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
+          q-item-main
+            q-item-tile(label) {{feed.user.name}}
+            q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
+        q-card-separator
+        q-card-main 
+          p(v-for="paragraph in feed.text.split('\\n')")
+            | {{ paragraph }}
+        div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
+          div.col-4(v-for="(img,key) in feed.img" :key="key" @click.stop="")
+            img(:src="`${img}-slim75`" @click="showImg(img)"
+            style="object-fit: cover;width:100%;height:100%;" 
+            alt="lorem")
+        q-card-separator
+        q-card-actions
+          div.full-width
+            q-btn.pull-right(flat small)
+              q-icon(name="comment")
+              span(style="color:grey;font-size:1rem;")
+                | {{feed.comments.length}}
+            q-btn.pull-right(small :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(index)")
+              q-icon(name="favorite")
+              span(style="color:grey;font-size:1rem;")
+                | {{feed.likecount}}
+        q-card(flat)
+          q-list(dense)
+            q-item.no-padding(v-for="(comment,index) in feed.comments" :key="index")
+              q-item-main
+                small
+                  span.text-primary
+                    | {{comment.user.name}}: 
+                  | {{ comment.text }}
+      div.text-center(slot="message")
+        q-spinner-dots( :size="40")
     q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
       q-card.no-margin(flat v-if="imgLoading" style="min-height:100px;min-width:100px;")
         q-inner-loading(:visible="imgLoading")
@@ -112,16 +113,20 @@
 
 <script>
 import { Toast, QScrollArea, QInnerLoading, QSpinnerGears } from 'quasar'
+// import PullTo from 'vue-pull-to'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     QScrollArea,
     QInnerLoading,
     QSpinnerGears
+    // PullTo
   },
   created() {
-    // this.resetFeeds()
-    // this.getFeeds()
+    this.$q.events.$on('app:refresh:square', this.refresher)
+  },
+  beforeDestroy() {
+    this.$q.events.$off('app:refresh:square', this.refresher)
   },
   beforeRouteUpdate(to, from, next) {
     if (to.name === 'Square' && from.name !== 'feedDetail') {
@@ -211,7 +216,9 @@ export default {
       this.$store.commit('clearFeeds')
       this.$refs.infiniteScroll.reset()
       this.$refs.infiniteScroll.resume()
-      done()
+      if (done !== undefined) {
+        done()
+      }
     },
     onFeedClick(index) {
       // this.currentIndex = index
@@ -291,12 +298,16 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
-                  headers: {
-                    Authorization: 'UpToken ' + this.token,
-                    'Content-Type': 'application/octet-stream'
+                .post(
+                  `/upload/putb64/-1/key/${this.key}`,
+                  base64.slice(index),
+                  {
+                    headers: {
+                      Authorization: 'UpToken ' + this.token,
+                      'Content-Type': 'application/octet-stream'
+                    }
                   }
-                })
+                )
                 .then(response => {
                   console.log(response)
                   for (let i in this.uploadImgs) {
@@ -351,34 +362,42 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.news
-  background #4e54c8 /* fallback for old browsers */
-  background -webkit-linear-gradient(to right, #8f94fb, #4e54c8) /* Chrome 10-25, Safari 5.1-6 */
-  background linear-gradient(to right, #8f94fb, #4e54c8) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.news {
+  background: #4e54c8; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
-.tree-hole
-  background #9D50BB /* fallback for old browsers */
-  background -webkit-linear-gradient(to right, #6E48AA, #9D50BB) /* Chrome 10-25, Safari 5.1-6 */
-  background linear-gradient(to right, #6E48AA, #9D50BB) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+.tree-hole {
+  background: #9D50BB; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #6E48AA, #9D50BB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
-.love
+.love {
   // background: #FF5F6D;  /* fallback for old browsers */
   // background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
   // background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background #E44D26 /* fallback for old browsers */
-  background -webkit-linear-gradient(to right, #F16529, #E44D26) /* Chrome 10-25, Safari 5.1-6 */
-  background linear-gradient(to right, #F16529, #E44D26) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #E44D26; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #F16529, #E44D26); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
-@media screen and (max-height: 750px)
-  .schedule-container
-    height 750px
+@media screen and (max-height: 750px) {
+  .schedule-container {
+    height: 750px;
+  }
+}
 
-@media screen and (min-height: 750px)
-  .schedule-container
-    height 100vh
+@media screen and (min-height: 750px) {
+  .schedule-container {
+    height: 100vh;
+  }
+}
 
-img
-  margin-left auto
-  margin-right auto
-  display block
+img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
 </style>

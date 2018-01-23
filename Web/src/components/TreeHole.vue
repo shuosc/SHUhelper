@@ -4,7 +4,8 @@
       div.stars
         .container(v-for="i in 100")
           .star
-    q-pull-to-refresh(:handler="refresher" style="z-index: 0;")
+    div
+      //- q-pull-to-refresh(:handler="refresher" style="z-index: 0;")
       q-card.no-margin.full-width(style="z-index: 2;")
         q-btn.full-width(flat color="white" @click="$router.push('/square')")
           q-icon(name="card_giftcard")

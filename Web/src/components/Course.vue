@@ -10,18 +10,14 @@
       </h5>
       <v-card-text class="px-0 pt-0">
         <div class="text-xs-center">
-          <v-chip small class="primary white--text" v-for="term in terms"
-            :key="term" @click="getTermCourse(term)">{{term|term}}</v-chip>
-          <v-chip small v-show="terms.indexOf('2017_2')==-1" @click="getTermCourse('2017_2')"
-            class="orange white--text">本学期未开</v-chip>
+          <v-chip small class="primary white--text" v-for="term in terms" :key="term" @click="getTermCourse(term)">{{term|term}}</v-chip>
+          <v-chip small v-show="terms.indexOf('2017_2')==-1" @click="getTermCourse('2017_2')" class="orange white--text">本学期未开</v-chip>
         </div>
         <navbar v-model="active">
-          <tab-item v-for="(courseClass,index) in termCourse[term]"
-            :id="index" :key="index">{{courseClass.teacher_no}}班</tab-item>
+          <tab-item v-for="(courseClass,index) in termCourse[term]" :id="index" :key="index">{{courseClass.teacher_no}}班</tab-item>
         </navbar>
         <tab-container v-model="active">
-          <tab-container-item v-for="(courseClass,index) in termCourse[term]"
-            :id="index" :key="index">
+          <tab-container-item v-for="(courseClass,index) in termCourse[term]" :id="index" :key="index">
             <cell title="学分">
               {{course.course.credit}}</cell>
             <cell title="时间">
@@ -39,13 +35,21 @@
         </tab-container>
       </v-card-text>
     </v-card>
-     <comment post="course" :id="$route.params.id"></comment>
+    <comment post="course" :id="$route.params.id"></comment>
   </div>
 </template>
 <script>
 // import _ from 'lodash'
-import comment from '@/components/comment.vue'
-import { Popup, Cell, TabContainer, TabContainerItem, Navbar, TabItem, InfiniteScroll } from 'mint-ui'
+// import comment from '@/components/comment.vue'
+import {
+  Popup,
+  Cell,
+  TabContainer,
+  TabContainerItem,
+  Navbar,
+  TabItem,
+  InfiniteScroll
+} from 'mint-ui'
 export default {
   components: {
     Popup,
@@ -54,11 +58,11 @@ export default {
     TabContainerItem,
     Navbar,
     TabItem,
-    InfiniteScroll,
-    comment
+    InfiniteScroll
+    // comment
   },
   filters: {
-    term: function (value) {
+    term: function(value) {
       let map = {
         '1': '秋',
         '2': '冬',
@@ -69,11 +73,10 @@ export default {
       return `${year}-${year + 1}${map[value[5]]}`
     }
   },
-  data () {
+  data() {
     return {
       course: {
-        course: {
-        }
+        course: {}
       },
       terms: {},
       termCourse: {},
@@ -81,15 +84,15 @@ export default {
       active: 0
     }
   },
-  watch: {
-  },
-  created () {
+  watch: {},
+  created() {
     this.getCourse()
   },
   methods: {
-    getCourse () {
-      this.$http.get(`/api/v1/courses/${this.$route.params.id}`)
-        .then((response) => {
+    getCourse() {
+      this.$http
+        .get(`/api/v1/courses/${this.$route.params.id}`)
+        .then(response => {
           this.course = response.data
           this.terms = response.data.terms
           console.log(this.terms.indexOf('2017_1') !== -1)
@@ -97,9 +100,10 @@ export default {
           // console.log(this.courses)
         })
     },
-    getTermCourse (term) {
-      this.$http.get(`/api/v1/courses/${this.$route.params.id}/${term}`)
-        .then((response) => {
+    getTermCourse(term) {
+      this.$http
+        .get(`/api/v1/courses/${this.$route.params.id}/${term}`)
+        .then(response => {
           this.$set(this.termCourse, this.term, response.data.classes)
           console.log(this.termCourse)
           this.$nextTick(() => {

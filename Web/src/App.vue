@@ -1,7 +1,7 @@
 <template lang="pug">
   // Don't drop "q-app" class
   div#q-app
-    q-layout(ref="layout" view="lHh Lpr lFf" :left-class="{'bg-grey-2': true}")
+    q-layout(ref="layout" view="lHh Lpr lFf" :left-class="{'bg-grey-2': true}" reveal)
       q-toolbar(slot="header" v-if="!$route.meta.disableToolbar")
         q-btn(flat @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")
@@ -13,11 +13,11 @@
         // <router-view  name="left"/>
       // <q-scroll-area style="width: 100%; height: 100%;">
       //- transition(:name="'router-' + stack.direction")      
-      q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
-        navigation
-          router-view
+        //- q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
+      navigation
+        router-view
       //</q-scroll-area>
-      div(slot="footer" v-if="$q.platform.is.ios && !$route.meta.disableBottom")
+      div(slot="navigation" v-if="!$route.meta.disableBottom")
         bottom-navigation
 </template>
 

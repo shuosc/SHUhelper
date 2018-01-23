@@ -22,6 +22,7 @@ import Navigation from 'libs/Nav'
 import VueAMap from 'vue-amap'
 import ga from 'libs/analytics.js'
 import FastClick from 'fastclick'
+// import PullTo from 'vue-pull-to'
 import Quasar, {
   Toast,
   QBtn,
@@ -67,7 +68,7 @@ import {
 } from 'mint-ui'
 
 Vue.component(Field.name, Field)
-
+// Vue.use(PullTo)
 Vue.use(Vuelidate)
 
 Vue.use(VueAMap)
@@ -115,6 +116,12 @@ Vue.use(Quasar, {
     BackToTop,
     GoBack
   }
+})
+
+router.beforeEach((to, from, next) => {
+  // console.log(to, from)
+  next()
+  // console.log(history)
 })
 
 router.afterEach((to, from) => {
