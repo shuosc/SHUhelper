@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     q-card(flat)
-      q-btn.full-width( @click="$router.push('/courses')" icon="send") 去评价课程
+      q-btn.full-width( @click="$router.push('/course-query')" icon="send") 去评价课程
       //- mt-field(class="pb-0" name="input-1" v-model="quickQuery" single-line placeholder="搜索课程" id="testing")
     div(v-infinite-scroll="searchEvaluationQuick" :infinite-scroll-disabled="loading||allLoaded" infinite-scroll-distance="40")
       q-card(v-for="(evaluation,index) in evaluations" :key="index" style="margin:1rem 0 0 0")

@@ -134,10 +134,11 @@ export default {
     },
     onLikeClick(id, index) {
       this.$http.get(`/api/courses/${id}/like`).then(response => {
-        this.courses.splice(index, 1, response.data)
-        this.courses[index].liked = this.courses[index].like.includes(
+        response.data.liked = response.data.like.includes(
           this.$store.state.user.cardID
         )
+        console.log(response.data)
+        this.$set(this.courses, index, response.data)
       })
     },
     searchCourseQuick: _.debounce(function() {

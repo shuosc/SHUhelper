@@ -48,16 +48,8 @@
                     | 简介
                   q-item-main.text-center
                     | {{course.intro}}
-        //- q-card-actions
-          .row.flex.justify-end.full-width
-            q-btn( :class="{'text-pink':course.liked}" flat)
-              q-icon(name="trending_up")
-              span(style="color:grey;font-size:1rem;")
-                | {{course.heat}}
-            //- q-btn( :class="{'text-pink':course.liked}" flat @click.stop="onLikeClick(course._id.$oid)")
-              q-icon(name="favorite")
-              span(style="color:grey;font-size:1rem;")
-                | {{course.like.length}}
+      //- q-btn.full-width(flat color="black" @click="addEvalation")
+            q-icon(name="add") 写点评
       q-list
         q-list-header(v-if="evaluations.length > 0") 共有{{evaluations.length}}条点评
         q-item-separator
@@ -166,7 +158,7 @@ export default {
         this.course = response.data.course
       })
       this.$http
-        .get(`/api/evalutions/?course=${this.$route.params.id}`)
+        .get(`/api/evaluations/?course=${this.$route.params.id}`)
         .then(response => {
           this.evaluations = response.data
         })
@@ -198,7 +190,7 @@ export default {
     publish() {
       if (this.evaluation.text === '') return
       this.$http
-        .post(`/api/evalutions/`, {
+        .post(`/api/evaluations/`, {
           course: this.$route.params.id,
           name: this.evaluation.name,
           text: this.evaluation.text,

@@ -63,9 +63,9 @@ export default new VueRouter({
       name: 'login'
     },
     {
-      path: '/courses/evaluations',
+      path: '/course-evaluations',
       component: load('CourseEvaluations'),
-      name: 'course',
+      name: 'course-evaluations',
       meta: {
         title: '课程评价',
         disableBottom: true,
@@ -75,7 +75,7 @@ export default new VueRouter({
     {
       path: '/courses/:id',
       component: load('CoursesDetail'),
-      name: 'course',
+      name: 'course-detail',
       meta: {
         title: '课程',
         disableBottom: true,
@@ -83,9 +83,9 @@ export default new VueRouter({
       }
     },
     {
-      path: '/courses',
+      path: '/course-query',
       component: load('Courses'),
-      name: 'course',
+      name: 'course-query',
       meta: {
         title: '课程',
         disableBottom: true,

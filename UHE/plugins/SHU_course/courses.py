@@ -131,6 +131,7 @@ def like(oid):
         course.heat -= 1
         Course.objects(id=oid).update_one(pull__like=current_user.to_dbref())
     course.save()
+    course.reload()
     return jsonify(course)
 
 @courses.route('/<oid>', methods=['GET', 'PUT'])
