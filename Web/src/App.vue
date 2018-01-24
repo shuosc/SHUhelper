@@ -8,16 +8,12 @@
         q-btn(flat v-show="!$route.meta.back" @click="$refs.layout.toggleLeft()")
           q-icon(name="menu")
         q-toolbar-title {{$route.meta.title}}
-          // <div slot="subtitle">Running on University Helper Engine v{{$UHE.version}}</div>
         router-view(name="toolbar")
       left-panel( slot="left")
-        // <router-view  name="left"/>
-      // <q-scroll-area style="width: 100%; height: 100%;">
       //- transition(:name="'router-' + stack.direction")      
         //- q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
       navigation
         router-view
-      //</q-scroll-area>
       div(slot="footer" v-show="!$route.meta.disableBottom && $q.platform.is.mobile")
         bottom-navigation
 </template>

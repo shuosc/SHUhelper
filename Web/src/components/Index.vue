@@ -1,10 +1,12 @@
 <template lang="pug">
       
-  div
+  div()
     //- q-pull-to-refresh(:handler="refresher", :refresh-icon="false")
     //- pull-to(:top-load-method='refresher' :wrapper-height="'500px'" :is-bottom-bounce="false" :is-top-bounce="false")
     //- div(style="height: calc(100vh - 105px)")
-    div(v-if="refresh")
+    div.bg-grey-5(v-if="snow" style="position:fixed;top:0;height:100vh;width:100vw;z-index:-1;")
+      section(:id="'snow'" )
+    div(v-if="refresh" style="z-index:1;" )
       q-card.namecard(flat='')
         q-card-main
           q-icon(name='room')
@@ -16,8 +18,17 @@
             q-item-side
               q-spinner-hearts(color='red', :size='30')
             q-item-main
-              q-item-tile(label='') {{$store.state.user.name}}，{{welcome}}
+              q-item-tile(label='') {{$store.state.user.name}}，{{welcome}} 
+            q-item-side
+              q-toggle(v-model="snow"  left-label :label="snow?'雪停吧！':'下点大雪吧！'")
       simple-calendar
+      q-card()
+        q-card-media
+          q-parallax(:src="'/statics/course-back.jpg'" :height="150")
+          q-card-title(slot="overlay")
+            | 评课社区 现已上线
+        q-card-actions
+          q-btn.full-width(flat @click="$router.push('/course-evaluations')" icon="send" color="primary") 开始评课
       // q-card.no-margin
         q-card-title.text-center.full-width.no-margin(flat style="padding-bottom:0;")
           q-icon(name="card_giftcard")
@@ -27,6 +38,17 @@
           | 写下你的新年愿望
       course-time(v-if="$store.state.time.day<=5")
       empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
+      q-card
+        q-card-main.text-center
+          q-item
+            q-item-side
+              q-icon(color='primary', name='fa-book', style='font-size:2rem;')
+            q-item-main
+              q-item-tile(label='') 课程查询
+              q-item-tile(sublabel='') 查询本学期的，其他学期的课程，蹭课必备
+        q-card-separator
+        q-card-actions
+          q-btn.full-width(flat @click="$router.push('/course-query')" icon="send" color="primary") 开始查询
       course-card
       sport-card(v-if="$store.state.user.cardID!==''")
       //- navigator-card
@@ -57,7 +79,7 @@ import MapCard from '@/IndexMapCard'
 import CourseCard from '@/IndexCourseCard'
 import RandomChoice from '@/IndexRandomChoice'
 import NavigatorCard from '@/IndexNavigator'
-import { QSpinnerHearts } from 'quasar'
+import { QSpinnerHearts, QToggle, QCardMedia, QParallax } from 'quasar'
 // import PullTo from 'vue-pull-to'
 // q-gallery-carousel
 export default {
@@ -69,18 +91,22 @@ export default {
     SimpleCalendar,
     QuoteCard,
     EmptyRoom,
+    QCardMedia,
     LeftPanel,
     SportCard,
     SchoolBus,
+    QParallax,
     RandomChoice,
     IndexMerryChristmas,
     NavigatorCard,
     MapCard,
-    QSpinnerHearts
+    QSpinnerHearts,
+    QToggle
   },
   data() {
     return {
-      refresh: true
+      refresh: true,
+      snow: false
     }
   },
   activated() {
@@ -130,12 +156,75 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style  scoped>
 .namecard {
   transform: translateZ(0);
   opacity: 0.9;
-  // background #EDE574 /* fallback for old browsers */
-  // background -webkit-linear-gradient(to left, #E1F5C4, #EDE574) /* Chrome 10-25, Safari 5.1-6 */
-  // background linear-gradient(to left, #E1F5C4, #EDE574) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.course {
+  background: #0cebeb; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #29ffc6, #20e3b2, #0cebeb); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #29ffc6, #20e3b2, #0cebeb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+#snow {
+  background: none;
+  font-family: Androgyne;
+  background-image: url('/statics/s1.png'),
+    url('/statics/s2.png'),
+    url('/statics/s3.png');
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  -webkit-animation: snow 12s linear infinite;
+  -moz-animation: snow 12s linear infinite;
+  -ms-animation: snow 12s linear infinite;
+  animation: snow 12s linear infinite;
+}
+@keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  50% {
+    background-position: 500px 500px, 100px 200px, -100px 150px;
+  }
+  100% {
+    background-position: 500px 1000px, 200px 400px, -100px 300px;
+  }
+}
+@-moz-keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  50% {
+    background-position: 500px 500px, 100px 200px, -100px 150px;
+  }
+  100% {
+    background-position: 400px 1000px, 200px 400px, 100px 300px;
+  }
+}
+@-webkit-keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  50% {
+    background-position: 500px 500px, 100px 200px, -100px 150px;
+  }
+  100% {
+    background-position: 500px 1000px, 200px 400px, -100px 300px;
+  }
+}
+@-ms-keyframes snow {
+  0% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+  50% {
+    background-position: 500px 500px, 100px 200px, -100px 150px;
+  }
+  100% {
+    background-position: 500px 1000px, 200px 400px, -100px 300px;
+  }
 }
 </style>
