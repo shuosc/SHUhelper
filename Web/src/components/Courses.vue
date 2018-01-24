@@ -4,9 +4,9 @@
       mt-field(class="pb-0" name="input-1" v-model="quickQuery" single-line placeholder="搜索课程" id="testing")
     div(v-infinite-scroll="searchCourseQuick" :infinite-scroll-disabled="loading||allLoaded" infinite-scroll-distance="40")
       q-card(v-for="(course,index) in courses" :key="course.no+course.teacher"  @click="$router.push(`/courses/${course._id.$oid}`)")
-        q-card-title(dense style="white-space:nowrap;")
+        q-card-title(dense )
           | {{course.name}}
-          div(slot="subtitle" )
+          div(slot="subtitle" style="white-space:nowrap;")
             q-rating(v-model="course.rating" readonly :max="5") 
             small
               | {{course.rating}}({{course.evaluations_count}}人评分)

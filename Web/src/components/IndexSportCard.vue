@@ -69,7 +69,12 @@ export default {
         handler() {
           Dialog.create({
             title: '数据异常',
-            message: '如果数据异常是体育学院的锅，我们也不造为啥(￣∇￣)'
+            message: `
+            在很多情况下次数会延迟很久很久更新
+            <br/>
+            如果不放心可以到上海大学微信公众号查看完整记录
+            <br/>
+            另外，提示查询失败一般是体育学院服务器挂掉啦，请明天再来。`
           })
         }
       },
@@ -181,7 +186,7 @@ export default {
           if (err.response.status === 404) {
             this.renewData()
           } else {
-            Toast.create('体育查询失败')
+            Toast.create('体育查询失败，可能是体育学院服务器挂掉啦')
           }
           this.loading = false
         })

@@ -2,9 +2,9 @@
   div
     q-modal-layout(v-if="course")
       q-card(flat)
-        q-card-title(dense style="white-space:nowrap;")
+        q-card-title(dense )
           | {{course.name}}
-          div(slot="subtitle" )
+          div(slot="subtitle" style="white-space:nowrap;")
             q-rating(v-model="course.rating" readonly :max="5") 
             small
               | {{course.rating}}({{course.evaluations_count}}人评分)
