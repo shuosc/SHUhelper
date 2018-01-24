@@ -3,13 +3,12 @@ import datetime
 from flask import abort
 from flask_login import UserMixin
 from mongoengine import (BooleanField, DateTimeField, EmailField, DecimalField, ReferenceField, ListField, PULL, CASCADE,
-                         StringField, IntField,URLField,EmbeddedDocument,SortedListField,EmbeddedDocumentField,FloatField,EmbeddedDocumentListField)
+                         StringField, IntField, URLField, EmbeddedDocument, SortedListField, EmbeddedDocumentField, FloatField, EmbeddedDocumentListField)
 
 from UHE.client import Services
 from UHE.extensions import db
 from UHE.user.models import User
 # from UHE.comment.models import Comment
-
 
 
 class Comment(db.EmbeddedDocument):
@@ -36,21 +35,6 @@ class Comment(db.EmbeddedDocument):
             'text': self.text
         }
 
-class Evaluation(db.EmbeddedDocument):
-    user = ReferenceField(User)
-    text = StringField(default='')
-    term = StringField()
-    liked = ListField(ReferenceField(User, deref=True), default=lambda: [])
-    liked_count = IntField()
-    rating = IntField()
-    comments = EmbeddedDocumentListField(Comment,default=lambda: [])
-    deleted = BooleanField(default=False)
-    created = DateTimeField(default=datetime.datetime.now)
-    meta = {
-        'ordering': ['created'],
-        'strict': False
-    } 
-
 
 class Teacher(db.Document):
     no = StringField(primary_key=True)
@@ -62,14 +46,17 @@ class Teacher(db.Document):
     dept = StringField()
     cs = URLField()
     intro = StringField()
+
     def __unicode__(self):
         return self.name
 
 # unique_with='teacher',
+
+
 class Course(db.Document):
     no = StringField(required=True)
     name = StringField(required=True)
-    teacher = ReferenceField(Teacher,required=True)
+    teacher = ReferenceField(Teacher, required=True)
     teacher_name = StringField(required=True)
     credit = StringField()
     detail = StringField(default="")
@@ -77,25 +64,63 @@ class Course(db.Document):
     like = ListField(ReferenceField(User, deref=True), default=lambda: [])
     like_count = IntField(default=0)
     refrences = StringField(default="")
-    evaluations = EmbeddedDocumentListField(Evaluation, default=lambda: [])
-    rating = FloatField(default=lambda: 0,required=True)
+    heat = IntField(default=0)
+    evaluations_count = IntField(default=0)
+    # evaluations = ListField(ReferenceField(Evaluation), default=lambda: [])
+    rating = FloatField(default=lambda: 0, required=True)
     school = StringField(required=True)
     category = StringField(default="")
     tags = ListField(StringField(), default=lambda: [])
-    terms = SortedListField(StringField(), reverse=True,default=lambda: [],required=True)
+    terms = SortedListField(StringField(), reverse=True,
+                            default=lambda: [], required=True)
     meta = {
-        'strict': False
+        'strict': False,
+        'ordering': ['-heat'],
     }
 
     def __unicode__(self):
         return '{}-{}-{}'.format(self.name, self.no, self.teacher)
 
+
+class Evaluation(db.Document):
+    user = ReferenceField(User)
+    display_name = StringField()
+    text = StringField(default='')
+    course = ReferenceField(Course)
+    term = StringField()
+    like = ListField(ReferenceField(User, deref=True), default=lambda: [])
+    liked_count = IntField()
+    rating = IntField()
+    comments = EmbeddedDocumentListField(Comment, default=lambda: [])
+    deleted = BooleanField(default=False)
+    created = DateTimeField(default=datetime.datetime.now)
+    meta = {
+        'ordering': ['created'],
+        'strict': False
+    }
+
+    def to_dict(self):
+        return {
+            'display_name': self.display_name,
+            'text': self.text,
+            'course': {
+                'id': str(self.course.id),
+                'no': self.course.no,
+                'name': self.course.name,
+                'teacherName': self.course.teacher_name},
+            'term': self.term,
+            'like': self.like,
+            'rating': self.rating,
+            'created': str(self.created)
+        }
+
+
 class CourseOfTerm(db.Document):
-    course = ReferenceField(Course,reverse_delete_rule=CASCADE)
+    course = ReferenceField(Course, reverse_delete_rule=CASCADE)
     course_no = StringField(required=True)
     course_name = StringField(required=True)
     credit = StringField(required=True)
-    teacher = ReferenceField(Teacher,required=True)
+    teacher = ReferenceField(Teacher, required=True)
     teacher_no = StringField(required=True)
     teacher_name = StringField(required=True)
     time = StringField()

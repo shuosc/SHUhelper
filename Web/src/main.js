@@ -140,7 +140,10 @@ Vue.prototype.$UHE = {
   schoolName: '上海大学'
 }
 
-Vue.use(Navigation, { router, store })
+Vue.use(Navigation, {
+  router,
+  store
+})
 
 const moment = require('moment')
 require('moment/locale/zh-cn')
@@ -211,6 +214,7 @@ Vue.filter('cnNum', function (value) {
   return map[value]
 })
 Vue.filter('term', function (value) {
+  // console.log(value.length)
   let map = {
     '1': '秋',
     '2': '冬',
@@ -218,10 +222,10 @@ Vue.filter('term', function (value) {
     '4': '夏'
   }
   value = value.toString()
-  // console.log(value)
   let year = parseInt(value.slice(2, 4))
-  // console.log(year)
-  // console.log(map[value[5]])
+  if (!year) {
+    return value
+  }
   return `${year}-${year + 1}${map[value[5]]}`
 })
 

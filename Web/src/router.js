@@ -1,3 +1,5 @@
+
+/* eslint-disable */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -5,7 +7,8 @@ Vue.use(VueRouter)
 
 function load(component) {
   // '@' is aliased to src/components
-  return () => import(`@/${component}.vue`)
+  return () =>
+    import (`@/${component}.vue`)
 }
 import Login from '@/Login'
 import Error404 from '@/Error404'
@@ -34,12 +37,14 @@ export default new VueRouter({
     if (savedPosition) {
       return savedPosition
     } else {
-      return { x: 0, y: 0 }
+      return {
+        x: 0,
+        y: 0
+      }
     }
   },
 
-  routes: [
-    {
+  routes: [{
       path: '/',
       redirect: '/index',
       alias: ['index-su', 'home']
@@ -58,8 +63,18 @@ export default new VueRouter({
       name: 'login'
     },
     {
-      path: '/courses',
-      component: load('Courses'),
+      path: '/courses/evaluations',
+      component: load('CourseEvaluations'),
+      name: 'course',
+      meta: {
+        title: '课程评价',
+        disableBottom: true,
+        back: true
+      }
+    },
+    {
+      path: '/courses/:id',
+      component: load('CoursesDetail'),
       name: 'course',
       meta: {
         title: '课程',
@@ -68,8 +83,8 @@ export default new VueRouter({
       }
     },
     {
-      path: '/courses/:id',
-      component: load('CoursesDetail'),
+      path: '/courses',
+      component: load('Courses'),
       name: 'course',
       meta: {
         title: '课程',
@@ -106,12 +121,13 @@ export default new VueRouter({
     {
       path: '/tree-hole',
       name: 'tree-hole',
-      component: () => import(`@/TreeHole.vue`),
+      component: () =>
+        import (`@/TreeHole.vue`),
       meta: {
         title: '树洞',
         disableBottom: true,
         disableToolbar: true
-      }// children: [{ path: '/', component: load('Schedule') }]
+      } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/news',
@@ -121,7 +137,7 @@ export default new VueRouter({
         title: '新闻',
         disableBottom: true,
         disableToolbar: true
-      }// children: [{ path: '/', component: load('Schedule') }]
+      } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
       path: '/love-board',

@@ -12,7 +12,7 @@ from UHE.extensions import admin, captcha_solver, celery, db
 from UHE.plugins import UHEPlugin
 from flask import current_app
 from .models import Course, CourseOfTerm, Teacher
-from .api import courses,teachers
+from .api import courses, teachers, evaluations
 from UHE.plugins.SHU_api import get_courses
 from UHE.admin.views import BasicPrivateModelView
 from .manage import get_xk
@@ -39,6 +39,7 @@ class SHUCourse(UHEPlugin):
         admin.add_view(CourseView(Teacher, endpoint='teacher-manage'))
         app.register_blueprint(courses, url_prefix='/courses')
         app.register_blueprint(teachers, url_prefix='/teachers')
+        app.register_blueprint(evaluations, url_prefix='/evaluations')
         print('setup', __plugin__)
 
     def install(self, app):

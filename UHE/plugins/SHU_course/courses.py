@@ -116,28 +116,33 @@ def get_courses():
         return jsonify(courses.items)
 
 
+
+@courses.route('/<oid>/like')
+def like(oid):
+    course = Course.objects(id=oid).get_or_404()
+    if current_user.is_anonymous:
+        user = User.objects(card_id="00000001").first()
+        Course.objects(id=oid).update_one(push__like=user.to_dbref())
+        course.heat += 1
+    elif Course.objects(id=oid, like__nin=[current_user.to_dbref()]).first() is not None:
+        Course.objects(id=oid).update_one(push__like=current_user.to_dbref())
+        course.heat += 1
+    else:
+        course.heat -= 1
+        Course.objects(id=oid).update_one(pull__like=current_user.to_dbref())
+    course.save()
+    return jsonify(course)
+
 @courses.route('/<oid>', methods=['GET', 'PUT'])
 def get_course(oid):
     if request.method == 'GET':
         course = Course.objects.get_or_404(id=oid)
-        # term_courses = CourseOfTerm.objects(course=course)
-        for evaluation in course.evaluations:
-            evaluation.user = evaluation.user.to_dict_public()
-        return jsonify(course=course)
-    if request.method == 'PUT':
-        args = request.get_json()
-        # evaluation = Evaluation(rating=args['rating'],text=args['text'],term=args['term'])
-        course = Course.objects(id=oid).get_or_404()
-        course.evaluations.create(
-            rating=args['rating'], text=args['text'], term=args['term'], user=current_user.id
-        )
-        count = len(course.evaluations)
-        star = 0
-        for evaluation in course.evaluations:
-            star += evaluation.rating
-        course.rating = star / count
+        course.heat += 1
         course.save()
-        return jsonify(success=True)
+        # term_courses = CourseOfTerm.objects(course=course)
+        # for evaluation in course.evaluations:
+        #     evaluation.user = evaluation.user.to_dict_public()
+        return jsonify(course=course)
 
 # @course.route('/')
 # def get_course_id():

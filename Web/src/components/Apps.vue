@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { Dialog } from 'quasar'
+import { Dialog, openURL } from 'quasar'
 export default {
   data() {
     return {
@@ -65,7 +65,8 @@ export default {
             // { name: '体育活动', icon: 'bubble_chart', url: '/info' },
             { name: '校园地图', icon: 'fa-map-o', url: '/map' },
             // { name: '快速链接', icon: 'bubble_chart', url: '/info' },
-            { name: '课程评估', icon: 'fa-book', url: '/courses' },
+            { name: '课程搜索', icon: 'fa-book', url: '/courses' },
+            { name: '评课社区', icon: 'fa-book', url: '/courses/evaluations' },
             // { name: '学生财务', icon: 'fa-money', url: '/fin' },
             // { name: '校车运行', icon: 'fa-bus', url: '/bus' },
             // { name: '晨跑课外', icon: 'fa-tiyujiankang', url: '/sports' },
@@ -83,7 +84,8 @@ export default {
             {
               name: '排课助手',
               icon: 'fa-paw',
-              detail: '在这里你可以给自己排出一份合理的课表，该服务由SHUhelper提供',
+              detail:
+                '在这里你可以给自己排出一份合理的课表，该服务由SHUhelper提供',
               external: true,
               url: 'http://xk.shuhelper.cn/'
             }
@@ -195,13 +197,15 @@ export default {
         // this.modal = true
         Dialog.create({
           title: '提示',
-          message: `你正在前往${app.name}<br/><br/>${app.url}<br/><br/>${app.detail}<br/><br/>点击确认将在新网页中打开${app.name}`,
+          message: `你正在前往${app.name}<br/><br/>${app.url}<br/><br/>${
+            app.detail
+          }<br/><br/>点击确认将在新网页中打开${app.name}`,
           buttons: [
             '取消',
             {
               label: '确定',
               handler() {
-                window.open(app.url)
+                openURL(app.url)
               }
             }
           ]

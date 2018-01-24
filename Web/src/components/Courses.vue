@@ -3,13 +3,13 @@
     q-card
       mt-field(class="pb-0" name="input-1" v-model="quickQuery" single-line placeholder="搜索课程" id="testing")
     div(v-infinite-scroll="searchCourseQuick" :infinite-scroll-disabled="loading||allLoaded" infinite-scroll-distance="40")
-      q-card(v-for="course in courses" :key="course.no+course.teacher"  @click="$router.push(`/courses/${course._id.$oid}`)")
+      q-card(v-for="(course,index) in courses" :key="course.no+course.teacher"  @click="$router.push(`/courses/${course._id.$oid}`)")
         q-card-title(dense style="white-space:nowrap;")
           | {{course.name}}
           div(slot="subtitle" )
             q-rating(v-model="course.rating" readonly :max="5") 
             small
-              | {{course.rating}}({{course.evaluations.length}}人评分)
+              | {{course.rating}}({{course.evaluations_count}}人评分)
           div(slot="right" class="row items-center")
             q-item
               <q-icon name="person" /> {{course.teacher_name}}
@@ -50,30 +50,35 @@
                 | {{course.intro}}
         q-card-actions
           .row.flex.justify-end.full-width
-            q-btn( :class="{'text-pink':course.liked}" flat @click.stop="onLikeClick($route.query.index)")
+            q-btn( :class="{'text-pink':true}" flat)
+              q-icon(name="trending_up")
+              span(style="color:grey;font-size:1rem;")
+                | {{course.heat}}
+            q-btn( :class="{'text-pink':course.liked}" flat @click.stop="onLikeClick(course._id.$oid,index)")
               q-icon(name="favorite")
               span(style="color:grey;font-size:1rem;")
                 | {{course.like.length}}
             q-btn(flat)
                 q-icon(name="comment")
                 span(style="color:grey;font-size:1rem;")
-                  | {{course.evaluations.length}}
+                  | {{course.evaluations_count}}
       div(style="text-align:center;height:60px;")
-        //- <q-progress-circular v-show="loading" indeterminate class="primary--text"></q-progress-circular>
+        q-spinner-dots( v-show="loading" indeterminate :size="40")
         <span v-show="allLoaded" class="primary--text">no more data :)</span>
     q-modal(v-model="dialog" minimized  :content-css="{minWidth: '80vw'}")
       course-term-card(v-if="course&&course.course" :course="course.course" :classes="course.classes")
 </template>
 <script>
 import _ from 'lodash'
-import { QRating, QChip } from 'quasar'
+import { QRating, QChip, QSpinnerDots } from 'quasar'
 import { InfiniteScroll } from 'mint-ui'
 import CourseTermCard from '@/CourseTermCard'
 export default {
   components: {
     QRating,
     QChip,
-    CourseTermCard
+    CourseTermCard,
+    QSpinnerDots
   },
   directives: {
     InfiniteScroll
@@ -126,6 +131,14 @@ export default {
           this.course = response.data
           this.courseLoading = false
         })
+    },
+    onLikeClick(id, index) {
+      this.$http.get(`/api/courses/${id}/like`).then(response => {
+        this.courses.splice(index, 1, response.data)
+        this.courses[index].liked = this.courses[index].like.includes(
+          this.$store.state.user.cardID
+        )
+      })
     },
     searchCourseQuick: _.debounce(function() {
       if (this.loading) return

@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     onClick(name) {
-      console.log('on click bottom')
+      // console.log('on click bottom')
       Events.$emit('app:refresh:' + name, () => {})
     }
   }

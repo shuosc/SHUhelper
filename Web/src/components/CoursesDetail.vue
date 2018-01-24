@@ -1,13 +1,13 @@
 <template lang="pug">
   div
     q-modal-layout(v-if="course")
-      q-card
+      q-card(flat)
         q-card-title(dense style="white-space:nowrap;")
           | {{course.name}}
           div(slot="subtitle" )
             q-rating(v-model="course.rating" readonly :max="5") 
             small
-              | {{course.rating}}({{course.evaluations.length}}人评分)
+              | {{course.rating}}({{course.evaluations_count}}人评分)
           div(slot="right" class="row items-center")
             q-item
               <q-icon name="person" /> {{course.teacher_name}}
@@ -48,21 +48,36 @@
                     | 简介
                   q-item-main.text-center
                     | {{course.intro}}
+        //- q-card-actions
+          .row.flex.justify-end.full-width
+            q-btn( :class="{'text-pink':course.liked}" flat)
+              q-icon(name="trending_up")
+              span(style="color:grey;font-size:1rem;")
+                | {{course.heat}}
+            //- q-btn( :class="{'text-pink':course.liked}" flat @click.stop="onLikeClick(course._id.$oid)")
+              q-icon(name="favorite")
+              span(style="color:grey;font-size:1rem;")
+                | {{course.like.length}}
       q-list
-        q-list-header(v-if="course.evaluations.length > 0") 共有{{course.evaluations.length}}条点评
+        q-list-header(v-if="evaluations.length > 0") 共有{{evaluations.length}}条点评
         q-item-separator
-        q-card(flat v-for="(evaluation,index) in course.evaluations" :key="index" style="margin:1rem 0 0 0")
+        q-card(flat v-for="(evaluation,index) in evaluations" :key="index" style="margin:1rem 0 0 0")
           q-card-title.no-padding 
-          q-item(dense @click.stop="$router.push(`/profile/${evaluation.user.cardID}`) || $refs.courseModal.close()")
-            q-item-side
-              q-item-tile(avatar)
-                img(:src="`https://static.shuhelper.cn/${evaluation.user.avatar}`")
+          q-item(dense)
+            //- q-item-side
+              //- q-item-tile(avatar)
+                | {{evaluation.display_name}}
+                //- img(:src="`https://static.shuhelper.cn/${evaluation.user.avatar}`")
             q-item-main
-              q-item-tile(label) {{evaluation.user.name}} 
-                q-rating(v-model="evaluation.rating" readonly :max="5") 
-                small.text-faded {{evaluation.term|term}}
+              q-item-tile(label) {{evaluation.display_name}} 
+                //- q-rating(v-model="evaluation.rating" readonly :max="5") 
+                //- small.text-faded {{evaluation.term|term}}
               q-item-tile(sublabel)  {{new Date(evaluation.created.$date - 8*3600*1000)|moment("from")}}
-            q-item-side(:stamp="`\#${index+1}`")
+            q-item-side()
+              q-item-tile.pull-right
+                small.text-faded {{evaluation.term|term}}
+              q-item-tile
+                q-rating(v-model="evaluation.rating" readonly :max="5") 
           q-card-separator
           q-card-main 
             p
@@ -76,26 +91,26 @@
             | 正在评价 {{course.name}}-{{course.teacher_name}}
           q-card-separator
           q-card-main
-            .row
-              .col-12
-                span.text-faded 评分: {{evaluation.rating}}
-                br
-                q-rating(v-model="evaluation.rating" :max="5" size="2rem")   
-                //- span(style="font-size:1rem")
-                  | {{evaluation.rating}}分
-              .col-12
-                q-select(
-                  v-model="evaluation.term"
-                  float-label="选择上这门课的学期"
-                  radio
-                  :options="termOptions")
-              .col-12
-                mt-field(placeholder="这门课的内容、亮点和你的吐槽" type="textarea" rows="4" v-model="evaluation.text")
-              .col-12
-                q-btn.full-width(@click="publish") 发布
+            q-field(icon="person" label="名字")
+              mt-field( v-model="evaluation.name" placeholder="匿名")
+            q-field(icon="thumb_up"
+              :label="'评分: '+evaluation.rating")
+              q-rating(v-model="evaluation.rating" :max="5" size="2rem")  
+              //- span(style="font-size:1rem")
+                | {{evaluation.rating}}分
+            q-field(icon="schedule"
+              label="选择上这门课的学期")
+              q-select(
+                v-model="evaluation.term"
+                :options="termOptions")
+            q-field(icon="rate_review"
+              label="这门课的内容、亮点和你的吐槽")
+              mt-field(placeholder="" type="textarea" rows="4" v-model="evaluation.text")
+            q-field
+              q-btn.full-width(@click="publish") 发布
       q-toolbar(slot="footer" color="white")
         q-toolbar-title
-          q-btn(flat color="black" @click="addEvalation")
+          q-btn.full-width(flat color="black" @click="addEvalation")
             q-icon(name="add") 写点评
     
 </template>
@@ -112,11 +127,14 @@ export default {
     return {
       course: null,
       evalationModal: false,
+      evaluations: [],
       classes: null,
       dialog: false,
       evaluation: {
         rating: 5,
-        term: ''
+        term: '其他学期',
+        name: '匿名',
+        text: ''
       }
     }
   },
@@ -126,6 +144,10 @@ export default {
   computed: {
     termOptions: function() {
       let options = []
+      options.push({
+        label: '其他学期',
+        value: '其他学期'
+      })
       for (let term of this.course.terms) {
         options.push({
           label: term,
@@ -143,6 +165,11 @@ export default {
       this.$http.get(`/api/courses/${this.$route.params.id}`).then(response => {
         this.course = response.data.course
       })
+      this.$http
+        .get(`/api/evalutions/?course=${this.$route.params.id}`)
+        .then(response => {
+          this.evaluations = response.data
+        })
     },
     onCourseClick(course, term) {
       this.dialog = true
@@ -171,13 +198,20 @@ export default {
     publish() {
       if (this.evaluation.text === '') return
       this.$http
-        .put(`/api/courses/${this.$route.params.id}`, {
+        .post(`/api/evalutions/`, {
+          course: this.$route.params.id,
+          name: this.evaluation.name,
           text: this.evaluation.text,
           rating: this.evaluation.rating,
           term: this.evaluation.term
         })
         .then(response => {
-          this.evaluation = {}
+          this.evaluation = {
+            rating: 5,
+            text: '',
+            term: '其他学期',
+            name: '匿名'
+          }
           this.getCourse()
           this.evalationModal = false
         })
