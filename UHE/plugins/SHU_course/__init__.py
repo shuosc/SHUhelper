@@ -11,7 +11,7 @@ from UHE.calendar.models import Activity, Event
 from UHE.extensions import admin, captcha_solver, celery, db
 from UHE.plugins import UHEPlugin
 from flask import current_app
-from .models import Course, CourseOfTerm, Teacher
+from .models import Course, CourseOfTerm, Teacher,Evaluation
 from .api import courses, teachers, evaluations
 from UHE.plugins.SHU_api import get_courses
 from UHE.admin.views import BasicPrivateModelView
@@ -22,9 +22,22 @@ __plugin__ = "SHUCourse"
 date = datetime.datetime
 delta = datetime.timedelta
 
+class CourseOfTermView(BasicPrivateModelView):
+    column_filters = ['course_no', 'teacher_name', 'term']
+    column_searchable_list = ('course_no', 'teacher_name')
+
+
+class TeacherView(BasicPrivateModelView):
+    column_searchable_list = ('name', 'no')
 
 class CourseView(BasicPrivateModelView):
     # can_delete = False
+    form_ajax_refs = {
+        'teacher': {
+            'fields': ['no']
+        }
+    }
+    column_searchable_list = ('no', 'teacher_name')
     # can_create = False
     can_export = True
 
@@ -34,9 +47,11 @@ class SHUCourse(UHEPlugin):
 
     def setup(self, app):
         admin.add_view(
-            CourseView(CourseOfTerm, endpoint='course-term-manage'))
+            CourseOfTermView(CourseOfTerm, endpoint='course-term-manage'))
+        admin.add_view(
+            BasicPrivateModelView(Evaluation, endpoint='evaluations-manage'))
         admin.add_view(CourseView(Course, endpoint='course-manage'))
-        admin.add_view(CourseView(Teacher, endpoint='teacher-manage'))
+        admin.add_view(TeacherView(Teacher, endpoint='teacher-manage'))
         app.register_blueprint(courses, url_prefix='/courses')
         app.register_blueprint(teachers, url_prefix='/teachers')
         app.register_blueprint(evaluations, url_prefix='/evaluations')

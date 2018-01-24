@@ -76,6 +76,13 @@ class Course(db.Document):
     meta = {
         'strict': False,
         'ordering': ['-heat'],
+        'indexes': [
+            'heat',
+            'credit',
+            'no',
+            'name',
+            'teacher_name'
+        ]
     }
 
     def __unicode__(self):
@@ -96,7 +103,11 @@ class Evaluation(db.Document):
     created = DateTimeField(default=datetime.datetime.now)
     meta = {
         'ordering': ['-created'],
-        'strict': False
+        'strict': False,
+        'indexes': [
+            'course',
+            'created'
+        ]
     }
 
     def to_dict(self):
@@ -135,6 +146,11 @@ class CourseOfTerm(db.Document):
     meta = {
         'strict': False,
         'indexes': [
+            'course_no',
+            'course_name',
+            'teacher_name',
+            'time',
+            '#term',
             '#credit',
             '#campus'
         ]
