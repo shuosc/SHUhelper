@@ -95,7 +95,7 @@ class Evaluation(db.Document):
     deleted = BooleanField(default=False)
     created = DateTimeField(default=datetime.datetime.now)
     meta = {
-        'ordering': ['created'],
+        'ordering': ['-created'],
         'strict': False
     }
 

@@ -18,6 +18,9 @@ import Apps from '@/Apps'
 import Schedule from '@/Schedule'
 import Index from '@/Index'
 import FeedDetail from '@/FeedDetail'
+import CoursesDetail from '@/CoursesDetail'
+import Courses from '@/Courses'
+import CourseEvaluations from '@/CourseEvaluations'
 // import Map from '@/Map'
 export default new VueRouter({
   /*
@@ -64,7 +67,7 @@ export default new VueRouter({
     },
     {
       path: '/course-evaluations',
-      component: load('CourseEvaluations'),
+      component: CourseEvaluations,
       name: 'course-evaluations',
       meta: {
         title: '课程评价',
@@ -74,7 +77,7 @@ export default new VueRouter({
     },
     {
       path: '/courses/:id',
-      component: load('CoursesDetail'),
+      component: CoursesDetail,
       name: 'course-detail',
       meta: {
         title: '课程',
@@ -84,7 +87,7 @@ export default new VueRouter({
     },
     {
       path: '/course-query',
-      component: load('Courses'),
+      component: Courses,
       name: 'course-query',
       meta: {
         title: '课程',
