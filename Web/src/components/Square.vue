@@ -32,51 +32,10 @@
             div.col-5.self-center
               q-icon(name="favorite" size="2.5rem" color="white")
             div.col-5.self-center.text-white(style="font-size:1rem;")
-              | 表白墙
-      q-card(v-for="(feed,index) in feeds" :key="feed.id" style="margin:0.8rem 0 0 0 ;" @click="onFeedClick(index)")
-        q-card-title.no-padding 
-        q-item(dense @click.stop="$router.push(`/profile/${feed.user.cardID}`)")
-          q-item-side
-            q-item-tile(avatar)
-              img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
-          q-item-main
-            q-item-tile(label) {{feed.user.name}}
-            q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
-        q-card-separator
-        q-card-main 
-          p(v-for="paragraph in feed.text.split('\\n')")
-            | {{ paragraph }}
-        div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
-          div.col-4(v-for="(img,key) in feed.img" :key="key" @click.stop="")
-            img(:src="`${img}-slim75`" @click="showImg(img)"
-            style="object-fit: cover;width:100%;height:100%;" 
-            alt="lorem")
-        q-card-separator
-        q-card-actions
-          div.full-width
-            q-btn.pull-right(flat small)
-              q-icon(name="comment")
-              span(style="color:grey;font-size:1rem;")
-                | {{feed.comments.length}}
-            q-btn.pull-right(small :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(index)")
-              q-icon(name="favorite")
-              span(style="color:grey;font-size:1rem;")
-                | {{feed.likecount}}
-        q-card(flat)
-          q-list(dense)
-            q-item.no-padding(v-for="(comment,index) in feed.comments" :key="index")
-              q-item-main
-                small
-                  span.text-primary
-                    | {{comment.user.name}}: 
-                  | {{ comment.text }}
+              | 表白墙 
+      feed-card(v-for="(feed,index) in feeds" :key="feed.id" :comments="true" :index="index" :feed="feed" @like="onLikeClick(index)" v-scroll-fire="onFeedFire(feed.id)" )
       div.text-center(slot="message")
         q-spinner-dots( :size="40")
-    q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
-      q-card.no-margin(flat v-if="imgLoading" style="min-height:100px;min-width:100px;")
-        q-inner-loading(:visible="imgLoading")
-          q-spinner-gears(size="50px" color="primary")
-      img.responsive(:src="img" v-show="!imgLoading" @load="imgLoad")
     q-modal(ref="modal" maximized)
       q-modal-layout
         q-toolbar(slot="header" color="primary")
@@ -112,20 +71,25 @@
 </template>
 
 <script>
-import { Toast, QScrollArea, QInnerLoading, QSpinnerGears } from 'quasar'
+import { Toast, QScrollArea, ScrollFire } from 'quasar'
+import FeedCard from '@/SquareFeedCard'
 // import PullTo from 'vue-pull-to'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     QScrollArea,
-    QInnerLoading,
-    QSpinnerGears
+    FeedCard
     // PullTo
   },
+  directives: {
+    ScrollFire
+  },
   activated() {
+    this.active = true
     this.$q.events.$on('app:refresh:square', this.refresher)
   },
   deactivated: function() {
+    this.active = false
     this.$q.events.$off('app:refresh:square', this.refresher)
   },
   beforeRouteUpdate(to, from, next) {
@@ -174,19 +138,17 @@ export default {
       key: '',
       img: '',
       imgLoading: false,
-      currentIndex: -1
+      currentIndex: -1,
+      active: false
     }
   },
   methods: {
-    imgLoad() {
-      this.imgLoading = false
-    },
-    showImg(img) {
-      if (this.img !== img) {
-        this.imgLoading = true
+    onFeedFire(id) {
+      return element => {
+        if (this.active) {
+          this.$http.post(`/api/feeds/${id}/hits`)
+        }
       }
-      this.img = img
-      this.$refs.imgModal.open()
     },
     onLikeClick(index) {
       let id = this.feeds[index].id
@@ -202,9 +164,6 @@ export default {
         let feed = response.data
         this.$set(this.feeds, this.currentIndex, feed)
         this.feeds[this.currentIndex].likecount = feed.like.length
-        this.feeds[this.currentIndex].img = feed.img.map(x => {
-          return 'https://static.shuhelper.cn/' + x
-        })
       })
     },
     onCommentClick(index) {
@@ -212,6 +171,8 @@ export default {
       // this.$refs.commentModal.open()
     },
     refresher(done) {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
       this.currentIndex = -1
       this.$store.commit('clearFeeds')
       this.$refs.infiniteScroll.reset()
@@ -258,9 +219,6 @@ export default {
           for (let i in feeds) {
             let feed = feeds[i]
             feed.likecount = feed.like.length
-            feed.img = feed.img.map(x => {
-              return 'https://static.shuhelper.cn/' + x
-            })
             this.$store.commit('addFeed', feed)
             // this.feeds.push(feed)
           }
@@ -298,16 +256,12 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(
-                  `/upload/putb64/-1/key/${this.key}`,
-                  base64.slice(index),
-                  {
-                    headers: {
-                      Authorization: 'UpToken ' + this.token,
-                      'Content-Type': 'application/octet-stream'
-                    }
+                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
+                  headers: {
+                    Authorization: 'UpToken ' + this.token,
+                    'Content-Type': 'application/octet-stream'
                   }
-                )
+                })
                 .then(response => {
                   console.log(response)
                   for (let i in this.uploadImgs) {

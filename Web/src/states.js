@@ -58,13 +58,8 @@ const state = {
     addFeed(state, payload) {
       state.feeds.push(payload)
     },
-    cancelFeedLike(state, index) {
-      state.feeds[index].likecount -= 1
-      state.feeds[index].liked = false
-    },
-    clickFeedLike(state, index) {
-      state.feeds[index].likecount += 1
-      state.feeds[index].liked = true
+    updateFeed(state, payload) {
+      state.feeds.splice(payload.index, 1, payload.feed)
     },
     clearFeeds(state) {
       state.feeds = []

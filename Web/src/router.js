@@ -1,4 +1,3 @@
-
 /* eslint-disable */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
@@ -7,8 +6,7 @@ Vue.use(VueRouter)
 
 function load(component) {
   // '@' is aliased to src/components
-  return () =>
-    import (`@/${component}.vue`)
+  return () => import(`@/${component}.vue`)
 }
 import Login from '@/Login'
 import Error404 from '@/Error404'
@@ -17,7 +15,7 @@ import Square from '@/Square'
 import Apps from '@/Apps'
 import Schedule from '@/Schedule'
 import Index from '@/Index'
-import FeedDetail from '@/FeedDetail'
+import SquareFeedDetail from '@/SquareFeedDetail'
 import CoursesDetail from '@/CoursesDetail'
 import Courses from '@/Courses'
 import CourseEvaluations from '@/CourseEvaluations'
@@ -47,7 +45,8 @@ export default new VueRouter({
     }
   },
 
-  routes: [{
+  routes: [
+    {
       path: '/',
       redirect: '/index',
       alias: ['index-su', 'home']
@@ -124,8 +123,7 @@ export default new VueRouter({
     {
       path: '/tree-hole',
       name: 'tree-hole',
-      component: () =>
-        import (`@/TreeHole.vue`),
+      component: () => import(`@/TreeHole.vue`),
       meta: {
         title: '树洞',
         disableBottom: true,
@@ -165,11 +163,11 @@ export default new VueRouter({
     {
       path: '/feeds/:id',
       name: 'feed',
-      component: FeedDetail,
+      component: SquareFeedDetail,
       meta: {
         title: '查看详情',
         disableBottom: true,
-        disableToolbar: true
+        back: true
       }
     },
     {

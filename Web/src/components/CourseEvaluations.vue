@@ -8,8 +8,8 @@
           q-item(dense)
             q-item-main
               q-item-tile(label) 
-                | {{evaluation.display_name}} {{[evaluation.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}} 评论了  
-              q-item-tile(sublabel)  {{evaluation.course.name}}-{{evaluation.course.teacherName}}
+                | {{evaluation.course.name}}-{{evaluation.course.teacherName}}
+              q-item-tile(sublabel) {{evaluation.display_name}} 发表于 {{[evaluation.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}} 
             q-item-side()
               q-item-tile.pull-right
                 small.text-faded {{evaluation.term|term}}
@@ -17,7 +17,8 @@
                 q-rating(v-model="evaluation.rating" readonly :max="5") 
           q-card-separator
           q-card-main 
-            | {{evaluation.text}}
+            p(v-for="paragraph in evaluation.text.split('\\n')")
+              | {{ paragraph }}
           q-card-separator
           q-card-actions
             q-btn.full-width(flat @click="$router.push(`/courses/${evaluation.course.id}`)") 前往课程主页

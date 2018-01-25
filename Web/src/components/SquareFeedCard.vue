@@ -1,5 +1,52 @@
-<template>
-  <v-card class="mt-3">
+<template lang="pug">
+  q-card(:key="feed.id" :flat="flat" style="margin:0.8rem 0 0 0 ;" @click="$router.push(`/feeds/${feed.id}`)")
+    q-card-title.no-padding 
+    q-item(dense @click.stop="$router.push(`/profile/${feed.user.cardID}`)")
+      q-item-side
+        q-item-tile(avatar)
+          img(:src="`https://static.shuhelper.cn/${feed.user.avatar}`")
+      q-item-main
+        q-item-tile(label) {{feed.user.name}}
+        q-item-tile(sublabel)  {{[feed.created.slice(0,19),'YYYY-MM-DD HH:mm:ss']|moment("from")}}
+    q-card-separator
+    q-card-main 
+      p(v-for="paragraph in feed.text.split('\\n')")
+        | {{ paragraph }}
+    div.row.flex.xs-gutter(v-if="feed.img.length !== 0" style="padding:0.5rem;")
+      div.col-4(v-for="(img,key) in feed.img" :key="key" @click.stop="")
+        img(:src="`${img}-slim75`" @click="showImg(img)"
+        style="object-fit: cover;width:100%;height:100%;" 
+        alt="lorem")
+    q-card-separator
+    q-card-actions.justify-between
+      q-item.no-padding(dense)
+          <q-item-main>
+          //- <q-item-tile label>Notifications</q-item-tile>
+          <q-item-tile sublabel>{{feed.hits}}次浏览</q-item-tile>
+          </q-item-main>
+      div
+        q-btn(small :class="{'text-pink':feed.liked}" flat @click.stop="onLikeClick(index)")
+          q-icon(name="favorite")
+          span(style="color:grey;font-size:1rem;")
+            | {{feed.likecount}}
+        q-btn(flat small)
+          q-icon(name="comment")
+          span(style="color:grey;font-size:1rem;")
+            | {{feed.comments.length}}
+    q-card(flat)
+      small(v-if="feed.like.length")
+        span(v-for="user in feed.like")
+          | {{user.name}} 
+        span 喜欢了这条动态
+      q-list(dense v-if="comments")
+        q-item.no-padding(v-for="(comment,index) in feed.comments" :key="index")
+          q-item-main
+            small
+              span.text-primary
+                | {{comment.user.name}}: 
+              | {{ comment.text }}
+
+  //- <!-- <v-card class="mt-3"> -->
     <v-container fluid grid-list-lg class="py-0">
       <v-layout row @click.stop="$router.push(`/profile/${feed.user.cardID}`)">
         <v-flex xs2 style="text-align:center;">
@@ -127,6 +174,12 @@ export default {
     index: {
       type: Number
     },
+    comments: {
+      type: Boolean
+    },
+    flat: {
+      type: Boolean
+    },
     showDel: {
       type: Boolean,
       default() {
@@ -166,6 +219,15 @@ export default {
     }
   },
   methods: {
+    showImg(img) {
+      this.$q.events.$emit('app:showImg', img)
+    },
+    onLikeClick(index) {
+      let id = this.feed.id
+      this.$http.get(`/api/feeds/${id}/like`).then(response => {
+        this.feed = response.data
+      })
+    },
     deleteFeed(id) {
       this.$http.delete(`/api/v1/feeds/${id}`).then(response => {
         // this.getComments()
@@ -173,12 +235,6 @@ export default {
         this.$emit('delete')
         this.delDialog = false
       })
-    },
-    onFeedClick() {
-      this.$emit('onFeedClick', this.index)
-    },
-    onLikeClick() {
-      this.$emit('onLikeClick', this.index)
     }
   }
 }

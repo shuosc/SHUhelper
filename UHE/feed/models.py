@@ -42,6 +42,7 @@ class Feed(db.Document):
     text = StringField(default='')
     link = DictField()
     img = ListField(StringField())
+    hits = IntField(default=0)
     like = ListField(ReferenceField(User,reverse_delete_rule=PULL, deref=True), default=lambda: [])
     meta = {
         'ordering': ['-created'],
@@ -50,6 +51,10 @@ class Feed(db.Document):
 
     def __unicode__(self):
         return self.text
+
+
+    def increase_hit(self):
+        self.hits += 1
 
     def to_dict(self):
         # print(current_user.id,list(map(lambda user: user.id,self.like)))
@@ -60,9 +65,10 @@ class Feed(db.Document):
             'comments': [comment.to_dict() for comment in self.comment_list],
             'namespace': self.namespace,
             'text': self.text,
-            'img': self.img,
-            'like': self.like,
+            'img': ['https://static.shuhelper.cn/' + img for img in self.img],
+            'like': [user.to_dict_public() for user in self.like],
             'id': str(self.id),
+            'hits': self.hits,
             'liked': current_user.id in list(map(lambda user: user.id, self.like)),
             'likecount': len(self.like)
         }

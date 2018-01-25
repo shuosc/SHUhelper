@@ -71,9 +71,10 @@
               q-item-tile
                 q-rating(v-model="evaluation.rating" readonly :max="5") 
           q-card-separator
-          q-card-main 
-            p
-            | {{evaluation.text}}
+          q-card-main
+            p(v-for="paragraph in evaluation.text.split('\\n')")
+              | {{ paragraph }}
+          q-card-separator
         q-list-header 没有更多评论
       q-modal(v-model="dialog" minimized  :content-css="{minWidth: '80vw'}")
         course-term-card(v-if="course&&classes" :course="course" :classes="classes")

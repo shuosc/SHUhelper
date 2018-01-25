@@ -14,6 +14,11 @@
         //- q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
       navigation
         router-view
+      q-modal.flex(ref="imgModal" minimized @click.native="$refs.imgModal.close()")
+        q-card.no-margin(flat v-if="imgLoading" style="min-height:100px;min-width:100px;")
+          q-inner-loading(:visible="imgLoading")
+            q-spinner-gears(size="50px" color="primary")
+        img.responsive(:src="img" v-show="!imgLoading" @load="imgLoad")
       div(slot="footer" v-show="!$route.meta.disableBottom && $q.platform.is.mobile")
         bottom-navigation
 </template>
@@ -25,30 +30,45 @@
 import LeftPanel from '@/LayoutLeftPanel'
 import { mapState } from 'vuex'
 import BottomNavigation from '@/BottomNavigation'
-import { Toast } from 'quasar'
+import { Toast, QInnerLoading, QSpinnerGears } from 'quasar'
 import ga from 'libs/analytics.js'
 export default {
   components: {
     LeftPanel,
-    BottomNavigation
+    BottomNavigation,
+    QInnerLoading,
+    QSpinnerGears
   },
   data() {
     return {
-      title: '首页'
+      title: '首页',
+      imgLoading: false,
+      img: ''
     }
   },
   computed: {
     ...mapState(['stack'])
   },
   created() {
+    this.$q.events.$on('app:showImg', this.showImg)
     ga.loginUser('00000001')
     this.verifyToken()
     this.getTime()
   },
   methods: {
+    imgLoad() {
+      this.imgLoading = false
+    },
+    showImg(img) {
+      if (this.img !== img) {
+        this.imgLoading = true
+      }
+      this.img = img
+      this.$refs.imgModal.open()
+    },
     resetScroll(el, done) {
-      // document.documentElement.scrollTop = 0
-      // document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
       done()
     },
     changeTitle(newTitle) {

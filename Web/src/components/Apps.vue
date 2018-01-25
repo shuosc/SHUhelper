@@ -33,6 +33,8 @@
             | {{app.url}}
           br
           | 点击确认继续
+          br
+          | 提示：android app中暂时无法打开网页，请手动复制网址到浏览器
         q-card-actions.no-padding.no-margin.row.flex.text-center.justify-center
           q-btn.col-6.no-margin(flat @click="modal=false") 取消
           q-btn.col-6.no-margin(flat) 确定
@@ -199,7 +201,7 @@ export default {
           title: '提示',
           message: `你正在前往${app.name}<br/><br/>${app.url}<br/><br/>${
             app.detail
-          }<br/><br/>点击确认将在新网页中打开${app.name}`,
+          }<br/><br/>点击确认将在新网页中打开${app.name}<br/><br/>提示：android app中暂时无法打开网页，请手动复制网址到浏览器`,
           buttons: [
             '取消',
             {

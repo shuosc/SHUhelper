@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request, current_app
 from flask_login import current_user, login_required
 
 from UHE.client import XK
-from UHE.extensions import celery, captcha_solver
+from UHE.extensions import celery
 from UHE.plugins import UHEPlugin
 from UHE.user.models import UserData
 
@@ -70,8 +70,6 @@ def get_course(card_id, password):
     user_data.save()
     try:
         client = XK(card_id, password)
-        client.captcha = captcha_solver.create(
-            client.captcha_img, site='XK')['Result']
         client.login()
         client.get_data()
     except Exception as e:

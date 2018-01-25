@@ -19,7 +19,14 @@ def like(feed_id):
         Feed.objects(id=feed_id).update_one(push__like=current_user.to_dbref())
     else:
         Feed.objects(id=feed_id).update_one(pull__like=current_user.to_dbref())
+    return jsonify(Feed.objects(id=feed_id).get().to_dict())
+
+
+@feeds.route('/<feed_id>/hits',methods=['POST'])
+def hits(feed_id):
+    Feed.objects(id=feed_id).update_one(inc__hits=1)
     return jsonify(id=str(feed_id))
+
 
 @feeds.route('/link')
 def get_link_detail():
@@ -44,6 +51,8 @@ class CommonFeedsAPI(MethodView):
             return jsonify(total=total, feeds=[feed.to_dict() for feed in paginated_feeds.items])
         else:
             feed = Feed.objects.get_or_404(id=feed_id)
+            feed.increase_hit()
+            feed.save()
             return jsonify(feed.to_dict())
 
     def post(self):
@@ -68,8 +77,10 @@ class CommonFeedsAPI(MethodView):
             text = args.get('text', ''),
             reply = args.get('reply',-1)
         )
-        Feed.objects(id=feed_id).update_one(push__comment_list=comment)
-        return jsonify('ok')
+        feed = Feed.objects(id=feed_id).get()
+        feed.comment_list.append(comment)
+        feed.save()
+        return jsonify(feed.to_dict())
 
 
     def delete(self, feed_id):
