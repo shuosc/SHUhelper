@@ -33,7 +33,7 @@
               q-icon(name="favorite" size="2.5rem" color="white")
             div.col-5.self-center.text-white(style="font-size:1rem;")
               | 表白墙 
-      feed-card(v-for="(feed,index) in feeds" :key="feed.id" :comments="true" :index="index" :feed="feed" @like="onLikeClick(index)" v-scroll-fire="onFeedFire(feed.id)" )
+      feed-card(v-for="(feed,index) in feeds" :key="feed.id" :comments="true" v-if="!feed.deleted" @delete="onFeedDelete(index)" :index="index" :feed="feed" @like="onLikeClick(index)" v-scroll-fire="onFeedFire(feed.id)" )
       div.text-center(slot="message")
         q-spinner-dots( :size="40")
     q-modal(ref="modal" maximized)
@@ -188,7 +188,7 @@ export default {
       console.log('on feed click' + this.feeds[index].id)
     },
     onFeedDelete(index) {
-      this.feeds.splice(index, 1)
+      this.$store.commit('deleteFeed', index)
     },
     publish() {
       if (this.text === '' && this.imgs.length === 0) {

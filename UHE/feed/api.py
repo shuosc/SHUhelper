@@ -86,7 +86,8 @@ class CommonFeedsAPI(MethodView):
     def delete(self, feed_id):
         feed = Feed.objects(id=feed_id).get_or_404()
         if feed.user.id == current_user.id:
-            feed.delete()
+            feed.deleted = True
+            feed.save()
         else:
             abort(401)
         return jsonify(status='ok')

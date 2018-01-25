@@ -44,6 +44,7 @@ class Feed(db.Document):
     img = ListField(StringField())
     hits = IntField(default=0)
     like = ListField(ReferenceField(User,reverse_delete_rule=PULL, deref=True), default=lambda: [])
+    deleted = BooleanField(default=False)
     meta = {
         'ordering': ['-created'],
         'strict': False
@@ -65,6 +66,7 @@ class Feed(db.Document):
             'comments': [comment.to_dict() for comment in self.comment_list],
             'namespace': self.namespace,
             'text': self.text,
+            'deleted': self.deleted,
             'img': ['https://static.shuhelper.cn/' + img for img in self.img],
             'like': [user.to_dict_public() for user in self.like],
             'id': str(self.id),

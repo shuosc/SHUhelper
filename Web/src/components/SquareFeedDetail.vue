@@ -1,7 +1,7 @@
 <template lang="pug">
   div
     q-modal-layout()
-      feed-card(:feed="feed" :comments="false" flat @like="onLikeClick()" )
+      feed-card(:feed="feed" :comments="false" flat @like="onLikeClick()" @delete="$router.push('/square')")
       q-list
         q-list-header(v-if="feed.comments.length > 0") 共有{{feed.comments.length}}条评论
         q-item-separator

@@ -61,6 +61,9 @@ const state = {
     updateFeed(state, payload) {
       state.feeds.splice(payload.index, 1, payload.feed)
     },
+    deleteFeed(state, index) {
+      state.feeds[index].deleted = true
+    },
     clearFeeds(state) {
       state.feeds = []
     },

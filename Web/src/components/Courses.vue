@@ -9,7 +9,7 @@
           div(slot="subtitle" style="white-space:nowrap;")
             q-rating(v-model="course.rating" readonly :max="5") 
             small
-              | {{course.rating}}({{course.evaluations_count}}人评分)
+              | {{course.rating.toFixed(2)}}({{course.evaluations_count}}人评分)
           div(slot="right" class="row items-center")
             q-item
               <q-icon name="person" /> {{course.teacher_name}}
