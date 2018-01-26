@@ -72,7 +72,7 @@ class Course(db.Document):
     category = StringField(default="")
     tags = ListField(StringField(), default=lambda: [])
     terms = SortedListField(StringField(), reverse=True,
-                            default=lambda: [], required=True)
+                            default=lambda: [])
     meta = {
         'strict': False,
         'ordering': ['-heat'],
@@ -87,6 +87,7 @@ class Course(db.Document):
 
     def __unicode__(self):
         return '{}-{}-{}'.format(self.name, self.no, self.teacher)
+
 
 
 class Evaluation(db.Document):

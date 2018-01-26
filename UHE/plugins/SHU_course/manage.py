@@ -71,7 +71,7 @@ def save_courses(courselist, term):
     term_string = current_app.school_time.term_string
     for course in courselist:
         course_basic = {
-            key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tag')
+            key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tags')
         }
         teacher_name = course['teacher_name']
         teacher_no = course['teacher_id']
@@ -88,6 +88,7 @@ def save_courses(courselist, term):
                     teacher = Teacher.objects(name=teacher_name[:-1]).first()
         assert teacher is not None
         course_basic['teacher'] = teacher
+        course_basic['teacher_name'] = teacher.name
         course_db = Course.objects(
             no=course['no'], teacher=teacher).first()
         if course_db is None:
@@ -268,7 +269,7 @@ def get_latest_course(url):
                 'q_time': qtime,
                 'q_place': qplace,
                 'school': school,
-                'tag': [tag]
+                'tags': [tag]
             }
             courselist.append(course)
     return courselist
