@@ -137,7 +137,7 @@ export default new VueRouter({
       meta: {
         title: '新闻',
         disableBottom: true,
-        disableToolbar: true
+        back: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {

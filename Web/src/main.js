@@ -15,7 +15,7 @@ import Vue from 'vue'
 // import Quasar from 'quasar'
 import router from './router'
 import Vuex from 'vuex'
-import axios from 'axios'
+// import axios from 'axios'
 import state from './states'
 import Vuelidate from 'vuelidate'
 import Navigation from 'libs/Nav'
@@ -125,7 +125,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
-  ga.logPage(to.path, to.name, 'UA-111372547-1')
+  ga.logPage(to.path, to.name)
   // console.log(history)
 })
 

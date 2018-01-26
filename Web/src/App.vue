@@ -51,7 +51,7 @@ export default {
   },
   created() {
     this.$q.events.$on('app:showImg', this.showImg)
-    ga.loginUser('00000001')
+    // ga.loginUser('00000001')
     this.verifyToken()
     this.getTime()
   },

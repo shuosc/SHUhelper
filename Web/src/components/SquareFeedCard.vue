@@ -36,7 +36,7 @@
           span(style="color:grey;font-size:1rem;")
             | {{feed.comments.length}}
     q-card(flat)
-      small.text-faded(v-if="feed.like.length")
+      small.text-faded(v-if="feed.like.length" style="word-wrap:break-word;")
         span(v-for="(user,ui) in feed.like")
           span(v-show="ui!==0") 、
           | {{user.name}}

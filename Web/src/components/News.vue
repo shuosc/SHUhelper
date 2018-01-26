@@ -1,12 +1,5 @@
 <template>
   <div>
-    <q-toolbar color="primary">
-      <q-btn slot="left" flat round small class="primary" v-back>
-        <q-icon name="keyboard_backspace" /></q-btn>
-      <q-toolbar-title>
-        新闻
-      </q-toolbar-title>
-    </q-toolbar>
     <q-tabs v-model="selectedTab">
       <!-- Tabs - notice slot="title" -->
       <q-tab default slot="title" label="通知公告" name="tab-1" />
@@ -44,7 +37,7 @@
       </q-btn>
       <q-modal v-model="open" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
         <q-modal-layout>
-          <q-toolbar slot="header" inverted>
+          <q-toolbar slot="header" color="white">
             <q-btn color="primary" flat @click="open = false">
               <q-icon name="close" />
               <q-toolbar-title>
