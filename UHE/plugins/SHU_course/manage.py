@@ -12,7 +12,7 @@ from UHE.calendar.models import Activity, Event
 from UHE.extensions import admin, captcha_solver, celery, db
 from UHE.plugins import UHEPlugin
 from UHE.plugins.SHU_api import get_courses
-from .models import Course, CourseOfTerm, Teacher
+from .models import Course, CourseOfTerm, Teacher,CourseSelectedRecord
 
 
 def get_xk(url):
@@ -69,6 +69,7 @@ def get_teachers():
 
 def save_courses(courselist, term):
     term_string = current_app.school_time.term_string
+    now = datetime.datetime.now()
     for course in courselist:
         course_basic = {
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tags')
@@ -112,6 +113,14 @@ def save_courses(courselist, term):
         if not course_of_term_db:
             course_of_term_db = CourseOfTerm(**course_detail)
             course_of_term_db.save()
+        course_record = CourseSelectedRecord.objects(course=course_of_term_db).first()
+        if course_record is None:
+            course_record = CourseSelectedRecord(course=course_of_term_db).save()
+        course_record.enroll.append(course_of_term_db.enroll)
+        course_record.capacity.append(course_of_term_db.capacity)
+        course_record.updated.append(now)
+        course_record.save()
+        
 
 
 TERM_INT = {

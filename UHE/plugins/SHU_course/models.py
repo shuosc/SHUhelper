@@ -156,3 +156,9 @@ class CourseOfTerm(db.Document):
             '#campus'
         ]
     }
+
+class CourseSelectedRecord(db.Document):
+    course = ReferenceField(CourseOfTerm)
+    enroll = ListField(IntField(),default=lambda: [])
+    capacity = ListField(IntField(),default=lambda: [])
+    updated = ListField(DateTimeField(),default=lambda: [])
