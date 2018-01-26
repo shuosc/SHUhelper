@@ -20,6 +20,6 @@ export default {
     })
   },
   loginUser(id) {
-    ga('set', 'userId', id)
+    window.uid = id
   }
 }
