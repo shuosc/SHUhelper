@@ -109,10 +109,12 @@ def save_courses(courselist, term):
         course_detail['teacher'] = teacher
         course_detail['teacher_name'] = teacher.name
         course_of_term_db = CourseOfTerm.objects(
-            course=course_db, teacher_no=course['teacher_no']).update(**course_detail)
+            course=course_db, teacher_no=course['teacher_no']).course_of_term_db.update(**course_detail)
         if not course_of_term_db:
-            course_of_term_db = CourseOfTerm(**course_detail)
-            course_of_term_db.save()
+            course_of_term_db = CourseOfTerm(**course_detail).save()
+        else:
+            course_of_term_db = CourseOfTerm.objects(
+                course=course_db, teacher_no=course['teacher_no']).first()
         course_record = CourseSelectedRecord.objects(course=course_of_term_db).first()
         if course_record is None:
             course_record = CourseSelectedRecord(course=course_of_term_db).save()
