@@ -1,13 +1,15 @@
+import json
+
 from flask import Blueprint, jsonify, request, abort
 # from flask_login import current_user.
 from flask.views import MethodView
 from flask_login import current_user, login_required
 from mongoengine.queryset.visitor import Q
-import datetime
+
 from UHE.extensions import redis_store
 from UHE.message.models import Conversation, Message
 from UHE.user.models import User
-import json
+
 conversations = Blueprint('conversations', __name__)
 
 

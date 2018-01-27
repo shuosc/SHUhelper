@@ -1,10 +1,10 @@
-from flask import Blueprint, jsonify, request, abort
-from flask.views import MethodView
-from flask_login import current_user
-from .client import Services
-from bs4 import BeautifulSoup
 import requests
+from bs4 import BeautifulSoup
+from flask import Blueprint, jsonify, request
+
 from UHE.plugins import UHEPlugin
+from .client import Services
+
 SHUapi = Blueprint('shu', __name__)
 __plugin__ = "SHUAPI"
 

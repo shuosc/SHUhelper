@@ -5,14 +5,9 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from flask import current_app
-from flask_admin.contrib.mongoengine import ModelView
-from mongoengine.context_managers import switch_collection
-from UHE.admin.views import BasicPrivateModelView
-from UHE.calendar.models import Activity, Event
-from UHE.extensions import admin, captcha_solver, celery, db
-from UHE.plugins import UHEPlugin
-from UHE.plugins.SHU_api import get_courses
-from .models import Course, CourseOfTerm, Teacher,CourseSelectedRecord
+
+from UHE.extensions import captcha_solver
+from .models import Course, CourseOfTerm, Teacher, CourseSelectedRecord
 
 
 def get_xk(url):

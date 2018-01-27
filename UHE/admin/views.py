@@ -1,13 +1,12 @@
 import flask_login
 from flask import Blueprint, current_app, flash, redirect, request, url_for
-from flask_admin import Admin, BaseView, expose
+from flask_admin import BaseView, expose
 from flask_admin.actions import action
-from flask_admin.contrib import rediscli
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_admin.contrib.mongoengine import ModelView
-from flask_admin.menu import MenuCategory, MenuLink, MenuView
+from flask_admin.menu import MenuLink
 from flask_login import current_user, login_user, logout_user
-from redis import Redis
+
 from UHE.calendar.models import Activity, Event
 # from UHE.comment.models import Comment
 from UHE.extensions import admin, celery, plugin_manager
@@ -17,7 +16,7 @@ from UHE.index.models import Link
 from UHE.message.models import Conversation, Message
 from UHE.models import Plugin
 from UHE.user.models import User, UserData
-from UHE.utils import make_token, validate
+from UHE.utils import validate
 
 AUTH = {
     'superadmin': ['users', 'user_data', 'messages', 'posts', 'basic'],

@@ -1,7 +1,6 @@
 import datetime
 
-from mongoengine import (CASCADE, DateTimeField, GenericReferenceField,
-                         ListField, ReferenceField, StringField, URLField)
+from mongoengine import (DateTimeField, StringField, URLField)
 
 from UHE.extensions import db
 

@@ -2,9 +2,8 @@
 Find Empty Room
 """
 import json
-import os
-import time
-import os.path as op
+
+
 # from flask import current_app
 
 class EmptyRoom():

@@ -1,17 +1,16 @@
 import datetime
+import json
 
-from flask import Blueprint, abort, current_app, jsonify, request
+from flask import Blueprint, abort, jsonify, request
 from flask_login import current_user, login_required, login_user, logout_user
 from mongoengine.queryset.visitor import Q
+from werkzeug.security import check_password_hash, generate_password_hash
 
-from UHE.calendar.models import Activity, Event
-from UHE.client import Services, Fin, Tiyu, SZ
-from UHE.email import send_async_email
-from UHE.extensions import captcha_solver, redis_store
+from UHE.client import Services, Tiyu
+from UHE.extensions import redis_store
 from UHE.user.models import User, UserData
 from UHE.utils import make_token
-import json
-from werkzeug.security import check_password_hash, generate_password_hash
+
 users = Blueprint('users', __name__)
 
 

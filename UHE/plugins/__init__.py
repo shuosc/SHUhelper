@@ -13,10 +13,11 @@ import os
 import sys
 from collections import deque
 
+from flask import current_app
 from flask import json
 from jinja2 import Markup
 from werkzeug.utils import cached_property, import_string
-from flask import current_app
+
 # from UHE.extensions import celery
 # Find the stack on which we want to store the database connection.
 # Starting with Flask 0.9, the _app_ctx_stack is the correct one,
@@ -474,7 +475,7 @@ class TemplateEventResult(list):
         list.__init__(self, items)
 
     def __unicode__(self):
-        return u''.join(map(str, self))
+        return ''.join(map(str, self))
 
     def __str__(self):
         if sys.version_info[0] >= 3:

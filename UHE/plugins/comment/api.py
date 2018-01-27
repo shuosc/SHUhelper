@@ -1,8 +1,8 @@
+from UHE.comment.models import Comment
 from flask import Blueprint, jsonify, request, abort
 from flask.views import MethodView
 from flask_login import current_user
 
-from UHE.comment.models import Comment
 from UHE.feed.models import Feed
 from UHE.plugins.SHU_course.models import Course
 

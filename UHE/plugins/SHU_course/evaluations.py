@@ -1,8 +1,8 @@
-from flask import Blueprint, abort, jsonify, request, current_app
-from flask_login import current_user, login_required
-from mongoengine.queryset.visitor import Q
+from flask import Blueprint, jsonify, request
 from flask.views import MethodView
-from .models import Course, CourseOfTerm, Teacher, Evaluation
+from flask_login import current_user
+
+from .models import Course, Evaluation
 
 evaluations = Blueprint('evaluations', __name__)
 

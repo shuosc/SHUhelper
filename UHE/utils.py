@@ -1,6 +1,3 @@
-import datetime
-import time
-from UHE.calendar.models import Activity
 from UHE.client import Services
 
 

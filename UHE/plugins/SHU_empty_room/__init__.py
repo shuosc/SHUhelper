@@ -1,14 +1,13 @@
+import json
 import re
 
-from flask import Blueprint, current_app, jsonify, request
+from flask import current_app
 
-from UHE.calendar.models import Activity, Event
 from UHE.extensions import redis_store
 from UHE.plugins import UHEPlugin
 from UHE.plugins.SHU_course.models import CourseOfTerm
-import json
-from .empty_room import EmptyRoom
 from .api import empty_room
+from .empty_room import EmptyRoom
 
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUEmptyRoom"

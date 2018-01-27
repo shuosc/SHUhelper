@@ -1,15 +1,12 @@
 import datetime
 
+from Crypto.Cipher import AES
 from flask import abort
-from flask_login import UserMixin, AnonymousUserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField,ListField,
-                         StringField)
+from flask_login import UserMixin
+from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, StringField)
 
 from UHE.client import Services
 from UHE.extensions import db, celery
-from Crypto.Cipher import AES
-import base64
-
 
 
 class User(UserMixin, db.Document):

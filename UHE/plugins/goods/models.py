@@ -1,10 +1,7 @@
-import datetime
+from mongoengine import (DateTimeField, IntField,
+                         StringField, ListField)
 
-from flask import abort
-from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, BinaryField, IntField,
-                         StringField,ListField)
 from UHE.extensions import db
-import base64
 
 
 class Goods(db.Document):

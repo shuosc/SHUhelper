@@ -1,13 +1,12 @@
 import datetime
 
-from flask import abort
-from flask_login import UserMixin
-from mongoengine import (BooleanField, DateTimeField, EmailField, DecimalField, ReferenceField, ListField, PULL, CASCADE,
-                         StringField, IntField, URLField, EmbeddedDocument, SortedListField, EmbeddedDocumentField, FloatField, EmbeddedDocumentListField)
+from mongoengine import (BooleanField, DateTimeField, ReferenceField, ListField, CASCADE,
+                         StringField, IntField, URLField, SortedListField, FloatField, EmbeddedDocumentListField)
 
-from UHE.client import Services
 from UHE.extensions import db
 from UHE.user.models import User
+
+
 # from UHE.comment.models import Comment
 
 

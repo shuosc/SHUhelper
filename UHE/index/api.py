@@ -1,9 +1,9 @@
-from flask import Blueprint, jsonify, request, abort,current_app,redirect
-from flask.views import MethodView
-from flask_login import current_user
-from qiniu import Auth, put_data, BucketManager
-from .models import Link
+from flask import Blueprint, jsonify, request, current_app
+from qiniu import Auth
+
 from UHE.calendar.api import now
+from .models import Link
+
 index = Blueprint('index', __name__)
 
 index.route('/')

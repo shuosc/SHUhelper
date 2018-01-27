@@ -4,8 +4,9 @@ import requests
 from flask import Blueprint, jsonify, request, abort
 from flask.views import MethodView
 from flask_login import current_user, login_required
+
+from UHE.feed.models import Feed, Comment
 from UHE.user.models import User
-from UHE.feed.models import Feed,Comment
 
 feeds = Blueprint('feeds', __name__)
 

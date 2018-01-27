@@ -1,11 +1,8 @@
-
-import re
-
+from blinker import signal
 from flask import Blueprint, current_app, jsonify, request
-from UHE.calendar.models import Activity, Event
+
 from UHE.extensions import redis_store
 from .empty_room import EmptyRoom
-from blinker import signal
 
 app_start = signal('app_start')
 empty_room = Blueprint('empty_room', __name__)

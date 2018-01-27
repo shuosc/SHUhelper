@@ -1,11 +1,14 @@
 import datetime
 
-from mongoengine import (DateTimeField, IntField, PULL, NULLIFY, CASCADE,BooleanField,DictField,EmbeddedDocumentField,
-                         ListField, ReferenceField, StringField)
 from flask_login import current_user
+from mongoengine import (DateTimeField, IntField, PULL, CASCADE, BooleanField, DictField, EmbeddedDocumentField,
+                         ListField, ReferenceField, StringField)
+
 from UHE.extensions import db
 # from config import db
 from UHE.user.models import User
+
+
 # from UHE.comment.models import Comment
 
 class Comment(db.EmbeddedDocument):

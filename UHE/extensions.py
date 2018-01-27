@@ -8,8 +8,10 @@ from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
 
-from UHE.plugins.SHU_captcha.solver import Solver
 from UHE.plugins import PluginManager
+from UHE.plugins.SHU_captcha.solver import Solver
+
+
 # from UHE.schedule import clock
 
 

@@ -1,22 +1,24 @@
-import base64
+from blinker import signal
 from flask import Flask
 from flask_login import current_user
+
 from UHE.admin.views import configure_admin
 from UHE.calendar.api import events
+from UHE.calendar.time import Time
 # from UHE.comment.api import comments
 from UHE.extensions import (admin, allows, babel, cache, celery, db,
                             login_manager, mail, plugin_manager, redis_store,
                             captcha_solver)
 from UHE.feed.api import feeds
+from UHE.index.api import index
 from UHE.message.api import conversations
 from UHE.models import Plugin
 from UHE.user.api import users
 from UHE.user.models import User
-from UHE.calendar.time import Time
-from UHE.index.api import index
-from blinker import signal
 
 app_start = signal('app_start')
+
+
 def create_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
     configure_app(app, config)
@@ -28,7 +30,7 @@ def create_app(config=None):
     configure_extensions(app)
     configure_admin(app)
     configure_blueprints(app)
-    
+
     configure_plugins(app)
     configure_manger_accounts(app)
     app_start.send(app)
@@ -100,6 +102,7 @@ def configure_celery_app(app, celery):
         def __call__(self, *args, **kwargs):
             with app.app_context():
                 return TaskBase.__call__(self, *args, **kwargs)
+
     celery.Task = ContextTask
 
 
@@ -134,8 +137,8 @@ def configure_extensions(app):
     db.init_app(app)
 
     # Flask-Cache
-    cache.init_app(app,config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
-                      'CACHE_REDIS_URL': app.config['REDIS_URL']})
+    cache.init_app(app, config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
+                                'CACHE_REDIS_URL': app.config['REDIS_URL']})
 
     # Flask-And-Redis
     redis_store.init_app(app)

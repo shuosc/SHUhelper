@@ -1,4 +1,5 @@
 import re
+
 from bs4 import BeautifulSoup
 
 
@@ -49,13 +50,12 @@ def get_json_from_course_table(content):
 
 
 def get_binary_json_from_course_table(content, week):
-    import json
     cn_num = {
-        u'一': 1,
-        u'二': 2,
-        u'三': 3,
-        u'四': 4,
-        u'五': 5,
+        '一': 1,
+        '二': 2,
+        '三': 3,
+        '四': 4,
+        '五': 5,
     }
     time_table = list_init()
     table = re.search(
@@ -82,7 +82,7 @@ def get_binary_json_from_course_table(content, week):
             end = int(time.group(3))
             in_this_week = False
             if time.group(4) is not None:
-                if time.group(4) == u'单':
+                if time.group(4) == '单':
                     if week % 2 == 1:
                         in_this_week = True
                 else:
