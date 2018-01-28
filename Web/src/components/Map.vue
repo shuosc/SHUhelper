@@ -1,12 +1,5 @@
 <template lang="pug">
   div(style="padding-botom:51px;width:100%", ref="map")
-    <q-toolbar color="primary">
-      <q-btn slot="left" flat round small class="primary" v-back>
-          <q-icon name="keyboard_backspace" /></q-btn>
-      <q-toolbar-title>
-        | 地图
-      </q-toolbar-title>
-    </q-toolbar>
     q-card.container
       el-amap.box(:center="center", :amap-manager="amapManager", :zoom="zoom", :resize-enable="true", :events="events", :plugin="plugin", viewMode="3D")
         el-amap-ground-image(v-for="groundimage in groundimages" :key="groundimage.url" :url="groundimage.url" :bounds="groundimage.bounds" :events="groundimage.events")

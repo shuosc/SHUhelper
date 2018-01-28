@@ -137,6 +137,9 @@ def login():
         if card_id is None:
             abort(403)
         user = User.objects(card_id=card_id).first()
+        result = user.login(token)
+        redis_store.set('token:' + token, user.card_id, ex=864000)
+        login_user(user)
     else:
         post_data = request.get_json()
         user = User.objects(card_id=post_data['card_id']).first()
@@ -149,7 +152,7 @@ def login():
         if fresh and not user.regisiter(post_data['password']):
             abort(403)
         token = make_token()
-    result = user.login(token)
-    redis_store.set('token:' + token, post_data['card_id'], ex=864000)
-    login_user(user)
+        result = user.login(token)
+        redis_store.set('token:' + token, post_data['card_id'], ex=864000)
+        login_user(user)
     return jsonify(result)

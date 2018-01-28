@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { Toast } from 'quasar'
+import { Toast, LocalStorage } from 'quasar'
 import TimeTable from '@/ScheduleTimeTable'
 import { randomColor, decrypt } from '@/../libs/utils.js'
 // import { Popup, div } from 'mint-ui'
@@ -175,7 +175,14 @@ export default {
   created() {
     // this.refreshToolbar()
     // this.resetRange()
-    this.getCourses()
+    let time = this.$store.state.time
+    let key = `myCourses:${time.year}_${time.term}`
+    if (LocalStorage.has(key)) {
+      let data = LocalStorage.get.item(key)
+      this.updateCourseState(data)
+    } else {
+      this.getCourses()
+    }
     // this.getEvents(this.range.start.valueOf() / 1000, this.range.end.valueOf() / 1000)
   },
   beforeDestroy() {
@@ -290,39 +297,31 @@ export default {
       console.log(this.range)
       console.log(ev)
     },
-    async getCourses() {
-      // this.$store.commit('showSnackbar', { text: `查询课表中` })
-      let getTime = this.$http.get('/api/time/').then(response => {
-        this.schoolTime = response.data
-        // this.$store.commit('updateToolbarAction', 0, this.schoolTime.week, 'name', `第${this.schoolTime.week}周(当前)`)
-      })
-      let getCourses = this.$http
+    updateCourseState(data) {
+      this.status.status = data.status
+      this.status.time = data.last_modified.$date
+      this.courses = decrypt(data.data, this.$store.state.user.password)
+      if (this.status.status === 'failed') {
+        this.refresher()
+      }
+    },
+    getCourses() {
+      this.$http
         .get('/api/my-course/')
         .then(response => {
-          this.status.status = response.data.status
-          this.status.time = response.data.last_modified.$date
-          this.courses = decrypt(response.data.data, this.$store.state.user.password)
-          if (this.status.status === 'failed') {
-            this.refresher()
-          }
+          let time = this.$store.state.time
+          LocalStorage.set(`myCourses:${time.year}_${time.term}`, response.data)
+          this.updateCourseState(response.data)
         })
         .catch(err => {
           console.log(err)
           if (err.response.status === 404) {
-            Toast.create(`更新课标中`)
+            Toast.create(`更新课表中`)
             this.refresher()
           } else {
-            // this.status.status = 'failed'
             Toast.create(`更新失败${err.response.status}`)
           }
         })
-      let i = (await getTime) + (await getCourses)
-      console.log(i)
-      this.$store.commit('updateToolbarState', {
-        index: 0,
-        value: this.schoolTime.week
-      })
-      this.refreshToolbar()
     },
     pollingStatus() {
       this.$http.get('/api/my-course/status').then(response => {

@@ -117,7 +117,7 @@ export default new VueRouter({
       meta: {
         title: '地图',
         disableBottom: true,
-        disableToolbar: true
+        back: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
