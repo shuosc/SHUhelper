@@ -6,7 +6,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from mongoengine.queryset.visitor import Q
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from UHE.client import Services, Tiyu
+from UHE.plugins.SHU_api.client import Services, Tiyu
 from UHE.extensions import redis_store
 from UHE.user.models import User, UserData
 from UHE.utils import make_token
@@ -137,40 +137,19 @@ def login():
         if card_id is None:
             abort(403)
         user = User.objects(card_id=card_id).first()
-        result = user.to_login_result(token)
-        redis_store.set('token:' + token, card_id, ex=864000)
-        user.last_login=datetime.datetime.now()
-        user.save()
-        login_user(user)
-        return jsonify(result)
     else:
         post_data = request.get_json()
         user = User.objects(card_id=post_data['card_id']).first()
-        client = Services(post_data['card_id'], post_data['password'])
-        if user is None:
-            if client.login() and client.get_data():
-                user = User(name=client.data['name'], nickname=client.data.get('nickname'),
-                            card_id=post_data['card_id'], role='student', activated=True, hash=generate_password_hash(post_data['password']))
-            else:
-                abort(403)
+        fresh = False
+        if user is not None:
+            fresh = user.authenticate(post_data['password'])
         else:
-            if user.name != '未激活':
-                if not check_password_hash(user.hash, post_data['password']):
-                    if client.login():
-                        user.hash=generate_password_hash(post_data['password'])
-                    else:
-                        abort(403)
-            else:
-                if  client.login() and client.get_data():
-                    user.name = client.data['name']
-                    user.nickname = client.data.get('nickname')
-                    user.hash=generate_password_hash(post_data['password'])
-                else:
-                    abort(403)
+            user = User(card_id=post_data['card_id'])
+            fresh = True
+        if fresh and not user.regisiter(post_data['password']):
+            abort(403)
         token = make_token()
-        result = user.to_login_result(token)
-        redis_store.set('token:' + token, post_data['card_id'], ex=864000)
-        user.last_login=datetime.datetime.now()
-        user.save()
-        login_user(user)
-        return jsonify(result)
+    result = user.login(token)
+    redis_store.set('token:' + token, post_data['card_id'], ex=864000)
+    login_user(user)
+    return jsonify(result)

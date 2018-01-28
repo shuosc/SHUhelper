@@ -4,8 +4,8 @@ from Crypto.Cipher import AES
 from flask import abort
 from flask_login import UserMixin
 from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, StringField)
-
-from UHE.client import Services
+from werkzeug.security import check_password_hash, generate_password_hash
+from UHE.plugins.SHU_api.client import Services
 from UHE.extensions import db, celery
 
 
@@ -27,6 +27,25 @@ class User(UserMixin, db.Document):
     custom = StringField(default='{}')
     meta = {'strict': False}
 
+    def authenticate(self, password):
+        if check_password_hash(self.hash, password):
+            return True
+        else:
+            return False
+
+    def regisiter(self, password):
+        client = Services(self.card_id, password)
+        if client.login() and client.get_data():
+            self.name = client.data['name']
+            self.nickname = client.data['nickname']
+            self.hash = generate_password_hash(password)
+            self.role = 'superadmin'
+            self.save()
+            # self.reload()
+            return True
+        else:
+            return False
+
     def get_id(self):
         return self.card_id
 
@@ -39,17 +58,6 @@ class User(UserMixin, db.Document):
             'cardID': self.card_id,
             'name': self.nickname
         }
-
-    def validate_password(self, password):
-        client = Services(self.card_id, password)
-        if client.login() and client.get_data():
-            result = {
-                'name': client.data['name'],
-                'card_id': self.card_id
-            }
-            return result
-        else:
-            abort(401)
 
     @property
     def display_name(self):
@@ -65,7 +73,10 @@ class User(UserMixin, db.Document):
             'lastLogin': str(self.last_login)
         }
         return result
-    def to_login_result(self,token):
+
+    def login(self, token):
+        self.last_login = datetime.datetime.now()
+        self.save()
         result={
             'avatar': self.avatar,
             'token': token,

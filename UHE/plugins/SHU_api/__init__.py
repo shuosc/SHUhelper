@@ -8,11 +8,24 @@ from .client import Services
 SHUapi = Blueprint('shu', __name__)
 __plugin__ = "SHUAPI"
 
+class SHU():
+    def auth(user_id,password):
+        pass
+
+class Student():
+    pass
+
+class Teacher():
+    pass
+
 class SHUAPI(UHEPlugin):
     settings_key = 'SHU_api'
 
     def setup(self, app):
         app.register_blueprint(SHUapi, url_prefix='/shu')
+        # app.university = SHU()
+        # app.student = Student
+
         print('setup', __plugin__)
 
     def install(self, app):

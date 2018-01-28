@@ -4,7 +4,9 @@ from UHE.admin.views import BasicPrivateModelView
 from UHE.calendar.models import Activity, Event
 from UHE.extensions import admin
 from UHE.plugins import UHEPlugin
-from .api import courses, teachers, evaluations
+from .courses import courses
+from .teachers import teachers
+from .evaluations import evaluations
 from .manage import get_xk
 from .models import Course, CourseOfTerm, Teacher, Evaluation
 

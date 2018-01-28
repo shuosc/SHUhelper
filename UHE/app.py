@@ -106,6 +106,13 @@ def configure_celery_app(app, celery):
     celery.Task = ContextTask
 
 
+# def register_blueprints(app):
+#     for name in find_modules('flaskr.blueprints'):
+#         mod = import_string(name)
+#         if hasattr(mod, 'bp'):
+#             app.register_blueprint(mod.bp)
+#     return None
+
 def configure_blueprints(app):
     app.register_blueprint(index, url_prefix='')
     # app.register_blueprint(time, url_prefix='/time')
@@ -118,6 +125,12 @@ def configure_blueprints(app):
     # print(app.url_map)
     # pass
 
+
+def register_cli(app):
+    @app.cli.command('initdb')
+    def initdb_command():
+        """Creates the database tables."""
+        print('Initialized the database.')
 
 def configure_extensions(app):
     """Configures the extensions."""

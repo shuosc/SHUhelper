@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from flask import Blueprint, jsonify, request, current_app
 from flask_login import current_user, login_required
 
-from UHE.client import Client
+from UHE.plugins.SHU_api.client import Client
 from UHE.plugins import UHEPlugin
 from UHE.user.models import UserData
 

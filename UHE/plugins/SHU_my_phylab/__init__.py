@@ -3,7 +3,7 @@ import datetime
 from flask import Blueprint, jsonify, request, current_app
 from flask_login import current_user, login_required
 
-from UHE.client import Phylab
+from UHE.plugins.SHU_api.client import Phylab
 from UHE.extensions import celery, captcha_solver
 from UHE.plugins import UHEPlugin
 from UHE.user.models import UserData
