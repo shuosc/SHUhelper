@@ -22,16 +22,6 @@ def index():
         data = UserData.objects(user=current_user.id,
                                 identifier=__plugin__).get_or_404()
         return jsonify(data)
-    else:
-        post_data = request.get_json()
-        user_data = UserData.objects(
-            user=current_user.id, identifier=__plugin__).first()
-        if user_data is None:
-            user_data = UserData(identifier=__plugin__,
-                                 user=current_user.id, status='none')
-            user_data.save()
-        task = get_course.delay(post_data['card_id'], post_data['password'])
-        return jsonify(success=task.id)
 
 
 @my_course.route('/status')
@@ -44,11 +34,7 @@ def status():
 
 @my_course.route('/sync', methods=['GET', 'POST'])
 def sync_index():
-    if request.method == 'GET':
-        data = UserData.objects(user=current_user.id,
-                                identifier=__plugin__).get_or_404()
-        return jsonify(data)
-    else:
+    if request.method == 'POST':
         post_data = request.get_json()
         user_data = UserData.objects(
             user=current_user.id, identifier=__plugin__).first()
