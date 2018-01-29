@@ -1,19 +1,20 @@
 from flask import Blueprint, jsonify, request, current_app
 from qiniu import Auth
-
+from flask_login import login_required
 from UHE.calendar.api import now
 from .models import Link
 
 index = Blueprint('index', __name__)
 
-index.route('/')
+@index.route('/')
+@login_required
+
 def welcome():
     return jsonify('hello')
 
-@index.route('/link/<identifier>')
-def get_link(identifier):
-    link = Link.objects.get_or_404(identifier=identifier)
-    return jsonify(link)
+@index.route('/apps')
+def get_apps():
+    pass
 
 @index.route('/upload/token')
 def get_token():
@@ -25,18 +26,3 @@ def get_token():
 @index.route('/time/')
 def time():
     return now()
-
-# @index.route('/avatar/<card_id>')
-# def get_avatar(card_id):
-#     r = requests.get(
-#         'http://www.tinygraphs.com/squares/{}?theme=frogideas&numcolors=4&fmt=jpg'.format(card_id))
-#     # i = Image.open(BytesIO(r.content))
-#     key = 'avatar_tinygraph_{}_{}.jpg'.format(card_id, make_token())
-#     q = Auth(current_app.config["QINIU_ACCESS_KEY"],
-#              current_app.config["QINIU_SECRET_KEY"])
-#     bucket = BucketManager(q)
-#     token = q.upload_token('shuhelper3', key, 3600)
-#     # ret, info = bucket.delete('shuhelper3', key)
-#     ret, info = put_data(token, key, BytesIO(r.content))
-#     print(info)
-#     return key

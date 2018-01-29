@@ -14,6 +14,8 @@ __plugin__ = "SHUMyCourse"
 
 my_course = Blueprint('my_course', __name__)
 
+# def get_identifier():
+#     return 'my_courses_' + current_app.school_time.term_string
 
 @my_course.route('/', methods=['GET', 'POST'])
 @login_required

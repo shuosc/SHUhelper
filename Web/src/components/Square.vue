@@ -88,6 +88,9 @@ export default {
     this.active = true
     this.$q.events.$on('app:refresh:square', this.refresher)
   },
+  created() {
+    this.refresher(() => {})
+  },
   deactivated: function() {
     this.active = false
     this.$q.events.$off('app:refresh:square', this.refresher)
@@ -256,12 +259,16 @@ export default {
               this.key.replace('/', '_')
               this.key.replace('=', '')
               this.$http
-                .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
-                  headers: {
-                    Authorization: 'UpToken ' + this.token,
-                    'Content-Type': 'application/octet-stream'
+                .post(
+                  `/upload/putb64/-1/key/${this.key}`,
+                  base64.slice(index),
+                  {
+                    headers: {
+                      Authorization: 'UpToken ' + this.token,
+                      'Content-Type': 'application/octet-stream'
+                    }
                   }
-                })
+                )
                 .then(response => {
                   console.log(response)
                   for (let i in this.uploadImgs) {

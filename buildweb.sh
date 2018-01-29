@@ -8,4 +8,4 @@ yarn build
 mkdir dist/ios
 mv ios dist
 rm -r pub/*
-cp -r dist pub
+cp -r dist/* pub

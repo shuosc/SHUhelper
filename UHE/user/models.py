@@ -1,12 +1,12 @@
 import datetime
 
 from Crypto.Cipher import AES
-from flask import abort
+from flask import abort,request
 from flask_login import UserMixin
 from mongoengine import (BooleanField, DateTimeField, EmailField, ReferenceField, StringField)
 from werkzeug.security import check_password_hash, generate_password_hash
 from UHE.plugins.SHU_api.client import Services
-from UHE.extensions import db, celery
+from UHE.extensions import db, celery,login_manager,redis_store
 
 
 class User(UserMixin, db.Document):
@@ -39,7 +39,6 @@ class User(UserMixin, db.Document):
             self.name = client.data['name']
             self.nickname = client.data['nickname']
             self.hash = generate_password_hash(password)
-            self.role = 'superadmin'
             self.save()
             # self.reload()
             return True
@@ -127,3 +126,33 @@ def update_user_data(user_data_id):
     client = user_data.get_client()
     client.update()
     redis_store.set(user_data.client_id, client)
+
+@login_manager.request_loader
+def request_loader(request):
+    # print(request)
+    # token = request.args.get('token')
+    # print('request')
+    # print(token)
+    # if token:
+    #     card_id = redis_store.get('token_' + token, '0')
+    #     user = User.objects(card_id=card_id).first()
+    #     if user:
+    #         return user
+    token = request.headers.get('Authorization')
+    if token:
+        token = token.replace('Basic ', '', 1)
+        try:
+            token = base64.b64decode(token)
+            print(token)
+        except TypeError:
+            pass
+        card_id = redis_store.get('token_' + token, '0')
+        user = User.objects(card_id=card_id).first()
+        if user:
+            return user
+    # finally, return None if both methods did not login the user
+    return None
+
+@login_manager.user_loader
+def user_loader(card_id):
+    return User.objects(card_id=card_id).first()
