@@ -272,24 +272,120 @@ class XK(Client):
         # if r.text.find(u'验证码错误') != -1 or r.text.find(u'帐号或密码错误')!=-1 or r.text.find(u'教学评估') != -1:
         # print(r.text)
         return r.text.find('首页') != -1
-
-    def get_data(self):
-        time.sleep(2)
-        r = self.session.get(
-            self.host + '/StudentQuery/CtrlViewQueryCourseTable', timeout=20, proxies=get_proxies())
+    
+    def logout(self):
         self.session.get(self.host + '/Login/Logout',
                          proxies=get_proxies())
+
+    def get_data(self):
+        r = self.session.get(
+            self.host + '/StudentQuery/CtrlViewQueryCourseTable', timeout=20, proxies=get_proxies())
         string = re.search(
             r'<table class="tbllist">([\s\S]*?)</table>', r.text, flags=0).group(0)
         self.data = string
         return True
+    
+    def select_courses(self, courses):   
+        data = {'IgnorClassMark': 'False',
+                'IgnorCourseGroup': 'False',
+                'IgnorCredit': 'False',
+                'StudentNo': self.card_id
+                }
+        failed_names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+                 'time', 'place', 'campus', 'notice')
+        success_names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+                         'time', 'place', 'campus')
+        for i in range(len(courses)):
+            data['ListCourse[' + str(i) + '].CID'] = courses[i]['course']
+            data['ListCourse[' + str(i) + '].TNo'] = courses[i]['class']
+            data['ListCourse[' + str(i) + '].NeedBook'] = 'false'
+        r = self.session.get(self.host + '/CourseSelectionStudent/FastInput')
+        r = self.session.post(self.host + '/CourseSelectionStudent/CtrlViewOperationResult', data=data)
+        assert r.text.find('验证码') == -1
+        soup = BeautifulSoup(r.text, "html.parser")
+        tables = soup.findAll('table')
+        success_courses = []
+        failed_courses = []
+        for table in tables:
+            rows = table.findAll('tr')
+            success = rows[0].td.get_text(strip=True) == '选课成功课程'
+            for row in rows[2:]:
+                cells = row.findAll("td")
+                if success:
+                    course = {
+                        success_names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[1:])
+                    }
+                    success_courses.append(course)
+                else:
+                    course = {
+                        failed_names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[1:])
+                    }
+                    failed_courses.append(course)
+        return {'success_courses': success_courses, 'failed_courses': failed_courses}
+    
+    def quit_courses(self, courses):
+        data = {'ListCourseStr': ','.join([c['course']+'|'+c['class'] for c in courses]),
+                    'StuNo': self.card_id,
+                    'Absolute': 'false'} 
+        names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+                 'time', 'place', 'campus')
+        self.session.get(
+            self.host + '/CourseReturnStudent/CourseReturn')
+        r = self.session.post(self.host + '/CourseReturnStudent/CtrlViewOperationResult', data=data)
+        assert r.text.find('验证码') == -1
+        soup = BeautifulSoup(r.text, "html.parser")
+        tables = soup.findAll('table')
+        success_courses = []
+        failed_courses = []
+        for table in tables:
+            rows = table.findAll('tr')
+            success = rows[0].td.get_text(strip=True) == '退课成功课程'
+            for row in rows[2:]:
+                cells = row.findAll("td")
+                course = {
+                    names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[1:])
+                }
+                if success:
+                    success_courses.append(course)
+                else:
+                    failed_courses.append(course)
+        return {'success_courses': success_courses, 'failed_courses': failed_courses}
 
-    def select_courses(self,courses):   
-        pass
-    def quit_courses(self,courses):
-        pass
+    def get_enroll_rank(self):
+        r = self.session.post(self.host + '/DataQuery/CtrlQueryEnrollRank')
+        assert r.text.find('验证码') == -1
+        soup = BeautifulSoup(r.text, "html.parser")
+        table = soup.find('table')
+        row = table.findAll("tr")
+        courselist = []
+        names = ('no', 'name', 'teacher_no', 'teacher', 'enroll','capacity', 'rank')
+        for row in table.findAll("tr")[3:]:
+            cells = row.findAll("td")
+            course = {
+                names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[:])
+            }
+            courselist.append(course)
+        return courselist
+
     def get_selected(self):
-        pass
+        r = self.session.get(
+            self.host + '/StudentQuery/CtrlViewQueryCourseTable', timeout=20, proxies=get_proxies())
+        self.data = re.search(
+            r'<table class="tbllist">([\s\S]*?)</table>', r.text, flags=0).group(0)
+        courselist = []
+        soup = BeautifulSoup(self.data, "html.parser")
+        table = soup.find("table")
+        row = table.findAll("tr")
+        names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+                 'time', 'place', 'campus', 'q_time', 'q_place')
+        for row in table.findAll("tr")[3:]:
+            cells = row.findAll("td")
+            if len(cells) == 11:
+                course = {
+                    names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[1:])
+                }
+                courselist.append(course)
+        return courselist
     
     def to_html(self):
         return self.data

@@ -10,7 +10,7 @@ from UHE.extensions import db, celery,login_manager,redis_store
 
 
 class User(UserMixin, db.Document):
-    card_id = StringField(primary_key=True)
+    card_id = StringField(primary_key=True,unique=True)
     open_id = StringField(default='')
     name = StringField(default="未激活")
     username = StringField(default="")
@@ -91,7 +91,7 @@ class UserData(db.Document):
     collection of user data, from query used as cache, data encrpted with aes
     """
     data = StringField()
-    identifier = StringField()
+    identifier = StringField(unique_with='user')
     user = ReferenceField(User)
     last_modified = DateTimeField(default=datetime.datetime.now)
     need_update = BooleanField(default=False)

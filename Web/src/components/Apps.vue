@@ -127,8 +127,8 @@ export default {
               url: 'http://xk.shu.edu.cn'
             },
             {
-              name: '选课系统(秋)',
-              detail: '秋季学期选课系统',
+              name: '选课系统(春)',
+              detail: '春季学期选课系统',
               icon: 'XK',
               external: true,
               url: 'http://xk.shu.edu.cn:8080'
