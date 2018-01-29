@@ -10,7 +10,7 @@ from UHE.extensions import db, celery,login_manager,redis_store
 
 
 class User(UserMixin, db.Document):
-    card_id = StringField(primary_key=True,unique=True)
+    card_id = StringField(primary_key=True)
     open_id = StringField(default='')
     name = StringField(default="未激活")
     username = StringField(default="")
