@@ -13,7 +13,8 @@
             q-item-main
               q-item-tile(label='') 晨跑:{{this.data.sport}}/5 &nbsp 课外活动:{{this.data.act}}/5 
               q-item-tile(label='') 免晨跑:{{this.data.sport_reduce}} &nbsp 免课外:{{this.data.act_reduce}}
-              q-item-tile(sublabel='' ) 晨跑辛苦啦(´▽｀)
+              q-item-tile(sublabel='' v-if="success") 晨跑辛苦啦(´▽｀)
+              q-item-tile(sublabel='' v-else) 体育学院服务器又挂啦，明天来试试吧
           q-item(v-if="this.data.sport<=5")
             q-item-main
                q-progress(:percentage='(this.data.sport + this.data.act + this.data.sport_reduce + this.data.act_reduce)/10*100',color='teal-4')
@@ -87,8 +88,8 @@ export default {
       },
       passwordVisiable: false,
       data: {
-        run: 2,
-        act: 3
+        run: 0,
+        act: 0
       },
       loading: false,
       popup: false,
@@ -99,6 +100,7 @@ export default {
         status: 'loading',
         remark: '信息来自上海大学体育学院'
       },
+      success: false,
       activitiesTableOpen: false,
       sportFilter: [],
       sports: []
@@ -169,6 +171,7 @@ export default {
           if (this.status.time - 8 * 3600 * 1000 < now.valueOf()) {
             this.renewData()
           }
+          this.success = response.data.status === 'success'
           this.data = decrypt(
             response.data.data,
             this.$store.state.user.password
@@ -183,12 +186,12 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          this.loading = false
           if (err.response.status === 404) {
             this.renewData()
           } else {
             Toast.create('体育查询失败，可能是体育学院服务器挂掉啦')
           }
-          this.loading = false
         })
     },
     renewData() {
@@ -204,6 +207,7 @@ export default {
           if (response.data.success === 'ok') {
             this.getData()
             Toast.create('更新成功')
+            this.success = true
           }
           this.loading = false
         })
@@ -211,6 +215,7 @@ export default {
           console.log(err)
           this.loading = false
           Toast.create('更新体育数据失败')
+          this.success = false
         })
     }
   }
