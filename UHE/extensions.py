@@ -26,7 +26,7 @@ mail = Mail()
 
 allows = Allows()
 
-admin = Admin(name='SHUhelper pikachu', template_mode='bootstrap3')
+admin = Admin(name='SHUhelper Violet', template_mode='bootstrap3')
 
 cache = Cache()
 

@@ -1,5 +1,5 @@
  <template lang="pug">
-  div.window-height
+  div
     div.sky(style="height:100vh;z-index: -200;" )
       div.stars
         .container(v-for="i in 100")
@@ -7,7 +7,7 @@
     div
       //- q-pull-to-refresh(:handler="refresher" style="z-index: 0;")
       q-card.no-margin.full-width(style="z-index: 2;")
-        q-btn.full-width(flat color="white" @click="$router.push('/square')")
+        //- q-btn.full-width(flat color="white" @click="$router.push('/square')")
           q-icon(name="card_giftcard")
           | 回到广场
         q-card-main
@@ -169,6 +169,7 @@ random(min, max)
   width 100vw
   height 100vh
   margin 0
+  top 0
   overflow hidden
   position fixed
   background-image radial-gradient(center, ellipse cover, rgba(39,54,79,1) 0%,rgba(17,17,34,1) 50%,rgba(17,17,34,1) 100%)

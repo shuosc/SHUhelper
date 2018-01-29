@@ -127,7 +127,8 @@ export default new VueRouter({
       meta: {
         title: '树洞',
         disableBottom: true,
-        disableToolbar: true
+        back:true
+        // disableToolbar: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -147,7 +148,7 @@ export default new VueRouter({
       meta: {
         title: '表白墙',
         disableBottom: true,
-        disableToolbar: true
+        back:true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {

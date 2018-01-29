@@ -12,7 +12,7 @@
     div
       //- q-pull-to-refresh(:handler="refresher" style="z-index: 0;")
       q-card.no-margin.full-width(style="z-index: 2;")
-        q-btn.full-width(flat color="white" @click="$router.push('/square')")
+        //- q-btn.full-width(flat color="white" @click="$router.push('/square')")
           q-icon(name="card_giftcard")
           | 回到广场
         q-card-main
@@ -171,6 +171,7 @@ export default {
   height:100vh;
   position: fixed;
   background-color: pink;
+  top:0;
 }
 .center {
   width: 230px;

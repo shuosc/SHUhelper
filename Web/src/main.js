@@ -163,7 +163,8 @@ if (PROD) {
 Vue.directive('back', {
   bind: function (el, binding, vnode) {
     el.onclick = function () {
-      if (history.length > 1) {
+      console.log(history)
+      if (history.length > 2) {
         router.go(-1)
       } else {
         router.push('/index')
