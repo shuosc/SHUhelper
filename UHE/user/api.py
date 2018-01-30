@@ -137,13 +137,13 @@ def login():
     else:
         post_data = request.get_json()
         user = User.objects(card_id=post_data['card_id']).first()
-        fresh = False
+        need_fresh = False
         if user is not None:
-            fresh = user.authenticate(post_data['password'])
+            need_fresh = not user.authenticate(post_data['password'])
         else:
             user = User(card_id=post_data['card_id'])
-            fresh = True
-        if fresh and not user.regisiter(post_data['password']):
+            need_fresh = True
+        if need_fresh and not user.regisiter(post_data['password']):
             abort(403)
         token = make_token()
         result = user.login(token)
