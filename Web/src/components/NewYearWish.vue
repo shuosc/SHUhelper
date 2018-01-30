@@ -16,7 +16,7 @@
               | 今年就让他这样过去，来年一定心想事成。
               br
             small
-              span(style='color:red;') ♥ 
+              span(style='color:red;') ♥
               span.text-white
               | SHUhelper
       q-infinite-scroll(:handler="loadMore" style="z-index: 2;"  ref="infiniteScroll")
@@ -27,10 +27,10 @@
                 q-item-main.text-grey-3(style="text-shadow:grey 0 1px 0;")
                   q-item-tile {{item.displayName}}
                 q-item-side(:stamp="'#'+(total-index)")
-              q-card-separator 
+              q-card-separator
               q-card-main.text-blue-grey-1
                 | {{item.text}}
-              q-card-separator 
+              q-card-separator
               q-card-actions.text-pink
                 q-btn.float-right(flat small @click="onLikeClick(index)")
                   q-icon(name="favorite")
@@ -42,10 +42,10 @@
                 q-item-main.text-grey-3(style="text-shadow:grey 0 1px 0;")
                   q-item-tile {{item.displayName}}
                 q-item-side(:stamp="'#'+(total-index)")
-              q-card-separator 
+              q-card-separator
               q-card-main.text-blue-grey-1
                 | {{item.text}}
-              q-card-separator 
+              q-card-separator
               q-card-actions.text-pink
                 q-btn.float-right(flat small @click="onLikeClick(index)")
                   q-icon(name="favorite")
@@ -122,7 +122,7 @@ export default {
           this.msg.content = ''
         })
         .catch(error => {
-          _this.$store.commit('showSnackbar', { text: '登陆失败' + error })
+          _this.$store.commit('showSnackbar', { text: '登录失败' + error })
         })
     },
     loadMore(index, done) {

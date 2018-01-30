@@ -23,6 +23,35 @@
 * 基于web技术，全平台适应
 * 下一次push再编好不好
 
+## How to contribute
+
+### 如何拉起前端
+
+首先你需要 yarn，请参照[官方网站](https://yarnpkg.com/zh-Hans/docs/install)安装yarn
+
+然后只需
+```shell
+make buildweb
+make runweb
+```
+前端就成功拉起了，应该会自动打开浏览器，并启用 auto reload。
+
+### 如何拉起后端
+
+首先你需要在 instance下放置正确的config.py文件。
+
+可以向开发者索要这个文件。
+
+然后：
+
+```shell
+make install
+# 部分系统需要手动安装flask，如Ubuntu
+# 需要 sudo apt install python3-flask
+make run
+```
+后端就拉起了。
+
 ## Powered by
 
 * [上海大学验证码识别服务](https://github.com/shuopensourcecommunity/anti-captcha.shuosc.org) by @EnJiang

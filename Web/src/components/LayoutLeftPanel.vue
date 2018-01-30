@@ -14,7 +14,7 @@
           q-item-side(:avatar='`//static.shuhelper.cn/avatar_default.jpg`')
           q-item-main
             q-item-tile(label='') 游客
-          q-item-side 登陆
+          q-item-side 登录
     // <q-list-header>Essential Links</q-list-header>
     div(v-if="$q.platform.is.ios")
       q-side-link(v-for="link in internalNavigationiOS" :key="link.name" item='', sparse='', :to='link.to')

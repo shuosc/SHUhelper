@@ -16,7 +16,7 @@
 {% if current_user.is_authenticated %}Hi {{ current_user.name }}! 
 <ul>
     <li>激活用户：{{data.active_user}}</li>
-    <li>十分钟内登陆数：{{data.login_last_ten}}</li>
+    <li>十分钟内登录数：{{data.login_last_ten}}</li>
     <li>今日活跃用户{{data.active_user_daily}}</li>
     <li>pending数：{{data.pending}}</li>
     <li>查询成功数：{{data.success}}</li>

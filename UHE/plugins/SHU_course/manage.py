@@ -207,7 +207,7 @@ def get_latest_course(url):
         if r.text.find('验证码错误') != -1:
             continue
         elif r.text.find('首页') != -1:
-            print('登陆成功')
+            print('登录成功')
             time.sleep(3)
             r = s.get(url + 'StudentQuery/QueryCourse')
             time.sleep(3)

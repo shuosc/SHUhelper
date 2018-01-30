@@ -21,7 +21,7 @@
               | 倾诉你的心意
               br
             small
-              span(style='color:red;') ♥ 
+              span(style='color:red;') ♥
       q-infinite-scroll(:handler="loadMore" style="z-index: 2;"  ref="infiniteScroll")
         div.flex.row
           div.col-6(style="z-index: 1;")
@@ -30,10 +30,10 @@
                 q-item-main.text-grey-3()
                   q-item-tile {{item.displayName}}
                 q-item-side(:stamp="'#'+(total-index)")
-              q-card-separator 
+              q-card-separator
               q-card-main.text-red(style="font-size:1.1rem;")
                 | {{item.text}}
-              q-card-separator 
+              q-card-separator
               q-card-actions.text-pink
                 q-btn.float-right(flat small @click="onLikeClick(index)")
                   q-icon(name="favorite")
@@ -45,10 +45,10 @@
                 q-item-main.text-grey-3
                   q-item-tile {{item.displayName}}
                 q-item-side(:stamp="'#'+(total-index)")
-              q-card-separator 
+              q-card-separator
               q-card-main.text-red(style="font-size:1.1rem;")
                 | {{item.text}}
-              q-card-separator 
+              q-card-separator
               q-card-actions.text-pink
                 q-btn.float-right(flat small @click="onLikeClick(index)")
                   q-icon(name="favorite")
@@ -123,7 +123,7 @@ export default {
           this.msg.content = ''
         })
         .catch(error => {
-          _this.$store.commit('showSnackbar', { text: '登陆失败' + error })
+          _this.$store.commit('showSnackbar', { text: '登录失败' + error })
         })
     },
     loadMore(index, done) {
@@ -195,7 +195,7 @@ export default {
   font-size:32px;
   margin-top: 10px;
   border-bottom: 1px dotted oldlace;
-  
+
 }
 .heart {
   color:oldlace;
@@ -224,7 +224,7 @@ export default {
 
 @keyframes movement {
   0%{
-   
+
     bottom: 0;
     right: 50px;
   }
@@ -235,8 +235,8 @@ export default {
   40%{
     right: 60px;
   }
-  
-  50%{ 
+
+  50%{
     right: 50px;
   }
   60%{

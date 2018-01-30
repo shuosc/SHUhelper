@@ -106,7 +106,7 @@ export default {
           this.$router.go(-1)
         })
         .catch((error) => {
-          this.$store.commit('showSnackbar', { text: '登陆失败' + error })
+          this.$store.commit('showSnackbar', { text: '登录失败' + error })
         })
     },
     saveLink () {
