@@ -23,12 +23,6 @@ def user_data(identifier):
             user=current_user.id, identifier=identifier)
         return jsonify(user_data)
     else:
-        args = request.get_json()
-        user_data = UserData.objects(
-            user=current_user.id, identifier=identifier).first()
-        if user_data is None:
-            user_data = UserData(user=current_user.id, identifier=identifier)
-            user_data.save()
         post_data = request.get_json()
         user_data = UserData.objects(
             user=current_user.id, identifier=identifier).first()

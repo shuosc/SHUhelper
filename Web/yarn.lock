@@ -1657,6 +1657,15 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+earlgrey-runtime@>=0.0.10, earlgrey-runtime@>=0.0.11:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/earlgrey-runtime/-/earlgrey-runtime-0.1.0.tgz#a7624a7f76f10c999abf05ef526f2b7f26dc073c"
+  dependencies:
+    core-js "^2.4.0"
+    kaiser ">=0.0.4"
+    lodash "^4.17.2"
+    regenerator-runtime "^0.9.5"
+
 ecc-jsbn@~0.1.1:
   version "0.1.1"
   resolved "http://registry.npm.taobao.org/ecc-jsbn/download/ecc-jsbn-0.1.1.tgz#0fc73a9ed5f0d53c38193398523ef7e543777505"
@@ -2905,6 +2914,12 @@ jstransformer@1.0.0:
     is-promise "^2.0.0"
     promise "^7.0.1"
 
+kaiser@>=0.0.3, kaiser@>=0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/kaiser/-/kaiser-0.0.4.tgz#d25ddf800640857fadde08dba59ffc7a5a4f5c38"
+  dependencies:
+    earlgrey-runtime ">=0.0.10"
+
 kind-of@^3.0.2:
   version "3.2.2"
   resolved "http://registry.npm.taobao.org/kind-of/download/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -4043,9 +4058,16 @@ quasar-extras@0.x:
   version "0.0.8"
   resolved "http://registry.npm.taobao.org/quasar-extras/download/quasar-extras-0.0.8.tgz#0defa7f982cbba185e3142b7eee9d3829928212a"
 
-quasar-framework@^0.14.7:
-  version "0.14.7"
-  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.14.7.tgz#aee96d2468284eba4172522a6ca010623038dcd3"
+quasar-framework@^0.14.8:
+  version "0.14.8"
+  resolved "https://registry.yarnpkg.com/quasar-framework/-/quasar-framework-0.14.8.tgz#ee048d2cf70269bb94e27be581c6f6b55377365f"
+
+quasar@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-0.0.18.tgz#8ac0239c9688dc8a6aa567dc5ee848947d7ab4b8"
+  dependencies:
+    earlgrey-runtime ">=0.0.11"
+    kaiser ">=0.0.3"
 
 query-string@^4.1.0:
   version "4.3.4"
@@ -4180,6 +4202,10 @@ regenerate@^1.2.1:
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "http://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+
+regenerator-runtime@^0.9.5:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.9.6.tgz#d33eb95d0d2001a4be39659707c51b0cb71ce029"
 
 regenerator-transform@^0.10.0:
   version "0.10.1"

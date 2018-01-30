@@ -30,6 +30,11 @@
                 | 答疑
               q-item-main.text-center(style="font-size:0.8rem;")
                 | {{courseClass.q_time}} @{{courseClass.q_place}}
+            q-item
+              q-item-side
+                | 人数
+              q-item-main.text-center(style="font-size:0.8rem;")
+                | {{courseClass.enroll}}/{{courseClass.capacity}}
   
 </template>
 

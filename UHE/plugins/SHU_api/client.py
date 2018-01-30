@@ -291,12 +291,12 @@ class XK(Client):
                 'IgnorCredit': 'False',
                 'StudentNo': self.card_id
                 }
-        failed_names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+        failed_names = ('no', 'name', 'class', 'teacher', 'credit',
                  'time', 'place', 'campus', 'notice')
-        success_names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+        success_names = ('no', 'name', 'class', 'teacher', 'credit',
                          'time', 'place', 'campus')
         for i in range(len(courses)):
-            data['ListCourse[' + str(i) + '].CID'] = courses[i]['course']
+            data['ListCourse[' + str(i) + '].CID'] = courses[i]['no']
             data['ListCourse[' + str(i) + '].TNo'] = courses[i]['class']
             data['ListCourse[' + str(i) + '].NeedBook'] = 'false'
         r = self.session.get(self.host + '/CourseSelectionStudent/FastInput')
@@ -324,10 +324,10 @@ class XK(Client):
         return {'success_courses': success_courses, 'failed_courses': failed_courses}
     
     def quit_courses(self, courses):
-        data = {'ListCourseStr': ','.join([c['course']+'|'+c['class'] for c in courses]),
+        data = {'ListCourseStr': ','.join([c['no']+'|'+c['class'] for c in courses]),
                     'StuNo': self.card_id,
                     'Absolute': 'false'} 
-        names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+        names = ('no', 'name', 'class', 'teacher', 'credit',
                  'time', 'place', 'campus')
         self.session.get(
             self.host + '/CourseReturnStudent/CourseReturn')
@@ -356,13 +356,28 @@ class XK(Client):
         assert r.text.find('验证码') == -1
         soup = BeautifulSoup(r.text, "html.parser")
         table = soup.find('table')
-        row = table.findAll("tr")
         courselist = []
-        names = ('no', 'name', 'teacher_no', 'teacher', 'enroll','capacity', 'rank')
-        for row in table.findAll("tr")[3:]:
+        names = ('no', 'name', 'class', 'teacher', 'enroll','capacity', 'rank')
+        for row in table.findAll("tr")[2:]:
             cells = row.findAll("td")
             course = {
                 names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[:])
+            }
+            courselist.append(course)
+        return courselist
+
+    def get_delete_courses(self):
+        r = self.session.get(
+            self.host + '/StudentQuery/CtrlViewQueryDeleteCourse')
+        soup = BeautifulSoup(r.text,"html.parser")
+        courselist = []
+        table = soup.find('table')
+        names = ('no', 'name', 'class', 'teacher', 'credit',
+            'time', 'place', 'campus')
+        for row in table.findAll("tr")[3:]:
+            cells = row.findAll("td")
+            course = {
+                names[key]: cell.get_text(strip=True) for (key, cell) in enumerate(cells[1:])
             }
             courselist.append(course)
         return courselist
@@ -376,7 +391,7 @@ class XK(Client):
         soup = BeautifulSoup(self.data, "html.parser")
         table = soup.find("table")
         row = table.findAll("tr")
-        names = ('no', 'name', 'teacher_no', 'teacher', 'credit',
+        names = ('no', 'name', 'class', 'teacher', 'credit',
                  'time', 'place', 'campus', 'q_time', 'q_place')
         for row in table.findAll("tr")[3:]:
             cells = row.findAll("td")

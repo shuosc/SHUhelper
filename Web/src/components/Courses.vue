@@ -2,6 +2,7 @@
   div
     q-card
       mt-field(class="pb-0" name="input-1" v-model="quickQuery" single-line placeholder="搜索课程" id="testing")
+    //- q-collapsible(icon="explore" label="First")
     div(v-infinite-scroll="searchCourseQuick" :infinite-scroll-disabled="loading||allLoaded" infinite-scroll-distance="40")
       q-card(v-for="(course,index) in courses" :key="course.no+course.teacher"  @click="$router.push(`/courses/${course._id.$oid}`)")
         q-card-title(dense )
@@ -43,7 +44,7 @@
               q-item-main.text-center
                 q-chip(v-for="term in course.terms",:key="term" color="primary" @click.stop="onCourseClick(course,term)")
                   | {{term|term}} 
-            q-item
+            //- q-item
               q-item-side
                 | 简介
               q-item-main.text-center

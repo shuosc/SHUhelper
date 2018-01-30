@@ -52,6 +52,9 @@ const state = {
   getters: {
     feeds: state => {
       return state.feeds
+    },
+    user: state => {
+      return state.user
     }
   },
   mutations: {

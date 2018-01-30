@@ -4,8 +4,46 @@ from mongoengine.queryset.visitor import Q
 
 from .manage import get_xk, get_teachers
 from .models import Course, CourseOfTerm
+from UHE.plugins.SHU_api.client import XK
 
 courses = Blueprint('courses', __name__)
+
+@courses.route('/manage/rank',methods=['POST'])
+@login_required
+def get_rank():
+    args = request.get_json()
+    xk = XK(args['card_id'],args['password'],'http://xk.shu.edu.cn:8080')
+    if not xk.login() or not xk.login():
+        abort(400)
+    return jsonify(xk.get_enroll_rank())
+
+@courses.route('/manage/deleted',methods=['POST'])
+@login_required
+def get_deleted():
+    args = request.get_json()
+    xk = XK(args['card_id'],args['password'],'http://xk.shu.edu.cn:8080')
+    if not xk.login() or not xk.login():
+        abort(400)
+    return jsonify(xk.get_delete_courses())
+
+
+@courses.route('/manage/select',methods=['POST'])
+@login_required
+def select_courses():
+    args = request.get_json()
+    xk = XK(args['card_id'],args['password'],'http://xk.shu.edu.cn:8080')
+    if not xk.login() or not xk.login():
+        abort(400)
+    return jsonify(xk.select_courses(args['courses']))
+
+@courses.route('/manage/quit',methods=['POST'])
+@login_required
+def quit_courses():
+    args = request.get_json()
+    xk = XK(args['card_id'],args['password'],'http://xk.shu.edu.cn:8080')
+    if not xk.login() or not xk.login():
+        abort(400)
+    return jsonify(xk.quit_courses(args['courses']))
 
 
 @courses.route('/manage/migrate')

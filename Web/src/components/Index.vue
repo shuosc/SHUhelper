@@ -21,7 +21,7 @@
               q-item-tile(label='') {{$store.state.user.name}}，{{welcome}} 
             //- q-item-side
               q-toggle(v-model="snow"  left-label :label="snow?'雪停吧！':'下点大雪吧！'")
-        q-card-actions.justify-end
+        //- q-card-actions.justify-end
           q-toggle(v-model="snow"  left-label :label="snow?'雪停吧！':'下点大雪吧！'")
       simple-calendar
       q-card()

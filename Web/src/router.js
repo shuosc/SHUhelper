@@ -19,6 +19,7 @@ import SquareFeedDetail from '@/SquareFeedDetail'
 import CoursesDetail from '@/CoursesDetail'
 import Courses from '@/Courses'
 import CourseEvaluations from '@/CourseEvaluations'
+import CourseManage from '@/CourseManage'
 // import Map from '@/Map'
 export default new VueRouter({
   /*
@@ -49,7 +50,7 @@ export default new VueRouter({
     {
       path: '/',
       redirect: '/index',
-      alias: ['index-su', 'home']
+      alias: ['/index-su', '/home']
     },
     {
       path: '/index',
@@ -70,6 +71,16 @@ export default new VueRouter({
       name: 'course-evaluations',
       meta: {
         title: '课程评价',
+        disableBottom: true,
+        back: true
+      }
+    },
+    {
+      path: '/course-manage',
+      component: CourseManage,
+      name: 'course-manage',
+      meta: {
+        title: '选课管理',
         disableBottom: true,
         back: true
       }
