@@ -11,26 +11,26 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = True
 
-    #Mail Settings
+    # Mail Settings
     MAIL_SERVER = ''
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     # MAIL_DEBUG : default app.debug
     MAIL_USERNAME = 'me@example.com'
-    MAIL_DEFAULT_SENDER = ('me','me@example.com')
+    MAIL_DEFAULT_SENDER = ('me', 'me@example.com')
     SECRET_KEY = 'SECRET_KEY'
 
-    #MAIL_USE_TLS : default False
+    # MAIL_USE_TLS : default False
     MAIL_USE_SSL = True
     MAIL_USERNAME = ''
     MAIL_PASSWORD = ''
     MAIL_DEFAULT_SENDER = ('', '')
 
-    #Celery Settings
+    # Celery Settings
     CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
     CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/1'
 
-    #MongoDB Settings
+    # MongoDB Settings
     MONGODB_SETTINGS = {
         'db': 'UHE',
         'host': '127.0.0.1',
@@ -40,10 +40,10 @@ class DevelopmentConfig(Config):
     # Redis
     REDIS_URL = "redis://dev.shuhelper.cn:6378/0"
 
-    #Babel
+    # Babel
     BABEL_DEFAULT_LOCALE = 'zh_CN'
-    
-    #RK Captcha Solver Service
+
+    # RK Captcha Solver Service
     CAPTCHA_SOLVER_USERNAME = ''
     CAPTCHA_SOLVER_PASSWORD = ''
     CAPTCHA_SOLVER_SOFTID = 0

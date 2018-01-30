@@ -10,7 +10,7 @@
         q-toolbar-title {{$route.meta.title}}
         router-view(name="toolbar")
       left-panel( slot="left")
-      //- transition(:name="'router-' + stack.direction")      
+      //- transition(:name="'router-' + stack.direction")
         //- q-transition(enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll")
       navigation
         router-view
@@ -121,7 +121,7 @@ export default {
           _this.$store.commit('updateAccount', payload)
           ga.loginUser(payload.cardID)
           if (custom.loginText === undefined) {
-            Toast.create(`${response.data.name}，欢迎登陆`)
+            Toast.create(`${response.data.name}，欢迎登录`)
           } else {
             Toast.create(`${custom.loginText}`)
           }

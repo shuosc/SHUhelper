@@ -105,7 +105,7 @@ export default {
           this.$router.go(-1)
         })
         .catch((error) => {
-          _this.$store.commit('showSnackbar', { text: '登陆失败' + error })
+          _this.$store.commit('showSnackbar', { text: '登录失败' + error })
         })
     },
     onImgAdd () {

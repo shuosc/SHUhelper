@@ -6,7 +6,7 @@
           span(style='font-weight:bold;font-size:2rem;color:white;text-shadow:yellow 0 1px 0;') SHUhelper.cn Beta
           br
           small(style='color:white;text-shadow:green 0 1px 0;')
-            span(style='color:red;') ♥ 
+            span(style='color:red;') ♥
             | meow~
       q-card.no-margin(flat='')
         q-card-main
@@ -143,7 +143,7 @@ export default {
           }
 
           // debugger
-          createToast(loginText === undefined ? `${response.data.name}，欢迎登陆` : `${loginText}`)
+          createToast(loginText === undefined ? `${response.data.name}，欢迎登录` : `${loginText}`)
           ga.loginUser(payload.cardID)
           Events.$emit('app:hideLeft')
           // Events.$emit('app:hideLeft')
@@ -157,7 +157,7 @@ export default {
         .catch(function(error) {
           console.log(error)
           done()
-          createToast('登陆失败' + error)
+          createToast('登录失败' + error)
         })
     }
   }
