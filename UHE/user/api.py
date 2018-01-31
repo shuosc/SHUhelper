@@ -125,6 +125,11 @@ def set_custom_theme():
 
 @users.route("/login/", methods=['GET','POST'])
 def login():
+    """ main user auth view function
+    user was authenticated when user has valid token (which stored in redis),
+    or has valid cardID and password
+    """
+    # TODO: remove token-login after JWT was introduced
     if request.method == 'GET':
         token = request.args.get('token')
         card_id = redis_store.get('token:' + token)
