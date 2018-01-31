@@ -4,6 +4,9 @@ from mongoengine import (BooleanField, DateTimeField, Document, StringField)
 
 
 class Plugin(Document):
+    """
+    document for UHE.plugins
+    """
     name = StringField()
     status=StringField(default='uninstalled')
     identifier = StringField(unique=True)

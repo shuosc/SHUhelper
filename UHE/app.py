@@ -20,19 +20,22 @@ app_start = signal('app_start')
 
 
 def create_app(config=None):
+    """
+    app factory, return an configured instance 
+    """
     app = Flask("UHE", instance_relative_config=True)
     configure_app(app, config)
     # connect(**app.config['MONGODB_SETTINGS'])
-    app.signals = {}
-    app.update_func = {}
-    app.client = {}
+    # app.signals = {}
+    # app.update_func = {}
+    # app.client = {}
     configure_celery_app(app, celery)
     configure_extensions(app)
     configure_admin(app)
     configure_blueprints(app)
-
     configure_plugins(app)
     configure_manger_accounts(app)
+    # signal
     app_start.send(app)
     # configure_tasks(app,celery)
     return app
@@ -126,11 +129,12 @@ def configure_blueprints(app):
     # pass
 
 
-def register_cli(app):
-    @app.cli.command('initdb')
-    def initdb_command():
-        """Creates the database tables."""
-        print('Initialized the database.')
+# def register_cli(app):
+#     """[todo]""""
+#     @app.cli.command('initdb')
+#     def initdb_command():
+#         """Creates the database tables."""
+#         print('Initialized the database.')
 
 def configure_extensions(app):
     """Configures the extensions."""
