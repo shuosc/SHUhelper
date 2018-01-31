@@ -32,16 +32,15 @@
 
 然后只需
 ```shell
-make buildweb
 make runweb
 ```
 前端就成功拉起了，应该会自动打开浏览器，并启用 auto reload。
 
 ### 如何拉起后端
 
-首先你需要在 instance下放置正确的config.py文件。
+首先，需要安装并且启动 mongodb 和 redis。你可以在他们的官方网站找到更多信息。
 
-可以向开发者索要这个文件。
+然后需要在 instance 下创建一个 config.py 文件，将 sample_config.py 里的内容粘贴到 config.py，并且按照你自己的服务器配置填写好内容。
 
 然后：
 
