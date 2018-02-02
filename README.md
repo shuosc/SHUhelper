@@ -12,6 +12,7 @@
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
 [![travis ci](https://api.travis-ci.org/shuopensourcecommunity/SHUhelper.svg?branch=master)](https://travis-ci.org/shuopensourcecommunity/SHUhelper)
 [![Code Health](https://landscape.io/github/shuopensourcecommunity/SHUhelper/master/landscape.svg?style=flat)](https://landscape.io/github/shuopensourcecommunity/SHUhelper/master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a73c427338c8d7add064/maintainability)](https://codeclimate.com/github/shuopensourcecommunity/SHUhelper/maintainability)
 
 > 还在开发中呢，写文档是不可能的，这辈子都写不了文档，只能在commit里卖卖萌这样，勉强过过日子
 
