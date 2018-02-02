@@ -11,9 +11,9 @@ from UHE.user.models import User
 
 
 class Comment(db.EmbeddedDocument):
-    user = ReferenceField(User)
-    text = StringField(default='')
-    term = StringField()
+    author = ReferenceField(User)
+    display_name = StringField()
+    content = StringField(default='')
     liked = ListField(ReferenceField(User, deref=True), default=lambda: [])
     liked_count = IntField()
     reply = IntField(default=-1)
@@ -29,7 +29,7 @@ class Comment(db.EmbeddedDocument):
 
     def to_dict(self):
         return {
-            'user': self.user.to_dict_public(),
+            'user': self.author.to_dict_public(),
             'created': str(self.created),
             'text': self.text
         }
@@ -122,7 +122,8 @@ class Evaluation(db.Document):
             'term': self.term,
             'like': self.like,
             'rating': self.rating,
-            'created': str(self.created)
+            'created': str(self.created),
+            'comments': self.comments
         }
 
 
