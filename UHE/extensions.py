@@ -7,13 +7,12 @@ from flask_login import LoginManager, AnonymousUserMixin
 from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
-
+from flask import current_app
 from UHE.plugins import PluginManager
-from UHE.plugins.SHU_captcha.solver import Solver
+from UHE.plugins.SHU_api.captcha_solver import Solver
 
 
 # from UHE.schedule import clock
-
 
 class AnonymousUser(AnonymousUserMixin):
     id = '00000001'

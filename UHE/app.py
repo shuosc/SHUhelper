@@ -15,7 +15,8 @@ from UHE.message.api import conversations
 from UHE.models import Plugin
 from UHE.user.api import users
 from UHE.user.models import User
-
+from mockredis import MockRedis
+from flask_redis import FlaskRedis
 app_start = signal('app_start')
 
 
@@ -72,7 +73,7 @@ def configure_manger_accounts(app):
 
 def configure_app(app, config):
     # app.config.from_object('UHE.config.DevelopmentConfig')
-    app.config.from_pyfile('config.py', silent=True)
+    app.config.from_pyfile('config.py')
     # try to update the config via the environment variable
     # Parse the env for UHE_ prefixed env variables and set
     # them on the config object
@@ -157,7 +158,9 @@ def configure_extensions(app):
     cache.init_app(app, config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
                                 'CACHE_REDIS_URL': app.config['REDIS_URL']})
 
+    print(app.testing)
     # Flask-And-Redis
+
     redis_store.init_app(app)
 
     # Flask-Limiter
