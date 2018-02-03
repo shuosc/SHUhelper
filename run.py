@@ -9,3 +9,6 @@ print('app start')
 @app.cli.command()
 def get_xk_8080():
     manage.get_xk('http://xk.shu.edu.cn:8080/')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',debug=True)

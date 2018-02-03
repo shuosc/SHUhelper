@@ -1,4 +1,4 @@
-from blinker import signal
+
 from flask import Flask
 from flask_login import current_user
 
@@ -17,8 +17,7 @@ from UHE.user.api import users
 from UHE.user.models import User
 from mockredis import MockRedis
 from flask_redis import FlaskRedis
-app_start = signal('app_start')
-
+from UHE.signals import app_start
 
 def create_app(config=None):
     """
@@ -172,4 +171,7 @@ def configure_extensions(app):
     login_manager.init_app(app)
     # Flask-Plugins
     app.school_time = Time()
+
+    oauth.init_app(app)
+
     plugin_manager.init_app(app)

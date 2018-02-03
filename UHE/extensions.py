@@ -10,8 +10,9 @@ from flask_redis import FlaskRedis
 from flask import current_app
 from UHE.plugins import PluginManager
 from UHE.plugins.SHU_captcha import Solver
-
-
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_oauthlib.provider import OAuth2Provider
 # from UHE.schedule import clock
 
 class AnonymousUser(AnonymousUserMixin):
@@ -41,8 +42,9 @@ captcha_solver = Solver()
 
 babel = Babel()
 
+oauth = OAuth2Provider(app)
 
-
+limiter = Limiter(auto_check=False, key_func=get_remote_address)
 
 # @celery.on_after_configure.connect
 # def setup_periodic_tasks(sender, **kwargs):
