@@ -1,9 +1,10 @@
 """
-temporary using http://www.ruokuai.com captcha solver api
+example http://www.ruokuai.com captcha solver api
 replace it later
 """
 import requests
 from flask import current_app
+
 
 def get_proxies():
     proxies = {
