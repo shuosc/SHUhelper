@@ -42,7 +42,7 @@ captcha_solver = Solver()
 
 babel = Babel()
 
-oauth = OAuth2Provider(app)
+oauth = OAuth2Provider()
 
 limiter = Limiter(auto_check=False, key_func=get_remote_address)
 

@@ -7,7 +7,7 @@ from UHE.calendar.api import events
 from UHE.calendar.time import Time
 # from UHE.comment.api import comments
 from UHE.extensions import (admin, allows, babel, cache, celery, db,
-                            login_manager, mail, plugin_manager, redis_store,
+                            login_manager, mail, plugin_manager, redis_store, oauth,
                             captcha_solver)
 from UHE.feed.api import feeds
 from UHE.index.api import index
@@ -18,6 +18,7 @@ from UHE.user.models import User
 from mockredis import MockRedis
 from flask_redis import FlaskRedis
 from UHE.signals import app_start
+
 
 def create_app(config=None):
     """
