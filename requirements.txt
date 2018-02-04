@@ -57,9 +57,9 @@ qiniu==7.1.4
 redis==2.10.5
 requests==2.13.0
 requests-oauthlib==0.8.0
+selenium==3.8.1
 six==1.10.0
 speaklater==1.3
-university-helper-engine==0.1
 vine==1.1.4
 Werkzeug==0.12.2
 wrapt==1.10.11

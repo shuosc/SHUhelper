@@ -84,7 +84,7 @@ make runweb
 make install
 # 部分系统需要手动安装flask，如Ubuntu
 # 需要 sudo apt install python3-flask
-make run
+make dev
 ```
 后端就拉起了。
 

@@ -18,7 +18,7 @@ from UHE.user.models import User
 from mockredis import MockRedis
 from flask_redis import FlaskRedis
 from UHE.signals import app_start
-
+from UHE.utils import app_config_from_env
 
 def create_app(config=None):
     """
@@ -74,10 +74,14 @@ def configure_manger_accounts(app):
 def configure_app(app, config):
     # app.config.from_object('UHE.config.DevelopmentConfig')
     app.config.from_pyfile('config.py')
+    if app.testing:
+        app.config['MONGODB_SETTINGS'] = {
+            'host': 'mongomock://localhost',
+        }
     # try to update the config via the environment variable
     # Parse the env for UHE_ prefixed env variables and set
     # them on the config object
-    # app_config_from_env(app, prefix="UHE_")
+    app_config_from_env(app, prefix="UHE_")
 
 
 def configure_plugins(app):

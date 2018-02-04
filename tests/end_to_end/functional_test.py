@@ -1,6 +1,7 @@
 import os
 from instance.config import TESTING_CARD_ID, TESTING_PASSWORD
 from time import sleep
+import pytest
 
 index_url = os.getenv('INDEX_URL', 'http://0.0.0.0:8080/index')
 
@@ -10,7 +11,6 @@ if use_browser:
     from selenium.webdriver import Chrome as Browser
 else:
     from selenium.webdriver import PhantomJS as Browser
-
 
 def try_login_with(browser, username, password):
     # 用户看见了账号密码输入框
@@ -24,7 +24,7 @@ def try_login_with(browser, username, password):
     sleep(5)
     return '首页' in browser.find_element_by_class_name('q-toolbar-title').text
 
-
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_login():
     browser = Browser()
     # 用户打开了主页
@@ -49,7 +49,7 @@ def test_login():
     assert '首页' in browser.find_element_by_class_name('q-toolbar-title').text
     browser.close()
 
-
+@pytest.mark.skip(reason="no way of currently testing this")
 def test_saysth():
     browser = Browser()
     # 用户打开了主页
