@@ -1,10 +1,10 @@
 import os
-from instance.config import TESTING_CARD_ID, TESTING_PASSWORD
 from time import sleep
 import pytest
 
 index_url = os.getenv('INDEX_URL', 'http://0.0.0.0:8080/index')
-
+TESTING_CARD_ID = os.getenv('UHE_TESTING_CARD_ID', '00000001')
+TESTING_PASSWORD = os.getenv('UHE_TESTING_PASSWORD', '000000001')
 use_browser = os.getenv('WITH_UI', 1)
 
 if use_browser:
