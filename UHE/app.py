@@ -29,7 +29,7 @@ def create_app(config=None):
     # connect(**app.config['MONGODB_SETTINGS'])
     # app.signals = {}
     # app.update_func = {}
-    # app.client = {}
+    # app.client = {}x
     configure_celery_app(app, celery)
     configure_extensions(app)
     configure_admin(app)

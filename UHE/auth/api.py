@@ -5,9 +5,10 @@
     
 """
 from flask import Blueprint, jsonify, g,request
-from flaskbb.extensions import limiter
+from UHE.extensions import limiter
 from datetime import datetime
 from UHE.user.models import User
+from flask_login import login_required,anonymous_required
 auth = Blueprint("auth", __name__)
 
 
@@ -45,10 +46,9 @@ def login_rate_limit_message():
 limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
 
 @auth.route('/logout')
+@login_required
 def logout():
     token = request.args.get('token')
-    if token is not None:
-        redis_store.delete(token)
     logout_user()
     return jsonify({
         'success': True
@@ -56,6 +56,7 @@ def logout():
 
 
 @auth.route("/login", methods=['GET', 'POST'])
+@anonymous_required
 def login():
     """ main user auth view function
     user was authenticated when user has valid token (which stored in redis),
