@@ -46,76 +46,19 @@ def quit_courses():
     return jsonify(xk.quit_courses(args['courses']))
 
 
-@courses.route('/manage/migrate')
-@login_required
-def migrate():
-    if current_user.role != 'superadmin':
-        abort(401)
-    i = 0
-    for course in Course.objects():
-        i += 1
-        print(i)
-        course_of_term = CourseOfTerm.objects(course=course)
-        new_course = Course(
-            no=course.no,
-            name=course.name,
-            teacher=course.teacher,
-            teacher_name=course.teacher_name,
-            credit=course.credit,
-            school=course.school,
-            terms=course.terms,
-            liked=[],
-            evaluations=[],
-            tags=[]
-        )
-        course.no = course.no + '0'
-        course.save()
-        new_course.save()
-        course_of_term.update(course=new_course)
-        course.delete()
-    return jsonify(success='ok')
-
-
-@courses.route('/manage/update-term')
-@login_required
-def update_term():
-    term = current_app.school_time.term_string
-    if current_user.role != 'superadmin':
-        abort(401)
-    for course in Course.objects():
-        if CourseOfTerm.objects(course=course, term=term).get() is not None:
-            course.this_term = True
-        else:
-            course.this_term = False
-        course.save()
-    return jsonify(status='ok')
-
-
-@courses.route('/manage/update-teachers')
-@login_required
-def get_teachers_api():
-    if current_user.role != 'superadmin':
-        abort(401)
-    get_teachers()
-    return jsonify(success='ok')
-
-
-@courses.route('/manage/update-course/80')
-@login_required
-def get_courses_80():
-    if current_user.role != 'superadmin':
-        abort(401)
-    get_xk('http://xk.shu.edu.cn/')
-    return jsonify(success='ok')
-
-
-@courses.route('/manage/update-course/8080')
-@login_required
-def get_courses_8080():
-    if current_user.role != 'superadmin':
-        abort(401)
-    get_xk('http://xk.shu.edu.cn:8080/')
-    return jsonify(success='ok')
+# @courses.route('/manage/update-term')
+# @login_required
+# def update_term():
+#     term = current_app.school_time.term_string
+#     if current_user.role != 'superadmin':
+#         abort(401)
+#     for course in Course.objects():
+#         if CourseOfTerm.objects(course=course, term=term).get() is not None:
+#             course.this_term = True
+#         else:
+#             course.this_term = False
+#         course.save()
+#     return jsonify(status='ok')
 
 
 @courses.route('/')
