@@ -333,40 +333,34 @@ def get_college_and_tag(courseid):
     x4 = courseid[5]
     if x1 in COLLEGE_CONVERTER.keys():
         college = COLLEGE_CONVERTER[x1]
+    elif x1 == '02' and (x2 == '09' or x2 == '75'):
+        college = '社会学院'
     elif x1 == '02':
-        if (x2 == '09') | (x2 == '75'):
-            college = '社会学院'
-        else:
-            college = '文学院'
+        college = '文学院'
+    elif x1 == '04' and x2 == '10':
+        college = '图书情报档案系'
+    elif x1 == '04' and (x2 == '13' or x2 == '14'or x2 == '15'):
+        college = '经济学院'
     elif x1 == '04':
-        if x2 == '10':
-            college = '图书情报档案系'
-        elif x2 == '13' or x2 == '14'or x2 == '15':
-            college = '经济学院'
-        else:
-            college = '管理学院'
+        college = '管理学院'
     else:
         college = ''
     if x3 in COURSE_TYPE_CONVERTER.keys():
         tag = COURSE_TYPE_CONVERTER[x3]
+    elif x3 == 'J' and  x4 == 'H':
+        tag = '经济管理类核心通识课'
     elif x3 == 'J':
-        if x4 == 'H':
-            tag = '经济管理大核心通识课'
-        else:
-            tag = '经济管理大类通识课'
+        tag = '经济管理类通识课'
+    elif x3 == 'L' and x4 == 'H':
+        tag = '理学工学类核心通识课'
     elif x3 == 'L':
-        if x4 == 'H':
-            tag = '理学工学类核心通识课'
-        else:
-            tag = '理学工学大类通识课'
+        tag = '理学工学类通识课'
+    elif x3 == 'R' and x4 == 'H':
+        tag = '人文社科类核心通识课'
     elif x3 == 'R':
-        if x4 == 'H':
-            tag = '人文社科类核心通识课'
-        else:
-            tag = '人文社科大类通识课'
-    elif x3 == 'E' or x3 == 'S':
-        if x4 == 'Y':
-            tag = '高年级研讨课'
+        tag = '人文社科类通识课'
+    elif x3 == 'E' or x3 == 'S' and x4 == 'Y':
+        tag = '高年级研讨课'
     else:
         tag = ''
     return college, tag
