@@ -2,7 +2,7 @@ import datetime
 
 from .models import Activity
 
-
+COURSE_SCHEDULE = [800,845,940,1045,1140,1255,1350,1455,1550,1645,1740,1845,1940,2035]
 class Time():
     def __init__(self, now=datetime.datetime.now()):
         self.now = now
@@ -75,33 +75,7 @@ class Time():
     #         return 0
     def get_course(self):
         ctime = int(self.now.strftime("%H%M"))
-        if ctime <= 800:
-            return 0
-        elif ctime <= 845:
-            return 1
-        elif ctime <= 940:
-            return 2
-        elif ctime <= 1045:
-            return 3
-        elif ctime <= 1140:
-            return 4
-        elif ctime <= 1255:
-            return 5
-        elif ctime <= 1350:
-            return 6
-        elif ctime <= 1455:
-            return 7
-        elif ctime <= 1550:
-            return 8
-        elif ctime <= 1645:
-            return 9
-        elif ctime <= 1740:
-            return 10
-        elif ctime <= 1845:
-            return 11
-        elif ctime <= 1940:
-            return 12
-        elif ctime <= 2035:
-            return 13
-        else:
-            return 0
+        for (index, value) in enumerate(COURSE_SCHEDULE)
+            if ctime <= value
+                return index
+        return 0

@@ -1,5 +1,5 @@
 import mongoengine
-from mongoengine import (BooleanField, DateTimeField, NULLIFY, PULL, CASCADE,
+from mongoengine import (BooleanField, DateTimeField, NULLIFY, PULL, CASCADE,IntField,DictField,
                          ListField, ReferenceField, StringField)
 
 # from UHE.comment.models import Comment
@@ -8,16 +8,15 @@ from UHE.user.models import User
 
 
 class Event(db.Document):
-    user = ReferenceField(User, reverse_delete_rule=NULLIFY)
-    identifier = StringField(unique=True)
+    author = ReferenceField(User, reverse_delete_rule=NULLIFY)
+    tags = ListField(StringField(), default=lambda: [])
     title = StringField(default=lambda: '')
-    remark = StringField(default=lambda: '')
+    namespcae = StringField()
+    content = StringField()
     meta = {'strict': False}
-    need_update = BooleanField(default=True)
+    hit = IntField(default=0)
     liked = ListField(ReferenceField(
         User, reverse_delete_rule=PULL), default=lambda: [])
-    # comments = ListField(ReferenceField(
-    #     Comment, reverse_delete_rule=PULL), default=lambda: [])
     attend = ListField(ReferenceField(
         User, reverse_delete_rule=PULL), default=lambda: [])
 
@@ -85,17 +84,17 @@ class Event(db.Document):
 
 
 class Activity(db.Document):
-    category = StringField()
+    # category = StringField()
     # system school_calendar opening_schedule school-activaties confrence club-activaties  acdemic course
     event = ReferenceField(Event, reverse_delete_rule=CASCADE)
     title = StringField()
     place = StringField()
-    visible = StringField(default='public')
+    # visible = StringField(default='public')
     task_start_id = StringField()
     task_end_id = StringField()
     key = StringField()  # send signal and find event
     # like year term week course_basic course etc
-    args = StringField()  # signal args
+    args = StringField()  # machine readble text, use for signal args
     start = DateTimeField(required=True)
     end = DateTimeField(required=True)
     meta = {'ordering': ['start'], 'strict': False}

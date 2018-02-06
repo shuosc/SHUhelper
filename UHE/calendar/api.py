@@ -6,7 +6,7 @@ from flask.views import MethodView
 from flask_login import current_user, login_required
 from mongoengine.queryset.visitor import Q
 
-from UHE.calendar.models import Activity, Event
+from .models import Activity, Event
 
 # from UHE.utils import this_course, this_term, this_week
 

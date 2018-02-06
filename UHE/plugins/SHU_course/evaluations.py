@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask.views import MethodView
 from flask_login import current_user
 
-from .models import Course, Evaluation
+from .models import Course, Evaluation,Comment
 
 evaluations = Blueprint('evaluations', __name__)
 
@@ -34,6 +34,10 @@ class EvaluationAPI(MethodView):
                 evaluations = Evaluation.objects(
                 )[per_page * (page - 1):per_page * (page)]
                 return jsonify([evaluation.to_dict() for evaluation in evaluations])
+        else:
+            evaluation = Evaluation.objects(
+                id=evaluation_id).get_or_404()
+            return jsonify(evaluation.to_dict())
 
     def post(self):
         args = request.get_json()
@@ -51,6 +55,25 @@ class EvaluationAPI(MethodView):
         course.evaluations_count = count
         course.save()
         return jsonify(success=True)
+
+    def put(self, evaluation_id):
+        args = request.get_json()
+        comment = Comment(author=current_user.id, display_name=args['name'],content=args['content'])
+        evaluation = Evaluation.objects(
+            id=evaluation_id).update_one(push__comments=comment)
+        return jsonify(evaluation.to_dict())
+
+
+@evaluations.route('/<evaluation_id>/comments', methods=['POST'])
+def add_comment(evaluation_id):
+    args = request.get_json()
+    comment = Comment(author=current_user.id,
+                        display_name=args['name'], content=args['content'])
+    Evaluation.objects(
+        id=evaluation_id).update_one(push__comments=comment)
+    evaluation = Evaluation.objects(
+        id=evaluation_id).get_or_404()
+    return jsonify(evaluation.to_dict())
 
 
 evaluation_view = EvaluationAPI.as_view('evaluation_api')

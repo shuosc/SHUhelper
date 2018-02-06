@@ -1,4 +1,4 @@
-from blinker import signal
+
 from flask import Flask
 from flask_login import current_user
 
@@ -7,7 +7,7 @@ from UHE.calendar.api import events
 from UHE.calendar.time import Time
 # from UHE.comment.api import comments
 from UHE.extensions import (admin, allows, babel, cache, celery, db,
-                            login_manager, mail, plugin_manager, redis_store,
+                            login_manager, mail, plugin_manager, redis_store, oauth,
                             captcha_solver)
 from UHE.feed.api import feeds
 from UHE.index.api import index
@@ -15,9 +15,10 @@ from UHE.message.api import conversations
 from UHE.models import Plugin
 from UHE.user.api import users
 from UHE.user.models import User
-
-app_start = signal('app_start')
-
+from mockredis import MockRedis
+from flask_redis import FlaskRedis
+from UHE.signals import app_start
+from UHE.utils import app_config_from_env
 
 def create_app(config=None):
     """
@@ -28,7 +29,7 @@ def create_app(config=None):
     # connect(**app.config['MONGODB_SETTINGS'])
     # app.signals = {}
     # app.update_func = {}
-    # app.client = {}
+    # app.client = {}x
     configure_celery_app(app, celery)
     configure_extensions(app)
     configure_admin(app)
@@ -72,11 +73,15 @@ def configure_manger_accounts(app):
 
 def configure_app(app, config):
     # app.config.from_object('UHE.config.DevelopmentConfig')
-    app.config.from_pyfile('config.py', silent=True)
+    app.config.from_pyfile('config.py')
+    if app.testing:
+        app.config['MONGODB_SETTINGS'] = {
+            'host': 'mongomock://localhost',
+        }
     # try to update the config via the environment variable
     # Parse the env for UHE_ prefixed env variables and set
     # them on the config object
-    # app_config_from_env(app, prefix="UHE_")
+    app_config_from_env(app, prefix="UHE_")
 
 
 def configure_plugins(app):
@@ -157,7 +162,9 @@ def configure_extensions(app):
     cache.init_app(app, config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
                                 'CACHE_REDIS_URL': app.config['REDIS_URL']})
 
+    print(app.testing)
     # Flask-And-Redis
+
     redis_store.init_app(app)
 
     # Flask-Limiter
@@ -169,4 +176,7 @@ def configure_extensions(app):
     login_manager.init_app(app)
     # Flask-Plugins
     app.school_time = Time()
+
+    oauth.init_app(app)
+
     plugin_manager.init_app(app)
