@@ -21,6 +21,7 @@
         img.responsive(:src="img" v-show="!imgLoading" @load="imgLoad")
       div(slot="footer" v-show="!$route.meta.disableBottom && $q.platform.is.mobile")
         bottom-navigation
+      
 </template>
 
 <script>

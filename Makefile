@@ -30,6 +30,7 @@ test:
 	py.test
 
 runweb:
+	cd ./Web && yarn install
 	cd ./Web && yarn dev
 	cd ./Web && PORT=8081 yarn dev ios
 
