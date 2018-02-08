@@ -70,6 +70,7 @@ export default {
             { name: '课程搜索', icon: 'fa-book', url: '/course-query' },
             { name: '评课社区', icon: 'fa-book', url: '/course-evaluations' },
             { name: '选课管理（测试）', icon: 'fa-book', url: '/course-manage' },
+            {name: '失物招领', icon: 'fa-money', url: '/lost'},
             // { name: '学生财务', icon: 'fa-money', url: '/fin' },
             // { name: '校车运行', icon: 'fa-bus', url: '/bus' },
             // { name: '晨跑课外', icon: 'fa-tiyujiankang', url: '/sports' },

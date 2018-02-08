@@ -219,6 +219,15 @@ export default new VueRouter({
         title: '关于'
       }
     },
+    {
+      path: '/lost',
+      component: load('LostProperty'),
+      name: 'LostProperty',
+      meta: {
+        title: '失物招领',
+        disableBottom: true
+      }
+    },
     // Always leave this last one
     {
       path: '*',
