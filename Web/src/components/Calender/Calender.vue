@@ -28,9 +28,6 @@ export default {
     }
   },
   name: 'calender',
-  mounted() {
-    this.getCalenderData()
-  },
   methods: {
     getCalenderData() {
       if (this.calenderData.length !== 0) {
@@ -88,6 +85,7 @@ export default {
     }
   },
   mounted: function() {
+    this.getCalenderData()
     this.currentMonthRange = this.indexRangeOfTheMonth(new Date())
     this.setMonthDisplaying(this.currentMonthRange.firstDayOfTheMonthIndex, this.currentMonthRange.lastDayOfTheMonthIndex)
   }

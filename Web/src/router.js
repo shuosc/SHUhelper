@@ -224,7 +224,8 @@ export default new VueRouter({
       component: load('LostProperty'),
       name: 'LostProperty',
       meta: {
-        title: '失物招领'
+        title: '失物招领',
+        disableBottom: true
       }
     },
     // Always leave this last one
