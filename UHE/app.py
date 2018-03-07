@@ -38,6 +38,7 @@ def create_app(config=None):
     return app
 
 
+
 def create_celery_app(config=None):
     app = Flask("UHE", instance_relative_config=True)
     configure_app(app, config)

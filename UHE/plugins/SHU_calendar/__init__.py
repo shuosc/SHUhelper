@@ -99,7 +99,7 @@ class SHUCalendar(UHEPlugin):
             weeks_of_year = self.create_week(2017, 9, 11, start_week=0, end_week=9, term="2017-2018学年秋季学期", key_prefix="2017_1") + \
                 self.create_week(2017, 11, 20,  start_week=9, end_week=12, term="2017-2018学年秋季学期", key_prefix="2017_1") + \
                 self.create_week(2017, 12, 11,  start_week=0, end_week=8, term="2017-2018学年冬季学期", key_prefix="2017_2") + \
-                self.create_week(2018, 2, 5, start_week=8, end_week=12, term="2017_2018学年冬季学期", key_prefix="2017_2") + \
+                self.create_week(2018, 2, 26, start_week=8, end_week=12, term="2017_2018学年冬季学期", key_prefix="2017_2") + \
                 self.create_week(2018, 3, 26,  start_week=0, end_week=12, term="2017-2018学年春季学期", key_prefix="2017_3") + \
                 self.create_week(2018, 6, 18,  start_week=0, end_week=4,
                                  term="2017-2018学年夏季学期", key_prefix="2017_4")
