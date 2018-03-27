@@ -7,13 +7,13 @@ from flask_login import LoginManager, AnonymousUserMixin
 from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
-
+from flask import current_app
 from UHE.plugins import PluginManager
-from UHE.plugins.SHU_captcha.solver import Solver
-
-
+from UHE.plugins.SHU_captcha import Solver
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from flask_oauthlib.provider import OAuth2Provider
 # from UHE.schedule import clock
-
 
 class AnonymousUser(AnonymousUserMixin):
     id = '00000001'
@@ -21,7 +21,7 @@ class AnonymousUser(AnonymousUserMixin):
         return '00000001'
 
 login_manager = LoginManager()
-login_manager.anonymous_user = AnonymousUser
+login_manager.anonymous_u00ser = AnonymousUser
 mail = Mail()
 
 allows = Allows()
@@ -42,8 +42,9 @@ captcha_solver = Solver()
 
 babel = Babel()
 
+oauth = OAuth2Provider()
 
-
+limiter = Limiter(auto_check=False, key_func=get_remote_address)
 
 # @celery.on_after_configure.connect
 # def setup_periodic_tasks(sender, **kwargs):

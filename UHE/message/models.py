@@ -13,7 +13,7 @@ from UHE.user.models import User
 
 
 class Message(db.Document):
-    sender = ReferenceField(User,reverse_delete_rule=CASCADE)
+    sender = ReferenceField(User, reverse_delete_rule=CASCADE)
     sort = StringField(choices=('system', 'application', 'private'))
     content = StringField()
     read = BooleanField(default=False)
@@ -48,11 +48,11 @@ class Message(db.Document):
 
 
 class Conversation(db.Document):
-    from_user = ReferenceField(User,reverse_delete_rule=CASCADE)
-    to_user = ReferenceField(User,reverse_delete_rule=CASCADE)
+    members = ListField(ReferenceField(User, reverse_delete_rule=PULL))
     messages = ListField(ReferenceField(
         Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
     deleted = BooleanField(default=False)
+
     # unreadmessages = ListField(ReferenceField(
     #     Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
     meta = {'strict': False}
@@ -85,7 +85,8 @@ class Conversation(db.Document):
             data['toUser'] = self.from_user.to_dict()
             data['fromUser'] = self.to_user.to_dict()
         # if len(self.unreadmessages) == 0:
-        data['lastMessage'] = self.last_message.to_dict() if self.last_message is not None else None
+        data['lastMessage'] = self.last_message.to_dict(
+        ) if self.last_message is not None else None
         # else:
         #     data['unread'] = len(self.unreadmessages)
         return data
@@ -109,6 +110,16 @@ class Conversation(db.Document):
     #     print(document)
     #     if len(document.messages):
     #         document.delete()
+
+
+class UserContact(db.Document):
+    user = ReferenceField(User, reverse_delete_rule=CASCADE)
+    contact = ReferenceField(User, reverse_delete_rule=CASCADE)
+    conversation = ReferenceField(Conversation)
+    unread_messges_count = IntField()
+    last_open = DateTimeField()
+    avatar = StringField()
+    title = StringField()
 
 
 mongoengine.signals.pre_save.connect(Message.pre_save, sender=Message)

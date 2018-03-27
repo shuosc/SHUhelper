@@ -73,18 +73,6 @@ def search(query):
         'name': user.name[0] + '*' * len(user.name[1:])
     }for user in users])
 
-
-@users.route('/logout')
-def logout():
-    token = request.args.get('token')
-    if token is not None:
-        redis_store.delete(token)
-    logout_user()
-    return jsonify({
-        'success': True
-    })
-
-
 @users.route('/<user_id>')
 def profile(user_id):
     user = User.objects.get_or_404(card_id=user_id)
@@ -121,32 +109,3 @@ def set_custom_theme():
     return jsonify({
         'status': 'ok'
     })
-
-
-@users.route("/login/", methods=['GET','POST'])
-def login():
-    if request.method == 'GET':
-        token = request.args.get('token')
-        card_id = redis_store.get('token:' + token)
-        if card_id is None:
-            abort(403)
-        user = User.objects(card_id=card_id).first()
-        result = user.login(token)
-        redis_store.set('token:' + token, user.card_id, ex=864000)
-        login_user(user)
-    else:
-        post_data = request.get_json()
-        user = User.objects(card_id=post_data['card_id']).first()
-        need_fresh = False
-        if user is not None:
-            need_fresh = not user.authenticate(post_data['password'])
-        else:
-            user = User(card_id=post_data['card_id'])
-            need_fresh = True
-        if need_fresh and not user.regisiter(post_data['password']):
-            abort(403)
-        token = make_token()
-        result = user.login(token)
-        redis_store.set('token:' + token, post_data['card_id'], ex=864000)
-        login_user(user)
-    return jsonify(result)

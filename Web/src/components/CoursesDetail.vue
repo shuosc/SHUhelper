@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    q-modal-layout(v-if="course")
+    div(v-if="course")
       q-card(flat)
         q-card-title(dense )
           | {{course.name}}
@@ -53,7 +53,7 @@
       q-list
         q-list-header(v-if="evaluations.length > 0") 共有{{evaluations.length}}条点评
         q-item-separator
-        q-card(flat v-for="(evaluation,index) in evaluations" :key="index" style="margin:1rem 0 0 0")
+        q-card(  v-for="(evaluation,index) in evaluations" @click="$router.push(`/evaluations/${evaluation._id.$oid}`)" :key="index")
           q-card-title.no-padding 
           q-item(dense)
             //- q-item-side
@@ -75,7 +75,17 @@
             p(v-for="paragraph in evaluation.text.split('\\n')")
               | {{ paragraph }}
           q-card-separator
-        q-list-header 没有更多评论
+          q-card-actions.justify-end
+            q-btn(small :class="{'text-pink':evaluation.liked}" flat @click.stop="onLikeClick(index)")
+              q-icon(name="favorite")
+              span(style="color:grey;font-size:1rem;")
+                | {{evaluation.like.length}}
+            q-btn(flat small)
+              q-icon(name="comment")
+              span(style="color:grey;font-size:1rem;")
+                | {{evaluation.comments.length}}
+         
+        q-list-header.text-center 没有更多评论
       q-modal(v-model="dialog" minimized  :content-css="{minWidth: '80vw'}")
         course-term-card(v-if="course&&classes" :course="course" :classes="classes")
       q-modal(v-model="evalationModal" minimized  :content-css="{minWidth: '80vw'}")
@@ -101,9 +111,9 @@
               mt-field(placeholder="" type="textarea" rows="4" v-model="evaluation.text")
             q-field
               q-btn.full-width(@click="publish") 发布
-      q-toolbar(slot="footer" color="white")
+      q-toolbar(style="position:fixed;bottom:0;" color="white")
         q-toolbar-title
-          q-btn.full-width(flat color="black" @click="addEvalation")
+          q-btn.full-width(flat color="primary" @click="addEvalation")
             q-icon(name="add") 写点评
     
 </template>

@@ -20,6 +20,7 @@ import CoursesDetail from '@/CoursesDetail'
 import Courses from '@/Courses'
 import CourseEvaluations from '@/CourseEvaluations'
 import CourseManage from '@/CourseManage'
+import CourseEvaluationDetail from '@/CourseEvaluationDetail'
 // import Map from '@/Map'
 export default new VueRouter({
   /*
@@ -106,6 +107,16 @@ export default new VueRouter({
       }
     },
     {
+      path: '/evaluations/:id',
+      component: CourseEvaluationDetail,
+      name: 'evaluation',
+      meta: {
+        title: '评价详情',
+        disableBottom: true,
+        back: true
+      }
+    },
+    {
       path: '/2018',
       component: load('NewYearWish'),
       name: 'NewYearWish',
@@ -138,7 +149,7 @@ export default new VueRouter({
       meta: {
         title: '树洞',
         disableBottom: true,
-        back:true
+        back: true
         // disableToolbar: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
@@ -159,7 +170,7 @@ export default new VueRouter({
       meta: {
         title: '表白墙',
         disableBottom: true,
-        back:true
+        back: true
       } // children: [{ path: '/', component: load('Schedule') }]
     },
     {
@@ -206,6 +217,15 @@ export default new VueRouter({
       name: 'about',
       meta: {
         title: '关于'
+      }
+    },
+    {
+      path: '/lost',
+      component: load('LostProperty'),
+      name: 'LostProperty',
+      meta: {
+        title: '失物招领',
+        disableBottom: true
       }
     },
     // Always leave this last one

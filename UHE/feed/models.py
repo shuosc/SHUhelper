@@ -5,14 +5,10 @@ from mongoengine import (DateTimeField, IntField, PULL, CASCADE, BooleanField, D
                          ListField, ReferenceField, StringField)
 
 from UHE.extensions import db
-# from config import db
 from UHE.user.models import User
 
-
-# from UHE.comment.models import Comment
-
 class Comment(db.EmbeddedDocument):
-    user = ReferenceField(User)
+    author = ReferenceField(User)
     text = StringField(default='')
     liked = ListField(ReferenceField(User, deref=True), default=lambda: [])
     liked_count = IntField()
@@ -35,18 +31,18 @@ class Comment(db.EmbeddedDocument):
         }
 
 class Feed(db.Document):
-    user = ReferenceField(User, reverse_delete_rule=CASCADE)
+    author = ReferenceField(User, reverse_delete_rule=CASCADE)
     display_name = StringField()
     created = DateTimeField(default=datetime.datetime.now)
-    # comments = ListField(ReferenceField(
-    #     Comment, reverse_delete_rule=PULL), default=lambda: []) #deprecated
-    comment_list = ListField(EmbeddedDocumentField(Comment))
+    comments = ListField(EmbeddedDocumentField(Comment))
     namespace = StringField(default='ordinary')  # external-link internal-link imgs text post
-    text = StringField(default='')
+    content = StringField(default='')
+    tags = ListField(StringField)
     link = DictField()
     img = ListField(StringField())
     hits = IntField(default=0)
-    like = ListField(ReferenceField(User,reverse_delete_rule=PULL, deref=True), default=lambda: [])
+    liked = ListField(ReferenceField(User,reverse_delete_rule=PULL, deref=True), default=lambda: [])
+    liked_count = IntField(default=0)
     deleted = BooleanField(default=False)
     meta = {
         'ordering': ['-created'],
