@@ -24,7 +24,7 @@
         //- q-card-actions.justify-end
           q-toggle(v-model="snow"  left-label :label="snow?'雪停吧！':'下点大雪吧！'")
       simple-calendar
-      q-card()
+      //- q-card()
         q-card-media
           q-parallax(:src="'/statics/course-back.jpg'" :height="150")
           q-card-title(slot="overlay")
@@ -39,7 +39,7 @@
         q-btn.full-width(@click="$router.push('/2018')")
           | 写下你的新年愿望
       course-time(v-if="$store.state.time.day<=5")
-      empty-room(v-if="$store.state.time.updated&&$store.state.time.day<=5")
+      empty-room(v-if="$store.state.time.updated")
       q-card
         q-card-main.text-center
           q-item
@@ -63,7 +63,7 @@
         q-card-main(style='text-align:center;')
           //- img(src="https://forthebadge.com/images/badges/built-with-love.svg")
           //- br
-          small(style='color:grey;') 2018 SHU OpenSourceCommnuity
+          small(style='color:grey;') 2018 SHU OpenSourceCommunity
 
 </template>
 

@@ -267,10 +267,10 @@ export default {
       return inWeek
     },
     coursetimeToNum(time) {
-      var patt = /([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468)\)|\((?:([0-9]+),([0-9]+)\u5468)\))*/
+      var patt = /([\u4e00|\u4e8c|\u4e09|\u56db|\u4e94])([0-9]+)-([0-9]+)\s*(?:([\u5355|\u53cc|])|\((?:([0-9]+)-([0-9]+)\u5468).*?\)|\((?:([0-9]+),([0-9]+)\u5468).*?\))*/
       var timelist = []
       var str = time
-      let week = this.$store.state.toolbar.states[0]
+      let week = this.$store.state.time.week
       console.log('week', week)
       while (patt.test(str)) {
         var coursetime = patt.exec(str)
