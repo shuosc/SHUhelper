@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~~~~
     
 """
-from flask import Blueprint, jsonify, g,request
+from flask import Blueprint, jsonify, g,request,abort
 from UHE.extensions import limiter
 from datetime import datetime
 from UHE.user.models import User
@@ -45,14 +45,14 @@ def login_rate_limit_message():
 # Activate rate limiting on the whole blueprint
 limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
 
-@auth.route('/logout')
-@login_required
-def logout():
-    token = request.args.get('token')
-    logout_user()
-    return jsonify({
-        'success': True
-    })
+# @auth.route('/logout')
+# @login_required
+# def logout():
+#     token = request.args.get('token')
+#     logout_user()
+#     return jsonify({
+#         'success': True
+#     })
 
 
 @auth.route("/login", methods=['GET', 'POST'])
@@ -69,7 +69,7 @@ def login():
             abort(401)
     else:
         post_data = request.get_json()
-        user = User.objects(card_id=post_data['card_id']).first()
+        user = User.query.filter_by(id=post_data['card_id']).first()
         need_fresh = False
         if user is not None:
             need_fresh = not user.authenticate(post_data['password'])
@@ -78,6 +78,6 @@ def login():
             need_fresh = True
         if need_fresh and not user.regisiter(post_data['password']):
             abort(403)
-        token = User.generate_auth_token(864000)
+        token = user.generate_auth_token(864000)
     result = user.login(token)
     return jsonify(result)

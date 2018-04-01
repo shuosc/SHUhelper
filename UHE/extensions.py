@@ -8,6 +8,7 @@ from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
 from flask import current_app
+from flask_sqlalchemy import SQLAlchemy
 from UHE.plugins import PluginManager
 from UHE.plugins.SHU_captcha import Solver
 from flask_limiter import Limiter
@@ -32,7 +33,7 @@ cache = Cache()
 
 redis_store = FlaskRedis(decode_responses=True)
 
-db = MongoEngine()
+db = SQLAlchemy()
 
 celery = Celery()
 
@@ -45,6 +46,7 @@ babel = Babel()
 oauth = OAuth2Provider()
 
 limiter = Limiter(auto_check=False, key_func=get_remote_address)
+
 
 # @celery.on_after_configure.connect
 # def setup_periodic_tasks(sender, **kwargs):

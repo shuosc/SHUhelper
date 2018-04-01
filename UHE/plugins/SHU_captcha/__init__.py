@@ -25,7 +25,7 @@ class Solver:
         # self.soft_id = app.config["CAPTCHA_SOLVER_SOFTID"]
         # self.soft_key = app.config["CAPTCHA_SOLVER_SOFTKEY"]
         # self.base_params = {
-        #     'username': self.username,
+        #     'username': self.usern4ame,
         #     'password': self.password,
         #     'softid': self.soft_id,
         #     'softkey': self.soft_key,
