@@ -6,9 +6,10 @@ from UHE.plugins.SHU_api.client import Services
 from UHE.extensions import db, celery, login_manager, redis_store
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
-
+# from sqlalchemy.dialects.postgresql import UUID
 class User(UserMixin, db.Model):
     id = db.Column(db.String(), primary_key=True)
+    # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
     name = db.Column(db.String())
     username = db.Column(db.String(80), unique=True, nullable=False)

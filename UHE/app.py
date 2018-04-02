@@ -1,24 +1,22 @@
 
-from flask import Flask
-from flask_login import current_user
-
+from flask import Flask, g
+from flask_redis import FlaskRedis
+from mockredis import MockRedis
+from UHE.auth.api import auth
 # from UHE.admin.views import configure_admin
 # from UHE.calendar.api import events
 # from UHE.calendar.time import Time
 # from UHE.comment.api import comments
-from UHE.extensions import (admin, allows, babel, cache, celery, db,limiter,
-                            login_manager, mail, plugin_manager, redis_store, oauth,
-                            captcha_solver)
+from UHE.extensions import (admin, allows, babel, cache, captcha_solver,CustomSessionInterface,
+                            celery, db, limiter, login_manager, mail, oauth,
+                            plugin_manager, redis_store)
 # from UHE.feed.api import feeds
 from UHE.index.api import index
-from UHE.auth.api import auth
 # from UHE.message.api import conversations
 from UHE.models import Plugin
+from UHE.signals import app_start
 from UHE.user.api import users
 from UHE.user.models import User
-from mockredis import MockRedis
-from flask_redis import FlaskRedis
-from UHE.signals import app_start
 from UHE.utils import app_config_from_env
 
 def create_app(config=None):
@@ -38,6 +36,7 @@ def create_app(config=None):
     # configure_plugins(app)
     # configure_manger_accounts(app)
     # signal
+    app.session_interface = CustomSessionInterface()
     app_start.send(app)
     # configure_tasks(app,celery)
     return app
@@ -167,7 +166,7 @@ def configure_extensions(app):
 
     print(app.testing)
     # Flask-And-Redis
-
+    # jwt.secret_key = app.config['SECRET_KEY']
     redis_store.init_app(app)
 
     # Flask-Limiter

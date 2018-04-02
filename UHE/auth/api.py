@@ -45,16 +45,6 @@ def login_rate_limit_message():
 # Activate rate limiting on the whole blueprint
 limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
 
-# @auth.route('/logout')
-# @login_required
-# def logout():
-#     token = request.args.get('token')
-#     logout_user()
-#     return jsonify({
-#         'success': True
-#     })
-
-
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
     """ main user auth view function
@@ -68,7 +58,7 @@ def login():
             abort(401)
     else:
         json_post = request.get_json()
-        user = User.query.filter_by(id=json_post['id']).first()
+        user = User.query.get(json_post['id'])
         need_fresh = False
         if user is not None:
             need_fresh = not user.authenticate(json_post['password'])
@@ -79,5 +69,4 @@ def login():
             abort(403)
         token = user.generate_auth_token(864000)
     result = user.login(token)
-    print(result)
     return jsonify(result)

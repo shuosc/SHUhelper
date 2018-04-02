@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, current_app
 from qiniu import Auth
-from flask_login import login_required
+from flask_login import login_required,current_user
 # from UHE.calendar.api import now
 # from .models import Link
 
@@ -9,8 +9,8 @@ index = Blueprint('index', __name__)
 @index.route('/')
 @login_required
 def welcome():
-    return jsonify('hello')
-
+    return jsonify(user=current_user.id)
+    
 @index.route('/apps')
 def get_apps():
     pass

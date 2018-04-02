@@ -9,7 +9,6 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from UHE.plugins.SHU_api.client import Services, Tiyu
 from UHE.extensions import redis_store
 from UHE.user.models import User
-from UHE.utils import make_token
 
 users = Blueprint('users', __name__)
 
