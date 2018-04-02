@@ -7,7 +7,7 @@ from flask_login import LoginManager, AnonymousUserMixin
 from flask_mail import Mail
 from flask_mongoengine import MongoEngine
 from flask_redis import FlaskRedis
-from flask import current_app
+from flask import current_app,g
 from flask_sqlalchemy import SQLAlchemy
 from UHE.plugins import PluginManager
 from UHE.plugins.SHU_captcha import Solver
@@ -16,6 +16,7 @@ from flask_limiter.util import get_remote_address
 from flask_oauthlib.provider import OAuth2Provider
 from flask.sessions import SecureCookieSessionInterface
 from flask_login import current_user, user_loaded_from_request
+
 # from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from UHE.schedule import clock
 

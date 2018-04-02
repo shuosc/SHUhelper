@@ -18,7 +18,7 @@ from UHE.signals import app_start
 from UHE.user.api import users
 from UHE.user.models import User
 from UHE.utils import app_config_from_env
-
+from UHE.ces.api import ces
 def create_app(config=None):
     """
     app factory, return an configured instance 
@@ -124,6 +124,7 @@ def configure_celery_app(app, celery):
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(ces, url_prefix='/ces')
     app.register_blueprint(index, url_prefix='')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')

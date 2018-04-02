@@ -1,10 +1,10 @@
 from flask import Flask,request,jsonify,Blueprint
 from flask.views import MethodView
 from datetime import datetime
-from flask_login import login_required
+from flask_login import login_required,current_user
 import requests
 from .models import User,Room,Order
-ces = Blueprint('index', __name__)
+ces = Blueprint('ces', __name__)
 # @app.route('/oauth/wx')
 # def get_open_id():
 #     s = requests.Session()
@@ -22,7 +22,6 @@ def render_room_info(room):
 
 def render_rooms_info(rooms):
     return [render_room_info(room) for room in rooms]
-    pass
 
 @ces.route('/rooms',methods=['GET'])
 def get_rooms():
@@ -36,7 +35,6 @@ def check_room_available(order):
     orders = Order.query.filter_by(\
             room_id=order.room_id,year=order.year,\
             month=order.month,day=order.day).first()
-    usage = [True for i in range(13)]
     for valid_order in orders:
         if valid_order.end < order.start or order.end < valid_order.start:
             continue
@@ -60,7 +58,7 @@ class OrderAPI(MethodView):
 
     def post(self):
         json = request.json
-        json['user_id'] = 1
+        json['user_id'] = current_user.id
         order = Order.from_json(json)
         if check_room_available(order):
             db.session.add(order)

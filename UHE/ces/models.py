@@ -18,7 +18,7 @@ class Room(db.Model):
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.String, db.ForeignKey('user.id'))
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'))
     create_time = db.Column(db.DateTime)
     year = db.Column(db.Integer)
