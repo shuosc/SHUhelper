@@ -6,11 +6,12 @@ from flask_login import current_user
 # from UHE.calendar.api import events
 # from UHE.calendar.time import Time
 # from UHE.comment.api import comments
-from UHE.extensions import (admin, allows, babel, cache, celery, db,
+from UHE.extensions import (admin, allows, babel, cache, celery, db,limiter,
                             login_manager, mail, plugin_manager, redis_store, oauth,
                             captcha_solver)
 # from UHE.feed.api import feeds
 from UHE.index.api import index
+from UHE.auth.api import auth
 # from UHE.message.api import conversations
 from UHE.models import Plugin
 from UHE.user.api import users
@@ -123,6 +124,7 @@ def configure_celery_app(app, celery):
 #     return None
 
 def configure_blueprints(app):
+    app.register_blueprint(auth, url_prefix='/auth')
     app.register_blueprint(index, url_prefix='')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
@@ -169,7 +171,7 @@ def configure_extensions(app):
     redis_store.init_app(app)
 
     # Flask-Limiter
-    # limiter.init_app(app)
+    limiter.init_app(app)
 
     # Flask-Allows
     allows.init_app(app)

@@ -8,7 +8,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 
 class User(UserMixin, db.Model):
-    # id = db.Column(db.Integer, primary_key=True)
     id = db.Column(db.String(), primary_key=True)
     open_id = db.Column(db.String())
     name = db.Column(db.String())
@@ -27,49 +26,49 @@ class User(UserMixin, db.Model):
     pw_hash = db.Column(db.String())
 
     def authenticate(self, password):
-        if check_password_hash(self.hash, password):
+        if check_password_hash(self.pw_hash, password):
             return True
         else:
             return False
 
     def generate_auth_token(self, expiration):
         s = Serializer(current_app.config['SECRET_KEY'], expires_in=expiration)
-        return s.dumps({'id': self.id})
+        return s.dumps({'id': self.id}).decode('utf-8')
 
     @staticmethod
     def verify_auth_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
-            data = s.load(token)
+            data = s.loads(token)
         except:
             return None
-        return User.query.get(card_id=data['id'])
+        return User.query.get(data['id'])
 
     def save(self):
         db.session.add(self)
         db.session.commit()
 
     def regisiter(self, password):
-        client = Services(self.card_id, password)
+        client = Services(self.id, password)
         if client.login() and client.get_data():
             self.name = client.data['name']
             self.username = client.data['nickname']
-            self.hash = generate_password_hash(password)
+            self.pw_hash = generate_password_hash(password)
             self.save()
             return True
         else:
             return False
 
     def get_id(self):
-        return self.card_id
+        return self.id
 
     def __unicode__(self):
-        return self.name + str(self.card_id)
+        return self.name + str(self.id)
 
     def to_dict_public(self):
         return {
             'avatar': self.avatar,
-            'cardID': self.card_id,
+            'id': self.id,
             'name': self.nickname
         }
 
@@ -79,7 +78,7 @@ class User(UserMixin, db.Model):
 
     def to_dict(self):
         result = {
-            'cardID': self.card_id,
+            'id': self.id,
             'avatar': self.avatar,
             'name': self.name,
             'nickname': self.nickname,
@@ -95,8 +94,7 @@ class User(UserMixin, db.Model):
             'avatar': self.avatar,
             'token': token,
             'name': self.name,
-            'nickname': self.nickname,
-            'custom': self.custom
+            'nickname': self.nickname
         }
         return result
 
@@ -145,30 +143,15 @@ class User(UserMixin, db.Model):
 
 @login_manager.request_loader
 def request_loader(request):
-    # print(request)
-    # token = request.args.get('token')
-    # print('request')
-    # print(token)
-    # if token:
-    #     card_id = redis_store.get('token_' + token, '0')
-    #     user = User.objects(card_id=card_id).first()
-    #     if user:
-    #         return user
     token = request.headers.get('Authorization')
     if token:
-        token = token.replace('Basic ', '', 1)
-        try:
-            token = base64.b64decode(token)
-            print(token)
-        except TypeError:
-            pass
+        token = token.replace('Bearer ', '', 1)
         user = User.verify_auth_token(token)
         if user:
             return user
-    # finally, return None if both methods did not login the user
     return None
 
 
 @login_manager.user_loader
-def user_loader(card_id):
-    return User.objects(card_id=card_id).first()
+def user_loader(id):
+    return User.query.get(id)

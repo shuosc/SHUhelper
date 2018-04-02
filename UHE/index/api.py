@@ -8,7 +8,6 @@ index = Blueprint('index', __name__)
 
 @index.route('/')
 @login_required
-
 def welcome():
     return jsonify('hello')
 
