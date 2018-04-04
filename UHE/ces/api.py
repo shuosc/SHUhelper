@@ -2,6 +2,7 @@ from flask import Flask,request,jsonify,Blueprint
 from flask.views import MethodView
 from datetime import datetime
 from flask_login import login_required,current_user
+from UHE.extensions import db
 import requests
 from .models import User,Room,Order
 ces = Blueprint('ces', __name__)
@@ -14,27 +15,33 @@ ces = Blueprint('ces', __name__)
 #     if 'openid' in auth_result:
 #         open_id = auth_result['openid']
 #     return jsonify(msg='error'),401
-def render_room_info(room):
+def render_room_info(room,orders):
+    schedule = [1 for i in range(13)]
+    for order in orders:
+        for i in range(order.start-1,order.end):
+            schedule[i] = 0
     return {
         'id':room.id,
-        'name': room.name
+        'name': room.name,
+        'schedule': schedule
     }
 
-def render_rooms_info(rooms):
-    return [render_room_info(room) for room in rooms]
+def render_rooms_info(rooms,orders):
+    return [render_room_info(room,filter(lambda x:x.room_id==room.id,orders)) for room in rooms]
 
 @ces.route('/rooms',methods=['GET'])
 def get_rooms():
+    now = datetime.now()
+    timestamp = request.args.get('timestamp',datetime(now.year,now.month,now.day).timestamp(),int)
     rooms = Room.query.filter_by(available=True).all()
-    return jsonify(rooms=render_rooms_info(rooms))
+    orders = Order.query.filter_by(date=datetime.fromtimestamp(timestamp)).all()
+    return jsonify(rooms=render_rooms_info(rooms,orders))
 
 def get_orders_by_date(year,month,day):
     return Order.query.filter_by(year=year,month=month,day=day).all()
 
 def check_room_available(order):
-    orders = Order.query.filter_by(\
-            room_id=order.room_id,year=order.year,\
-            month=order.month,day=order.day).first()
+    orders = Order.query.filter_by(room_id=order.room_id,date=order.date).all()
     for valid_order in orders:
         if valid_order.end < order.start or order.end < valid_order.start:
             continue
@@ -43,7 +50,7 @@ def check_room_available(order):
     return True
 
 class OrderAPI(MethodView):
-    decorators = [login_required]
+    # decorators = [login_required]
     def get(self, order_id):
         if order_id is None:
             now = datetime.now()
@@ -58,11 +65,10 @@ class OrderAPI(MethodView):
 
     def post(self):
         json = request.json
-        json['user_id'] = current_user.id
+        json['userID'] = '15121604'
         order = Order.from_json(json)
         if check_room_available(order):
-            db.session.add(order)
-            db.session.commit()
+            order.save()
             return jsonify(order = order.to_json())
         else:
             return jsonify(msg='已被占用'),400
