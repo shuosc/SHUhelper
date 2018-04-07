@@ -30,15 +30,20 @@ class Order(db.Model):
     end = db.Column(db.Integer)
     remark = db.Column(db.String)
     # room = db.relationship('Room',backref=db.backref('orders', lazy=True))
+
     def save(self):
         db.session.add(self)
         db.session.commit()
+
     def to_json(self):
         return {
+            'id':self.id,
             'userID': self.user_id,
             'roomID': self.room_id,
+            'room': self.room.name,
             'start': self.start,
-            'end': self.end
+            'end': self.end,
+            'date': self.date.timestamp()
         }
 
     @staticmethod

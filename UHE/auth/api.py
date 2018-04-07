@@ -4,11 +4,12 @@
     ~~~~~~~~~~~~~~~~~~
     
 """
-from flask import Blueprint, jsonify, g,request,abort
+from flask import Blueprint, jsonify, g, request, abort
 from UHE.extensions import limiter
 from datetime import datetime
 from UHE.user.models import User
 from flask_login import login_required
+import requests
 auth = Blueprint("auth", __name__)
 
 
@@ -44,6 +45,18 @@ def login_rate_limit_message():
 
 # Activate rate limiting on the whole blueprint
 limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
+
+
+@auth.route('/oauth/wx')
+def get_open_id():
+    s = requests.Session()
+    code = request.args.get('code')
+    r = s.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid={}&secret={}&code={}&grant_type=authorization_code'.format(appid, secret, code))
+    auth_result = json.loads(r.text)
+    if 'openid' in auth_result:
+        open_id = auth_result['openid']
+    return jsonify(msg='error'), 401
+
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
