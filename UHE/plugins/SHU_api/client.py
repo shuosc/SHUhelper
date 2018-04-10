@@ -514,28 +514,64 @@ class Phylab(Client):
     def to_json(self):
         return json.dumps({'html': str(self.data)})
 
-
 class CJ(Client):
     host = 'http://cj.shu.edu.cn'
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }
 
-    def __init__(self):
-        Client.__init__(self)
-        r = self.session.get(self.host + '/',
-                             timeout=20, proxies=get_proxies())
-        r = self.session.get(self.host + '/User/GetValidateCode?%20%20+%20GetTimestamp()', timeout=20,
-                             stream=True, proxies=get_proxies())
-        self.captcha_img = base64.b64encode(r.raw.read()).decode('utf-8')
+    def __init__(self, card_id, password):
+        Client.__init__(self, card_id, password)
 
     def login(self):
+        r = self.session.get(
+            self.host + '/User/GetValidateCode?%20%20+%20GetTimestamp()', timeout=10, stream=True, proxies=get_proxies())
+        self.captcha = captcha_solver.create(
+            r.raw.read(), site='XK')['Result']
         post_data = {'url': '',
                      'txtUserNo': self.card_id,
                      'txtPassword': self.password,
                      'txtValidateCode': self.captcha}
         r = self.session.post(self.host + '/',
-                              data=post_data, timeout=60)
+                        data=post_data, headers=self.headers, timeout=60, proxies=get_proxies())
         r = self.session.get(
             self.host + '/Home/StudentIndex', timeout=10, proxies=get_proxies())
-        return r.text.find(u'首页') != -1
+        # if r.text.find(u'验证码错误') != -1 or r.text.find(u'帐号或密码错误')!=-1 or r.text.find(u'教学评估') != -1:
+        # print(r.text)
+        return r.text.find('首页') != -1
+
+    def score_query(academic_term_id):
+        # r = self.session.get(self.host+'/StudentPortal/ScoreQuery')
+        r = self.session.post(self.host+'/StudentPortal/CtrlScoreQuery',data={'academicTermID':academic_term_id})
+        soup = BeautifulSoup(r.text, "html.parser")
+        tables = soup.findAll('table')
+        rows = table.findAll('tr')[2:]
+        scores = []
+        for row in rows:
+            cells = row.findAll("td")
+            score = {
+                'courseNo':cells[1],
+                'courseName':cells[2],
+                'credit': cells[3],
+                'grade': cells[4],
+                'gradePoint':cells[5]
+            }
+            scores.append(score)
+        return scores
+
+    def get_score_summary():
+        r = self.session.get(self.host+'/StudentPortal/ScoreSummary')
+        soup = BeautifulSoup(r.text,"html.parser")
+        content = soup.find('.div_master_content')
+        return content
+
+    def get_score_trend():
+        r = self.session.get(self.host+'/StudentPortal/ScoreTrend')
+        soup = BeautifulSoup(r.text,'html.parser')
+        trend = soup.find('#ScoreTrend')
+        return trend.value
+
+    
 
     def get_data(self):
         r = self.session.get(
