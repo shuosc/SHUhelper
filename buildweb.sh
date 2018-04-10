@@ -1,5 +1,5 @@
 #!/bin/bash   
-cd Web
+cd web
 mkdir ios
 yarn install
 yarn build ios
