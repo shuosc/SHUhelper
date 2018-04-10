@@ -4,11 +4,12 @@
     ~~~~~~~~~~~~~~~~~~
     
 """
-from flask import Blueprint, jsonify, g,request
+from flask import Blueprint, jsonify, g, request, abort
 from UHE.extensions import limiter
 from datetime import datetime
 from UHE.user.models import User
-from flask_login import login_required,anonymous_required
+from flask_login import login_required
+import requests
 auth = Blueprint("auth", __name__)
 
 
@@ -39,24 +40,25 @@ def login_rate_limit_message():
         window_stats = limiter.limiter.get_window_stats(*current_limit)
         reset_time = datetime.utcfromtimestamp(window_stats[0])
         timeout = reset_time - datetime.utcnow()
-    return "{timeout}".format(timeout=format_timedelta(timeout))
+    return "{timeout}".format(timeout=timeout)
 
 
 # Activate rate limiting on the whole blueprint
 limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
 
-@auth.route('/logout')
-@login_required
-def logout():
-    token = request.args.get('token')
-    logout_user()
-    return jsonify({
-        'success': True
-    })
+
+@auth.route('/oauth/wx')
+def get_open_id():
+    s = requests.Session()
+    code = request.args.get('code')
+    r = s.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid={}&secret={}&code={}&grant_type=authorization_code'.format(appid, secret, code))
+    auth_result = json.loads(r.text)
+    if 'openid' in auth_result:
+        open_id = auth_result['openid']
+    return jsonify(msg='error'), 401
 
 
 @auth.route("/login", methods=['GET', 'POST'])
-@anonymous_required
 def login():
     """ main user auth view function
     user was authenticated when user has valid token (which stored in redis),
@@ -68,16 +70,16 @@ def login():
         if user is None:
             abort(401)
     else:
-        post_data = request.get_json()
-        user = User.objects(card_id=post_data['card_id']).first()
+        json_post = request.get_json()
+        user = User.query.get(json_post['id'])
         need_fresh = False
         if user is not None:
-            need_fresh = not user.authenticate(post_data['password'])
+            need_fresh = not user.authenticate(json_post['password'])
         else:
-            user = User(card_id=post_data['card_id'])
+            user = User(id=json_post['id'])
             need_fresh = True
-        if need_fresh and not user.regisiter(post_data['password']):
+        if need_fresh and not user.regisiter(json_post['password']):
             abort(403)
-        token = User.generate_auth_token(864000)
+        token = user.generate_auth_token(864000)
     result = user.login(token)
     return jsonify(result)

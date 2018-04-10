@@ -1,17 +1,16 @@
 from flask import Blueprint, jsonify, request, current_app
 from qiniu import Auth
-from flask_login import login_required
-from UHE.calendar.api import now
-from .models import Link
+from flask_login import login_required,current_user
+# from UHE.calendar.api import now
+# from .models import Link
 
 index = Blueprint('index', __name__)
 
 @index.route('/')
 @login_required
-
 def welcome():
-    return jsonify('hello')
-
+    return jsonify(user=current_user.id)
+    
 @index.route('/apps')
 def get_apps():
     pass
@@ -23,6 +22,6 @@ def get_token():
              current_app.config["QINIU_SECRET_KEY"])
     return jsonify(uptoken=q.upload_token('shuhelper3'))
 
-@index.route('/time/')
-def time():
-    return now()
+# @index.route('/time/')
+# def time():
+#     return now()

@@ -1,4 +1,7 @@
 
+## warning
+master分支正在经历大量的重写，请至v4分支查看可运行的版本。
+
 <div  align="center">    
 <img src="logo.png" width = "200" height = "200" alt="SHUhelper" align=center />
 <h3>SHUhelper[WIP]</h3>

@@ -57,7 +57,7 @@ def get_course(card_id, password):
     user_data.status = 'pending'
     user_data.save()
     try:
-        client = XK(card_id, password)
+        client = XK(card_id, password,'http://xk.shu.edu.cn:8080/')
         client.login()
         client.get_data()
     except Exception as e:

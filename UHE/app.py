@@ -1,25 +1,24 @@
 
-from flask import Flask
-from flask_login import current_user
-
-from UHE.admin.views import configure_admin
-from UHE.calendar.api import events
-from UHE.calendar.time import Time
+from flask import Flask, g
+from flask_redis import FlaskRedis
+from mockredis import MockRedis
+from UHE.auth.api import auth
+# from UHE.admin.views import configure_admin
+# from UHE.calendar.api import events
+# from UHE.calendar.time import Time
 # from UHE.comment.api import comments
-from UHE.extensions import (admin, allows, babel, cache, celery, db,
-                            login_manager, mail, plugin_manager, redis_store, oauth,
-                            captcha_solver)
-from UHE.feed.api import feeds
+from UHE.extensions import (admin, allows, babel, cache, captcha_solver,CustomSessionInterface,
+                            celery, db, limiter, login_manager, mail, oauth,
+                            plugin_manager, redis_store)
+# from UHE.feed.api import feeds
 from UHE.index.api import index
-from UHE.message.api import conversations
+# from UHE.message.api import conversations
 from UHE.models import Plugin
+from UHE.signals import app_start
 from UHE.user.api import users
 from UHE.user.models import User
-from mockredis import MockRedis
-from flask_redis import FlaskRedis
-from UHE.signals import app_start
 from UHE.utils import app_config_from_env
-
+from UHE.ces.api import ces
 def create_app(config=None):
     """
     app factory, return an configured instance 
@@ -32,14 +31,16 @@ def create_app(config=None):
     # app.client = {}x
     configure_celery_app(app, celery)
     configure_extensions(app)
-    configure_admin(app)
+    # configure_admin(app)
     configure_blueprints(app)
-    configure_plugins(app)
-    configure_manger_accounts(app)
+    # configure_plugins(app)
+    # configure_manger_accounts(app)
     # signal
+    app.session_interface = CustomSessionInterface()
     app_start.send(app)
     # configure_tasks(app,celery)
     return app
+
 
 
 def create_celery_app(config=None):
@@ -48,7 +49,7 @@ def create_celery_app(config=None):
     app.signals = {}
     app.update_func = {}
     configure_extensions(app)
-    configure_admin(app)
+    # configure_admin(app)
     configure_blueprints(app)
     configure_celery_app(app, celery)
     # configure_tasks(app,celery)
@@ -122,13 +123,15 @@ def configure_celery_app(app, celery):
 #     return None
 
 def configure_blueprints(app):
+    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(ces, url_prefix='/ces')
     app.register_blueprint(index, url_prefix='')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
-    app.register_blueprint(conversations, url_prefix='/conversations')
+    # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
-    app.register_blueprint(feeds, url_prefix='/feeds')
-    app.register_blueprint(events, url_prefix='/events')
+    # app.register_blueprint(feeds, url_prefix='/feeds')
+    # app.register_blueprint(events, url_prefix='/events')
     # app.register_blueprint(comments, url_prefix='/comments')
     # print(app.url_map)
     # pass
@@ -164,19 +167,19 @@ def configure_extensions(app):
 
     print(app.testing)
     # Flask-And-Redis
-
+    # jwt.secret_key = app.config['SECRET_KEY']
     redis_store.init_app(app)
 
     # Flask-Limiter
-    # limiter.init_app(app)
+    limiter.init_app(app)
 
     # Flask-Allows
     allows.init_app(app)
     allows.identity_loader(lambda: current_user)
     login_manager.init_app(app)
     # Flask-Plugins
-    app.school_time = Time()
+    # app.school_time = Time()
 
     oauth.init_app(app)
 
-    plugin_manager.init_app(app)
+    # plugin_manager.init_app(app)
