@@ -1,9 +1,9 @@
-from UHE.app import create_app
-from UHE.extensions import db
+from application.app import create_app
+from application.extensions import db
 from flask_migrate import Migrate,MigrateCommand
 import click
-# import UHE.plugins.SHU_course.manage as manage
-# from UHE.extensions import celery 
+# import application.plugins.SHU_course.manage as manage
+# from application.extensions import celery 
 print('before app start')
 app = create_app()
 

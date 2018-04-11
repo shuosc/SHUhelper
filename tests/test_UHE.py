@@ -1,6 +1,6 @@
-from UHE.app import create_app
-# from UHE.user.api import login
-# from UHE.calendar.api import now
+from application.app import create_app
+# from application.user.api import login
+# from application.calendar.api import now
 import flask_login
 # app = create_app()
 
