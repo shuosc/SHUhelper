@@ -79,4 +79,7 @@ class Time():
         for (index, value) in enumerate(COURSE_SCHEDULE):
             if ctime <= value:
                 return index
-        return 0
+        if self.now.hour < 8:
+            return 0
+        if self.now.hour > 20 and self.now.minute >=35:
+            return 14

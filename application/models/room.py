@@ -1,7 +1,7 @@
 """
 api.py
 """
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,current_app
 from application.extensions import db
 from flask.views import MethodView
 from application.models.user import User
@@ -38,6 +38,25 @@ class Order(db.Model):
     remark = db.Column(db.String)
     # room = db.relationship('Room',backref=db.backref('orders', lazy=True))
 
+
+    @property
+    def status(self):
+        now = datetime.now()
+        timedelta = now - self.date
+        if timedelta.days > 0:
+            return '已结束'
+        elif timedelta.days < 0:
+            return '未开始'
+        elif timedelta.days == 0:
+            course = current_app.school_time.get_course()
+            if self.start <= course and course <= self.end:
+                return '正在进行'
+            if course < self.start:
+                return '未开始'
+            if course > self.end:
+                return '已结束'
+            
+
     def save(self):
         db.session.add(self)
         db.session.commit()
@@ -50,7 +69,8 @@ class Order(db.Model):
             'room': self.room.name,
             'start': self.start,
             'end': self.end,
-            'date': self.date.timestamp()
+            'date': self.date.timestamp(),
+            'status': self.status
         }
 
     @staticmethod

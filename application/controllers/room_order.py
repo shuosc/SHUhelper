@@ -2,7 +2,7 @@ from datetime import datetime
 from functools import reduce
 
 import requests
-from flask import Blueprint, Flask, jsonify, request
+from flask import Blueprint, Flask, jsonify, request,current_app
 from flask.views import MethodView
 from flask_login import current_user, login_required
 
@@ -64,8 +64,6 @@ def check_room_available(order):
         else:
             return False
     return True
-
-
 class OrderAPI(MethodView):
     decorators = [login_required]
 
@@ -86,6 +84,7 @@ class OrderAPI(MethodView):
         json = request.json
         json['userID'] = current_user.id
         order = Order.from_json(json)
+
         if check_restrict(order, current_user.id) == False:
             return jsonify(msg='您当日借教室时长配额不足'), 400
         if check_room_available(order) == False:
@@ -93,6 +92,8 @@ class OrderAPI(MethodView):
         timedelta = order.date - nowaday
         if timedelta.days < 0 or timedelta.days > 3:
             return jsonify(msg='该日无法预约'), 400
+        if timedelta.days == 0 and current_app.school_time.get_course() < order.start:
+            return jsonify(msg='您选择的时段已过，无法预约'), 400
         order.save()
         return jsonify(order=order.to_json())
 
@@ -103,14 +104,19 @@ class OrderAPI(MethodView):
             order = Order.query.filter_by(id=order_id).first()
             if not order.user_id == current_user.id:
                 return jsonify(msg="无权限"), 401
-            db.session.delete(order)
-            db.session.commit()
+            order.save()
             return jsonify(sucroom_orders=True)
 
     def put(self, order_id):
-        # update a single user
-        pass
-
+        order = Order.query.filter_by(id=order_id).first()
+        if not order.user_id == current_user.id:
+            return jsonify(msg="无权限"), 401
+        json = request.json
+        end = json['end']
+        if end >= order.start and end <=order.end:
+            order.end = end
+            order.save()
+        return jsonify(order=order.to_json())
 
 room_view = OrderAPI.as_view('order_api')
 room_orders.add_url_rule('/', defaults={'order_id': None},
