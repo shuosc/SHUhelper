@@ -7,7 +7,7 @@ master分支正在经历大量的重写，请至v4分支查看可运行的版本
 <h3>SHUhelper[WIP]</h3>
 </div>
 <div  align="center">    
-<img src="usage.gif" align=center />
+<img src="doc/usage.gif" align=center />
 </div>
 
 [![flask](http://flask.pocoo.org/static/badges/made-with-flask-s.png)](http://flask.pocoo.org/)

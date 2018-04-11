@@ -4,14 +4,21 @@ api.py
 from flask import Flask, request, jsonify
 from UHE.extensions import db
 from flask.views import MethodView
-from UHE.user.models import User
+from UHE.models.user import User
+from UHE.enums import Campus
 from datetime import datetime
 import requests
-
+from sqlalchemy.dialects.postgresql import ENUM
 
 class Room(db.Model):
-    __tablename__ = 'ces_room'
+    __tablename__ = 'room'
     id = db.Column(db.Integer, primary_key=True)
+    group = db.Column(db.String())
+    campus = db.Column(db.String())
+    building = db.Column(db.String)
+    floor = db.Column(db.Integer)
+    no = db.Column(db.Integer)
+    capacity = db.Column(db.Integer)
     name = db.Column(db.String(80), nullable=False)
     detail = db.Column(db.String(80), nullable=False)
     available = db.Column(db.Boolean, default=True)
@@ -20,10 +27,10 @@ class Room(db.Model):
 
 
 class Order(db.Model):
-    __tablename__ = 'ces_order'
+    __tablename__ = 'room_order'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
-    room_id = db.Column(db.Integer, db.ForeignKey('ces_room.id'))
+    room_id = db.Column(db.Integer, db.ForeignKey('room.id'))
     create_time = db.Column(db.DateTime, default=datetime.now)
     date = db.Column(db.DateTime)
     start = db.Column(db.Integer)

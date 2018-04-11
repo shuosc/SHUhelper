@@ -6,6 +6,7 @@ from UHE.plugins.SHU_api.client import Services
 from UHE.extensions import db, celery, login_manager, redis_store
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
+import uuid
 # from sqlalchemy.dialects.postgresql import UUID
 class User(UserMixin, db.Model):
     id = db.Column(db.String(), primary_key=True)
@@ -16,7 +17,7 @@ class User(UserMixin, db.Model):
     nickname = db.Column(db.String())
     email = db.Column(db.String())
     phone = db.Column(db.String())
-    avatar = db.Column(db.String(),default='avatar_default.jpg')
+    avatar_URL = db.Column(db.String(),default='avatar_default.jpg')
     creat_time = db.Column(db.DateTime, nullable=False,
         default=datetime.now)
     last_login = db.Column(db.DateTime, nullable=False,
@@ -25,6 +26,8 @@ class User(UserMixin, db.Model):
     robot = db.Column(db.Boolean)
     deleted = db.Column(db.Boolean)
     pw_hash = db.Column(db.String())
+    oauth = db.relationship('SocialOAuth', lazy='select',
+                            backref=db.backref('user', lazy=True))
 
     def authenticate(self, password):
         if check_password_hash(self.pw_hash, password):
@@ -98,6 +101,20 @@ class User(UserMixin, db.Model):
             'nickname': self.nickname
         }
         return result
+
+class SocialOAuth(db.Model):
+    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
+    user_id = db.Column(db.String, db.ForeignKey('user.id'))
+    source = db.Column(db.String())
+    site = db.Column(db.String())
+    site_uid = db.Column(db.String())
+    site_uname = db.Column(db.String())
+    created_time = db.Column(db.DateTime)
+    unionid = db.Column(db.String())
+    open_id = db.Column(db.String())
+    access_token = db.Column(db.String())
+    refresh_token = db.Column(db.String())
+    expire_date = db.Column(db.DateTime)
 
 
 # class UserData(db.Document):

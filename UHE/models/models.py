@@ -16,3 +16,11 @@ class Plugin(Document):
     enable = BooleanField(required=True)
     setup_time = DateTimeField(default=datetime.datetime.now)
 
+class Notify():
+    id = db.Column()
+    user_id = db.Column()
+    actor = db.Column()
+    place = db.Column()
+    action = db.Cloumn()
+    source_URL = db.Column()
+   

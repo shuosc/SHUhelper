@@ -4,9 +4,9 @@ from datetime import datetime
 from flask_login import login_required, current_user
 from UHE.extensions import db
 import requests
-from .models import User, Room, Order
+from UHE.models.room import Room, Order
 from functools import reduce
-ces = Blueprint('ces', __name__)
+rooms = Blueprint('room', __name__)
 
 
 def render_room_info(room, orders):
@@ -36,7 +36,7 @@ def check_restrict(order, user_id):
     return restrict >= (order.end-order.start + 1)
 
 
-@ces.route('/rooms/', methods=['GET'])
+@rooms.route('/', methods=['GET'])
 @login_required
 def get_rooms():
     now = datetime.now()
@@ -77,6 +77,7 @@ class OrderAPI(MethodView):
 
     def post(self):
         now = datetime.now()
+        nowaday = datetime(now.year, now.month, now.day)
         json = request.json
         json['userID'] = current_user.id
         order = Order.from_json(json)
@@ -84,7 +85,7 @@ class OrderAPI(MethodView):
             return jsonify(msg='您当日借教室时长配额不足'), 400
         if check_room_available(order) == False:
             return jsonify(msg='该时间段已被占用'), 400
-        timedelta = order.date - now
+        timedelta = order.date - nowaday
         if timedelta.days < 0 or timedelta.days > 3:
             return jsonify(msg='该日无法预约'), 400
         order.save()
@@ -99,16 +100,16 @@ class OrderAPI(MethodView):
                 return jsonify(msg="无权限"), 401
             db.session.delete(order)
             db.session.commit()
-            return jsonify(success=True)
+            return jsonify(sucroom_orders=True)
 
     def put(self, order_id):
         # update a single user
         pass
 
 
-user_view = OrderAPI.as_view('order_api')
-ces.add_url_rule('/orders/', defaults={'order_id': None},
-                 view_func=user_view, methods=['GET', ])
-ces.add_url_rule('/orders/', view_func=user_view, methods=['POST', ])
-ces.add_url_rule('/orders/<int:order_id>', view_func=user_view,
+room_view = OrderAPI.as_view('order_api')
+rooms.add_url_rule('/orders/', defaults={'order_id': None},
+                 view_func=room_view, methods=['GET', ])
+rooms.add_url_rule('/orders/', view_func=room_view, methods=['POST', ])
+rooms.add_url_rule('/orders/<int:order_id>', view_func=room_view,
                  methods=['GET', 'PUT', 'DELETE'])

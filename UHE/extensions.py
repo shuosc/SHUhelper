@@ -16,7 +16,7 @@ from flask_limiter.util import get_remote_address
 from flask_oauthlib.provider import OAuth2Provider
 from flask.sessions import SecureCookieSessionInterface
 from flask_login import current_user, user_loaded_from_request
-
+from sqlalchemy.dialects.postgresql.base import UUID
 # from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from UHE.schedule import clock
 
@@ -38,7 +38,7 @@ cache = Cache()
 redis_store = FlaskRedis(decode_responses=True)
 
 db = SQLAlchemy()
-
+db.UUID = UUID
 celery = Celery()
 
 plugin_manager = PluginManager()

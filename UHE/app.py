@@ -11,14 +11,14 @@ from UHE.extensions import (admin, allows, babel, cache, captcha_solver,CustomSe
                             celery, db, limiter, login_manager, mail, oauth,
                             plugin_manager, redis_store)
 # from UHE.feed.api import feeds
-from UHE.index.api import index
+from UHE.controllers.index import index
 # from UHE.message.api import conversations
-from UHE.models import Plugin
+# from UHE.models.models import Plugin
 from UHE.signals import app_start
-from UHE.user.api import users
-from UHE.user.models import User
+from UHE.controllers.user import users
+from UHE.models.user import User
 from UHE.utils import app_config_from_env
-from UHE.ces.api import ces
+from UHE.controllers.room import rooms
 def create_app(config=None):
     """
     app factory, return an configured instance 
@@ -124,7 +124,7 @@ def configure_celery_app(app, celery):
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(ces, url_prefix='/ces')
+    app.register_blueprint(rooms, url_prefix='/rooms')
     app.register_blueprint(index, url_prefix='')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')

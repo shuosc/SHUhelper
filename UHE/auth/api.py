@@ -4,12 +4,14 @@
     ~~~~~~~~~~~~~~~~~~
     
 """
-from flask import Blueprint, jsonify, g, request, abort
+from flask import Blueprint, jsonify, g, request, abort,current_app
 from UHE.extensions import limiter
 from datetime import datetime
-from UHE.user.models import User
+from UHE.models.user import User,SocialOAuth
 from flask_login import login_required
+
 import requests
+import json
 auth = Blueprint("auth", __name__)
 
 
@@ -51,10 +53,22 @@ limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
 def get_open_id():
     s = requests.Session()
     code = request.args.get('code')
+    source = request.args.get('source')
+    appid = current_app.config['MP_OAUTH'][source]['appid']
+    secret = current_app.config['MP_OAUTH'][source]['secret']
     r = s.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid={}&secret={}&code={}&grant_type=authorization_code'.format(appid, secret, code))
     auth_result = json.loads(r.text)
     if 'openid' in auth_result:
         open_id = auth_result['openid']
+        auth_record = SocialOAuth.query(open_id=open_id).first()
+        if auth_record is None:
+            auth_record = SocialOAuth()
+            auth_record.save()
+        if auth_record.user_id is None:
+            return jsonify(msg='请绑定一卡通',authID=auth_record.id),400
+        token = user.generate_auth_token(864000)
+        result = user.login(token)
+        return jsonify(result)
     return jsonify(msg='error'), 401
 
 
@@ -70,6 +84,7 @@ def login():
         if user is None:
             abort(401)
     else:
+        auth_id = request.args.get('authID')
         json_post = request.get_json()
         user = User.query.get(json_post['id'])
         need_fresh = False
@@ -80,6 +95,11 @@ def login():
             need_fresh = True
         if need_fresh and not user.regisiter(json_post['password']):
             abort(403)
+        if auth_id is not None:
+            oauth_record = SocialOAuth.query(id=auth_id).first()
+            if auth_id is None:
+                return jsonify(msg='OAuth id 非法'),400
+            oauth_record.bind_user(user.id)
         token = user.generate_auth_token(864000)
     result = user.login(token)
     return jsonify(result)
