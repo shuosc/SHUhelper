@@ -1,7 +1,7 @@
 # import flask.signals.Namespace
 from blinker import signal
 
-from applicationlication.extensions import celery
+from application.extensions import celery
 
 
 @celery.task

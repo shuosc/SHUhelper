@@ -7,9 +7,7 @@ def make_token():
     """
     import random
     seed = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    sa = []
-    for i in range(8):
-        sa.append(random.choice(seed))
+    sa = [random.choice(seed) for i in range(8)]
     salt = ''.join(sa)
     return salt
 

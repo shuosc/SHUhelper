@@ -3,6 +3,7 @@ import datetime
 from application.admin.views import BasicPrivateModelView
 from application.calendar.models import Activity, Event
 from application.extensions import admin
+from application.pluginsapplicationport applicationPlugin
 from .courses import courses
 from .teachers import teachers
 from .evaluations import evaluations

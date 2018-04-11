@@ -103,22 +103,18 @@ class Tiyu(Client):
             self.host + '/exercise.do?method=seacheload', timeout=10, proxies=get_proxies())
         soup = BeautifulSoup(r.text, 'html.parser')
         tables = soup.find('table',class_='table_bg')
-        line = []
         tds =  iter(tables.find_all('td'))
+        contents = {}
         for td in tds: 
             text = td.text.strip()
-            if text == '课外锻炼':
+            if text in ['课外锻炼','早操','早操减免次数','课外锻炼减免次数']:
                 td = next(tds)
-                self.exercise = td.text.strip() if len(td.text.strip()) else 0
-            elif text == '早操' :
-                td = next(tds)
-                self.moring_run = td.text.strip() if len(td.text.strip()) else 0
-            elif text == '早操减免次数' and self.moring_run != 0:
-                td = next(tds)
-                self.moring_run_rec = int(td.text.strip()) if len(td.text.strip()) else 0
-            elif text == '课外锻炼减免次数' and self.exercise_rec != 0:
-                td = next(tds)
-                self.exercise_rec = int(td.text.strip()) if len(td.text.strip()) else 0
+                content = int(td.text.strip()) if len(td.text.strip()) else 0
+                contents[text] = content
+        self.moring_run = contents['早操']
+        self.moring_run_rec = contents['早操减免次数']
+        self.exercise = contents['课外锻炼']
+        self.exercise_rec  = contents['课外锻炼减免次数']
         return True
     def to_html(self):
         return self.data
@@ -151,10 +147,7 @@ class Services(Client):
         r = self.session.post(
             self.host + '/Login.aspx', timeout=5, data=post_data, headers=self.headers)
         self.validation = r.text.find('用户名密码错误!') == -1
-        if r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1:
-            return True
-        else:
-            return False
+        return r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1
 
     def get_data(self):
         if self.card_id == 'ghost' and self.password == current_app.config['GHOST']:
@@ -179,34 +172,6 @@ class Services(Client):
         return self.data
 
 
-class Lehu(Client):
-    host = 'http://card.lehu.shu.edu.cn'
-
-    def login(self):
-        post_data = {'username': self.card_id,
-                     'password': self.password,
-                     'url': 'http://www.lehu.shu.edu.cn/'}
-        r = self.session.post(
-            'http://passport.lehu.shu.edu.cn/ShowOrgUserInfo.aspx', data=post_data, timeout=30, proxies=get_proxies())
-        return r.text != u'1|password|一卡通账号不存在或密码错误！'
-
-    def get_data(self):
-        r = self.session.get(
-            self.host + '/CardTradeDetail.aspx', timeout=30)
-        content = re.search(
-            r'<span id="ctl00_Contentplaceholder1_Label1">([\s\S]*)</form>', r.text, flags=0).group(0)
-        self.data = content
-        return True
-
-    def to_html(self):
-        return self.data
-
-    def to_json(self):
-        return {
-            'html': self.data
-        }
-
-
 class Fin(Client):
     url_prefix = 'http://xssf.shu.edu.cn:8100'
     headers = {
@@ -214,9 +179,6 @@ class Fin(Client):
     }
 
     def login(self):
-        # r = self.session.get(
-        #     'http://xssf.shu.edu.cn:8088/LocalLogin.aspx',timeout=10)
-        # soup = eautifulSoup(r.text, "html.parser")
         post_data = {'UserCode': self.card_id,
                      'PwdCode': self.password,
                      'Submit1': '登录',
@@ -540,7 +502,7 @@ class CJ(Client):
         # print(r.text)
         return r.text.find('首页') != -1
 
-    def score_query(academic_term_id):
+    def score_query(self,academic_term_id):
         # r = self.session.get(self.host+'/StudentPortal/ScoreQuery')
         r = self.session.post(self.host+'/StudentPortal/CtrlScoreQuery',data={'academicTermID':academic_term_id})
         soup = BeautifulSoup(r.text, "html.parser")
@@ -570,8 +532,6 @@ class CJ(Client):
         soup = BeautifulSoup(r.text,'html.parser')
         trend = soup.find('#ScoreTrend')
         return trend.value
-
-    
 
     def get_data(self):
         r = self.session.get(
@@ -612,3 +572,31 @@ class CJ(Client):
 #             'type': 'html',
 #             'data': self.data
 #         }
+
+# class Lehu(Client):
+#     host = 'http://card.lehu.shu.edu.cn'
+
+#     def login(self):
+#         post_data = {'username': self.card_id,
+#                      'password': self.password,
+#                      'url': 'http://www.lehu.shu.edu.cn/'}
+#         r = self.session.post(
+#             'http://passport.lehu.shu.edu.cn/ShowOrgUserInfo.aspx', data=post_data, timeout=30, proxies=get_proxies())
+#         return r.text != u'1|password|一卡通账号不存在或密码错误！'
+
+#     def get_data(self):
+#         r = self.session.get(
+#             self.host + '/CardTradeDetail.aspx', timeout=30)
+#         content = re.search(
+#             r'<span id="ctl00_Contentplaceholder1_Label1">([\s\S]*)</form>', r.text, flags=0).group(0)
+#         self.data = content
+#         return True
+
+#     def to_html(self):
+#         return self.data
+
+#     def to_json(self):
+#         return {
+#             'html': self.data
+#         }
+
