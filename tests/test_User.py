@@ -1,4 +1,4 @@
-from application.user.models import User
+from application.models.user import User
 
 def  test_User_auth():
     user = User()

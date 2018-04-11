@@ -1,11 +1,14 @@
-from flask import Flask, request, jsonify, Blueprint
-from flask.views import MethodView
 from datetime import datetime
-from flask_login import login_required, current_user
-from application.extensions import db
-import requests
-from application.models.room import Room, Order
 from functools import reduce
+
+import requests
+from flask import Blueprint, Flask, jsonify, request
+from flask.views import MethodView
+from flask_login import current_user, login_required
+
+from application.extensions import db
+from application.models.room import Order, Room
+
 rooms = Blueprint('room', __name__)
 room_orders = Blueprint('room_order', __name__)
 
