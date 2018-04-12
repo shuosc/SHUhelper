@@ -11,4 +11,4 @@ install:
 # command to run tests
 script:
   # - pytest # or py.test for Python versions 3.5 and below
-  - py.test
+  - py.test --cov=application tests/
