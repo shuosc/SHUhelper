@@ -14,3 +14,4 @@ celerybeat-schedule
 celery.log
 gunicorn.log
 .cache
+.coverage
