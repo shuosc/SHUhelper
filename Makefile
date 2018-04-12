@@ -27,7 +27,7 @@ install:
 	@pip3 install -r requirements.txt
 
 test:
-	py.test
+	py.test --cov=application tests/
 
 runweb:
 	cd ./Web && yarn dev
