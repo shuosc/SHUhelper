@@ -12,3 +12,5 @@ install:
 script:
   # - pytest # or py.test for Python versions 3.5 and below
   - py.test --cov=application tests/
+after_success:
+  - codecov

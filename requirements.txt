@@ -11,6 +11,7 @@ billiard==3.5.0.3
 blinker==1.4
 celery==4.1.0
 click==6.7
+codecov==2.0.15
 coverage==4.5
 e==1.4.5
 flasgger==0.8.0
