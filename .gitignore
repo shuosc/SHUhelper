@@ -7,7 +7,6 @@
 /.idea
 *.pyc
 *.rdb
-/UHE-frontend-Vue/static/SHU
 celerybeat-schedule.*
 npm-debug.log
 celerybeat-schedule
@@ -15,3 +14,4 @@ celery.log
 gunicorn.log
 .cache
 .coverage
+coverage.xml
