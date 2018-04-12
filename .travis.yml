@@ -4,7 +4,7 @@ node_js:
   - "4.2"
 language: python
 python:
-  - "3.5"
+  - "3.6"
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
