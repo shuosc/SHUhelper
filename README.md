@@ -7,8 +7,6 @@ master分支正在经历大量的重写，请至v4分支查看可运行的版本
 <h3>SHUhelper[WIP]</h3>
 </div>
 <div  align="center">    
-<img src="doc/usage.gif" align=center />
-</div>
 
 [![flask](http://flask.pocoo.org/static/badges/made-with-flask-s.png)](http://flask.pocoo.org/)
 [![codebeat badge](https://codebeat.co/badges/97b9864b-ffc5-497a-a4bd-27d73cc95e46)](https://codebeat.co/projects/github-com-shuopensourcecommunity-shuhelper-master)
@@ -16,6 +14,10 @@ master分支正在经历大量的重写，请至v4分支查看可运行的版本
 [![travis ci](https://api.travis-ci.org/shuopensourcecommunity/SHUhelper.svg?branch=master)](https://travis-ci.org/shuopensourcecommunity/SHUhelper)
 [![codecov](https://codecov.io/gh/shuopensourcecommunity/SHUhelper/branch/master/graph/badge.svg)](https://codecov.io/gh/shuopensourcecommunity/SHUhelper)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a73c427338c8d7add064/maintainability)](https://codeclimate.com/github/shuopensourcecommunity/SHUhelper/maintainability)
+
+<img src="doc/usage.gif" align=center />
+</div>
+
 <!-- [![Code Health](https://landscape.io/github/shuopensourcecommunity/SHUhelper/master/landscape.svg?style=flat)](https://landscape.io/github/shuopensourcecommunity/SHUhelper/master) -->
 > 文档还没有写
 
