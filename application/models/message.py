@@ -1,18 +1,13 @@
 import datetime
-
-import mongoengine
 from flask_login import current_user
-from mongoengine import (BooleanField, DateTimeField, CASCADE,
-                         ListField, ReferenceField, StringField)
-
 from application.extensions import db
-from application.user.models import User
+from application.models.user import User
 
 
 # from config import db
 
 
-class Message(db.Document):
+class Message(db.Model):
     sender = ReferenceField(User, reverse_delete_rule=CASCADE)
     sort = StringField(choices=('system', 'application', 'private'))
     content = StringField()
@@ -47,7 +42,7 @@ class Message(db.Document):
     #      sender
 
 
-class Conversation(db.Document):
+class Conversation(db.Model):
     members = ListField(ReferenceField(User, reverse_delete_rule=PULL))
     messages = ListField(ReferenceField(
         Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
@@ -112,7 +107,7 @@ class Conversation(db.Document):
     #         document.delete()
 
 
-class UserContact(db.Document):
+class UserContact(db.Model):
     user = ReferenceField(User, reverse_delete_rule=CASCADE)
     contact = ReferenceField(User, reverse_delete_rule=CASCADE)
     conversation = ReferenceField(Conversation)

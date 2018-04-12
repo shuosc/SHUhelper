@@ -4,9 +4,7 @@ Add academic term and basic schduled task to calender
 
 import datetime
 
-from applicationlication.calendar.models import Activity, Event
-from applicationlicationapplicationuginsapplicationport applicationPlugin
-
+from application.calendar.models import Activity, Event
 # from celery.contrib.methods import task_method
 __plugin__ = "SHUCalendar"
 
