@@ -5,6 +5,9 @@ node_js:
 language: python
 python:
   - "3.5"
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
 # command to install dependencies
 install:
   - pip install -r requirements.txt
@@ -14,3 +17,6 @@ script:
   - py.test --cov=application tests/
 after_success:
   - codecov
+env:
+  global:
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
