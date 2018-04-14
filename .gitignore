@@ -15,3 +15,4 @@ gunicorn.log
 .cache
 .coverage
 coverage.xml
+.pytest_cache

@@ -1,6 +1,30 @@
-from application.services.sim_clients import Services
+# from application.services.sim_clients import Services
 import ast
 import os
+from application.extensions import db
+
+class CRUDMixin(object):
+
+    def __repr__(self):
+        return "<{}>".format(self.__class__.__name__)
+
+    @classmethod
+    def create(cls, **kwargs):
+        instance = cls(**kwargs)
+        return instance.save()
+
+    def save(self):
+        """Saves the object to the database."""
+        db.session.add(self)
+        db.session.commit()
+        return self
+
+    def delete(self):
+        """Delete the object from the database."""
+        db.session.delete(self)
+        db.session.commit()
+        return self
+
 def make_token():
     """
     generate random token, length is 8.
@@ -30,16 +54,16 @@ def app_config_from_env(app, prefix="application_"):
             app.config[key] = value
     return app
 
-def validate(card_id, password):
-    client = Services(card_id=card_id, password=password)
-    if client.login() and client.get_data():
-        result = {
-            'success': True,
-            'name': client.data['name'],
-            'card_id': card_id
-        }
-    else:
-        result = {
-            'success': False
-        }
-    return result
+# def validate(card_id, password):
+#     client = Services(card_id=card_id, password=password)
+#     if client.login() and client.get_data():
+#         result = {
+#             'success': True,
+#             'name': client.data['name'],
+#             'card_id': card_id
+#         }
+#     else:
+#         result = {
+#             'success': False
+#         }
+#     return result

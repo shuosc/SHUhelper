@@ -3,55 +3,59 @@ import json
 
 from flask import Blueprint, abort, jsonify, request
 from flask_login import current_user, login_required, login_user, logout_user
-from mongoengine.queryset.visitor import Q
 from werkzeug.security import check_password_hash, generate_password_hash
-
-from application.services.sim_clients import Services, Tiyu
+from application.services.sim_clients import *
 from application.extensions import redis_store
-from application.models.user import User
+from application.models.user import User,UserData
 
 users = Blueprint('users', __name__)
 
+CLIENTS = {
+    'physical-exercise':Tiyu,
+    'basic-info':Services,
+    'course':XK,
+    'grade':CJ
+}
 
-# @users.route('/query/<identifier>/', methods=['GET', 'POST'])
-# @login_required
-# def user_data(identifier):
-#     identifier = 'tiyu'
-#     if request.method == 'GET':
-#         user_data = UserData.objects.get_or_404(
-#             user=current_user.id, identifier=identifier)
-#         return jsonify(user_data)
-#     else:
-#         post_data = request.get_json()
-#         user_data = UserData.objects(
-#             user=current_user.id, identifier=identifier).first()
-#         if user_data is None:
-#             user_data = UserData(identifier=identifier,
-#                                  user=current_user.id, status='none')
-#             user_data.save()
-#         task = get_data(identifier, current_user.id,
-#                         post_data['password'], post_data['password'])
-#         return jsonify(success='ok')
+def refresh_data(identifier, card_id, password, lock):
+    user_data = UserData.objects(user=card_id, identifier=identifier).first()
+    user_data.status = 'pending'
+    user_data.save()
+    client_class = CLIENTS[identifier]
+    try:
+        client = client_class(card_id, password)
+        client.login()
+        client.get_data()
+    except Exception as e:
+        user_data.status = 'failed'
+        user_data.last_modified = datetime.datetime.now()
+        user_data.save()
+        print('error')
+        raise e
+    user_data.data = client.to_json()
+    user_data.status = 'success'
+    user_data.last_modified = datetime.datetime.now()
+    user_data.lock_save(lock)
 
+@users.route('/data/<identifier>', methods=['GET', 'POST'])
+@login_required
+def user_data(identifier):
+    if request.method == 'GET':
+        user_data = UserData.objects.get_or_404(
+            user=current_user.id, identifier=identifier)
+        return jsonify(user_data)
+    else:
+        post_data = request.get_json()
+        user_data = UserData.objects(
+            user=current_user.id, identifier=identifier).first()
+        if user_data is None:
+            user_data = UserData(identifier=identifier,
+                                 user=current_user.id, status='none')
+            user_data.save()
+        task = refresh_data(identifier, current_user.id,
+                        post_data['password'], post_data['password'])
+        return jsonify(success='ok')
 
-# def get_data(identifier, card_id, password, lock):
-#     user_data = UserData.objects(user=card_id, identifier=identifier).first()
-#     user_data.status = 'pending'
-#     user_data.save()
-#     try:
-#         client = Tiyu(card_id, password)
-#         client.login()
-#         client.get_data()
-#     except Exception as e:
-#         user_data.status = 'failed'
-#         user_data.last_modified = datetime.datetime.now()
-#         user_data.save()
-#         print('error')
-#         raise e
-#     user_data.data = client.to_json()
-#     user_data.status = 'success'
-#     user_data.last_modified = datetime.datetime.now()
-#     user_data.lock_save(lock)
 
 
 # @users.route('/replace-avatar')

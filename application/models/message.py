@@ -4,53 +4,12 @@ from application.extensions import db
 from application.models.user import User
 
 
-# from config import db
-
-
-class Message(db.Model):
-    sender = ReferenceField(User, reverse_delete_rule=CASCADE)
-    sort = StringField(choices=('system', 'application', 'private'))
-    content = StringField()
-    read = BooleanField(default=False)
-    created = DateTimeField(default=datetime.datetime.now)
-    expire_from = DateTimeField(default=lambda: datetime.datetime(2100, 1, 1))
-    meta = {
-        'indexes': [
-            {'fields': ['expire_from'], 'expireAfterSeconds': 3600 * 24 * 7}
-        ],
-        'strict': False
-    }
-
-    def to_dict(self):
-        return {
-            'created': str(self.created),
-            'sender': self.sender.card_id,
-            'content': self.content
-        }
-
-    @classmethod
-    def pre_save(cls, sender, document, **kwargs):
-        if document.sort == 'private' and document.read:
-            document.expire_from = datetime.datetime.now()
-
-    def __unicode__(self):
-        return self.content
-    #  @classmethod
-    #  def pre_delete(cls, sender, document, **kwargs):
-    #      sender_dialog = Dialog.objects(contact=document.sender)
-    #      receiver_dialog = Dialog.objects(contact=document.receiver)
-    #      sender
-
-
 class Conversation(db.Model):
+    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
     members = ListField(ReferenceField(User, reverse_delete_rule=PULL))
     messages = ListField(ReferenceField(
         Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
     deleted = BooleanField(default=False)
-
-    # unreadmessages = ListField(ReferenceField(
-    #     Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
-    meta = {'strict': False}
     conversation_type = StringField(
         choices=('system', 'application', 'private'))
     # def get_messages(count):
@@ -105,16 +64,50 @@ class Conversation(db.Model):
     #     print(document)
     #     if len(document.messages):
     #         document.delete()
-
-
 class UserContact(db.Model):
-    user = ReferenceField(User, reverse_delete_rule=CASCADE)
-    contact = ReferenceField(User, reverse_delete_rule=CASCADE)
-    conversation = ReferenceField(Conversation)
+    user =  db.Column(db.String, db.ForeignKey('user.id'))
+    contact = db.Column(db.String, db.ForeignKey('user.id'))
+    conversation =  db.Column(db.UUID, db.ForeignKey('conversation.id'))
     unread_messges_count = IntField()
     last_open = DateTimeField()
     avatar = StringField()
     title = StringField()
 
+class ConversationMember(db.Model):
+    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
+    conversation_id = db.Column(db.UUID, db.ForeignKey('conversation.id'))
+    member = db.Column(db.String, db.ForeignKey('user.id'))
+    avatar_URL = db.Cloumn(db.String)
+    status = db.Cloumn(db.String)
+    created = DateTimeField(default=datetime.datetime.now)
+    last_open = 
 
-mongoengine.signals.pre_save.connect(Message.pre_save, sender=Message)
+class ConversationMessage(db.Model):
+    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
+    conversation_id = db.Column(db.UUID, db.ForeignKey('conversation.id'))
+    from_user_id = db.Column(db.String, db.ForeignKey('user.id'))
+    content = db.Column(db.String)
+    read = db.Column(db.Boolean,default=False)
+    created = DateTimeField(default=datetime.datetime.now)
+    # expire_from = DateTimeField(default=lambda: datetime.datetime(2100, 1, 1))
+
+    def to_dict(self):
+        return {
+            'created': str(self.created),
+            'sender': self.sender.card_id,
+            'content': self.content
+        }
+
+    @classmethod
+    def pre_save(cls, sender, document, **kwargs):
+        if document.sort == 'private' and document.read:
+            document.expire_from = datetime.datetime.now()
+
+    def __unicode__(self):
+        return self.content
+    #  @classmethod
+    #  def pre_delete(cls, sender, document, **kwargs):
+    #      sender_dialog = Dialog.objects(contact=document.sender)
+    #      receiver_dialog = Dialog.objects(contact=document.receiver)
+    #      sender
+

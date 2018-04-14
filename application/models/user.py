@@ -7,8 +7,10 @@ from application.extensions import db, celery, login_manager, redis_store
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 import uuid
+import binascii
+from application.utils import CRUDMixin
 # from sqlalchemy.dialects.postgresql import UUID
-class User(UserMixin, db.Model):
+class User(UserMixin, db.Model,CRUDMixin):
     id = db.Column(db.String(), primary_key=True)
     # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
@@ -102,7 +104,7 @@ class User(UserMixin, db.Model):
         }
         return result
 
-class SocialOAuth(db.Model):
+class SocialOAuth(db.Model,CRUDMixin):
     id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
     source = db.Column(db.String())
@@ -117,38 +119,32 @@ class SocialOAuth(db.Model):
     expire_date = db.Column(db.DateTime)
 
 
-# class UserData(db.Document):
-#     """
-#     collection of user data, from query used as cache, data encrpted with aes
-#     """
-#     data = StringField()
-#     identifier = StringField(unique_with='user')
-#     user = ReferenceField(User)
-#     last_modified = DateTimeField(default=datetime.datetime.now)
-#     need_update = BooleanField(default=False)
-#     status = StringField()
-#     client_id = StringField(default='client_')
-#     meta = {'strict': False}
+class UserData(db.Model,CRUDMixin):
+    """
+    collection of user data, from query used as cache, data encrpted with aes
+    """
+    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
+    data = db.Column(db.String())
+    name = db.Column(db.String())
+    user = db.Column(db.String, db.ForeignKey('user.id'))
+    created = db.Column(db.DateTime)
+    status = db.Column(db.String())
+    # client_id = StringField(default='client_')
 
-#     def get_client(self):
-#         client = redis_store.get(user_data.client_id, None)
-#         return client
+    def get_client(self):
+        client = redis_store.get(user_data.client_id, None)
+        return client
 
-#     def lock_save(self, pw):
-#         import binascii
-#         in_len = len(self.data)
-#         pad_size = 16 - (in_len % 16)
-#         # print(self.data )
-#         self.data = self.data.ljust(in_len + pad_size, chr(pad_size))
-#         # print(self.data )
-#         if len(pw) < 16:
-#             pw += '0' * (16 - len(pw))
-#         iv = binascii.a2b_hex('000102030405060708090a0b0c0d0e0f')
-#         obj = AES.new(pw, AES.MODE_CBC, iv)
-#         # print(self.data)
-#         self.data = str(binascii.b2a_base64(obj.encrypt(self.data)))[2:-2]
-#         # print(self.data)
-#         self.save()
+    def lock_save(self, pw):
+        in_len = len(self.data)
+        pad_size = 16 - (in_len % 16)
+        self.data = self.data.ljust(in_len + pad_size, chr(pad_size))
+        if len(pw) < 16:
+            pw += '0' * (16 - len(pw))
+        iv = binascii.a2b_hex('000102030405060708090a0b0c0d0e0f')
+        obj = AES.new(pw, AES.MODE_CBC, iv)
+        self.data = str(binascii.b2a_base64(obj.encrypt(self.data)))[2:-2]
+        self.save()
 
 
 # @celery.task()

@@ -1,6 +1,3 @@
-"""
-api.py
-"""
 from flask import Flask, request, jsonify,current_app
 from application.extensions import db
 from flask.views import MethodView

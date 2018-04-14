@@ -16,7 +16,6 @@ from application.extensions import captcha_solver
 
 #from application.app import create_app
 
-
 def get_proxies():
     proxies = {
         'http': current_app.config['PROXY'],
