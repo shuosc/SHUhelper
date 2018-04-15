@@ -17,14 +17,14 @@ export default {
     card
   },
 
-  data () {
+  data() {
     return {
       logs: []
     }
   },
 
-  created () {
-    const logs = (wx.getStorageSync('logs') || [])
+  created() {
+    const logs = wx.getStorageSync('logs') || []
     this.logs = logs.map(log => formatTime(new Date(log)))
   }
 }

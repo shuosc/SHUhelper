@@ -16,20 +16,19 @@ import store from './store'
 
 export default {
   computed: {
-    count () {
+    count() {
       return store.state.count
     }
   },
   methods: {
-    increment () {
+    increment() {
       store.commit('increment')
     },
-    decrement () {
+    decrement() {
       store.commit('decrement')
     }
   }
 }
-
 </script>
 <style>
 .counter-warp {
@@ -43,5 +42,4 @@ export default {
   color: blue;
   border: 1px solid blue;
 }
-
 </style>

@@ -81,5 +81,5 @@ class Time():
                 return index
         if self.now.hour < 8:
             return 0
-        if self.now.hour > 20 and self.now.minute >=35:
+        if self.now.hour > 20 and self.now.minute >35:
             return 14

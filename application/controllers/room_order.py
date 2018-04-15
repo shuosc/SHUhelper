@@ -92,7 +92,7 @@ class OrderAPI(MethodView):
         timedelta = order.date - nowaday
         if timedelta.days < 0 or timedelta.days > 3:
             return jsonify(msg='该日无法预约'), 400
-        if timedelta.days == 0 and current_app.school_time.get_course() < order.start:
+        if timedelta.days == 0 and current_app.school_time.get_course() > order.start:
             return jsonify(msg='您选择的时段已过，无法预约'), 400
         order.save()
         return jsonify(order=order.to_json())
@@ -104,7 +104,7 @@ class OrderAPI(MethodView):
             order = Order.query.filter_by(id=order_id).first()
             if not order.user_id == current_user.id:
                 return jsonify(msg="无权限"), 401
-            order.save()
+            order.delete()
             return jsonify(sucroom_orders=True)
 
     def put(self, order_id):
