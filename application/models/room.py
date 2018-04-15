@@ -6,8 +6,8 @@ from application.enums import Campus
 from datetime import datetime
 import requests
 from sqlalchemy.dialects.postgresql import ENUM
-
-class Room(db.Model):
+from application.utils import CRUDMixin
+class Room(db.Model,CRUDMixin):
     __tablename__ = 'room'
     id = db.Column(db.Integer, primary_key=True)
     group = db.Column(db.String())
@@ -23,7 +23,7 @@ class Room(db.Model):
                              backref=db.backref('room', lazy=True))
 
 
-class Order(db.Model):
+class Order(db.Model,CRUDMixin):
     __tablename__ = 'room_order'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
