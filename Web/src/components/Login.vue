@@ -16,7 +16,7 @@
           q-input(@blur='$v.form.password.$touch', v-model='form.password', type='password', required='', float-label='密码')
           q-checkbox(v-model='rememberMe', label='记住我')
         q-card-actions
-          q-btn.full-width(loader='', color='primary', @click='login')
+          q-btn.full-width(:loading="loginLoading" loader='', color='primary', @click='login')
             | 登录
       q-card.no-margin(square='', flat='', style='position:absolute;bottom:-4rem;width:100%;')
         q-card-main(style='text-align:center;color:white;')
