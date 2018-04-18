@@ -6,22 +6,24 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from application.services.sim_clients import *
 from application.extensions import redis_store
-from application.models.user import User,UserData
+from application.models.user import User, UserData
 
 users = Blueprint('users', __name__)
 
 CLIENTS = {
-    'physical-exercise':Tiyu,
-    'basic-info':Services,
-    'course':XK,
-    'grade':CJ
+    'physical-exercise': Tiyu,
+    'basic-info': Services,
+    'my-course': XK,
+    'grade': CJ
 }
 
-def refresh_data(identifier, card_id, password, lock):
-    user_data = UserData.objects(user=card_id, identifier=identifier).first()
+
+def refresh_data(name, card_id, password, lock):
+    user_data = UserData.query.filter_by(
+        user=card_id, name=name).first()
     user_data.status = 'pending'
     user_data.save()
-    client_class = CLIENTS[identifier]
+    client_class = CLIENTS[name]
     try:
         client = client_class(card_id, password)
         client.login()
@@ -36,26 +38,27 @@ def refresh_data(identifier, card_id, password, lock):
     user_data.status = 'success'
     user_data.last_modified = datetime.datetime.now()
     user_data.lock_save(lock)
+    return True
 
-@users.route('/data/<identifier>', methods=['GET', 'POST'])
+
+@users.route('/data/<name>', methods=['GET', 'POST'])
 @login_required
-def user_data(identifier):
+def user_data(name):
     if request.method == 'GET':
-        user_data = UserData.objects.get_or_404(
-            user=current_user.id, identifier=identifier)
-        return jsonify(user_data)
+        user_data = UserData.query.filter_by(
+            user=current_user.id, name=name).first_or_404()
+        return jsonify(user_data.to_json())
     else:
         post_data = request.get_json()
-        user_data = UserData.objects(
-            user=current_user.id, identifier=identifier).first()
+        user_data = UserData.query.filter_by(
+            user=current_user.id, name=name).first()
         if user_data is None:
-            user_data = UserData(identifier=identifier,
+            user_data = UserData(name=name,
                                  user=current_user.id, status='none')
             user_data.save()
-        task = refresh_data(identifier, current_user.id,
-                        post_data['password'], post_data['password'])
+        task = refresh_data(name, current_user.id,
+                            post_data['pw'], post_data['pw'])
         return jsonify(success='ok')
-
 
 
 # @users.route('/replace-avatar')

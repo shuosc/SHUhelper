@@ -266,7 +266,7 @@ class XK(Client):
         'Content-Type': 'application/x-www-form-urlencoded',
     }
     
-    def __init__(self, card_id, password, host='http://xk.shu.edu.cn'):
+    def __init__(self, card_id, password, host='http://xk.shu.edu.cn:8080'):
         Client.__init__(self, card_id, password)
         self.host = host
 

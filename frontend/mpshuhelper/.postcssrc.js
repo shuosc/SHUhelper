@@ -2,6 +2,8 @@
 
 module.exports = {
   "plugins": {
-    "postcss-mpvue-wxss": {}
+    "postcss-mpvue-wxss": {
+      remToRpx: 20
+    }
   }
 }

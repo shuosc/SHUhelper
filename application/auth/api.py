@@ -4,10 +4,10 @@
     ~~~~~~~~~~~~~~~~~~
     
 """
-from flask import Blueprint, jsonify, g, request, abort,current_app
+from flask import Blueprint, jsonify, g, request, abort, current_app
 from application.extensions import limiter
 from datetime import datetime
-from application.models.user import User,SocialOAuth
+from application.models.user import User, SocialOAuth
 from flask_login import login_required
 
 import requests
@@ -25,13 +25,13 @@ def check_rate_limiting():
 def login_rate_limit_error(error):
     """Register a custom error handler for a 'Too Many Requests'
     (HTTP CODE 429) error."""
-    return jsonify(message='Too Many Requests')
+    return jsonify(message='Too Many Requests'),400
 
 
 def login_rate_limit():
     """Dynamically load the rate limiting config from the database."""
     # [count] [per|/] [n (optional)] [second|minute|hour|day|month|year]
-    return "50/30minutes"
+    return "500/30minutes"
 
 
 def login_rate_limit_message():
@@ -49,7 +49,36 @@ def login_rate_limit_message():
 limiter.limit(login_rate_limit, error_message=login_rate_limit_message)(auth)
 
 
-@auth.route('/oauth/wx')
+@auth.route('/mp/app')
+def mp_app_auth():
+    s = requests.Session()
+    code = request.args.get('code')
+    source = request.args.get('source')
+    appid = current_app.config['MP_OAUTH'][source]['appid']
+    secret = current_app.config['MP_OAUTH'][source]['secret']
+    r = s.get('https://api.weixin.qq.com/sns/jscode2session?appid={}&secret={}&js_code={}&grant_type=authorization_code'.format(appid, secret, code))
+    auth_result = json.loads(r.text)
+    print(auth_result)
+    if 'openid' in auth_result:
+        open_id = auth_result['openid']
+        session_key = auth_result['session_key']
+        auth_record = SocialOAuth.query.filter_by(open_id=open_id).first()
+        if auth_record is None:
+            auth_record = SocialOAuth()
+            auth_record.open_id = open_id
+            auth_record.session_key = session_key
+            auth_record.source = source
+            auth_record.save()
+        if auth_record.user_id is None:
+            return jsonify(msg='请绑定一卡通', needLogin=True, authID=auth_record.id), 400
+        user = auth_record.user
+        token = user.generate_auth_token(864000)
+        result = user.login(token)
+        return jsonify(result)
+    return jsonify(msg='error', autoID=auth_record.id), 401
+
+
+@auth.route('/mp/subscribe')
 def get_open_id():
     s = requests.Session()
     code = request.args.get('code')
@@ -58,14 +87,15 @@ def get_open_id():
     secret = current_app.config['MP_OAUTH'][source]['secret']
     r = s.get('https://api.weixin.qq.com/sns/oauth2/access_token?appid={}&secret={}&code={}&grant_type=authorization_code'.format(appid, secret, code))
     auth_result = json.loads(r.text)
+    print(auth_result)
     if 'openid' in auth_result:
         open_id = auth_result['openid']
-        auth_record = SocialOAuth.query(open_id=open_id).first()
+        auth_record = SocialOAuth.query.filter_by(open_id=open_id).first()
         if auth_record is None:
             auth_record = SocialOAuth()
             auth_record.save()
         if auth_record.user_id is None:
-            return jsonify(msg='请绑定一卡通',authID=auth_record.id),400
+            return jsonify(msg='请绑定一卡通', authID=auth_record.id), 400
         user = auth_record.user
         token = user.generate_auth_token(864000)
         result = user.login(token)
@@ -85,22 +115,23 @@ def login():
         if user is None:
             abort(401)
     else:
-        auth_id = request.args.get('authID')
         json_post = request.get_json()
-        user = User.query.get(json_post['id'])
+        user = User.query.get(json_post['userID'])
+        auth_id = json_post.get('authID')
         need_fresh = False
         if user is not None:
             need_fresh = not user.authenticate(json_post['password'])
         else:
-            user = User(id=json_post['id'])
+            user = User(id=json_post['userID'])
             need_fresh = True
         if need_fresh and not user.regisiter(json_post['password']):
             abort(403)
         if auth_id is not None:
-            oauth_record = SocialOAuth.query(id=auth_id).first()
+            oauth_record = SocialOAuth.query.filter_by(id=auth_id).first()
             if auth_id is None:
-                return jsonify(msg='OAuth id 非法'),400
+                return jsonify(msg='OAuth id 非法'), 400
             oauth_record.bind_user(user.id)
+            print(oauth_record)
         token = user.generate_auth_token(864000)
     result = user.login(token)
     return jsonify(result)

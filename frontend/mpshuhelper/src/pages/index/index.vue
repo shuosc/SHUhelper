@@ -1,12 +1,14 @@
 <template lang="pug">
   div(class="container" @click="clickHandle('test click', $event)")
-    div.row(style="height:1.5rem;padding-top:1rem;padding-bottom:1rem;background-color:#03A9F4;")
-    div.row(style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);border-radius:10px;height:1.5rem;margin-left:0.5rem;margin-right:0.5rem;padding-top:1rem;padding-bottom:1rem;background-color:#03A8F4;position:relative;top:-2rem;")
+    div.row.header-box
+    div.row.user-info
       .col-2
-      .col-8(style="text-align:center;font-weight:bold;")
+      .col-8(style="color:white;text-align:center;font-weight:bold;")
         | Hi, {{userInfo.nickName}}
       .col-2
         img(style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
+    //- div
+    time-table(:courses="courses" @showDetail="showDetail")
     //- <div class="userinfo" @click="bindViewTap">
     //-   <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
     //-   <div class="userinfo-nickname">
@@ -30,31 +32,82 @@
 
 <script>
 import card from '@/components/card'
+import TimeTable from '@/components/TimeTable'
+import { decrypt } from '@/utils/index.js'
 
 export default {
   data() {
     return {
       motto: 'Hello World',
-      userInfo: {}
+      userInfo: {},
+      courses: [],
+      isLogin: false
     }
   },
 
   components: {
-    card
+    card,
+    TimeTable
   },
-
   methods: {
+    updateCourseState(data) {
+      // this.status.status = data.status
+      // this.status.time = data.last_modified.$date
+      let user = wx.getStorageSync('user')
+      this.courses = decrypt(data.data, user.password)
+      // if (this.status.status === 'failed') {
+      //   this.refresher()
+      // }
+    },
     bindViewTap() {
       const url = '../logs/main'
       wx.navigateTo({ url })
     },
+    getUserToken(code) {
+      // wx.showNavigationBarLoading()
+      this.$http
+        .get(`/auth/mp/app?code=${code}&source=shuhelper_mp_app`)
+        .then(res => {
+          this.isLogin = true
+          // wx.hideLoading()
+          this.$http.config.headers['Authorization'] =
+            'Bearer ' + res.data.token
+          // wx.showToast({ title: `Hi，${res.data.name}` })
+          this.getCourses()
+        })
+        .catch(err => {
+          console.log(err)
+          wx.hideNavigationBarLoading()
+          if (err.response.data.needLogin) {
+            // wx.setStorageSync('authID', err.response.data.authID)
+            // wx.hideLoading()
+            wx.showModal({
+              title: '提示',
+              content: '初次使用，需要绑定一卡通账号',
+              success: function(res) {
+                if (res.confirm) {
+                  wx.setStorageSync('authID', err.response.data.authID)
+                  wx.redirectTo({
+                    url: `/pages/login/main?authID=${err.response.data.authID}`
+                  })
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          }
+        })
+    },
     getUserInfo() {
       // 调用登录接口
       wx.login({
-        success: () => {
+        success: res => {
+          // wx.showLoading({ title: '载入中' })
+          this.getUserToken(res.code)
           wx.getUserInfo({
             success: res => {
               this.userInfo = res.userInfo
+              console.log(res)
             }
           })
         }
@@ -62,17 +115,107 @@ export default {
     },
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev)
+    },
+    refreshCourse() {
+      wx.showNavigationBarLoading()
+      let user = wx.getStorageSync('user')
+      if (!user.id) {
+        wx.redirectTo({
+          url: '/pages/login/main'
+        })
+      }
+      this.$http
+        .post('/users/data/my-course', {
+          id: user.id,
+          pw: user.password
+        })
+        .then(res => {
+          wx.hideNavigationBarLoading()
+          console.log(res)
+          this.getCourses()
+          wx.stopPullDownRefresh()
+          wx.showToast({
+            title: '刷新课表成功'
+          })
+        })
+        .catch(err => {
+          wx.hideNavigationBarLoading()
+          console.log(err)
+        })
+    },
+    getCourses() {
+      this.$http
+        .get('/users/data/my-course')
+        .then(response => {
+          // let time = this.$store.state.time
+          wx.setStorageSync(`myCourses:2018_3`, response.data)
+          this.updateCourseState(response.data)
+        })
+        .catch(err => {
+          if (err.response.status === 404) {
+            // wx.showToast(`更新课表中`)
+            this.refreshCourse()
+          } else {
+            // wx.showToast(`更新失败${err.response.status}`)
+          }
+        })
     }
   },
-
+  onPullDownRefresh() {
+    console.log('pull down')
+    wx.showModal({
+      title: '提示',
+      content: '刷新当前课表吗，这可能需要一点时间',
+      success: res => {
+        if (res.confirm) {
+          wx.stopPullDownRefresh()
+          this.refreshCourse()
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
   created() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo()
+    // this.getCourses()
+  },
+  onLoad: function() {
+    console.log('onload')
+    // if (this.$root.$mp.query.refresh) {
+    //   this.getUserInfo()
+    // }
   }
 }
 </script>
 
 <style scoped>
+.header-box {
+  height: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #85b7d8;
+}
+.user-info {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  height: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  background-color: #85b7d8;
+  position: relative;
+  top: -2rem;
+}
+.container {
+  /* padding: 10px; */
+  /* padding-right: 10px; */
+  padding-bottom: 10px;
+  /* padding-top: 10px; */
+  box-sizing: border-box;
+}
 .page {
   position: fixed;
   top: 0;
@@ -80,8 +223,8 @@ export default {
   left: 0;
   right: 0;
   background: #50a3a2;
-  background: -webkit-linear-gradient(top left, #03A9F4 0%, #53e3a6 100%);
-  background: linear-gradient(to bottom, #03A9F4 0%, #fff 100%);
+  background: -webkit-linear-gradient(top left, #03a9f4 0%, #53e3a6 100%);
+  background: linear-gradient(to bottom, #03a9f4 0%, #fff 100%);
   height: 100vh; /* Allow spacing based on window height */
   margin: 0;
   min-height: 240px;

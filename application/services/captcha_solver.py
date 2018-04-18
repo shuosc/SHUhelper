@@ -19,22 +19,21 @@ class Solver:
         pass
 
     def init_app(self, app):
-        pass
-        # self.username = app.config["CAPTCHA_SOLVER_USERNAME"]
-        # self.password = app.config["CAPTCHA_SOLVER_PASSWORD"]
-        # self.soft_id = app.config["CAPTCHA_SOLVER_SOFTID"]
-        # self.soft_key = app.config["CAPTCHA_SOLVER_SOFTKEY"]
-        # self.base_params = {
-        #     'username': self.usern4ame,
-        #     'password': self.password,
-        #     'softid': self.soft_id,
-        #     'softkey': self.soft_key,
-        # }
-        # self.headers = {
-        #     'Connection': 'Keep-Alive',
-        #     'Expect': '100-continue',
-        #     'User-Agent': 'ben',
-        # }
+        self.username = app.config["CAPTCHA_SOLVER_USERNAME"]
+        self.password = app.config["CAPTCHA_SOLVER_PASSWORD"]
+        self.soft_id = app.config["CAPTCHA_SOLVER_SOFTID"]
+        self.soft_key = app.config["CAPTCHA_SOLVER_SOFTKEY"]
+        self.base_params = {
+            'username': self.username,
+            'password': self.password,
+            'softid': self.soft_id,
+            'softkey': self.soft_key,
+        }
+        self.headers = {
+            'Connection': 'Keep-Alive',
+            'Expect': '100-continue',
+            'User-Agent': 'ben',
+        }
 
     def create(self, im, im_type=3040, timeout=60, site=''):
         if site == 'XK' or site == 'CJ':

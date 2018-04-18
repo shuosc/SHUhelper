@@ -10,7 +10,9 @@ import uuid
 import binascii
 from application.utils import CRUDMixin
 # from sqlalchemy.dialects.postgresql import UUID
-class User(UserMixin, db.Model,CRUDMixin):
+
+
+class User(UserMixin, db.Model, CRUDMixin):
     id = db.Column(db.String(), primary_key=True)
     # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
@@ -19,11 +21,11 @@ class User(UserMixin, db.Model,CRUDMixin):
     nickname = db.Column(db.String())
     email = db.Column(db.String())
     phone = db.Column(db.String())
-    avatar_URL = db.Column(db.String(),default='avatar_default.jpg')
+    avatar_URL = db.Column(db.String(), default='avatar_default.jpg')
     creat_time = db.Column(db.DateTime, nullable=False,
-        default=datetime.now)
+                           default=datetime.now)
     last_login = db.Column(db.DateTime, nullable=False,
-        default=datetime.now)
+                           default=datetime.now)
     activated = db.Column(db.Boolean)
     robot = db.Column(db.Boolean)
     deleted = db.Column(db.Boolean)
@@ -104,32 +106,46 @@ class User(UserMixin, db.Model,CRUDMixin):
         }
         return result
 
-class SocialOAuth(db.Model,CRUDMixin):
-    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
+
+class SocialOAuth(db.Model, CRUDMixin):
+    id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
+    session_key = db.Column(db.String())
     source = db.Column(db.String())
     site = db.Column(db.String())
     site_uid = db.Column(db.String())
     site_uname = db.Column(db.String())
-    created_time = db.Column(db.DateTime)
+    created_time = db.Column(db.DateTime,default=datetime.now)
     unionid = db.Column(db.String())
     open_id = db.Column(db.String())
     access_token = db.Column(db.String())
     refresh_token = db.Column(db.String())
     expire_date = db.Column(db.DateTime)
 
+    def bind_user(self, user_id):
+        self.user_id = user_id
+        self.save()
 
-class UserData(db.Model,CRUDMixin):
+
+class UserData(db.Model, CRUDMixin):
     """
     collection of user data, from query used as cache, data encrpted with aes
     """
-    id = db.Column(db.UUID(as_uuid=True),default=uuid.uuid4, primary_key=True)
+    id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     data = db.Column(db.String())
     name = db.Column(db.String())
     user = db.Column(db.String, db.ForeignKey('user.id'))
-    created = db.Column(db.DateTime)
+    created = db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.String())
     # client_id = StringField(default='client_')
+
+    def to_json(self):
+        return {
+            'data': self.data,
+            'name': self.name,
+            'created': self.created,
+            'status': self.status
+        }
 
     def get_client(self):
         client = redis_store.get(user_data.client_id, None)
