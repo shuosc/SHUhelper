@@ -74,8 +74,9 @@ def mp_app_auth():
         user = auth_record.user
         token = user.generate_auth_token(864000)
         result = user.login(token)
+        result['authID'] = auth_record.id
         return jsonify(result)
-    return jsonify(msg='error', autoID=auth_record.id), 401
+    return jsonify(msg='error', authID=auth_record.id), 401
 
 
 @auth.route('/mp/subscribe')
@@ -131,7 +132,6 @@ def login():
             if auth_id is None:
                 return jsonify(msg='OAuth id 非法'), 400
             oauth_record.bind_user(user.id)
-            print(oauth_record)
         token = user.generate_auth_token(864000)
     result = user.login(token)
     return jsonify(result)

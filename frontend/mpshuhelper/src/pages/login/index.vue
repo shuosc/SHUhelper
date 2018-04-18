@@ -80,7 +80,7 @@ export default {
             password: this.form.password,
             authID: this.authID
           })
-          wx.navigateTo({
+          wx.redirectTo({
             url: '/pages/index/main?refresh=true'
           })
           // var payload = {

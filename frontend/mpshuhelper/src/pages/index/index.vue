@@ -6,7 +6,7 @@
       .col-8(style="color:white;text-align:center;font-weight:bold;")
         | Hi, {{userInfo.nickName}}
       .col-2
-        img(style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
+        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
     //- div
     time-table(:courses="courses" @showDetail="showDetail")
     //- <div class="userinfo" @click="bindViewTap">
@@ -50,10 +50,34 @@ export default {
     TimeTable
   },
   methods: {
+    reAuth() {
+      wx.login({
+        success: res => {
+          this.$http
+            .get(`/auth/mp/app?code=${res.code}&source=shuhelper_mp_app`)
+            .then(response => {
+              this.redirectToLogin(response.data.authID)
+            })
+            .catch(err => {
+              this.redirectToLogin(err.response.data.authID)
+            })
+        }
+      })
+    },
+    redirectToLogin(authID) {
+      wx.redirectTo({
+        url: `/pages/login/main?authID=${authID}`
+      })
+    },
     updateCourseState(data) {
       // this.status.status = data.status
       // this.status.time = data.last_modified.$date
       let user = wx.getStorageSync('user')
+      if (!user) {
+        wx.redirectTo({
+          url: '/pages/login/main'
+        })
+      }
       this.courses = decrypt(data.data, user.password)
       // if (this.status.status === 'failed') {
       //   this.refresher()
@@ -86,7 +110,6 @@ export default {
               content: '初次使用，需要绑定一卡通账号',
               success: function(res) {
                 if (res.confirm) {
-                  wx.setStorageSync('authID', err.response.data.authID)
                   wx.redirectTo({
                     url: `/pages/login/main?authID=${err.response.data.authID}`
                   })
@@ -140,6 +163,11 @@ export default {
         })
         .catch(err => {
           wx.hideNavigationBarLoading()
+          if (err.status.code === 401) {
+            wx.redirectTo({
+              url: '/pages/login/main'
+            })
+          }
           console.log(err)
         })
     },
@@ -159,6 +187,20 @@ export default {
             // wx.showToast(`更新失败${err.response.status}`)
           }
         })
+    },
+    onAvatarClick() {
+      wx.showActionSheet({
+        itemList: ['重新登录'],
+        success: res => {
+          console.log(res.tapIndex)
+          if (res.tapIndex === 0) {
+            this.reAuth()
+            // wx.redirectTo({
+            //   url: '/pages/login/main'
+            // })
+          }
+        }
+      })
     }
   },
   onPullDownRefresh() {
@@ -167,8 +209,8 @@ export default {
       title: '提示',
       content: '刷新当前课表吗，这可能需要一点时间',
       success: res => {
+        wx.stopPullDownRefresh()
         if (res.confirm) {
-          wx.stopPullDownRefresh()
           this.refreshCourse()
         } else if (res.cancel) {
           console.log('用户点击取消')
@@ -183,9 +225,9 @@ export default {
   },
   onLoad: function() {
     console.log('onload')
-    // if (this.$root.$mp.query.refresh) {
-    //   this.getUserInfo()
-    // }
+    if (this.$root.$mp.query.refresh) {
+      this.getUserInfo()
+    }
   }
 }
 </script>
