@@ -190,7 +190,7 @@ export default {
     },
     onAvatarClick() {
       wx.showActionSheet({
-        itemList: ['重新登录'],
+        itemList: ['重新登录', '关于'],
         success: res => {
           console.log(res.tapIndex)
           if (res.tapIndex === 0) {
@@ -198,6 +198,13 @@ export default {
             // wx.redirectTo({
             //   url: '/pages/login/main'
             // })
+          } else {
+            wx.showModal({
+              title: 'SHUhelper 小程序版本 v0.1.5',
+              content:
+                `现在您也可以在微信小程序里查看课表啦。使用过程中出现问题请直接向微信公众号 shuhelper 后台反馈。`,
+              showCancel: false
+            })
           }
         }
       })

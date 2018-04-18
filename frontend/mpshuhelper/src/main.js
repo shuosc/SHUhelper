@@ -5,7 +5,7 @@ import Fly from 'flyio/dist/npm/wx'
 // var Fly = require('flyio/dist/npm/wx')
 var fly = new Fly()
 Vue.prototype.$http = fly
-fly.config.baseURL = "http://127.0.0.1:5000"
+fly.config.baseURL = "https://api.shuhelper.cn/v1"
 Vue.config.productionTip = false
 App.mpType = 'app'
 
