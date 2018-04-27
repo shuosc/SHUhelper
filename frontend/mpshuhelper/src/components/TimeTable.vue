@@ -1,32 +1,26 @@
 <template lang="pug">
-  <div class="schedule">
-    <div class="time-ground">
+  div.schedule
+    div.time-ground
       div.infobox
-      <div v-for="time in timeGround" class="time-row" :key="time.no">
-        <div id="time">
-          <div>{{time.start}}</div>
-          <div style="color:black;flex-grow:3;"> {{time.no}}</div>
-          <div>{{time.end}}</div>
-        </div>
-      </div>
-    </div>
-    <div class="task-ground">
-      <div v-for="(week,index) in weekGround" class="task-list" :key="week">
+      div(v-for="time in timeGround", class="time-row", :key="time.no")
+        div#time
+          div {{time.start}}
+          div(style="color:black;flex-grow:3;") {{time.no}}
+          div {{time.end}}
+    div.task-ground
+      div(v-for="(week,index) in weekGround", class="task-list", :key="week")
         div.week
-          <p>{{week}}</p>
-        <div class="taskListSty">
+          p {{week}}
+        div.taskListSty
           div(class="task-list-item" 
             v-for="(detail,no) in tasks[index]",:key="no",
             :style="{height:detail.styleObj.height,top:detail.styleObj.top,backgroundColor:detail.styleObj.backgroundColor,}",
             @click="showDetail(detail)")
-            <div>
-              <p id="name">{{detail.coursename}}<br/>({{detail.teachname}})</p>
-              <p>@{{detail.place}}</p>
-            </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            div
+              p#name {{detail.coursename}}
+                br
+                | ({{detail.teachname}})
+              p @{{detail.place}}
 </template>
 
 <script>

@@ -1,9 +1,6 @@
-<template>
-  <div>
-    <p class="card">
-      {{text}}
-    </p>
-  </div>
+<template lang="pug">
+  div
+    p.card {{text}}
 </template>
 
 <script>
