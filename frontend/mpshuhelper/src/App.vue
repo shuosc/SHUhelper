@@ -1,4 +1,5 @@
 <script>
+import { login } from './api/auth'
 export default {
   created() {
     // 调用API从本地缓存中获取数据
@@ -6,7 +7,21 @@ export default {
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
     console.log('app created and cache logs by setStorageSync')
-  }
+    login(
+      resp => {
+        console.log(resp)
+        wx.setStorageSync('user', resp)
+      },
+      err => {
+        console.log(err)
+        wx.redirectTo({
+          url: `/pages/login/main?authID=${err.response.data.authID}`
+        })
+      }
+    )
+    console.log(this.$store.state.count)
+  },
+  methods: {}
 }
 </script>
 

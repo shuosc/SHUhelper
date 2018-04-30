@@ -17,7 +17,7 @@ from application.signals import app_start
 from application.controllers.user import users
 from application.models.user import User
 from application.utils import app_config_from_env
-from application.controllers import room_order
+from application.controllers import room_order,lost_n_found
 def create_app(config=None):
     """
     app factory, return an configured instance 
@@ -128,6 +128,7 @@ def configure_blueprints(app):
     app.register_blueprint(room_order.room_orders,url_prefix='/room-orders')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
+    app.register_blueprint(lost_n_found.lost_n_found,url_prefix='/lost-n-found')
     # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
     # app.register_blueprint(feeds, url_prefix='/feeds')

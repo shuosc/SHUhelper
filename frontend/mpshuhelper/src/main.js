@@ -1,11 +1,20 @@
 /* eslint-disable */
 import Vue from 'vue'
 import App from './App'
-import Fly from 'flyio/dist/npm/wx'
+import store from './store'
 // var Fly = require('flyio/dist/npm/wx')
-var fly = new Fly()
-Vue.prototype.$http = fly
-fly.config.baseURL = "https://api.shuhelper.cn/v1"
+import {
+  http
+} from './http'
+Vue.prototype.$http = http
+Vue.prototype.$store = store
+Vue.prototype.$user = {
+  name: '',
+  ID: '',
+  pw: '',
+  authID: ''
+}
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 

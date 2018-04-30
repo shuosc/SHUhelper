@@ -18,30 +18,28 @@ class LostNFoundAPI(MethodView):
         if post_id is None:
             posts_type = request.args.get('type', 'found')
             author_id = request.args.get('authorID')
-            page = request.args.get('page')
+            page = request.args.get('page',1)
+            search = request.args.get('search',False)
+            if search:
+                posts = Post.query.filter(Post.title.contains(search)     | \
+                                            Post.content.contains(search) | \
+                                            Post.place.contains(search)   ,
+                                            Post.type.contains(posts_type))
             if author_id is None:
-                posts = Post.query.filter_by(type=posts_type).order_by(Post.created.desc()).all()
-                return jsonify(posts=[post.to_json() for post in posts])
+                posts = Post.query.filter_by(type=posts_type)
+            else:
+                posts = Post.query.filter_by(author_id=author_id)
+            posts = posts.order_by(Post.lighten_time.desc())
+            paginated_posts = posts.paginate(page=page,per_page=15)
+            return jsonify(posts=[post.to_json() for post in paginated_posts.items])
         else:
             post = Post.query.filter_by(id=post_id).first()
             return jsonify(post=post.to_json())
 
     def post(self):
-        now = datetime.now()
-        nowaday = datetime(now.year, now.month, now.day)
-        json = request.json
-        json['userID'] = current_user.id
-        post = Post.from_json(json)
-
-        if check_restrict(post, current_user.id) == False:
-            return jsonify(msg='您当日借教室时长配额不足'), 400
-        if check_room_available(post) == False:
-            return jsonify(msg='该时间段已被占用'), 400
-        timedelta = post.date - nowaday
-        if timedelta.days < 0 or timedelta.days > 3:
-            return jsonify(msg='该日无法预约'), 400
-        if timedelta.days == 0 and current_app.school_time.get_course() > post.start:
-            return jsonify(msg='您选择的时段已过，无法预约'), 400
+        json_post = request.json
+        json_post['authorID'] = current_user.id
+        post = Post.from_json(json_post)
         post.save()
         return jsonify(post=post.to_json())
 
@@ -53,17 +51,15 @@ class LostNFoundAPI(MethodView):
             if not post.user_id == current_user.id:
                 return jsonify(msg="无权限"), 401
             post.delete()
-            return jsonify(sucroom_posts=True)
+            return jsonify(success=True)
 
     def put(self, post_id):
         post = Post.query.filter_by(id=post_id).first()
         if not post.user_id == current_user.id:
             return jsonify(msg="无权限"), 401
-        json = request.json
-        end = json['end']
-        if end >= post.start and end <=post.end:
-            post.end = end
-            post.save()
+        json_post = request.json
+        is_founded = json_post['isFounded']
+        post.change_found_status(is_founded)
         return jsonify(post=post.to_json())
 
 view = LostNFoundAPI.as_view('lost_n_found_api')

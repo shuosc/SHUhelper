@@ -13,6 +13,7 @@ from application.utils import CRUDMixin
 
 
 class User(UserMixin, db.Model, CRUDMixin):
+    __tablename__ = 'user'
     id = db.Column(db.String(), primary_key=True)
     # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
@@ -32,6 +33,11 @@ class User(UserMixin, db.Model, CRUDMixin):
     pw_hash = db.Column(db.String())
     oauth = db.relationship('SocialOAuth', lazy='select',
                             backref=db.backref('user', lazy=True))
+    user_type = db.Column(db.String,default='user')
+    __mapper_args__ = {
+       'polymorphic_identity': 'user',
+       'polymorphic_on': user_type
+    }
 
     def authenticate(self, password):
         if check_password_hash(self.pw_hash, password):
@@ -106,6 +112,21 @@ class User(UserMixin, db.Model, CRUDMixin):
         }
         return result
 
+class Teacher(User):
+    __tablename__ = 'teacher'
+    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
+    degree = db.Column(db.String())
+    sex = db.Column(db.String())
+    title = db.Column(db.String())
+    education = db.Column(db.String())
+    dept = db.Column(db.String())
+    cs = db.Column(db.String())
+    intro = db.Column(db.String())
+    __mapper_args__ = {
+       'polymorphic_identity': 'teacher',
+    }
+    def __unicode__(self):
+        return self.name
 
 class SocialOAuth(db.Model, CRUDMixin):
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)

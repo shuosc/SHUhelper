@@ -64,77 +64,16 @@ export default {
         }
       })
     },
-    redirectToLogin(authID) {
-      wx.redirectTo({
-        url: `/pages/login/main?authID=${authID}`
-      })
-    },
     updateCourseState(data) {
-      // this.status.status = data.status
-      // this.status.time = data.last_modified.$date
       let user = wx.getStorageSync('user')
       if (!user) {
-        wx.redirectTo({
-          url: '/pages/login/main'
-        })
+        this.reAuth()
       }
       this.courses = decrypt(data.data, user.password)
-      // if (this.status.status === 'failed') {
-      //   this.refresher()
-      // }
     },
     bindViewTap() {
       const url = '../logs/main'
       wx.navigateTo({ url })
-    },
-    getUserToken(code) {
-      // wx.showNavigationBarLoading()
-      this.$http
-        .get(`/auth/mp/app?code=${code}&source=shuhelper_mp_app`)
-        .then(res => {
-          this.isLogin = true
-          // wx.hideLoading()
-          this.$http.config.headers['Authorization'] =
-            'Bearer ' + res.data.token
-          // wx.showToast({ title: `Hi，${res.data.name}` })
-          this.getCourses()
-        })
-        .catch(err => {
-          console.log(err)
-          wx.hideNavigationBarLoading()
-          if (err.response.data.needLogin) {
-            // wx.setStorageSync('authID', err.response.data.authID)
-            // wx.hideLoading()
-            wx.showModal({
-              title: '提示',
-              content: '初次使用，需要绑定一卡通账号',
-              success: function(res) {
-                if (res.confirm) {
-                  wx.redirectTo({
-                    url: `/pages/login/main?authID=${err.response.data.authID}`
-                  })
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
-                }
-              }
-            })
-          }
-        })
-    },
-    getUserInfo() {
-      // 调用登录接口
-      wx.login({
-        success: res => {
-          // wx.showLoading({ title: '载入中' })
-          this.getUserToken(res.code)
-          wx.getUserInfo({
-            success: res => {
-              this.userInfo = res.userInfo
-              console.log(res)
-            }
-          })
-        }
-      })
     },
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev)
@@ -143,9 +82,7 @@ export default {
       wx.showNavigationBarLoading()
       let user = wx.getStorageSync('user')
       if (!user.id) {
-        wx.redirectTo({
-          url: '/pages/login/main'
-        })
+        this.reAuth()
       }
       this.$http
         .post('/users/data/my-course', {
@@ -226,16 +163,13 @@ export default {
     })
   },
   created() {
-    // 调用应用实例的方法获取全局数据
-    this.getUserInfo()
-    // this.getCourses()
-  },
-  onLoad: function() {
-    console.log('onload')
-    if (this.$root.$mp.query.refresh) {
-      this.getUserInfo()
-    }
   }
+  // onLoad: function() {
+  //   console.log('onload')
+  //   if (this.$root.$mp.query.refresh) {
+  //     this.getUserInfo()
+  //   }
+  // }
 }
 </script>
 

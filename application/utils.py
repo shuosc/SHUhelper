@@ -19,10 +19,14 @@ class CRUDMixin(object):
         db.session.commit()
         return self
 
-    def delete(self):
+    def delete(self,soft=False):
         """Delete the object from the database."""
-        db.session.delete(self)
-        db.session.commit()
+        if soft:
+            self.is_deleted = true
+            self.save()
+        else:
+            db.session.delete(self)
+            db.session.commit()
         return self
 
 def make_token():
