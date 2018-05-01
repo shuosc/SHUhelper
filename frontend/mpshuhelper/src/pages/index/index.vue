@@ -1,7 +1,7 @@
 <template lang="pug">
   div(class="container" @click="clickHandle('test click', $event)")
     div.row.header-box
-    div.row.user-info
+    div.row.user-info(@click="onAvatarClick")
       .col-2
       .col-8(style="color:white;text-align:center;font-weight:bold;")
         | Hi, {{userInfo.nickName}}
@@ -56,10 +56,15 @@ export default {
           this.$http
             .get(`/auth/mp/app?code=${res.code}&source=shuhelper_mp_app`)
             .then(response => {
-              this.redirectToLogin(response.data.authID)
+              console.log(response)
+              wx.redirectTo({
+                url: '/pages/login/main'
+              })
+              // this.redirectToLogin(response.authID)
             })
             .catch(err => {
-              this.redirectToLogin(err.response.data.authID)
+              console.log(err)
+              this.redirectToLogin(err.response.authID)
             })
         }
       })
@@ -138,8 +143,7 @@ export default {
           } else {
             wx.showModal({
               title: 'SHUhelper 小程序版本 v0.1.5',
-              content:
-                `现在您也可以在微信小程序里查看课表啦。使用过程中出现问题请直接向微信公众号 shuhelper 后台反馈。`,
+              content: `现在您也可以在微信小程序里查看课表啦。使用过程中出现问题请直接向微信公众号 shuhelper 后台反馈。`,
               showCancel: false
             })
           }
@@ -162,8 +166,7 @@ export default {
       }
     })
   },
-  created() {
-  }
+  created() {}
   // onLoad: function() {
   //   console.log('onload')
   //   if (this.$root.$mp.query.refresh) {

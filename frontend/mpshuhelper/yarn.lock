@@ -3688,9 +3688,9 @@ move-concurrently@^1.0.1:
     rimraf "^2.5.4"
     run-queue "^1.0.3"
 
-mpvue-loader@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/mpvue-loader/-/mpvue-loader-1.0.11.tgz#4f060538053d363c4709666fba7258217125c03a"
+mpvue-loader@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/mpvue-loader/-/mpvue-loader-1.0.13.tgz#2b759e5e9be266f49db55a14e2f5b5424805c2eb"
   dependencies:
     babelon "^1.0.5"
     consolidate "^0.14.0"
@@ -3708,9 +3708,9 @@ mpvue-loader@^1.0.11:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.5.3"
 
-mpvue-template-compiler@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/mpvue-template-compiler/-/mpvue-template-compiler-1.0.8.tgz#578823197fe4d80d0b863943d77fd7de394dfd21"
+mpvue-template-compiler@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/mpvue-template-compiler/-/mpvue-template-compiler-1.0.10.tgz#952e88c7a6b50371adb14d6a6ff042648e98e1f2"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -3721,9 +3721,9 @@ mpvue-webpack-target@^1.0.0:
   dependencies:
     webpack "^3.4.0"
 
-mpvue@^1.0.8:
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/mpvue/-/mpvue-1.0.8.tgz#cf88414f5c0ae2cf647ea747f92f7b7fc190fae0"
+mpvue@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/mpvue/-/mpvue-1.0.10.tgz#7485c69b276203e69207742b262234441e34bfe1"
 
 ms@2.0.0:
   version "2.0.0"
@@ -5955,9 +5955,9 @@ webpack-merge@^4.1.0:
   dependencies:
     lodash "^4.17.5"
 
-webpack-mpvue-asset-plugin@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/webpack-mpvue-asset-plugin/-/webpack-mpvue-asset-plugin-0.0.1.tgz#ff2e5c46e794244f4a21a8bdfb4269cf8a5ded22"
+webpack-mpvue-asset-plugin@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/webpack-mpvue-asset-plugin/-/webpack-mpvue-asset-plugin-0.0.2.tgz#30ad2904fb33de2ab63233f9099c26d13c7e3a15"
 
 webpack-sources@^0.1.0:
   version "0.1.5"
