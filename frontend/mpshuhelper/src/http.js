@@ -1,9 +1,14 @@
+/* eslint-disable */
 import Fly from 'flyio/dist/npm/wx'
 // var Fly = require('flyio/dist/npm/wx')
 import store from './store/index'
 export var http = new Fly()
-// http.config.baseURL = 'https://api.shuhelper.cn/v1'
-http.config.baseURL = 'http://localhost:5000'
+console.log('process', __SERVER)
+if (__SERVER === 'local') {
+  http.config.baseURL = 'http://localhost:5000'
+} else {
+  http.config.baseURL = 'https://api.shuhelper.cn/v1'
+}
 
 // function redirectToLogin(authID) {
 //   wx.redirectTo({
@@ -26,12 +31,12 @@ http.config.baseURL = 'http://localhost:5000'
 //   })
 // }
 http.interceptors.response.use(
-  (response) => {
+  response => {
     // Do something with response data .
     // Just return the data field of response
     return response.data
   },
-  (err) => {
+  err => {
     console.log(err)
     if (err.response.status === 401) {
       console.log(err.response)

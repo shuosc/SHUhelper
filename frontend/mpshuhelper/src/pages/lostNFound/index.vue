@@ -1,39 +1,29 @@
 <template lang="pug">
   div(class="container" @click="clickHandle('test click', $event)")
     div.row.header-box
-    div.row.user-info(@click="onAvatarClick")
+    //- div.row.user-info(@click="onAvatarClick")
       .col-2
       .col-8(style="text-align:center;font-weight:bold;")
         | Hi, {{user.username}}
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
-    //- div
-    time-table(:courses="courses" @showDetail="showDetail")
-    //- <div class="userinfo" @click="bindViewTap">
-    //-   <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-    //-   <div class="userinfo-nickname">
-    //-     <card :text="userInfo.nickName"></card>
-    //-   </div>
-    //- </div>
-
-    //- <div class="usermotto">
-    //-   <div class="user-motto">
-    //-     <card :text="motto"></card>
-    //-   </div>
-    //- </div>
-
-    //- <form class="form-container">
-    //-   <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-    //-   <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    //- </form>
-    //- <a href="/pages/counter/main" class="counter">去往Vuex例页面</a>
-    //- <a href="/pages/login/main" class="counter">去往登陆页面</a>
+    div.nav-box
+      div(style="flex:1" @click="tabIndex=0")
+        | 寻找失物
+      div
+        | |
+      div(style="flex:1" @click="tabIndex=1")
+        | 寻找失主
+    div(v-if="tabIndex === 0")
+      | 失物
+    div(v-if="tabIndex === 1")
+      | 招领
 </template>
 
 <script>
 import card from '@/components/card'
 import TimeTable from '@/components/TimeTable'
-import { decrypt } from '@/utils/index.js'
+// import { decrypt } from '@/utils/index.js'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -41,7 +31,8 @@ export default {
       motto: 'Hello World',
       userInfo: {},
       courses: [],
-      isLogin: false
+      isLogin: false,
+      tabIndex: 0
     }
   },
   computed: mapState(['user']),
@@ -50,80 +41,12 @@ export default {
     TimeTable
   },
   methods: {
-    reAuth() {
-      wx.login({
-        success: res => {
-          this.$http
-            .get(`/auth/mp/app?code=${res.code}&source=shuhelper_mp_app`)
-            .then(response => {
-              console.log(response)
-              wx.redirectTo({
-                url: '/pages/login/main'
-              })
-              // this.redirectToLogin(response.authID)
-            })
-            .catch(err => {
-              console.log(err)
-              this.redirectToLogin(err.response.authID)
-            })
-        }
-      })
-    },
-    updateCourseState(data) {
-      // console.log(data, this.user.password)
-      this.courses = decrypt(data, this.user.password)
-    },
     bindViewTap() {
       const url = '../logs/main'
       wx.navigateTo({ url })
     },
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev)
-    },
-    refreshCourse() {
-      console.log('user', this.user)
-      wx.showNavigationBarLoading()
-      this.$http
-        .post('/users/data/my-course', {
-          userID: this.user.userID,
-          password: this.user.password
-        })
-        .then(res => {
-          wx.hideNavigationBarLoading()
-          console.log(res)
-          this.getCourses()
-          wx.stopPullDownRefresh()
-          wx.showToast({
-            title: '刷新课表成功'
-          })
-        })
-        .catch(err => {
-          wx.hideNavigationBarLoading()
-          if (err.status.code === 401) {
-            wx.redirectTo({
-              url: '/pages/login/main'
-            })
-          }
-          console.log(err)
-        })
-    },
-    getCourses() {
-      this.$http
-        .get('/users/data/my-course')
-        .then(response => {
-          // let time = this.$store.state.time
-          // wx.setStorageSync(`myCourses:2018_3`, response.data)
-          this.updateCourseState(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-          if (err.response.status === 404) {
-            // wx.showToast(`更新课表中`)
-            this.refreshCourse()
-          } else {
-            // wx.showToast(`更新失败${err.response.status}`)
-          }
-        })
     },
     onAvatarClick() {
       wx.showActionSheet({
@@ -161,17 +84,7 @@ export default {
       }
     })
   },
-  created() {
-    console.log(this.user)
-    console.log(this.user.userName)
-    this.getCourses()
-  }
-  // onLoad: function() {
-  //   console.log('onload')
-  //   if (this.$root.$mp.query.refresh) {
-  //     this.getUserInfo()
-  //   }
-  // }
+  created() {}
 }
 </script>
 
@@ -186,7 +99,7 @@ export default {
 .user-info {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-  height: 2rem;
+  /* height: 2rem; */
   margin-left: 0.5rem;
   margin-right: 0.5rem;
   padding-top: 1.5rem;
@@ -195,8 +108,37 @@ export default {
   background-color: #85b7d8;
   position: relative;
   top: -2rem;
-  border-bottom: 2px solid #6b93ad ;
+  z-index: 2;
+  border-bottom: 2px solid #6b93ad;
   /* background-image: linear-gradient(180deg, #85b7d8 0%, #c2e9fb 90%); */
+}
+.nav-box {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  vertical-align: text-bottom;
+  align-self: center;
+  height: 4rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  /* padding-top: 1.5rem; */
+  color: white;
+  text-align: center;
+  z-index: 1;
+  /* padding-bottom: 1.5rem; */
+  background-color: #85b7d8;
+  position: relative;
+  top: -2.5rem;
+  /* font-weight:bold; */
+  /* font-size: 1.2rem; */
+  border-bottom: 2px solid #6b93ad;
+}
+.nav-box > div {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
 }
 .container {
   /* padding: 10px; */

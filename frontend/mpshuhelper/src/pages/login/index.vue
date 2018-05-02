@@ -94,7 +94,7 @@ export default {
   right: 0;
   background: #03a9f4;
   background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
-  background: linear-gradient(to bottom, #85b7d8 0%, #1b7ccc 100%);
+  background: linear-gradient(to bottom, #85b7d8 0%, #44a9fc 100%);
   height: 100vh; /* Allow spacing based on window height */
   margin: 0;
   min-height: 240px;
