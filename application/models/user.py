@@ -97,7 +97,8 @@ class User(UserMixin, db.Model, CRUDMixin):
             'name': self.name,
             'nickname': self.nickname,
             'email': self.email,
-            'lastLogin': str(self.last_login)
+            'lastLogin': str(self.last_login),
+            'username': self.username
         }
         return result
 
@@ -105,10 +106,12 @@ class User(UserMixin, db.Model, CRUDMixin):
         self.last_login = datetime.now()
         self.save()
         result = {
-            'avatarURL': self.avatar_URL,
+            'avatarURL': 'https://static.shuhelper.cn/' + self.avatar_URL,
             'token': token,
             'name': self.name,
-            'nickname': self.nickname
+            'nickname': self.nickname,
+            'userID': self.id,
+            'username': self.username
         }
         return result
 

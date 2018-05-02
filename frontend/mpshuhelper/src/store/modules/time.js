@@ -1,20 +1,17 @@
-import userAPI from '../../api/user'
-
+// import time from '../../api/time'
+import http from '../../http'
 // initial state
 // shape: [{ id, quantity }]
 const state = {
-  userID: '',
-  password: '',
-  name: '',
-  username: '',
-  nickname: '',
-  token: '',
-  avatarURL: ''
+  year: 2017,
+  term: 1,
+  week: 1,
+  course: 1,
+  updated: false
 }
 
 // getters
 const getters = {
-  username: state => state.username,
   checkoutStatus: state => state.checkoutStatus,
 
   cartProducts: (state, getters, rootState) => {
@@ -37,38 +34,41 @@ const getters = {
 
 // actions
 const actions = {
-  login({ commit, state }, payload) {
-    return new Promise((resolve, reject) => {
-      userAPI.login(
-        payload.userID,
-        payload.password,
-        payload => {
-          commit('updateUserInfo', payload)
-          resolve()
-        },
-        () => {
-          reject()
-        }
-      )
-    })
+  async syncTime({ commit, state }) {
+    http
+      .get('/time')
+      .then(resp => {
+        console.log(resp)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   },
-  refreshToken({ commit, state }) {
-    userAPI.refreshToken(state.token, token => {
-      commit('updateToken', token)
+  login({ commit, state }) {
+    user.wxAutoLogin(payload => {
+      // commit('clearUserInfo')
+      commit('updateUserInfo', payload)
+      console.log(state)
     })
   }
+
+  // addProductToCart ({ state, commit }, product) {
+  //   commit('setCheckoutStatus', null)
+  //   if (product.inventory > 0) {
+  //     const cartItem = state.added.find(item => item.id === product.id)
+  //     if (!cartItem) {
+  //       commit('pushProductToCart', { id: product.id })
+  //     } else {
+  //       commit('incrementItemQuantity', cartItem)
+  //     }
+  //     // remove 1 item from stock
+  //     commit('decrementProductInventory', { id: product.id })
+  //   }
+  // }
 }
 
 // mutations
 const mutations = {
-  updateAccountInfo(state, payload) {
-    state.userID = payload.userID
-    state.password = payload.password
-    state.authID = payload.authID
-  },
-  updateToken(state, token) {
-    state.token = token
-  },
   clearUserInfo(state) {
     state.userID = ''
     state.password = ''

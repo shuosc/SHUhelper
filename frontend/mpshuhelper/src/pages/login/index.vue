@@ -54,9 +54,6 @@ export default {
     // this.$refs.basicModal.close()
     // debugger
   },
-  onLoad: function() {
-    this.authID = this.$root.$mp.query.authID
-  },
   methods: {
     login() {
       // var _this = this
@@ -66,76 +63,22 @@ export default {
       //   Toast.create('请正确填写账号和密码')
       //   return
       // }
+      // this.authID = this.$root.$mp.query.authID
       this.form.userID = this.form.userID.toString()
       this.loginLoading = true
-      this.$http
-        .post('/auth/login', {
+      this.$store
+        .dispatch('login', {
           userID: this.form.userID,
-          password: this.form.password,
-          authID: this.authID
+          password: this.form.password
         })
-        .then(response => {
-          wx.setStorageSync('user', {
-            id: this.form.userID,
-            password: this.form.password,
-            authID: this.authID
-          })
+        .then(() => {
+          this.loginLoading = false
           wx.redirectTo({
             url: '/pages/index/main?refresh=true'
           })
-          // var payload = {
-          //   userID: this.form.userID,
-          //   password: this.form.password,
-          //   name: response.data.name,
-          //   nickname: response.data.nickname,
-          //   token: response.data.token,
-          //   avatar: response.data.avatar
-          // }
-          // try {
-          //   payload.custom = JSON.parse(response.data.custom)
-          // } catch (error) {
-          //   done()
-          //   createToast(error)
-          //   payload.custom = {}
-          // }
-          // try {
-          //   if (this.rememberMe) {
-          //     localStorage.setItem('loginstate', JSON.stringify(payload))
-          //   } else {
-          //     sessionStorage.setItem('loginstate', JSON.stringify(payload))
-          //   }
-          // } catch (err) {
-          //   createToast('本地存储失败，如果在使用浏览器，请关闭无痕浏览模式')
-          // }
-          // _this.$store.commit('updateAccount', payload)
-          // done()
-          // _this.$store.commit('closeLoginDialog')
-          // try {
-          //   var custom = JSON.parse(payload.custom)
-          //   var loginText = custom.loginText
-          // } catch (e) {
-          //   console.log(e)
-          // }
-          // debugger
-          // createToast(
-          //   loginText === undefined
-          //     ? `${response.data.name}，欢迎登录`
-          //     : `${loginText}`
-          // )
-          // ga.loginUser(payload.userID)
-          // Events.$emit('app:hideLeft')
-          // Events.$emit('app:hideLeft')
-          // _this.$router.push('/index')
-          // if (_this.$route.query.redirect) {
-          //   _this.$router.replace(_this.$route.query.redirect)
-          // } else {
-          //   _this.$router.push('/index')
-          // }
         })
-        .catch(error => {
-          console.log(error)
+        .catch(() => {
           this.loginLoading = false
-          wx.showToast({ title: '登录失败', icon: 'none' })
         })
     }
   }
@@ -151,7 +94,7 @@ export default {
   right: 0;
   background: #03a9f4;
   background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
-  background: linear-gradient(to bottom, #85B7D8 0%, #1b7ccc 100%);
+  background: linear-gradient(to bottom, #85b7d8 0%, #1b7ccc 100%);
   height: 100vh; /* Allow spacing based on window height */
   margin: 0;
   min-height: 240px;
@@ -227,7 +170,7 @@ form button {
   background-color: white;
   border: 0;
   /* padding: 10px 15px; */
-  color: #85B7D8;
+  color: #85b7d8;
   border-radius: 3px;
   width: 250px;
   cursor: pointer;

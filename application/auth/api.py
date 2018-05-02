@@ -8,7 +8,7 @@ from flask import Blueprint, jsonify, g, request, abort, current_app
 from application.extensions import limiter
 from datetime import datetime
 from application.models.user import User, SocialOAuth
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 import requests
 import json
@@ -103,6 +103,12 @@ def get_open_id():
         return jsonify(result)
     return jsonify(msg='error'), 401
 
+@auth.route('/refresh-token')
+@login_required
+def refresh_token():
+    user = current_user
+    token = user.generate_auth_token(864000)
+    return jsonify(token=token)
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():

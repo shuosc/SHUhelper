@@ -1,5 +1,6 @@
 /* eslint-disable */
 import app from '../main'
+import CryptoJS from 'crypto-js'
 function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
@@ -73,8 +74,7 @@ export const parseURL = function (url) {
     segments: a.pathname.replace(/^\//, '').split('/')
   }
 }
-// import CryptoJS from './encryption.js'
-var CryptoJS = require("crypto-js");
+
 export function decrypt(data, pw) {
   function pad(str, n) {
     var i = (str).length

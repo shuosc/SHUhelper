@@ -3,7 +3,11 @@
 
 export default {
   beforeCreate() {
-    this.$store.dispatch('login')
+    wx.showLoading()
+    this.$store.dispatch('refreshToken').then(() => {
+      wx.hideLoading()
+    })
+    this.$store.dispatch('timeSync')
   },
   created() {
     // 调用API从本地缓存中获取数据

@@ -31,43 +31,47 @@ import { http } from '../http'
 //     })
 // }
 export default {
-  wxAutoLogin(cb) {
-    wx.login({
-      success: res => {
-        http
-          .get(`/auth/mp/app?code=${res.code}&source=shuhelper_mp_app`)
-          .then(resp => {
-            console.log(resp)
-            http.config.headers['Authorization'] = 'Bearer ' + resp.token
-            console.log('success log in with token')
-            cb(resp)
-          })
-          .catch(err => {
-            console.log(err)
-            // errCb(err)
-            wx.showToast({ title: '登录失败', icon: 'none' })
-          })
-      }
-    })
-  },
-  wxBindUserID(userID, password, authID) {
+  // wxAutoLogin(cb) {
+  //   wx.login({
+  //     success: res => {
+  //       http
+  //         .get(`/auth/mp/app?code=${res.code}&source=shuhelper_mp_app`)
+  //         .then(resp => {
+  //           console.log(resp)
+  //           http.config.headers['Authorization'] = 'Bearer ' + resp.token
+  //           console.log('success log in with token')
+  //           cb(resp)
+  //         })
+  //         .catch(err => {
+  //           console.log(err)
+  //           // errCb(err)
+  //           wx.showToast({ title: '登录失败', icon: 'none' })
+  //         })
+  //     }
+  //   })
+  // },
+  login(userID, password, cb, errcb) {
     http
       .post('/auth/login', {
         userID: userID,
-        password: password,
-        authID: authID
+        password: password
       })
       .then(response => {
-        this.wxAutoLogin(() => {
-          wx.redirectTo({
-            url: '/pages/index/main?refresh=true'
-          })
-        })
+        response.password = password
+        cb(response)
       })
       .catch(error => {
         console.log(error)
         this.loginLoading = false
         wx.showToast({ title: '登录失败', icon: 'none' })
+        errcb()
       })
+  },
+  refreshToken(token, cb) {
+    http.config.headers['Authorization'] = 'Bearer ' + token
+    http.get('/auth/refresh-token').then(resp => {
+      cb(resp.token)
+      http.config.headers['Authorization'] = 'Bearer ' + resp.token
+    })
   }
 }

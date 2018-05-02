@@ -1,0 +1,28 @@
+
+# [WIP] SHUhelper 后端 API 参考文档
+@host = http://localhost:5000
+@contentType = application/json
+@userID = id
+@password = pass
+# @name login
+POST {{host}}/auth/login
+Content-Type: {{contentType}}
+
+{
+    "userID": "{{userID}}",
+    "password": "{{password}}"
+}
+
+###
+
+# @name getTime
+GET {{host}}
+Authorization: {{login.response.body.token}}
+
+###
+
+# @name index
+GET {{host}}
+Authorization: {{login.response.body.token}}
+
+###

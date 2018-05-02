@@ -4,9 +4,9 @@
     div.row.user-info(@click="onAvatarClick")
       .col-2
       .col-8(style="color:white;text-align:center;font-weight:bold;")
-        | Hi, {{userInfo.nickName}}
+        | Hi, {{user.username}}
       .col-2
-        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover")
+        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
     //- div
     time-table(:courses="courses" @showDetail="showDetail")
     //- <div class="userinfo" @click="bindViewTap">
@@ -34,7 +34,7 @@
 import card from '@/components/card'
 import TimeTable from '@/components/TimeTable'
 import { decrypt } from '@/utils/index.js'
-
+import { mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -44,7 +44,7 @@ export default {
       isLogin: false
     }
   },
-
+  computed: mapState(['user']),
   components: {
     card,
     TimeTable
@@ -70,11 +70,8 @@ export default {
       })
     },
     updateCourseState(data) {
-      let user = wx.getStorageSync('user')
-      if (!user) {
-        this.reAuth()
-      }
-      this.courses = decrypt(data.data, user.password)
+      // console.log(data, this.user.password)
+      this.courses = decrypt(data, this.user.password)
     },
     bindViewTap() {
       const url = '../logs/main'
@@ -84,15 +81,12 @@ export default {
       console.log('clickHandle:', msg, ev)
     },
     refreshCourse() {
+      console.log('user', this.user)
       wx.showNavigationBarLoading()
-      let user = wx.getStorageSync('user')
-      if (!user.id) {
-        this.reAuth()
-      }
       this.$http
         .post('/users/data/my-course', {
-          id: user.id,
-          pw: user.password
+          userID: this.user.userID,
+          password: this.user.password
         })
         .then(res => {
           wx.hideNavigationBarLoading()
@@ -118,10 +112,11 @@ export default {
         .get('/users/data/my-course')
         .then(response => {
           // let time = this.$store.state.time
-          wx.setStorageSync(`myCourses:2018_3`, response.data)
+          // wx.setStorageSync(`myCourses:2018_3`, response.data)
           this.updateCourseState(response.data)
         })
         .catch(err => {
+          console.log(err)
           if (err.response.status === 404) {
             // wx.showToast(`更新课表中`)
             this.refreshCourse()
@@ -166,7 +161,11 @@ export default {
       }
     })
   },
-  created() {}
+  created() {
+    console.log(this.user)
+    console.log(this.user.userName)
+    this.getCourses()
+  }
   // onLoad: function() {
   //   console.log('onload')
   //   if (this.$root.$mp.query.refresh) {

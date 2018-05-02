@@ -56,8 +56,11 @@ def user_data(name):
             user_data = UserData(name=name,
                                  user=current_user.id, status='none')
             user_data.save()
+        password = post_data.get('pw') # delete these in next release
+        if password is None:
+            password = post_data.get('password')
         task = refresh_data(name, current_user.id,
-                            post_data['pw'], post_data['pw'])
+                            password, password)
         return jsonify(success='ok')
 
 
