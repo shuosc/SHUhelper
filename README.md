@@ -23,6 +23,21 @@ master分支正在经历大量的重写，请至v4分支查看可运行的版本
 
 ## 简介
     SHUhelper是一个校园服务平台，集成了整合了已有的校园服务和信息，并在此之上提供更多。
+    提供从整个后端到小程序，网站，移动APP的解决方案。
+
+## 技术栈
+
+### 后端
+    Flask，Redis，PostgreSQL
+
+### 前端（iOS/Android）
+    Flutter
+
+### 前端（小程序）
+    mpvue
+
+### 前端（web）
+    VueJS，QuasarFramework
 
 ## 目标
 
