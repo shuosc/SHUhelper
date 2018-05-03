@@ -33,7 +33,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@import '../static/iconfont.css'
 .column,
 .flex,
 .row {

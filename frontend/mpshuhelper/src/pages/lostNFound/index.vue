@@ -1,12 +1,16 @@
 <template lang="pug">
   div(class="container" @click="clickHandle('test click', $event)")
-    //- div.row.header-box
-      .col-2
-        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
-      .col-8(style="text-align:center;font-weight:bold;")
+    div.row.header-box.justify-between
+      div(style="display:flex;padding-left:1rem;")
+        div(style="flex:1")
+          img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;",class="userinfo-avatar",:src="user.avatarURL",background-size="cover")
+        div(style="color:white;flex:4;padding-left:1rem;font-size:1rem;")
+          | {{user.username?user.username:'游客'}}
+      .col-1(style="text-align:center;font-weight:bold;")
         //- | Hi, {{user.username}}
-      .col-2
-        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
+      div(style="color:white;")
+        span.iconfont.icon-add(style="padding-right:1.5rem;")
+        span.iconfont.icon-more(style="padding-right:1rem;")
 
     //- div.row.user-info(@click="onAvatarClick")
       .col-2
@@ -15,11 +19,11 @@
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
     div.nav-box
-      div(:style="{flex:1}" :class="{'nav-text-selected':tabIndex === 0}" @click="tabIndex=0")
+      div(:style="{flex:4}" :class="{'nav-tab-selected':tabIndex === 0}" @click="tabIndex=0")
         | 寻找失物
       div
         | |
-      div(style="flex:1" :class="{'nav-text-selected':tabIndex === 1}" @click="tabIndex=1")
+      div(:style="{flex:4}" :class="{'nav-tab-selected':tabIndex === 1}" @click="tabIndex=1")
         | 寻找失主
     div.search-bar
       input()
@@ -122,38 +126,43 @@ export default {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: #7eb3ec;
+  z-index: 2;
 }
 .nav-box {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  /* border-radius: 10px; */
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 10px 10px;
   display: flex;
-  justify-content: space-around;
+  width: 100vw;
+  justify-content: space-between;
   vertical-align: text-bottom;
   align-self: center;
   height: 4rem;
-  /* margin-left: 2rem; */
-  /* margin-right: 2rem; */
-  /* padding-top: 1.5rem; */
+  font-size: 1.5rem;
   color: white;
   text-align: center;
   z-index: 1;
-  /* padding-bottom: 1.5rem; */
   background-color: #7eb3ec;
   position: relative;
-  /* top: 0.5rem; */
-  /* font-weight:bold; */
-  /* font-size: 1.2rem; */
-  border-bottom: 2px solid #6b93ad;
+  top: -8px;
 }
-.nav-text-selected {
-  text-shadow: 1px 1px 1px #fceac1;
+.nav-tab-selected {
+  /* box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2) inset; */
+  border-bottom: 2px solid #fff !important;
+  /* border-bottom-left-radius: 10px; */
+  /* border-bottom-right-radius: 10px; */
 }
 .nav-box > div {
   display: flex;
   justify-content: center;
   align-content: center;
   flex-direction: column;
+  box-sizing:border-box;
+}
+.nav-box :first-child {
+  margin-left: 10px;
+}
+.nav-box :last-child {
+  margin-right: 10px;
 }
 .container {
   /* padding: 10px; */

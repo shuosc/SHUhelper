@@ -9,7 +9,7 @@ const state = {
   username: '',
   nickname: '',
   token: '',
-  avatarURL: ''
+  avatarURL: 'https://static.shuhelper.cn/avatar_default.jpg'
 }
 
 // getters
@@ -76,7 +76,7 @@ const mutations = {
     state.username = ''
     state.nickname = ''
     state.token = ''
-    state.avatarURL = ''
+    state.avatarURL = 'https://static.shuhelper.cn/avatar_default.jpg'
   },
   updateUserInfo(state, payload) {
     state.userID = payload.userID
