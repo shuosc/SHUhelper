@@ -180,7 +180,7 @@ export default {
   height: 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: #85b7d8;
+  background-color: #7EB3EC;
 }
 /* 85b7d8 */
 .user-info {
@@ -192,7 +192,7 @@ export default {
   padding-top: 1.5rem;
   color: white;
   padding-bottom: 1.5rem;
-  background-color: #85b7d8;
+  background-color: #7EB3EC;
   position: relative;
   top: -2rem;
   border-bottom: 2px solid #6b93ad ;

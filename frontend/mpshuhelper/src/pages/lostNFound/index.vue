@@ -1,6 +1,13 @@
 <template lang="pug">
   div(class="container" @click="clickHandle('test click', $event)")
-    div.row.header-box
+    //- div.row.header-box
+      .col-2
+        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
+      .col-8(style="text-align:center;font-weight:bold;")
+        //- | Hi, {{user.username}}
+      .col-2
+        img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
+
     //- div.row.user-info(@click="onAvatarClick")
       .col-2
       .col-8(style="text-align:center;font-weight:bold;")
@@ -8,14 +15,16 @@
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
     div.nav-box
-      div(style="flex:1" @click="tabIndex=0")
+      div(:style="{flex:1}" :class="{'nav-text-selected':tabIndex === 0}" @click="tabIndex=0")
         | 寻找失物
       div
         | |
-      div(style="flex:1" @click="tabIndex=1")
+      div(style="flex:1" :class="{'nav-text-selected':tabIndex === 1}" @click="tabIndex=1")
         | 寻找失主
+    div.search-bar
+      input()
     div(v-if="tabIndex === 0")
-      | 失物
+      div.lost-card(v-for="i in 10")
     div(v-if="tabIndex === 1")
       | 招领
 </template>
@@ -89,50 +98,56 @@ export default {
 </script>
 
 <style scoped>
+.search-bar {
+  height: 3rem;
+  /* margin-top: 10px; */
+  margin: 10px 10px 10px 10px;
+  /* border: 1px solid #aaa; */
+  font-size: 1.3rem;
+  padding-left: 10px;
+  background-color: #fff;
+  box-shadow: 0 15px 20px #ccd8e2;
+  border-radius: 10px;
+}
+.lost-card {
+  height: 100px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #fff;
+  margin: 10px;
+  box-shadow: 0 15px 20px #ccd8e2;
+}
 .header-box {
-  height: 1rem;
+  height: 3rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: #85b7d8;
-}
-/* 85b7d8 */
-.user-info {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  /* height: 2rem; */
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-  padding-top: 1.5rem;
-  color: white;
-  padding-bottom: 1.5rem;
-  background-color: #85b7d8;
-  position: relative;
-  top: -2rem;
-  z-index: 2;
-  border-bottom: 2px solid #6b93ad;
-  /* background-image: linear-gradient(180deg, #85b7d8 0%, #c2e9fb 90%); */
+  background-color: #7eb3ec;
 }
 .nav-box {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  /* border-radius: 10px; */
+  border-radius: 0px 0px 10px 10px;
   display: flex;
   justify-content: space-around;
   vertical-align: text-bottom;
   align-self: center;
   height: 4rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  /* margin-left: 2rem; */
+  /* margin-right: 2rem; */
   /* padding-top: 1.5rem; */
   color: white;
   text-align: center;
   z-index: 1;
   /* padding-bottom: 1.5rem; */
-  background-color: #85b7d8;
+  background-color: #7eb3ec;
   position: relative;
-  top: -2.5rem;
+  /* top: 0.5rem; */
   /* font-weight:bold; */
   /* font-size: 1.2rem; */
   border-bottom: 2px solid #6b93ad;
+}
+.nav-text-selected {
+  text-shadow: 1px 1px 1px #fceac1;
 }
 .nav-box > div {
   display: flex;
@@ -146,6 +161,7 @@ export default {
   padding-bottom: 10px;
   /* padding-top: 10px; */
   box-sizing: border-box;
+  background: #eee;
 }
 .page {
   position: fixed;
