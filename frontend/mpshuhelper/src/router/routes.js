@@ -1,0 +1,35 @@
+module.exports = [
+  {
+    alias: '/',
+    path: '/pages/index/index',
+    name: 'NewsList',
+    config: {
+      enablePullDownRefresh: true
+    }
+  },
+  {
+    alias: '/lost-n-found',
+    path: '/pages/lostNFound/index',
+    name: 'lostNFound',
+    config: {
+      enablePullDownRefresh: true,
+      navigationBarTitleText: '失物招领'
+    }
+  },
+  {
+    alias: '/lost-n-found/new',
+    path: '/pages/lostNFound/new',
+    name: 'lostNFoundNew',
+    config: {
+      navigationBarTitleText: '失物招领发布'
+    }
+  },
+  {
+    alias: '/lost-n-found/post',
+    path: '/pages/lostNFound/post',
+    name: 'lostNFoundPost',
+    config: {
+      navigationBarTitleText: '失物招领详情'
+    }
+  }
+]

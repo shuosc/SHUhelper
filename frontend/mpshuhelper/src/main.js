@@ -1,15 +1,22 @@
 /* eslint-disable */
 import Vue from 'vue'
-import App from './App'
-import store from './store/index'
-import { http } from './http'
+import App from '@/App'
+import store from '@/store/index'
+import http from '@/http'
+import router from '@/router/main'
+// import MpvueRouterPatch from 'mpvue-router-patch'
+// Vue.use(MpvueRouterPatch)
 Vue.prototype.$http = http
-Vue.prototype.$store = store
-
+// Vue.prototype.$store = store
+// Vue.prototype.$router = store
 Vue.config.productionTip = false
 App.mpType = 'app'
 
-const app = new Vue(App)
+const app = new Vue({
+  store,
+  router,
+  ...App
+})
 app.$mount()
 
 export default {
@@ -17,11 +24,10 @@ export default {
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: [
-      'pages/logs/main',
-      '^pages/index/main',
-      'pages/login/main',
-      'pages/me/main',
-      'pages/lostNFound/main'
+      '^pages/index/index',
+      // 'pages/login/main',
+      // 'pages/me/main',
+      'pages/lostNFound/index'
     ],
     window: {
       backgroundTextStyle: 'dark',

@@ -2,7 +2,7 @@
 import Fly from 'flyio/dist/npm/wx'
 // var Fly = require('flyio/dist/npm/wx')
 import store from './store/index'
-export var http = new Fly()
+var http = new Fly()
 console.log('process', __SERVER)
 if (__SERVER === 'local') {
   http.config.baseURL = 'http://localhost:5000'
@@ -46,3 +46,5 @@ http.interceptors.response.use(
     // return Promise.resolve("ssss")
   }
 )
+
+export default http

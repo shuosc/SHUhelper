@@ -43,14 +43,14 @@ const actions = {
       .catch(err => {
         console.log(err)
       })
-  },
-  login({ commit, state }) {
-    user.wxAutoLogin(payload => {
-      // commit('clearUserInfo')
-      commit('updateUserInfo', payload)
-      console.log(state)
-    })
   }
+  // login({ commit, state }) {
+  //   user.wxAutoLogin(payload => {
+  //     // commit('clearUserInfo')
+  //     commit('updateUserInfo', payload)
+  //     console.log(state)
+  //   })
+  // }
 
   // addProductToCart ({ state, commit }, product) {
   //   commit('setCheckoutStatus', null)

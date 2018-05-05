@@ -1,4 +1,4 @@
-import { http } from '../http'
+import http from '../http'
 
 // function getUserToken(code) {
 //   // wx.showNavigationBarLoading()

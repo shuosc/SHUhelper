@@ -2,15 +2,15 @@
   div(class="container" @click="clickHandle('test click', $event)")
     div.row.header-box.justify-between
       div(style="display:flex;padding-left:1rem;")
-        div(style="flex:1")
-          img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;",class="userinfo-avatar",:src="user.avatarURL",background-size="cover")
+        div(style="flex:1;")
+          img.avatar(:src="user.avatarURL",background-size="cover")
         div(style="color:white;flex:4;padding-left:1rem;font-size:1rem;")
           | {{user.username?user.username:'游客'}}
       .col-1(style="text-align:center;font-weight:bold;")
         //- | Hi, {{user.username}}
       div(style="color:white;")
-        span.iconfont.icon-add(style="padding-right:1.5rem;")
-        span.iconfont.icon-more(style="padding-right:1rem;")
+        span.iconfont.icon-add(style="padding-right:1.5rem;",@click="onAddClick")
+        span.iconfont.icon-more(style="padding-right:1rem;",@click="onMoreClick")
 
     //- div.row.user-info(@click="onAvatarClick")
       .col-2
@@ -29,6 +29,24 @@
       input()
     div(v-if="tabIndex === 0")
       div.lost-card(v-for="i in 10")
+        div(style="flex:1;display:flex;")
+          div(style="background-color:#ccc;height:90%;width:90%;margin:auto;")
+        div(style="flex:2;display:flex;flex-direction:column;justify-content:space-between;")
+          div(style="flex:1;")
+            | title
+          div(style="flex:1;")
+            | location
+          div(style="flex:1;display:flex;")
+            div(style="flex:1;display:flex;align-items:center;justify-contet:space-between;")
+              //- div(style="flex:1;display:flex;")
+                img.avatar(:src="user.avatarURL",background-size="cover")
+              div(style="flex:1;color:black;flex:4;font-size:1rem;")
+                | {{user.username?user.username:'游客'}}
+            div(style="flex:1;")
+            div(style="flex:1;text-align:right;padding-right:1rem;")
+              span(style="color:grey;font-size:0.5rem;") 2018/07/23
+        div(style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
+          div(style="display:flex;margin:auto;transform:rotate(-30deg);color:grey;") 已找到
     div(v-if="tabIndex === 1")
       | 招领
 </template>
@@ -61,9 +79,31 @@ export default {
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev)
     },
+    onAddClick() {
+      wx.navigateTo({
+        url: 'new'
+      })
+    },
+    onMoreClick() {
+      wx.showActionSheet({
+        itemList: ['重新登录', '返回首页'],
+        success: res => {
+          console.log(res.tapIndex)
+          if (res.tapIndex === 0) {
+            wx.redirectTo({
+              url: '/pages/login/main'
+            })
+          } else {
+            wx.redirectTo({
+              url: '/pages/login/main'
+            })
+          }
+        }
+      })
+    },
     onAvatarClick() {
       wx.showActionSheet({
-        itemList: ['重新登录', '关于'],
+        itemList: ['重新登录', '返回首页'],
         success: res => {
           console.log(res.tapIndex)
           if (res.tapIndex === 0) {
@@ -72,10 +112,8 @@ export default {
               url: '/pages/login/main'
             })
           } else {
-            wx.showModal({
-              title: 'SHUhelper 小程序版本 v0.1.5',
-              content: `现在您也可以在微信小程序里查看课表啦。使用过程中出现问题请直接向微信公众号 shuhelper 后台反馈。`,
-              showCancel: false
+            wx.redirectTo({
+              url: '/pages/login/main'
             })
           }
         }
@@ -102,6 +140,13 @@ export default {
 </script>
 
 <style scoped>
+.avatar {
+  border-radius: 50%;
+  height: 2rem;
+  width: 2rem;
+  margin: auto;
+  display: block;
+}
 .search-bar {
   height: 3rem;
   /* margin-top: 10px; */
@@ -115,11 +160,14 @@ export default {
 }
 .lost-card {
   height: 100px;
+  display: flex;
   box-sizing: border-box;
   border-radius: 10px;
   background-color: #fff;
   margin: 10px;
-  box-shadow: 0 15px 20px #ccd8e2;
+  box-shadow: 0 5px 5px #ccd8e2;
+  align-items: stretch;
+  position: relative;
 }
 .header-box {
   height: 3rem;
@@ -144,6 +192,7 @@ export default {
   background-color: #7eb3ec;
   position: relative;
   top: -8px;
+  box-sizing: content-box;
 }
 .nav-tab-selected {
   /* box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2) inset; */
@@ -156,7 +205,7 @@ export default {
   justify-content: center;
   align-content: center;
   flex-direction: column;
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 .nav-box :first-child {
   margin-left: 10px;
@@ -190,10 +239,6 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.userinfo-avatar {
-  border-radius: 50%;
 }
 
 .userinfo-nickname {
