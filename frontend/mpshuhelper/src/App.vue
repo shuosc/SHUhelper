@@ -1,6 +1,6 @@
 <script>
 // import userAPI from './api/user'
-
+import './weui.css'
 export default {
   beforeCreate() {
     wx.showLoading()
