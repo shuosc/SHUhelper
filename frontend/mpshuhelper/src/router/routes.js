@@ -21,7 +21,7 @@ module.exports = [
     path: '/pages/lostNFound/new',
     name: 'lostNFoundNew',
     config: {
-      navigationBarTitleText: '失物招领发布'
+      navigationBarTitleText: '启事发布'
     }
   },
   {
@@ -29,7 +29,7 @@ module.exports = [
     path: '/pages/lostNFound/post',
     name: 'lostNFoundPost',
     config: {
-      navigationBarTitleText: '失物招领详情'
+      navigationBarTitleText: '启事详情'
     }
   }
 ]

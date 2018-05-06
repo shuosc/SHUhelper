@@ -2,23 +2,23 @@
   div(class="container" @click="clickHandle('test click', $event)")
     div.row.header-box.justify-between
       div(style="display:flex;padding-left:1rem;")
-        div(style="flex:1;")
+        div(style="flex:1;display:flex;")
           img.avatar(:src="user.avatarURL",background-size="cover")
         div(style="color:white;flex:4;padding-left:1rem;font-size:1rem;")
           | {{user.username?user.username:'游客'}}
       .col-1(style="text-align:center;font-weight:bold;")
         //- | Hi, {{user.username}}
-      div(style="color:white;")
-        span.iconfont.icon-add(style="padding-right:1.5rem;",@click="onAddClick")
-        span.iconfont.icon-more(style="padding-right:1rem;",@click="onMoreClick")
-
+      div(style="color:white;display:flex;align-items:center;font-size:1rem;")
+        div.iconfont.icon-more(style="padding-right:1rem;padding-left:0.5rem;" @click="onMoreClick")
+    div.fab(@click="onAddClick")
+      div.iconfont.icon-add
     //- div.row.user-info(@click="onAvatarClick")
       .col-2
       .col-8(style="text-align:center;font-weight:bold;")
         | Hi, {{user.username}}
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
-    div.nav-box
+    //- div.nav-box
       div(:style="{flex:4}" :class="{'nav-tab-selected':tabIndex === 0}" @click="tabIndex=0")
         | 寻找失物
       div
@@ -27,8 +27,8 @@
         | 寻找失主
     div.search-bar
       input()
-    div(v-if="tabIndex === 0")
-      div.lost-card(v-for="i in 10")
+    div()
+      div.lost-card(v-for="i in 10" @click="onPostClick")
         div(style="flex:1;display:flex;")
           div(style="background-color:#ccc;height:90%;width:90%;margin:auto;")
         div(style="flex:2;display:flex;flex-direction:column;justify-content:space-between;")
@@ -47,8 +47,6 @@
               span(style="color:grey;font-size:0.5rem;") 2018/07/23
         div(style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
           div(style="display:flex;margin:auto;transform:rotate(-30deg);color:grey;") 已找到
-    div(v-if="tabIndex === 1")
-      | 招领
 </template>
 
 <script>
@@ -101,6 +99,11 @@ export default {
         }
       })
     },
+    onPostClick() {
+      wx.redirectTo({
+        url: 'post'
+      })
+    },
     onAvatarClick() {
       wx.showActionSheet({
         itemList: ['重新登录', '返回首页'],
@@ -140,6 +143,21 @@ export default {
 </script>
 
 <style scoped>
+.fab {
+  border-radius: 50%;
+  height: 5rem;
+  width: 5rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: #7eb3ec;
+  color: white;
+  z-index: 1000;
+  box-shadow: 0 5px 5px #ccd8e2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
 .avatar {
   border-radius: 50%;
   height: 2rem;
@@ -174,6 +192,8 @@ export default {
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: #7eb3ec;
+  border-radius: 0px 0px 10px 10px;
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.2);
   z-index: 2;
 }
 .nav-box {

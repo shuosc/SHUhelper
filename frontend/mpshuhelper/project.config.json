@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 2,
 			"list": [
 				{
 					"id": 0,
@@ -41,7 +41,13 @@
 				{
 					"id": -1,
 					"name": "失物招领",
-					"pathName": "pages/lostNFound/index"
+					"pathName": "pages/lostNFound/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "失物招领帖子",
+					"pathName": "pages/lostNFound/post"
 				}
 			]
 		}
