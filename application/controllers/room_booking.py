@@ -21,7 +21,8 @@ def render_room_info(room, orders):
     return {
         'id': room.id,
         'name': room.name,
-        'schedule': schedule
+        'schedule': schedule,
+        'orders': [order.to_json() for order in orders]
     }
 
 

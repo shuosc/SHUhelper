@@ -17,7 +17,7 @@ from application.signals import app_start
 from application.controllers.user import users
 from application.models.user import User
 from application.utils import app_config_from_env
-from application.controllers import room_order,lost_n_found
+from application.controllers import room_booking,lost_n_found
 def create_app(config=None):
     """
     app factory, return an configured instance 
@@ -123,9 +123,9 @@ def configure_celery_app(app, celery):
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(room_order.rooms, url_prefix='/rooms')
+    app.register_blueprint(room_booking.rooms, url_prefix='/rooms')
     app.register_blueprint(index, url_prefix='')
-    app.register_blueprint(room_order.room_orders,url_prefix='/room-orders')
+    app.register_blueprint(room_booking.room_orders, url_prefix='/room-booking')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(lost_n_found.lost_n_found,url_prefix='/lost-n-found')
