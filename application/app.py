@@ -123,9 +123,9 @@ def configure_celery_app(app, celery):
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(room_booking.rooms, url_prefix='/rooms')
+    app.register_blueprint(room_booking.rooms, url_prefix='/room-booking/rooms')
     app.register_blueprint(index, url_prefix='')
-    app.register_blueprint(room_booking.room_orders, url_prefix='/room-booking')
+    app.register_blueprint(room_booking.room_orders, url_prefix='/room-booking/orders')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(lost_n_found.lost_n_found,url_prefix='/lost-n-found')
