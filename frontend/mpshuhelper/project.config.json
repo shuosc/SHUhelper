@@ -47,7 +47,8 @@
 				{
 					"id": -1,
 					"name": "失物招领帖子",
-					"pathName": "pages/lostNFound/post"
+					"pathName": "pages/lostNFound/post",
+					"query": ""
 				}
 			]
 		}
