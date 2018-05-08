@@ -26,3 +26,9 @@ GET {{host}}
 Authorization: {{login.response.body.token}}
 
 ###
+GET {{host}}/room-booking/rooms
+Authorization: {{login.response.body.token}}
+
+###
+GET {{host}}/room-booking/orders
+Authorization: {{login.response.body.token}}

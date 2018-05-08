@@ -7,11 +7,11 @@ from datetime import datetime
 import requests
 from sqlalchemy.dialects.postgresql import ENUM
 from application.utils import CRUDMixin
-
+import uuid
 
 class Room(db.Model, CRUDMixin):
     __tablename__ = 'room'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     group = db.Column(db.String())
     campus = db.Column(db.String())
     building = db.Column(db.String)
@@ -26,10 +26,10 @@ class Room(db.Model, CRUDMixin):
 
 
 class Order(db.Model, CRUDMixin):
-    __tablename__ = 'room_order'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    __tablename__ = 'room_booking_order'
+    id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
-    room_id = db.Column(db.Integer, db.ForeignKey('room.id'))
+    room_id = db.Column(db.UUID, db.ForeignKey('room.id'))
     create_time = db.Column(db.DateTime, default=datetime.now)
     date = db.Column(db.DateTime)
     start_time = db.Column(db.DateTime)
