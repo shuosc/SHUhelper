@@ -6,9 +6,8 @@ from application.enums import Campus
 from datetime import datetime
 import requests
 from sqlalchemy.dialects.postgresql import ENUM
-from application.utils import CRUDMixin
+from application.utils import CRUDMixin, current_ten_minutes
 import uuid
-
 class Room(db.Model, CRUDMixin):
     __tablename__ = 'room'
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
@@ -32,8 +31,8 @@ class Order(db.Model, CRUDMixin):
     room_id = db.Column(db.UUID, db.ForeignKey('room.id'))
     create_time = db.Column(db.DateTime, default=datetime.now)
     date = db.Column(db.DateTime)
-    start_time = db.Column(db.DateTime)
-    end_time = db.Column(db.DateTime)
+    start = db.Column(db.Integer)
+    end = db.Column(db.Integer)
     remark = db.Column(db.String)
     user = db.relationship('User', backref=db.backref('orders', lazy=True))
     # room = db.relationship('Room',backref=db.backref('orders', lazy=True))
@@ -47,13 +46,12 @@ class Order(db.Model, CRUDMixin):
         elif timedelta.days < 0:
             return '未开始'
         elif timedelta.days == 0:
-            # course = current_app.school_time.get_course()
-            now = datetime.now()
+            now = current_ten_minutes()
             if self.start_time <= now and now <= self.end_time:
                 return '正在进行'
-            if now < self.start_time:
+            if now < self.start:
                 return '未开始'
-            if now > self.end_time:
+            if now > self.end:
                 return '已结束'
 
     def save(self):
@@ -67,8 +65,8 @@ class Order(db.Model, CRUDMixin):
             'userName': self.user.name,
             'roomID': self.room_id,
             'room': self.room.name,
-            'start': self.start_time.timestamp(),
-            'end': self.end_time.timestamp(),
+            'start': self.start,
+            'end': self.end,
             'date': self.date.timestamp(),
             'status': self.status
         }
@@ -78,5 +76,5 @@ class Order(db.Model, CRUDMixin):
         return Order(user_id=json_post['userID'],
                      room_id=json_post['roomID'],
                      date=datetime.fromtimestamp(json_post['date']),
-                     start_time=datetime.fromtimestamp(json_post['start']),
-                     end_time=datetime.fromtimestamp(json_post['end']))
+                     start_time=json_post['start'],
+                     end_time=json_post['end'])

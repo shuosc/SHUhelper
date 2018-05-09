@@ -2,7 +2,19 @@
 import ast
 import os
 from application.extensions import db
+import datetime
 
+def current_day_seconds():
+    now = datetime.datetime.now()
+    return (now.hour*60+now.minute)*60+now.second
+
+def seconds_to_ten_minutes(seconds):
+    return (seconds / 60) /10
+
+def current_ten_minutes():
+    seconds = current_day_seconds
+    return seconds_to_ten_minutes(seconds)
+    
 class CRUDMixin(object):
 
     def __repr__(self):

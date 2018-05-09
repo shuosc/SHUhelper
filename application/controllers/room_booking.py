@@ -8,20 +8,20 @@ from flask_login import current_user, login_required
 
 from application.extensions import db
 from application.models.room import Order, Room
-
+from application.utils import current_ten_minutes
 rooms = Blueprint('room', __name__)
 room_orders = Blueprint('room_order', __name__)
 
 
 def render_room_info(room, orders):
-    schedule = [1 for i in range(13)]
-    for order in orders:
-        for i in range(order.start-1, order.end):
-            schedule[i] = 0
+    schedule = [1 for i in range(6*13)]
+    # for order in orders:
+    #     for i in range(order.start-1, order.end):
+    #         schedule[i] = 0
     return {
         'id': room.id,
         'name': room.name,
-        'schedule': schedule,
+        # 'schedule': schedule,
         'orders': [order.to_json() for order in orders]
     }
 
@@ -93,7 +93,7 @@ class OrderAPI(MethodView):
         timedelta = order.date - nowaday
         if timedelta.days < 0 or timedelta.days > 3:
             return jsonify(msg='该日无法预约'), 400
-        if timedelta.days == 0 and current_app.school_time.get_course() > order.start:
+        if timedelta.days == 0 and current_ten_minutes() > order.start:
             return jsonify(msg='您选择的时段已过，无法预约'), 400
         order.save()
         return jsonify(order=order.to_json())
