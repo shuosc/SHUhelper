@@ -6,7 +6,7 @@ from application.enums import Campus
 from datetime import datetime
 import requests
 from sqlalchemy.dialects.postgresql import ENUM
-from application.utils import CRUDMixin, current_ten_minutes
+from application.utils import CRUDMixin, current_ten_minutes,current_day_seconds
 import uuid
 class Room(db.Model, CRUDMixin):
     __tablename__ = 'room'
@@ -35,7 +35,6 @@ class Order(db.Model, CRUDMixin):
     end = db.Column(db.Integer)
     remark = db.Column(db.String)
     user = db.relationship('User', backref=db.backref('orders', lazy=True))
-    # room = db.relationship('Room',backref=db.backref('orders', lazy=True))
 
     @property
     def status(self):
@@ -46,8 +45,8 @@ class Order(db.Model, CRUDMixin):
         elif timedelta.days < 0:
             return '未开始'
         elif timedelta.days == 0:
-            now = current_ten_minutes()
-            if self.start_time <= now and now <= self.end_time:
+            now = current_day_seconds()
+            if self.start <= now and now <= self.end:
                 return '正在进行'
             if now < self.start:
                 return '未开始'
@@ -76,5 +75,5 @@ class Order(db.Model, CRUDMixin):
         return Order(user_id=json_post['userID'],
                      room_id=json_post['roomID'],
                      date=datetime.fromtimestamp(json_post['date']),
-                     start_time=json_post['start'],
-                     end_time=json_post['end'])
+                     start=json_post['start'],
+                     end=json_post['end'])

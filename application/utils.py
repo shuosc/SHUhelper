@@ -12,7 +12,7 @@ def seconds_to_ten_minutes(seconds):
     return (seconds / 60) /10
 
 def current_ten_minutes():
-    seconds = current_day_seconds
+    seconds = current_day_seconds()
     return seconds_to_ten_minutes(seconds)
     
 class CRUDMixin(object):

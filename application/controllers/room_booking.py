@@ -2,22 +2,18 @@ from datetime import datetime
 from functools import reduce
 
 import requests
-from flask import Blueprint, Flask, jsonify, request,current_app
+from flask import Blueprint, Flask, jsonify, request, current_app
 from flask.views import MethodView
 from flask_login import current_user, login_required
 
 from application.extensions import db
 from application.models.room import Order, Room
-from application.utils import current_ten_minutes
+from application.utils import current_ten_minutes, current_day_seconds
 rooms = Blueprint('room', __name__)
 room_orders = Blueprint('room_order', __name__)
 
 
 def render_room_info(room, orders):
-    schedule = [1 for i in range(6*13)]
-    # for order in orders:
-    #     for i in range(order.start-1, order.end):
-    #         schedule[i] = 0
     return {
         'id': room.id,
         'name': room.name,
@@ -27,12 +23,12 @@ def render_room_info(room, orders):
 
 
 def render_rooms_info(rooms, orders):
-    return [render_room_info(room, filter(lambda x:x.room_id == room.id, orders)) for room in rooms]
+    return [render_room_info(room, filter(lambda x:str(x.room_id) == str(room.id), orders)) for room in rooms]
 
 
 def cal_restrict(orders):
     used = reduce(lambda x, y: x + (y.end-y.start+1), orders, 0)
-    return 4 - used
+    return 4*3600 - used
 
 
 def check_restrict(order, user_id):
@@ -47,13 +43,27 @@ def get_rooms():
     now = datetime.now()
     timestamp = request.args.get('timestamp', datetime(
         now.year, now.month, now.day).timestamp(), int)
-    group = request.args.get('group','ces')
-    rooms = Room.query.filter_by(available=True,group=group).all()
+    group = request.args.get('group', 'ces')
+    rooms = Room.query.order_by(Room.name).filter_by(available=True, group=group).all()
     orders = Order.query.filter_by(
         date=datetime.fromtimestamp(timestamp)).all()
     user_orders = filter(lambda x: x.user_id == current_user.id, orders)
     restrict = cal_restrict(user_orders)
     return jsonify(rooms=render_rooms_info(rooms, orders), restrict=restrict)
+
+
+@rooms.route('/<room_id>', methods=['GET'])
+@login_required
+def get_room(room_id):
+    now = datetime.now()
+    room = Room.query.get(room_id)
+    timestamp = request.args.get('timestamp', datetime(
+        now.year, now.month, now.day).timestamp(), int)
+    orders = Order.query.filter_by(
+        room_id=room_id, date=datetime.fromtimestamp(timestamp)).all()
+    user_orders = filter(lambda x: x.user_id == current_user.id, orders)
+    restrict = cal_restrict(user_orders)
+    return jsonify(room=render_room_info(room, orders), restrict=restrict)
 
 
 def check_room_available(order):
@@ -65,6 +75,8 @@ def check_room_available(order):
         else:
             return False
     return True
+
+
 class OrderAPI(MethodView):
     decorators = [login_required]
 
@@ -93,7 +105,7 @@ class OrderAPI(MethodView):
         timedelta = order.date - nowaday
         if timedelta.days < 0 or timedelta.days > 3:
             return jsonify(msg='该日无法预约'), 400
-        if timedelta.days == 0 and current_ten_minutes() > order.start:
+        if timedelta.days == 0 and current_day_seconds() > order.start:
             return jsonify(msg='您选择的时段已过，无法预约'), 400
         order.save()
         return jsonify(order=order.to_json())
@@ -114,14 +126,15 @@ class OrderAPI(MethodView):
             return jsonify(msg="无权限"), 401
         json = request.json
         end = json['end']
-        if end >= order.start and end <=order.end:
+        if end >= order.start and end <= order.end:
             order.end = end
             order.save()
         return jsonify(order=order.to_json())
 
+
 room_view = OrderAPI.as_view('order_api')
 room_orders.add_url_rule('/', defaults={'order_id': None},
-                 view_func=room_view, methods=['GET', ])
+                         view_func=room_view, methods=['GET', ])
 room_orders.add_url_rule('/', view_func=room_view, methods=['POST', ])
 room_orders.add_url_rule('/<int:order_id>', view_func=room_view,
-                 methods=['GET', 'PUT', 'DELETE'])
+                         methods=['GET', 'PUT', 'DELETE'])
