@@ -28,7 +28,7 @@ def render_rooms_info(rooms, orders):
 
 def cal_restrict(orders):
     used = reduce(lambda x, y: x + (y.end-y.start+1), orders, 0)
-    return 4*3600 - used
+    return 8*3600 - used
 
 
 def check_restrict(order, user_id):
