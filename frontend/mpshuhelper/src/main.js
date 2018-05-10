@@ -7,13 +7,12 @@ import router from '@/router/main'
 // import MpvueRouterPatch from 'mpvue-router-patch'
 // Vue.use(MpvueRouterPatch)
 Vue.prototype.$http = http
-// Vue.prototype.$store = store
+Vue.prototype.$store = store
 // Vue.prototype.$router = store
 Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue({
-  store,
   router,
   ...App
 })
