@@ -9,6 +9,7 @@ from flask_login import current_user, login_required
 from application.extensions import db
 from application.models.room import Order, Room
 from application.utils import current_ten_minutes, current_day_seconds
+from sqlalchemy import cast,Integer
 rooms = Blueprint('room', __name__)
 room_orders = Blueprint('room_order', __name__)
 
@@ -44,7 +45,8 @@ def get_rooms():
     timestamp = request.args.get('timestamp', datetime(
         now.year, now.month, now.day).timestamp(), int)
     group = request.args.get('group', 'ces')
-    rooms = Room.query.order_by(Room.name).filter_by(available=True, group=group).all()
+    rooms = Room.query.order_by(cast(Room.name, Integer)).filter_by(
+        available=True, group=group).all()
     orders = Order.query.filter_by(
         date=datetime.fromtimestamp(timestamp)).all()
     user_orders = filter(lambda x: x.user_id == current_user.id, orders)
@@ -136,5 +138,5 @@ room_view = OrderAPI.as_view('order_api')
 room_orders.add_url_rule('/', defaults={'order_id': None},
                          view_func=room_view, methods=['GET', ])
 room_orders.add_url_rule('/', view_func=room_view, methods=['POST', ])
-room_orders.add_url_rule('/<int:order_id>', view_func=room_view,
+room_orders.add_url_rule('/<order_id>', view_func=room_view,
                          methods=['GET', 'PUT', 'DELETE'])

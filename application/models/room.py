@@ -30,6 +30,8 @@ class Order(db.Model, CRUDMixin):
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
     room_id = db.Column(db.UUID, db.ForeignKey('room.id'))
     create_time = db.Column(db.DateTime, default=datetime.now)
+    contact = db.Column(db.String)
+    teacher = db.Column(db.String)
     date = db.Column(db.DateTime)
     start = db.Column(db.Integer)
     end = db.Column(db.Integer)
@@ -67,7 +69,9 @@ class Order(db.Model, CRUDMixin):
             'start': self.start,
             'end': self.end,
             'date': self.date.timestamp(),
-            'status': self.status
+            'status': self.status,
+            'teacher': self.teacher,
+            'contact': self.contact
         }
 
     @staticmethod
@@ -76,4 +80,7 @@ class Order(db.Model, CRUDMixin):
                      room_id=json_post['roomID'],
                      date=datetime.fromtimestamp(json_post['date']),
                      start=json_post['start'],
-                     end=json_post['end'])
+                     end=json_post['end'],
+                     teacher=json_post['teacher'],
+                     contact=json_post['contact'],
+                     )
