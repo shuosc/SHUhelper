@@ -3772,6 +3772,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdi
   dependencies:
     minimist "0.0.8"
 
+moment@^2.11.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -3813,9 +3817,9 @@ mpvue-router-patch@^0.1.6:
   dependencies:
     query-string "^6.0.0"
 
-mpvue-template-compiler@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/mpvue-template-compiler/-/mpvue-template-compiler-1.0.10.tgz#952e88c7a6b50371adb14d6a6ff042648e98e1f2"
+mpvue-template-compiler@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/mpvue-template-compiler/-/mpvue-template-compiler-1.0.11.tgz#aab4f89c07b98030b8be3009002f8b953a2b4f68"
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -3826,9 +3830,9 @@ mpvue-webpack-target@^1.0.0:
   dependencies:
     webpack "^3.4.0"
 
-mpvue@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/mpvue/-/mpvue-1.0.10.tgz#7485c69b276203e69207742b262234441e34bfe1"
+mpvue@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/mpvue/-/mpvue-1.0.11.tgz#65b2f9c8c35b8447d020f10e47bdc2ff51a2e13d"
 
 ms@2.0.0:
   version "2.0.0"
@@ -6056,6 +6060,12 @@ vue-loader@^13.0.4:
     vue-hot-reload-api "^2.2.0"
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
+
+vue-moment@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/vue-moment/-/vue-moment-3.2.0.tgz#28cd2b313831ae83953f646ac4785a2cc724e412"
+  dependencies:
+    moment "^2.11.1"
 
 vue-router@^3.0.1:
   version "3.0.1"

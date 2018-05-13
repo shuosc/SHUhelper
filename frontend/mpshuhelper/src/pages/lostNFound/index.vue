@@ -100,7 +100,7 @@ export default {
       })
     },
     onPostClick() {
-      wx.redirectTo({
+      wx.navigateTo({
         url: 'post'
       })
     },

@@ -10,33 +10,32 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
-// function getEntry(rootSrc, pattern) {
-//   var files = glob.sync(path.resolve(rootSrc, pattern))
-//   return files.reduce((res, file) => {
-//     var info = path.parse(file)
-//     var key = info.dir.slice(rootSrc.length + 1) + '/' + info.name
-//     res[key] = path.resolve(file)
-//     return res
-//   }, {})
-// }
-const getEntry = require('mpvue-entry') // getEntry(pages.js, main.js?, app.json?)
-// const appEntry = { app: resolve('./src/main.js') }
-// const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
-// const entry = Object.assign({}, appEntry, pagesEntry)
+function getEntry(rootSrc, pattern) {
+  var files = glob.sync(path.resolve(rootSrc, pattern))
+  return files.reduce((res, file) => {
+    var info = path.parse(file)
+    var key = info.dir.slice(rootSrc.length + 1) + '/' + info.name
+    res[key] = path.resolve(file)
+    return res
+  }, {})
+}
+// const getEntry = require('mpvue-entry') // getEntry(pages.js, main.js?, app.json?)
+// const entry = getEntry('./src/router/routes.js')
+const appEntry = { app: resolve('./src/main.js') }
+const pagesEntry = getEntry(resolve('./src'), 'pages/**/main.js')
+const entry = Object.assign({}, appEntry, pagesEntry)
 
 module.exports = {
   // 如果要自定义生成的 dist 目录里面的文件路径，
   // 可以将 entry 写成 {'toPath': 'fromPath'} 的形式，
   // toPath 为相对于 dist 的路径, 例：index/demo，则生成的文件地址为 dist/index/demo.js
-  entry: getEntry('./src/router/routes.js'),
+  // entry: getEntry('./src/pages.js'),
+  entry,
   target: require('mpvue-webpack-target'),
   output: {
     path: config.build.assetsRoot,
     filename: '[name].js',
-    publicPath:
-      process.env.NODE_ENV === 'production'
-        ? config.build.assetsPublicPath
-        : config.dev.assetsPublicPath
+    publicPath: process.env.NODE_ENV === 'production' ? config.build.assetsPublicPath : config.dev.assetsPublicPath
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
@@ -48,19 +47,19 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        include: [resolve('src'), resolve('node_modules/mpvue-entry')],
-        use: [
-          'babel-loader',
-          {
-            loader: 'mpvue-loader',
-            options: {
-              checkMPEntry: true
-            }
-          }
-        ]
-      },
+      // {
+      //   test: /\.js$/,
+      //   include: [resolve('src'), resolve('node_modules/mpvue-entry')],
+      //   use: [
+      //     'babel-loader',
+      //     {
+      //       loader: 'mpvue-loader',
+      //       options: {
+      //         checkMPEntry: true
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.(js|vue)$/,
         loader: 'eslint-loader',
@@ -88,6 +87,19 @@ module.exports = {
           }
         ]
       },
+      // {
+      //   test: /\.js$/,
+      //   include: [resolve('src'), resolve('node_modules/mpvue-entry')],
+      //   use: [
+      //     'babel-loader',
+      //     {
+      //       loader: 'mpvue-loader',
+      //       options: {
+      //         checkMPEntry: true
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

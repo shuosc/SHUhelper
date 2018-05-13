@@ -6,12 +6,12 @@ var http = new Fly()
 console.log('process', __SERVER)
 if (__SERVER === 'local') {
   http.config.baseURL = 'http://localhost:5000'
-} else if (__SERVER === 'prod') {
-  http.config.baseURL = 'https//api.shuhelper.cn/v1'
-} else {
+} else if (__SERVER === 'dev') {
   http.config.baseURL = 'http://api-dev.shuhelper.cn/v1'
+} else {
+  http.config.baseURL = 'https://api.shuhelper.cn/v1'
 }
-
+// http.config.baseURL = 'https://api.shuhelper.cn/v1'
 // function redirectToLogin(authID) {
 //   wx.redirectTo({
 //     url: `/pages/login/main?authID=${authID}`

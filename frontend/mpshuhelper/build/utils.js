@@ -3,9 +3,9 @@ var config = require('../config')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 exports.assetsPath = function (_path) {
-  var assetsSubDirectory = process.env.NODE_ENV === 'production' ?
-    config.build.assetsSubDirectory :
-    config.dev.assetsSubDirectory
+  var assetsSubDirectory = process.env.NODE_ENV === 'production'
+    ? config.build.assetsSubDirectory
+    : config.dev.assetsSubDirectory
   return path.posix.join(assetsSubDirectory, _path)
 }
 
@@ -27,13 +27,13 @@ exports.cssLoaders = function (options) {
     }
   }
 
-  var px2rpxLoader = {
-    loader: 'px2rpx-loader',
-    options: {
-      baseDpr: 1,
-      rpxUnit: 1
-    }
-  }
+  // var px2rpxLoader = {
+  //   loader: 'px2rpx-loader',
+  //   options: {
+  //     baseDpr: 1,
+  //     rpxUnit: 0.5
+  //   }
+  // }
 
   // generate loader string to be used with extract text plugin
   function generateLoaders(loader, loaderOptions) {
@@ -70,9 +70,9 @@ exports.cssLoaders = function (options) {
       indentedSyntax: true
     }),
     scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus' ,{
+    stylus: generateLoaders('stylus', {
       autoprefixer: false
-    }),
+    }),   
     styl: generateLoaders('stylus')
   }
 }

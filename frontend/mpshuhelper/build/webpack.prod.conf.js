@@ -11,7 +11,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 var env = config.build.env
-
+const server = process.argv[2]
+console.log(server, 'server')
 var webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
@@ -30,7 +31,8 @@ var webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': env
+      'process.env': env,
+      __SERVER: '"' + server ? server : 'prod' + '"'
     }),
     new UglifyJsPlugin({
       sourceMap: true
@@ -69,13 +71,9 @@ var webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks: function (module, count) {
+      minChunks: function(module, count) {
         // any required modules inside node_modules are extracted to vendor
-        return (
-          module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf('node_modules') >= 0
-        ) || count > 1
+        return (module.resource && /\.js$/.test(module.resource) && module.resource.indexOf('node_modules') >= 0) || count > 1
       }
     }),
     // extract webpack runtime and module manifest to its own file in order to
