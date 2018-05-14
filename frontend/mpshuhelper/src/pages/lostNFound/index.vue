@@ -79,7 +79,7 @@ export default {
     },
     onAddClick() {
       wx.navigateTo({
-        url: 'new'
+        url: './new/main'
       })
     },
     onMoreClick() {
@@ -101,7 +101,7 @@ export default {
     },
     onPostClick() {
       wx.navigateTo({
-        url: 'post'
+        url: './post/main'
       })
     },
     onAvatarClick() {

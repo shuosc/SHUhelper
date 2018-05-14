@@ -49,7 +49,7 @@ class Order(db.Model, CRUDMixin):
         elif timedelta.days == 0:
             now = current_day_seconds()
             if self.start <= now and now <= self.end:
-                return '正在进行'
+                return '已开始'
             if now < self.start:
                 return '未开始'
             if now > self.end:
@@ -71,7 +71,8 @@ class Order(db.Model, CRUDMixin):
             'date': self.date.timestamp(),
             'status': self.status,
             'teacher': self.teacher,
-            'contact': self.contact
+            'contact': self.contact,
+            'remark': self.remark
         }
 
     @staticmethod
@@ -83,4 +84,5 @@ class Order(db.Model, CRUDMixin):
                      end=json_post['end'],
                      teacher=json_post['teacher'],
                      contact=json_post['contact'],
+                     remark=json_post['remark']
                      )

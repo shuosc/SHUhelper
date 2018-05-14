@@ -126,8 +126,8 @@ class OrderAPI(MethodView):
         order = Order.query.filter_by(id=order_id).first()
         if not order.user_id == current_user.id:
             return jsonify(msg="无权限"), 401
-        json = request.json
-        end = json['end']
+        seconds = current_day_seconds()
+        end = seconds - seconds%(600) + 600
         if end >= order.start and end <= order.end:
             order.end = end
             order.save()
