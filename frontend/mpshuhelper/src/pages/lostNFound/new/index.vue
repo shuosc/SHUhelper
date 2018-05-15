@@ -1,6 +1,5 @@
 <template lang="pug">
   div(class="container" @click="clickHandle('test click', $event)")
-    //- img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
     div.form(style="padding:10px;display:flex;flex-direction:column;")
       div
         input.title-form(placeholder="请输入标题" v-model="form.title")
@@ -13,16 +12,10 @@
           div(style="flex:1;") 物品分类
           div(style="flex:4;")
             radio-group(class="radio-group" @change="radioChange")
-                <label class="radio">
-                  <radio value="lost"/> 寻找失物
-                </label>
-                <label class="radio">
-                  <radio value="found"/> 寻找失主
-                </label>
-            //- input(type="radio" id="one" value="One" v-model="picked")
-            //- span 寻找失物
-            //- input(type="radio" id="two" value="One" v-model="picked")
-            //- span 寻找失主
+                label.radio
+                  radio(value="lost") 寻找失物
+                label.radio
+                  radio(value="found") 寻找失主
         div(style="display:flex;")
           div(style="flex:1") 物品分类
           input(style="flex:4" v-model="form.category" placeholder="请选择物品分类")
@@ -113,7 +106,19 @@ export default {
         }
       })
     },
-    onPublishClick() {},
+    onPublishClick() {
+      wx.showModal({
+        title: '提示',
+        content: '这是一个模态弹窗',
+        success: function(res) {
+          if (res.confirm) {
+            console.log('用户点击确定')
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
     postForm() {}
   },
   created() {}

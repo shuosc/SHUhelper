@@ -3,7 +3,7 @@ import Fly from 'flyio/dist/npm/wx'
 // var Fly = require('flyio/dist/npm/wx')
 import store from './store/index'
 var http = new Fly()
-console.log('process', __SERVER)
+// console.log('process', __SERVER)
 if (__SERVER === 'local') {
   http.config.baseURL = 'http://localhost:5000'
 } else if (__SERVER === 'dev') {
@@ -32,6 +32,8 @@ if (__SERVER === 'local') {
 //     }
 //   })
 // }
+// var needAuth = false
+var loading = false
 http.interceptors.response.use(
   response => {
     // Do something with response data .
@@ -39,13 +41,22 @@ http.interceptors.response.use(
     return response.data
   },
   err => {
-    console.log(err)
-    if (err.response.status === 401) {
-      console.log(err.response)
-      store.dispatch('login')
+    // console.log(store.state.user)
+    if (err.response.status === 401 && !loading) {
+      // console.log(err.response)
+      // store.dispatch('login')
+      // store.commite('needAuth')
+      this.loading = true
+      wx.navigateTo({
+        url: '/pages/login/main',
+        success: () => {
+          loading = false
+        }
+      })
+      // wx.naviga
     }
     // Do something with response error
-    // return Promise.resolve("ssss")
+    return err
   }
 )
 
