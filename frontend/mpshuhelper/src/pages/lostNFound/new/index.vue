@@ -13,12 +13,10 @@
           div(style="flex:1;") 物品分类
           div(style="flex:4;")
             radio-group(class="radio-group" @change="radioChange")
-                <label class="radio">
-                  <radio value="lost"/> 寻找失物
-                </label>
-                <label class="radio">
-                  <radio value="found"/> 寻找失主
-                </label>
+              label.radio
+                radio(value="lost") 寻找失物
+              label.radio
+                radio(value="found") 寻找失主
         div(style="display:flex;")
           div(style="flex:1") 物品分类
           input(style="flex:4" v-model="form.category" placeholder="请选择物品分类")
@@ -80,7 +78,7 @@ export default {
       ]
     }
   },
-  // computed: mapState(['user']),
+  computed: mapState(['user']),
   components: {
     card,
     TimeTable
