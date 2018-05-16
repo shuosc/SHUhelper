@@ -32,3 +32,22 @@ Authorization: {{login.response.body.token}}
 ###
 GET {{host}}/room-booking/orders
 Authorization: {{login.response.body.token}}
+
+###
+POST {{host}}/lost-n-found/
+Content-Type: {{contentType}}
+Authorization: {{login.response.body.token}}
+
+{
+    "title":"1123",
+    "content":"123",
+    "category":"123",
+    "contact":"18800206081",
+    "address":"",
+    "type":"found",
+    "imgURLs":[],
+    "latitude": 12,
+    "longitude": 12,
+    "occurredTime": 65525
+}
+###

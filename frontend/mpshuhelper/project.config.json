@@ -49,6 +49,12 @@
 					"name": "失物招领帖子",
 					"pathName": "pages/lostNFound/post",
 					"query": ""
+				},
+				{
+					"id": 3,
+					"name": "登陆页",
+					"pathName": "pages/login/main",
+					"query": ""
 				}
 			]
 		}

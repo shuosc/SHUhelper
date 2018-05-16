@@ -38,6 +38,7 @@ class LostNFoundAPI(MethodView):
 
     def post(self):
         json_post = request.json
+        print(current_user.id)
         json_post['authorID'] = current_user.id
         post = Post.from_json(json_post)
         post.save()
