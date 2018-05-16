@@ -30,12 +30,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "失物招领 新建",
-					"pathName": "pages/lostNFound/new",
+					"pathName": "pages/lostNFound/new/main",
 					"query": ""
 				},
 				{

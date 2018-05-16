@@ -16,7 +16,7 @@ class LostNFoundPost(db.Model,CRUDMixin):
     content = db.Column(db.String)
     img_URLs = db.Column(postgresql.ARRAY(db.String, dimensions=1))
     address = db.Column(db.String)
-    occurred_time = db.Column(db.DateTime)
+    occurred_time = db.Column(db.DateTime, default=datetime.now)
     created = db.Column(db.DateTime)
     contact = db.Column(db.String)
     is_found = db.Column(db.Boolean,default=False)
@@ -37,7 +37,7 @@ class LostNFoundPost(db.Model,CRUDMixin):
             longitude = json_post['longitude'],
             img_URLs = json_post['imgURLs'],
             address=json_post['address'],
-            occurred_time = datetime.fromtimestamp(json_post['occurredTime']),
+            # occurred_time = datetime.fromtimestamp(json_post['occurredTime']),
             contact = json_post['contact']
         )
         return post
@@ -52,7 +52,7 @@ class LostNFoundPost(db.Model,CRUDMixin):
             'longitude':self.longitude,
             'imgURLs': self.img_URLs,
             'address': self.address,
-            'occurredTime':self.occurred_time,
+            'occurredTime': self.occurred_time.timestamp(),
             'contact':self.contact
         }
     
