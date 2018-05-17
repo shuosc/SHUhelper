@@ -24,14 +24,16 @@
                 radio(value="found") 
         div(style="display:flex;")
           div(style="flex:1") 物品分类
-          input(style="flex:4" v-model="category" placeholder="请选择物品分类")
+          //- input(style="flex:4" v-model="category" placeholder="请选择物品分类")
+          picker(@change="bindPickerChange" :value="categoryIndex" :range="categories")
+            view {{categories[categoryIndex]}} >
         div(style="display:flex;" @click="onLocationClick")
           div(style="flex:1") 地址定位
           div(style="flex:4;" v-if="!location.latitude" ) 请选择位置 >
-          div(style="flex:4;" v-else) {{location.name}}>
-        //- div(style="display:flex;")
+          div(style="flex:4;" v-else) 重新选择 >
+        div(style="display:flex;")
           div(style="flex:1") 详细地址
-          input(style="flex:4;"  v-model="location.address" placeholder="详细的地点名称")
+          input(style="flex:4;"  v-model="location.name" placeholder="详细的地点名称")
         //- div(style="display:flex;")
           div(style="flex:1") 详细地址
           input(style="flex:4;"  v-model="location.name" placeholder="详细的地点名称")
@@ -39,7 +41,7 @@
           div(style="flex:1") 联系方式
           input(style="flex:4" v-model="contact" placeholder="请输入您的电话")
       div()
-        button( :disabled="disable" style="vertical-align: middle;" type="primary" @click="onPublishClick") 发布
+        button( :loading="submitLoading",:disabled="disable" style="vertical-align: middle;" type="primary" @click="onPublishClick") 发布
 </template>
 
 <script>
@@ -54,6 +56,8 @@ export default {
       courses: [],
       isLogin: false,
       tabIndex: 0,
+      categoryIndex: 0,
+      categories: ['证件', '数码', '书本', '箱包', '衣物', '其他'],
       location: {
         latitude: null,
         longitude: null,
@@ -65,6 +69,7 @@ export default {
       content: '',
       category: '',
       contact: '',
+      submitLoading: '',
       address: '',
       type: 'lost',
       imgURLs: [],
@@ -90,9 +95,9 @@ export default {
       return {
         title: this.title,
         content: this.content,
-        category: this.category,
+        category: this.categories[this.categoryIndex],
         contact: this.contact,
-        address: this.location.address,
+        address: this.location.name,
         type: this.type,
         imgURLs: this.imgURLs,
         latitude: this.location.latitude,
@@ -107,6 +112,9 @@ export default {
     TimeTable
   },
   methods: {
+    bindPickerChange(e) {
+      this.categoryIndex = e.target.value
+    },
     radioChange(e) {
       this.type = e.target.value
     },
@@ -166,9 +174,20 @@ export default {
     },
     postForm() {
       let form = this.form
-      this.$http.post('/lost-n-found/', form).then(resp => {
-        console.log(resp)
-      })
+      this.submitLoading = true
+      this.$http
+        .post('/lost-n-found/', form)
+        .then(resp => {
+          console.log(resp)
+          this.submitLoading = false
+          wx.redirectTo({
+            url: '../success/main'
+          })
+        })
+        .catch(err => {
+          this.submitLoading = false
+          console.log(err)
+        })
     }
   },
   created() {}

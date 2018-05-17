@@ -26,6 +26,8 @@ class LostNFoundPost(db.Model, CRUDMixin):
     is_deleted = db.Column(db.Boolean, default=False)
     lighten_time = db.Column(db.DateTime, default=datetime.now)
     lighten_count = db.Column(db.Integer, default=0)
+    author = db.relationship('User', backref=db.backref(
+        'lost_n_found_posts', lazy=True))
 
     @classmethod
     def from_json(cls, json_post):
@@ -38,6 +40,7 @@ class LostNFoundPost(db.Model, CRUDMixin):
             longitude=json_post['longitude'],
             img_URLs=json_post['imgURLs'],
             address=json_post['address'],
+            category=json_post['category'],
             # occurred_time = datetime.fromtimestamp(json_post['occurredTime']),
             contact=json_post['contact']
         )
@@ -48,6 +51,9 @@ class LostNFoundPost(db.Model, CRUDMixin):
             'id': self.id,
             'type': self.type,
             'authorID': self.author_id,
+            'authorName': self.author.username,
+            'authorAvatar': self.author.avatar_URL,
+            'category': self.category,
             'title': self.title,
             'content': self.content,
             'latitude': self.latitude,

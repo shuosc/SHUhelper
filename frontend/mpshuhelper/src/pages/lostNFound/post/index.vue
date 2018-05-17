@@ -4,23 +4,29 @@
       div.card.col-10
         div.row.main-info
           div.col-2.avatar-wrapper
-            img.avatar(src="/static/avatar.jpg")
+            img.avatar(:src="'https://static.shuhelper.cn/' + post.authorAvatar")
           div.col-9.info-wrapper
-            div.name kastnerorz
-            div.date 2018-5-7
+            div.name {{post.authorName}}
+            div.date {{post.occurTime}}
       div.card.col-10
         div.title {{post.title}}
-        div.tags
-          div.tag-wrapper
-            span.tag-name 类别：
-            span.tag {{post.category}}
-          div.tag-wrapper
-            span.tag-name 位置：
-            span.tag {{post.address}}
-        map(id="map" :longitude="post.longitude" :latitude="post.latitude" :markers="markers" scale="19" show-location style="width: 100%; height: 300px;")
-        div.content {{post.content}}
+        //- div.tags
+        div.tag-wrapper
+          span.tag-name 类别：
+          span.tag {{post.category}}
+        div.tag-wrapper
+          div.content 
+            span.tag-name 详情：
+            | {{post.content}}
+        div.tag-wrapper
+          span.tag-name 位置：
+          span.tag {{post.address}}
+          button(@click="mapVisiable=!mapVisiable" style="margin-top:10px;") {{mapVisiable?'折叠':'展开'}}地图
+        map(v-show="mapVisiable" id="map" :longitude="post.longitude" :latitude="post.latitude" :markers="markers" scale="19" show-location style="width: 100%; height: 300px;")        
         div.image-wrapper(v-for="img in post.imgURLs")
           img.imageItem(mode="widthFix",:src="img")
+      //- div.card.col-10
+        map(id="map" :longitude="post.longitude" :latitude="post.latitude" :markers="markers" scale="19" show-location style="width: 100%; height: 300px;")
       div.card.col-10(style="margin-bottom: 50px;")
         p.title 联系方式
         div.contact-wrapper
@@ -31,16 +37,17 @@
           p.name kastnerorz
     div.bottom-bar
       //- div.bottom-button-wrapper
-      div.bottom-button 首页
+      //- div.bottom-button(@click="onHomeClick") 首页
       //- div.bottom-button 收藏
-      div.bottom-button 分享
-      div.bottom-button 18800000000
+      //- div.bottom-button 分享
+      div.bottom-button(@click="onContactClick") 一键联系： {{post.contact}}
 </template>
 <script>
 export default {
   data() {
     return {
       id: '',
+      mapVisiable: false,
       post: {}
     }
   },
@@ -67,9 +74,18 @@ export default {
     this.getPost(this.id)
   },
   methods: {
+    onContactClick() {
+      wx.makePhoneCall({
+        phoneNumber: this.post.contact
+      })
+    },
+    onHomeClick() {
+      wx.reLaunch({ url: '/pages/index/main' })
+    },
     getPost(id) {
       this.$http.get(`/lost-n-found/${id}`).then(resp => {
         this.post = resp.post
+        this.post.occurTime = this.$moment(this.post.occurTime).format('YYYY-MM-DD')
         console.log(resp)
       })
     }

@@ -25,8 +25,8 @@
         | |
       div(:style="{flex:4}" :class="{'nav-tab-selected':tabIndex === 1}" @click="tabIndex=1")
         | 寻找失主
-    div.search-bar
-      input()
+    //- div.search-bar
+      input(v-model="search")
     div()
       div.lost-card(@click="onPostClick(postIndex)" v-for="(post,postIndex) in posts")
         div(style="flex:1;display:flex;")
@@ -34,18 +34,21 @@
             img.thumbnail(:src="post.imgURLs[0]",background-size="cover")
         div(style="flex:2;display:flex;flex-direction:column;justify-content:space-between;")
           div(style="flex:1;")
+            span.tag {{post.category}}
             | {{post.title}}
-          div(style="flex:1;")
-            | {{post.address}}
+          div(style="flex:1;font-size:15px;")
+            | {{post.content}}
           div(style="flex:1;display:flex;")
             div(style="flex:1;display:flex;align-items:center;justify-contet:space-between;")
               //- div(style="flex:1;display:flex;")
                 img.avatar(:src="user.avatarURL",background-size="cover")
-              div(style="flex:1;color:black;flex:4;font-size:1rem;")
+              //- div(style="flex:1;color:black;flex:4;font-size:1rem;")
                 | {{user.username?user.username:'游客'}}
-            div(style="flex:1;")
-            div(style="flex:1;text-align:right;padding-right:1rem;")
-              span(style="color:grey;font-size:0.5rem;") {{post.occurredTime}}
+              div(style="color:black;flex:4;font-size:10px;")
+                span {{post.address}}
+              //- div(style="flex:1;")
+              div(style="flex:2;text-align:right;padding-right:1rem;")
+                span(style="color:grey;font-size:0.5rem;") {{post.occurredTime}}
         div(v-if="post.found" style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
           div(style="display:flex;margin:auto;transform:rotate(-30deg);color:grey;") 已找到
 </template>
@@ -64,6 +67,7 @@ export default {
       isLogin: false,
       tabIndex: 0,
       posts: [],
+      search: '',
       type: 'lost'
     }
   },
@@ -78,6 +82,8 @@ export default {
       this.type = newIndex === 0 ? 'lost' : 'found'
       this.getPosts()
     }
+    // search: function(newSearch, oldSearch) {
+    // }
   },
   components: {
     card,
@@ -134,19 +140,24 @@ export default {
             })
           } else {
             wx.redirectTo({
-              url: '/pages/login/main'
+              url: '/pages/index/main'
             })
           }
         }
       })
     },
-    getPosts() {
+    getPosts(cb) {
       this.$http
         .get('/lost-n-found/', {
           type: this.type
         })
         .then(resp => {
           this.posts = []
+          for (let post of resp.posts) {
+            post.occurredTime = this.$moment(post.occurredTime * 1000).format('YYYY-MM-DD')
+            this.posts.push(post)
+            wx.stopPullDownRefresh()
+          }
           this.posts = resp.posts
           console.log(resp)
         })
@@ -154,28 +165,42 @@ export default {
   },
   onPullDownRefresh() {
     console.log('pull down')
-    wx.showModal({
-      title: '提示',
-      content: '刷新当前课表吗，这可能需要一点时间',
-      success: res => {
-        wx.stopPullDownRefresh()
-        if (res.confirm) {
-          this.refreshCourse()
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
+    this.getPosts()
   },
   created() {}
 }
 </script>
 
 <style scoped>
+.tags {
+  margin-top: 3px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tag-wrapper {
+  margin-bottom: 6px;
+}
+
+.tag-name {
+  font-size: 13px;
+  color: #888;
+  margin-right: 4px;
+}
+
+.tag {
+  border-radius: 4px;
+  background-color: #7eb3ec;
+  color: #fff;
+  font-size: 13px;
+  height: 16px;
+  padding: 3px;
+  margin: 0 3px 0 0;
+}
 .thumbnail {
   margin: auto;
   display: block;
-  width:100%;
+  width: 100%;
   height: 100%;
 }
 .fab {
@@ -255,6 +280,7 @@ export default {
   /* border-bottom-left-radius: 10px; */
   /* border-bottom-right-radius: 10px; */
 }
+
 .nav-box > div {
   display: flex;
   justify-content: center;

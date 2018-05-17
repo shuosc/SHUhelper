@@ -28,9 +28,7 @@ export default {
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: [
-      '^pages/index/main'
-    ],
+    pages: ['^pages/index/main'],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#7EB3EC',
@@ -41,17 +39,32 @@ export default {
     }
     // tabBar: {
     //   // position: "top",
-    //   list: [{
-    //     pagePath: "pages/index/main",
-    //     iconPath: "static/calendar-normal.png",
-    //     selectedIconPath: "static/calendar-selected.png",
-    //     text: "课表"
-    //   }, {
-    //     pagePath: "pages/me/main",
-    //     iconPath: "static/home-normal.png",
-    //     selectedIconPath: "static/home-selected.png",
-    //     text: "我的"
-    //   }]
-    // },
+    //   list: [
+    //     {
+    //       pagePath: 'pages/index/main',
+    //       // iconPath: 'static/calendar-normal.png',
+    //       // selectedIconPath: 'static/calendar-selected.png',
+    //       text: '首页'
+    //     },
+    //     {
+    //       pagePath: 'pages/lostNFound/main',
+    //       // iconPath: 'static/calendar-normal.png',
+    //       // selectedIconPath: 'static/calendar-selected.png',
+    //       text: '应用'
+    //     },
+    //     {
+    //       pagePath: 'pages/myCourse/main',
+    //       // iconPath: 'static/calendar-normal.png',
+    //       // selectedIconPath: 'static/calendar-selected.png',
+    //       text: '日程'
+    //     },
+    //     // {
+    //     //   pagePath: 'pages/me/main',
+    //     //   // iconPath: 'static/home-normal.png',
+    //     //   // selectedIconPath: 'static/home-selected.png',
+    //     //   text: '我的'
+    //     // }
+    //   ]
+    // }
   }
 }

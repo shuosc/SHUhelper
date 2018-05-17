@@ -3,10 +3,8 @@ import App from './index'
 
 const app = new Vue(App)
 app.$mount()
-
 export default {
   config: {
-    navigationBarTitleText: '失物招领',
-    enablePullDownRefresh: true
+    navigationBarTitleText: '教室预约成功'
   }
 }

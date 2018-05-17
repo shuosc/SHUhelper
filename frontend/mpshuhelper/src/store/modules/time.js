@@ -12,24 +12,22 @@ const state = {
 
 // getters
 const getters = {
-  checkoutStatus: state => state.checkoutStatus,
-
-  cartProducts: (state, getters, rootState) => {
-    return state.added.map(({ id, quantity }) => {
-      const product = rootState.products.all.find(product => product.id === id)
-      return {
-        title: product.title,
-        price: product.price,
-        quantity
-      }
-    })
-  },
-
-  cartTotalPrice: (state, getters) => {
-    return getters.cartProducts.reduce((total, product) => {
-      return total + product.price * product.quantity
-    }, 0)
-  }
+  // checkoutStatus: state => state.checkoutStatus,
+  // cartProducts: (state, getters, rootState) => {
+  //   return state.added.map(({ id, quantity }) => {
+  //     const product = rootState.products.all.find(product => product.id === id)
+  //     return {
+  //       title: product.title,
+  //       price: product.price,
+  //       quantity
+  //     }
+  //   })
+  // },
+  // cartTotalPrice: (state, getters) => {
+  //   return getters.cartProducts.reduce((total, product) => {
+  //     return total + product.price * product.quantity
+  //   }, 0)
+  // }
 }
 
 // actions
@@ -39,6 +37,7 @@ const actions = {
       .get('/time')
       .then(resp => {
         console.log(resp)
+        commit('setTime', resp)
       })
       .catch(err => {
         console.log(err)
@@ -69,42 +68,10 @@ const actions = {
 
 // mutations
 const mutations = {
-  clearUserInfo(state) {
-    state.userID = ''
-    state.password = ''
-    state.name = ''
-    state.username = ''
-    state.nickname = ''
-    state.token = ''
-    state.avatarURL = ''
-  },
-  updateUserInfo(state, payload) {
-    state.userID = payload.userID
-    state.password = payload.password
-    state.name = payload.name
-    state.username = payload.username
-    state.nickname = payload.nickname
-    state.token = payload.token
-    state.avatarURL = payload.avatarURL
-  },
-  pushProductToCart(state, { id }) {
-    state.added.push({
-      id,
-      quantity: 1
-    })
-  },
-
-  incrementItemQuantity(state, { id }) {
-    const cartItem = state.added.find(item => item.id === id)
-    cartItem.quantity++
-  },
-
-  setCartItems(state, { items }) {
-    state.added = items
-  },
-
-  setCheckoutStatus(state, status) {
-    state.checkoutStatus = status
+  setTime(state, payload) {
+    state.year = payload.year
+    state.term = payload.term
+    state.week = payload.week
   }
 }
 

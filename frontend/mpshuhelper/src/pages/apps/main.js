@@ -6,7 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '失物招领',
-    enablePullDownRefresh: true
+    navigationBarTitleText: '应用'
   }
 }

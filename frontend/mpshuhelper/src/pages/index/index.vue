@@ -7,33 +7,16 @@
         | Hi, {{user.username}}
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
-    //- div
-    time-table(:courses="courses" @showDetail="showDetail")
-    //- <div class="userinfo" @click="bindViewTap">
-    //-   <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover" />
-    //-   <div class="userinfo-nickname">
-    //-     <card :text="userInfo.nickName"></card>
-    //-   </div>
-    //- </div>
-
-    //- <div class="usermotto">
-    //-   <div class="user-motto">
-    //-     <card :text="motto"></card>
-    //-   </div>
-    //- </div>
-
-    //- <form class="form-container">
-    //-   <input type="text" class="form-control" v-model="motto" placeholder="v-model" />
-    //-   <input type="text" class="form-control" v-model.lazy="motto" placeholder="v-model.lazy" />
-    //- </form>
-    //- <a href="/pages/counter/main" class="counter">去往Vuex例页面</a>
-    //- <a href="/pages/login/main" class="counter">去往登陆页面</a>
+    apps
+    //- div.calendar
+      | 今天是{{time.year}}{{time.term}}{{time.week}}
+    
 </template>
 
 <script>
 import card from '@/components/card'
-import TimeTable from '@/components/TimeTable'
-import { decrypt } from '@/utils/index.js'
+import apps from '@/pages/apps/index'
+// import { decrypt } from '@/utils/index.js'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -44,10 +27,13 @@ export default {
       isLogin: false
     }
   },
-  computed: mapState(['user']),
+  computed: mapState(['user', 'time']),
   components: {
     card,
-    TimeTable
+    apps
+  },
+  onShow() {
+    this.$store.dispatch('syncTime')
   },
   methods: {
     reAuth() {
@@ -69,61 +55,12 @@ export default {
         }
       })
     },
-    updateCourseState(data) {
-      // console.log(data, this.user.password)
-      this.courses = decrypt(data, this.user.password)
-    },
     bindViewTap() {
       const url = '../logs/main'
       wx.navigateTo({ url })
     },
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev)
-    },
-    refreshCourse() {
-      console.log('user', this.user)
-      wx.showNavigationBarLoading()
-      this.$http
-        .post('/users/data/my-course', {
-          userID: this.user.userID,
-          password: this.user.password
-        })
-        .then(res => {
-          wx.hideNavigationBarLoading()
-          console.log(res)
-          this.getCourses()
-          wx.stopPullDownRefresh()
-          wx.showToast({
-            title: '刷新课表成功'
-          })
-        })
-        .catch(err => {
-          wx.hideNavigationBarLoading()
-          if (err.status.code === 401) {
-            wx.redirectTo({
-              url: '/pages/login/main'
-            })
-          }
-          console.log(err)
-        })
-    },
-    getCourses() {
-      this.$http
-        .get('/users/data/my-course')
-        .then(response => {
-          // let time = this.$store.state.time
-          // wx.setStorageSync(`myCourses:2018_3`, response.data)
-          this.updateCourseState(response.data)
-        })
-        .catch(err => {
-          console.log(err)
-          if (err.response.status === 404) {
-            // wx.showToast(`更新课表中`)
-            this.refreshCourse()
-          } else {
-            // wx.showToast(`更新失败${err.response.status}`)
-          }
-        })
     },
     onAvatarClick() {
       wx.showActionSheet({
@@ -148,23 +85,9 @@ export default {
   },
   onPullDownRefresh() {
     console.log('pull down')
-    wx.showModal({
-      title: '提示',
-      content: '刷新当前课表吗，这可能需要一点时间',
-      success: res => {
-        wx.stopPullDownRefresh()
-        if (res.confirm) {
-          this.refreshCourse()
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
   },
   created() {
     console.log(this.user)
-    console.log(this.user.userName)
-    this.getCourses()
   }
   // onLoad: function() {
   //   console.log('onload')
@@ -180,7 +103,7 @@ export default {
   height: 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  background-color: #7EB3EC;
+  background-color: #7eb3ec;
 }
 /* 85b7d8 */
 .user-info {
@@ -192,10 +115,10 @@ export default {
   padding-top: 1.5rem;
   color: white;
   padding-bottom: 1.5rem;
-  background-color: #7EB3EC;
+  background-color: #7eb3ec;
   position: relative;
   top: -2rem;
-  border-bottom: 2px solid #6b93ad ;
+  border-bottom: 2px solid #6b93ad;
   /* background-image: linear-gradient(180deg, #85b7d8 0%, #c2e9fb 90%); */
 }
 .container {
