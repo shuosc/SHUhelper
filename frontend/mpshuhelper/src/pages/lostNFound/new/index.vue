@@ -5,7 +5,7 @@
       div
         input.title-form(placeholder="请输入标题" v-model="title")
       div
-        textarea.description-form(v-model="form.content" placeholder="物品型号，在哪里捡到..")
+        textarea.description-form(v-model="content" placeholder="物品型号，在哪里捡到..")
       div.img-form
         div(style="background-color:#ccc;" v-for="img in imgURLs")
           img(:src="img+'-thumbnail'" style="object-fit: cover;width:100%;height:100%;" )
@@ -19,7 +19,7 @@
           div(style="flex:4;")
             radio-group(class="radio-group" @change="radioChange")
               label.radio 寻找失物
-                radio(value="lost") 
+                radio(value="lost" :checked="true") 
               label.radio 寻找失主
                 radio(value="found") 
         div(style="display:flex;")
@@ -28,18 +28,18 @@
         div(style="display:flex;" @click="onLocationClick")
           div(style="flex:1") 地址定位
           div(style="flex:4;" v-if="!location.latitude" ) 请选择位置 >
-          div(style="flex:4;" v-else) {{location.latitude}} {{location.longitude}}
+          div(style="flex:4;" v-else) {{location.name}}>
         //- div(style="display:flex;")
           div(style="flex:1") 详细地址
           input(style="flex:4;"  v-model="location.address" placeholder="详细的地点名称")
-        div(style="display:flex;")
+        //- div(style="display:flex;")
           div(style="flex:1") 详细地址
           input(style="flex:4;"  v-model="location.name" placeholder="详细的地点名称")
         div(style="display:flex;")
           div(style="flex:1") 联系方式
           input(style="flex:4" v-model="contact" placeholder="请输入您的电话")
       div()
-        button(style="height:3rem;vertical-align: middle;" type="primary" @click="onPublishClick") 发布
+        button( :disabled="disable" style="vertical-align: middle;" type="primary" @click="onPublishClick") 发布
 </template>
 
 <script>
@@ -83,6 +83,9 @@ export default {
     }
   },
   computed: {
+    disable: function() {
+      return !(this.title && this.content && this.location.longitude && this.contact)
+    },
     form: function() {
       return {
         title: this.title,
@@ -216,14 +219,14 @@ export default {
   border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .img-form > div {
   /* flex: 0 0 33%; */
   /* padding-top: 33%; */
-  flex: 0 0 32%;
-  width: 100px;
-  height: 100px;
+  /* flex: 0 0 32%; */
+  width: 50px;
+  height: 50px;
   margin: 2px;
   /* box-sizing: border-box; */
 }

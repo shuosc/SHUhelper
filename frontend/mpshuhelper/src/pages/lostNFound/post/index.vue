@@ -9,39 +9,76 @@
             div.name kastnerorz
             div.date 2018-5-7
       div.card.col-10
-        div.title 救救孩子！孩子的外卖丢了！
+        div.title {{post.title}}
         div.tags
           div.tag-wrapper
             span.tag-name 类别：
-            span.tag 食品
+            span.tag {{post.category}}
           div.tag-wrapper
             span.tag-name 位置：
-            span.tag D教学楼
-        div.content 中午点的外卖不知道被谁拿走了！不还上本月枪毙名单!
-        div.image-wrapper
-          img.imageItem(src="/static/show1.jpg")
+            span.tag {{post.address}}
+        map(id="map" :longitude="post.longitude" :latitude="post.latitude" :markers="markers" scale="19" show-location style="width: 100%; height: 300px;")
+        div.content {{post.content}}
+        div.image-wrapper(v-for="img in post.imgURLs")
+          img.imageItem(mode="widthFix",:src="img")
       div.card.col-10(style="margin-bottom: 50px;")
         p.title 联系方式
         div.contact-wrapper
           p.date 电话
-          p.name 18101970000
-        div.contact-wrapper
+          p.name {{post.contact}}
+        //- div.contact-wrapper
           p.date 微信
           p.name kastnerorz
     div.bottom-bar
       //- div.bottom-button-wrapper
       div.bottom-button 首页
-      div.bottom-button 收藏
+      //- div.bottom-button 收藏
       div.bottom-button 分享
       div.bottom-button 18800000000
 </template>
 <script>
-export default { }
+export default {
+  data() {
+    return {
+      id: '',
+      post: {}
+    }
+  },
+  computed: {
+    markers: function() {
+      return [
+        {
+          iconPath: '/static/marker.png',
+          id: 0,
+          latitude: this.post.latitude,
+          longitude: this.post.longitude,
+          width: 50,
+          height: 50
+        }
+      ]
+    }
+  },
+  mounted() {
+    // let now = new Date()
+    // this.date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    this.post = {}
+    this.id = this.$root.$mp.query.id
+    // this.date = this.$moment(this.$root.$mp.query.date, 'YYYY-MM-DD')
+    this.getPost(this.id)
+  },
+  methods: {
+    getPost(id) {
+      this.$http.get(`/lost-n-found/${id}`).then(resp => {
+        this.post = resp.post
+        console.log(resp)
+      })
+    }
+  }
+}
 </script>
 <style scoped>
-
 .hr {
-  border: 0.5px solid rgba(32, 33, 36, 0.28)
+  border: 0.5px solid rgba(32, 33, 36, 0.28);
 }
 
 .card {
@@ -77,7 +114,7 @@ export default { }
 .date {
   padding-top: 3px;
   color: #888;
-  font-size: 14px
+  font-size: 14px;
 }
 
 .title {
@@ -121,7 +158,7 @@ export default { }
 }
 
 .imageItem {
-  width: 90%;
+  width: 100%;
 }
 
 .bottom-bar {

@@ -18,7 +18,7 @@
         | Hi, {{user.username}}
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
-    //- div.nav-box
+    div.nav-box
       div(:style="{flex:4}" :class="{'nav-tab-selected':tabIndex === 0}" @click="tabIndex=0")
         | 寻找失物
       div
@@ -28,14 +28,15 @@
     div.search-bar
       input()
     div()
-      div.lost-card(v-for="i in 10" @click="onPostClick")
+      div.lost-card(@click="onPostClick(postIndex)" v-for="(post,postIndex) in posts")
         div(style="flex:1;display:flex;")
           div(style="background-color:#ccc;height:90%;width:90%;margin:auto;")
+            img.thumbnail(:src="post.imgURLs[0]",background-size="cover")
         div(style="flex:2;display:flex;flex-direction:column;justify-content:space-between;")
           div(style="flex:1;")
-            | title
+            | {{post.title}}
           div(style="flex:1;")
-            | location
+            | {{post.address}}
           div(style="flex:1;display:flex;")
             div(style="flex:1;display:flex;align-items:center;justify-contet:space-between;")
               //- div(style="flex:1;display:flex;")
@@ -44,8 +45,8 @@
                 | {{user.username?user.username:'游客'}}
             div(style="flex:1;")
             div(style="flex:1;text-align:right;padding-right:1rem;")
-              span(style="color:grey;font-size:0.5rem;") 2018/07/23
-        div(style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
+              span(style="color:grey;font-size:0.5rem;") {{post.occurredTime}}
+        div(v-if="post.found" style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
           div(style="display:flex;margin:auto;transform:rotate(-30deg);color:grey;") 已找到
 </template>
 
@@ -61,13 +62,29 @@ export default {
       userInfo: {},
       courses: [],
       isLogin: false,
-      tabIndex: 0
+      tabIndex: 0,
+      posts: [],
+      type: 'lost'
     }
   },
-  computed: mapState(['user']),
+  computed: {
+    type: function() {
+      return this.tabIndex === 0 ? 'lost' : 'found'
+    },
+    ...mapState(['user'])
+  },
+  watch: {
+    tabIndex: function(newIndex, oldIndex) {
+      this.type = newIndex === 0 ? 'lost' : 'found'
+      this.getPosts()
+    }
+  },
   components: {
     card,
     TimeTable
+  },
+  mounted() {
+    this.getPosts()
   },
   methods: {
     bindViewTap() {
@@ -99,9 +116,10 @@ export default {
         }
       })
     },
-    onPostClick() {
+    onPostClick(postIndex) {
+      let id = this.posts[postIndex].id
       wx.navigateTo({
-        url: './post/main'
+        url: `./post/main?id=${id}`
       })
     },
     onAvatarClick() {
@@ -121,6 +139,17 @@ export default {
           }
         }
       })
+    },
+    getPosts() {
+      this.$http
+        .get('/lost-n-found/', {
+          type: this.type
+        })
+        .then(resp => {
+          this.posts = []
+          this.posts = resp.posts
+          console.log(resp)
+        })
     }
   },
   onPullDownRefresh() {
@@ -143,6 +172,12 @@ export default {
 </script>
 
 <style scoped>
+.thumbnail {
+  margin: auto;
+  display: block;
+  width:100%;
+  height: 100%;
+}
 .fab {
   border-radius: 50%;
   height: 5rem;
@@ -157,7 +192,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-} 
+}
 .avatar {
   border-radius: 50%;
   height: 2rem;
