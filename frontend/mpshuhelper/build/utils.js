@@ -36,7 +36,7 @@ exports.cssLoaders = function (options) {
   // }
 
   // generate loader string to be used with extract text plugin
-  function generateLoaders(loader, loaderOptions) {
+  function generateLoaders (loader, loaderOptions) {
     // var loaders = [cssLoader, px2rpxLoader, postcssLoader]
     var loaders = [cssLoader, postcssLoader]
     if (loader) {
@@ -66,13 +66,9 @@ exports.cssLoaders = function (options) {
     wxss: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less'),
-    sass: generateLoaders('sass', {
-      indentedSyntax: true
-    }),
+    sass: generateLoaders('sass', { indentedSyntax: true }),
     scss: generateLoaders('sass'),
-    stylus: generateLoaders('stylus', {
-      autoprefixer: false
-    }),   
+    stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
   }
 }

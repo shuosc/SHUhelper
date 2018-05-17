@@ -6,6 +6,7 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '日程'
+    navigationBarTitleText: '日程',
+    enablePullDownRefresh: true
   }
 }

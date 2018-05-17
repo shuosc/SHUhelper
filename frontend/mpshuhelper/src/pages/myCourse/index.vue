@@ -161,7 +161,7 @@ export default {
       }
     })
   },
-  created() {
+  mounted() {
     console.log(this.user)
     console.log(this.user.userName)
     this.getCourses()

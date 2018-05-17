@@ -32,7 +32,7 @@ var webpackConfig = merge(baseWebpackConfig, {
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
       'process.env': env,
-      __SERVER: '"' + server ? server : 'prod' + '"'
+      __SERVER: `'${server ? server : 'prod'}'`
     }),
     new UglifyJsPlugin({
       sourceMap: true

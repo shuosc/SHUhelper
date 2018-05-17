@@ -116,7 +116,7 @@ export default {
             })
           } else {
             wx.redirectTo({
-              url: '/pages/login/main'
+              url: '/pages/index/main'
             })
           }
         }

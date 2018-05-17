@@ -2,8 +2,9 @@
 // import userAPI from './api/user'
 import './weui.css'
 import './iconfont.css'
+import './grid.css'
 export default {
-  beforeCreate() {
+  onLaunch() {
     wx.showLoading()
     this.$store.dispatch('refreshToken').then(() => {
       wx.hideLoading()
@@ -34,7 +35,19 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style>
+/* .container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+} */
 /* @import '../static/iconfont.css' */
-@import './grid.styl'
+/* @import './grid.styl' */
+.test {
+  font-size: 10px;
+}
 </style>

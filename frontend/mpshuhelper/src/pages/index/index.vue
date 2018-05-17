@@ -15,7 +15,7 @@
 
 <script>
 import card from '@/components/card'
-import apps from '@/pages/apps/index'
+import apps from '@/components/apps'
 // import { decrypt } from '@/utils/index.js'
 import { mapState } from 'vuex'
 export default {
@@ -74,8 +74,8 @@ export default {
             })
           } else {
             wx.showModal({
-              title: 'SHUhelper 小程序版本 v0.1.5',
-              content: `现在您也可以在微信小程序里查看课表啦。使用过程中出现问题请直接向微信公众号 shuhelper 后台反馈。`,
+              title: 'SHUhelper 小程序版本 v0.2.0',
+              content: `使用过程中出现问题请直接向微信公众号 shuhelper 后台反馈。`,
               showCancel: false
             })
           }

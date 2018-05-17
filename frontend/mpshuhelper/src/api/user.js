@@ -58,6 +58,7 @@ export default {
       })
       .then(response => {
         response.password = password
+        http.config.headers['Authorization'] = 'Bearer ' + response.token
         cb(response)
       })
       .catch(error => {
