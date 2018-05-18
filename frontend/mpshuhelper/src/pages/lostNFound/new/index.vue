@@ -15,13 +15,18 @@
           div(style="flex:1;") 发生时间
           div(style="flex:4;")
         div(style="display:flex;")
+          div(style="flex:1") 失物招领点
+          //- input(style="flex:4" v-model="category" placeholder="请选择物品分类")
+          picker(@change="bindPickerChangeSite" :value="siteIndex" :range="sites")
+            view {{sites[siteIndex]}} >
+        div(style="display:flex;")
           div(style="flex:1;") 物品分类
           div(style="flex:4;")
             radio-group(class="radio-group" @change="radioChange")
               label.radio 寻找失物
-                radio(value="lost" :checked="true") 
+                radio(value="lost" :checked="true")
               label.radio 寻找失主
-                radio(value="found") 
+                radio(value="found")
         div(style="display:flex;")
           div(style="flex:1") 物品分类
           //- input(style="flex:4" v-model="category" placeholder="请选择物品分类")
@@ -48,6 +53,7 @@
 import card from '@/components/card'
 import TimeTable from '@/components/TimeTable'
 import { mapState } from 'vuex'
+import { lostNFoundSites } from '@/utils'
 export default {
   data() {
     return {
@@ -64,7 +70,6 @@ export default {
         name: '',
         address: ''
       },
-      // occurredTime: '',
       title: '',
       content: '',
       category: '',
@@ -72,6 +77,7 @@ export default {
       submitLoading: '',
       address: '',
       type: 'lost',
+      siteIndex: 0,
       imgURLs: [],
       items: [
         {
@@ -88,6 +94,13 @@ export default {
     }
   },
   computed: {
+    sites: function() {
+      let names = []
+      lostNFoundSites.forEach(e => {
+        names.push(e.name)
+      })
+      return names
+    },
     disable: function() {
       return !(this.title && this.content && this.location.longitude && this.contact)
     },
@@ -101,7 +114,8 @@ export default {
         type: this.type,
         imgURLs: this.imgURLs,
         latitude: this.location.latitude,
-        longitude: this.location.longitude
+        longitude: this.location.longitude,
+        site: lostNFoundSites[this.siteIndex].value
         // occurredTime: this.occurredTime
       }
     },
@@ -114,6 +128,9 @@ export default {
   methods: {
     bindPickerChange(e) {
       this.categoryIndex = e.target.value
+    },
+    bindPickerChangeSite(e) {
+      this.siteIndex = e.target.value
     },
     radioChange(e) {
       this.type = e.target.value

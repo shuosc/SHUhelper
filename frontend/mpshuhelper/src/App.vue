@@ -1,6 +1,7 @@
 <script>
 // import userAPI from './api/user'
-import './weui.css'
+// import './weui.css'
+import 'mp-weui/lib/style.css'
 import './iconfont.css'
 import './grid.css'
 export default {
@@ -36,6 +37,9 @@ export default {
 </script>
 
 <style>
+.weui-loadmore__tips_in-line {
+  background-color: none !important;
+}
 /* .container {
   height: 100%;
   display: flex;

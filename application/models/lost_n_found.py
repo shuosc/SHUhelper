@@ -22,6 +22,7 @@ class LostNFoundPost(db.Model, CRUDMixin):
     created = db.Column(db.DateTime)
     contact = db.Column(db.String)
     is_found = db.Column(db.Boolean, default=False)
+    site = db.Column(db.String)
     hit = db.Column(db.Integer, default=0)
     is_deleted = db.Column(db.Boolean, default=False)
     lighten_time = db.Column(db.DateTime, default=datetime.now)
@@ -41,6 +42,7 @@ class LostNFoundPost(db.Model, CRUDMixin):
             img_URLs=json_post['imgURLs'],
             address=json_post['address'],
             category=json_post['category'],
+            site=json_post['site'],
             # occurred_time = datetime.fromtimestamp(json_post['occurredTime']),
             contact=json_post['contact']
         )
@@ -63,6 +65,7 @@ class LostNFoundPost(db.Model, CRUDMixin):
             'occurredTime': self.occurred_time.timestamp(),
             'contact': self.contact,
             'found': self.is_found,
+            'site': self.site,
             'lightenTime': self.lighten_time,
             'lightenCount': self.lighten_count
         }

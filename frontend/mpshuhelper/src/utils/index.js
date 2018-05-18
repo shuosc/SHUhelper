@@ -1,10 +1,71 @@
 /* eslint-disable */
 import app from '../main'
 import CryptoJS from 'crypto-js'
+
 function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
 }
+export const lostNFoundSites = [{
+    name: '没有放到任何失物招领点',
+    value: null
+  },
+  {
+    name: '花儿小站（菜鸟驿站）',
+    value: 'HE'
+  },
+  {
+    name: '益新一楼充值处',
+    value: 'YX'
+  },
+  {
+    name: '南区食堂',
+    value: 'N1'
+  },
+  {
+    name: '南二门武保处',
+    value: 'NWB'
+  },
+  {
+    name: '南区食堂一楼充值处',
+    value: 'N2'
+  }, {
+    name: '新世界大学生村门卫处',
+    value: 'XSJ'
+  },
+  {
+    name: '西门门卫处',
+    value: 'XM'
+  },
+  {
+    name: '图书馆（三楼人文社科）',
+    value: 'T3'
+  },
+  {
+    name: '图书馆（四楼人文社科）',
+    value: 'T4'
+  },
+  {
+    name: '东区食堂',
+    value: 'DQ'
+  },
+  {
+    name: '东门武保处',
+    value: 'DWB'
+  },
+  {
+    name: 'A楼收发室',
+    value: 'AL'
+  },
+  {
+    name: '南大门武保处',
+    value: 'NWB'
+  },
+  {
+    name: '北门武保处',
+    value: 'BWB'
+  }
+]
 
 const CNNUM = {
   一: 1,

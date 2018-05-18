@@ -15,14 +15,18 @@
           span.tag-name 类别：
           span.tag {{post.category}}
         div.tag-wrapper
-          div.content 
+          div.content
             span.tag-name 详情：
             | {{post.content}}
+        div.tag-wrapper
+          span.tag-name 失物招领点：
+          span.tag(v-if="post.site") {{post.site}}
+          span.tag(v-else) 无
         div.tag-wrapper
           span.tag-name 位置：
           span.tag {{post.address}}
           button(@click="mapVisiable=!mapVisiable" style="margin-top:10px;") {{mapVisiable?'折叠':'展开'}}地图
-        map(v-show="mapVisiable" id="map" :longitude="post.longitude" :latitude="post.latitude" :markers="markers" scale="19" show-location style="width: 100%; height: 300px;")        
+        map(v-show="mapVisiable" id="map" :longitude="post.longitude" :latitude="post.latitude" :markers="markers" scale="19" show-location style="width: 100%; height: 300px;")
         div.image-wrapper(v-for="img in post.imgURLs")
           img.imageItem(mode="widthFix",:src="img")
       //- div.card.col-10
@@ -73,6 +77,9 @@ export default {
     // this.date = this.$moment(this.$root.$mp.query.date, 'YYYY-MM-DD')
     this.getPost(this.id)
   },
+  onShow() {
+    wx.showNavigationBarLoading()
+  },
   methods: {
     onContactClick() {
       wx.makePhoneCall({
@@ -87,6 +94,7 @@ export default {
         this.post = resp.post
         this.post.occurTime = this.$moment(this.post.occurTime).format('YYYY-MM-DD')
         console.log(resp)
+        wx.hideNavigationBarLoading()
       })
     }
   }
@@ -115,7 +123,7 @@ export default {
 }
 
 .contact-info {
-  padding: 11px 0 11px 16px;  
+  padding: 11px 0 11px 16px;
 } */
 .info-wrapper {
   padding: 0 0 0 10px;

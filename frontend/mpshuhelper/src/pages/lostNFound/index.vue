@@ -25,8 +25,10 @@
         | |
       div(:style="{flex:4}" :class="{'nav-tab-selected':tabIndex === 1}" @click="tabIndex=1")
         | 寻找失主
-    //- div.search-bar
-      input(v-model="search")
+
+    div.search-bar
+      input(v-model="searchText" confirm-type="search" @confirm="search")
+    //- mp-search.search-bar(@confirm="search" v-model="searchText")
     div()
       div.lost-card(@click="onPostClick(postIndex)" v-for="(post,postIndex) in posts")
         div(style="flex:1;display:flex;")
@@ -36,6 +38,7 @@
           div(style="flex:1;")
             span.tag {{post.category}}
             | {{post.title}}
+            span.tag(v-if="post.site" style="float:right;margin:5px;") {{post.site}}
           div(style="flex:1;font-size:15px;")
             | {{post.content}}
           div(style="flex:1;display:flex;")
@@ -51,12 +54,14 @@
                 span(style="color:grey;font-size:0.5rem;") {{post.occurredTime}}
         div(v-if="post.found" style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
           div(style="display:flex;margin:auto;transform:rotate(-30deg);color:grey;") 已找到
+    mp-loadmore(v-if="finish" not-content="没有更多啦")
 </template>
 
 <script>
 import card from '@/components/card'
 import TimeTable from '@/components/TimeTable'
-// import { decrypt } from '@/utils/index.js'
+import MpSearch from 'mp-weui/packages/search'
+import MpLoadmore from 'mp-weui/packages/loadmore'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -67,8 +72,11 @@ export default {
       isLogin: false,
       tabIndex: 0,
       posts: [],
-      search: '',
-      type: 'lost'
+      searchText: '',
+      finish: false,
+      loading: false,
+      type: 'lost',
+      page: 1
     }
   },
   computed: {
@@ -79,18 +87,23 @@ export default {
   },
   watch: {
     tabIndex: function(newIndex, oldIndex) {
+      this.page = 1
+      this.finish = false
       this.type = newIndex === 0 ? 'lost' : 'found'
-      this.getPosts()
+      this.posts = []
+      this.getPosts(() => {}, true)
     }
     // search: function(newSearch, oldSearch) {
     // }
   },
   components: {
     card,
-    TimeTable
+    TimeTable,
+    MpSearch,
+    MpLoadmore
   },
   mounted() {
-    this.getPosts()
+    this.getPosts(() => {}, false)
   },
   methods: {
     bindViewTap() {
@@ -146,25 +159,55 @@ export default {
         }
       })
     },
+    searchTextChange(value) {
+      this.searchText = value
+    },
+    search(value) {
+      this.page = 1
+      this.finish = false
+      this.posts = []
+      this.getPosts()
+    },
     getPosts(cb) {
+      wx.showNavigationBarLoading()
+      this.loading = true
       this.$http
         .get('/lost-n-found/', {
-          type: this.type
+          type: this.type,
+          page: this.page,
+          search: this.searchText
         })
         .then(resp => {
-          this.posts = []
           for (let post of resp.posts) {
             post.occurredTime = this.$moment(post.occurredTime * 1000).format('YYYY-MM-DD')
             this.posts.push(post)
             wx.stopPullDownRefresh()
+            wx.hideNavigationBarLoading()
           }
           this.posts = resp.posts
+          this.finish = this.posts.length === 0
           console.log(resp)
+          this.loading = false
+        })
+        .catch(err => {
+          wx.hideNavigationBarLoading()
+          this.loading = false
+          this.finish = true
+          console.log(err)
         })
     }
   },
   onPullDownRefresh() {
+    this.finish = false
+    this.page = 1
     console.log('pull down')
+    this.getPosts(() => {}, false)
+  },
+  onReachBottom() {
+    if (this.finish) {
+      return
+    }
+    this.page += 1
     this.getPosts()
   },
   created() {}
@@ -233,6 +276,7 @@ export default {
   font-size: 1.3rem;
   padding-left: 10px;
   background-color: #fff;
+  border: none !important;
   box-shadow: 0 15px 20px #ccd8e2;
   border-radius: 10px;
 }

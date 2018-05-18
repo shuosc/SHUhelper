@@ -2,7 +2,7 @@ from datetime import datetime
 from functools import reduce
 
 import requests
-from flask import Blueprint, Flask, jsonify, request,current_app
+from flask import Blueprint, Flask, jsonify, request, current_app
 from flask.views import MethodView
 from flask_login import current_user, login_required
 
@@ -11,6 +11,7 @@ from application.models.lost_n_found import LostNFoundPost as Post
 
 lost_n_found = Blueprint('lost_n_found', __name__)
 
+
 class LostNFoundAPI(MethodView):
     decorators = [login_required]
 
@@ -18,19 +19,22 @@ class LostNFoundAPI(MethodView):
         if post_id is None:
             posts_type = request.args.get('type', 'found')
             author_id = request.args.get('authorID')
-            page = request.args.get('page',1)
-            search = request.args.get('search',False)
+            page = request.args.get('page', 1, int)
+            search = request.args.get('search', False)
             if search:
-                posts = Post.query.filter(Post.title.contains(search)     | \
-                                            Post.content.contains(search) | \
-                                            Post.place.contains(search)   ,
-                                            Post.type.contains(posts_type))
-            if author_id is None:
-                posts = Post.query.filter_by(type=posts_type)
+                posts = Post.query.filter((Post.title.contains(search) |
+                                           Post.site.contains(search) |
+                                           Post.category.contains(search) |
+                                           Post.content.contains(search) |
+                                           Post.address.contains(search)) &
+                                          Post.type.contains(posts_type))
             else:
-                posts = Post.query.filter_by(author_id=author_id)
+                if author_id is None:
+                    posts = Post.query.filter_by(type=posts_type)
+                else:
+                    posts = Post.query.filter_by(author_id=author_id)
             posts = posts.order_by(Post.lighten_time.desc())
-            paginated_posts = posts.paginate(page=page,per_page=15)
+            paginated_posts = posts.paginate(page=page, per_page=15)
             return jsonify(posts=[post.to_json() for post in paginated_posts.items])
         else:
             post = Post.query.filter_by(id=post_id).first()
@@ -62,9 +66,10 @@ class LostNFoundAPI(MethodView):
         post.change_found_status(is_founded)
         return jsonify(post=post.to_json())
 
+
 view = LostNFoundAPI.as_view('lost_n_found_api')
 lost_n_found.add_url_rule('/', defaults={'post_id': None},
-                 view_func=view, methods=['GET', ])
+                          view_func=view, methods=['GET', ])
 lost_n_found.add_url_rule('/', view_func=view, methods=['POST', ])
 lost_n_found.add_url_rule('/<post_id>', view_func=view,
-                 methods=['GET', 'PUT', 'DELETE'])
+                          methods=['GET', 'PUT', 'DELETE'])
