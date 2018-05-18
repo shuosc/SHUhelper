@@ -66,6 +66,15 @@ export const lostNFoundSites = [{
     value: 'BWB'
   }
 ]
+let lostNFoundSitesMap = {}
+lostNFoundSites.forEach(e => {
+  lostNFoundSitesMap[e.value] = e.name
+
+})
+
+export const sitesMap = lostNFoundSitesMap
+
+
 
 const CNNUM = {
   一: 1,

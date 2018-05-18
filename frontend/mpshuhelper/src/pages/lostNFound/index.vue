@@ -38,7 +38,7 @@
           div(style="flex:1;")
             span.tag {{post.category}}
             | {{post.title}}
-            span.tag(v-if="post.site" style="float:right;margin:5px;") {{post.site}}
+            span.tag(v-if="post.site" style="float:right;margin:5px;") {{sitesMap[post.site]}}
           div(style="flex:1;font-size:15px;")
             | {{post.content}}
           div(style="flex:1;display:flex;")
@@ -62,6 +62,7 @@ import card from '@/components/card'
 import TimeTable from '@/components/TimeTable'
 import MpSearch from 'mp-weui/packages/search'
 import MpLoadmore from 'mp-weui/packages/loadmore'
+import { sitesMap } from '@/utils'
 import { mapState } from 'vuex'
 export default {
   data() {
@@ -76,7 +77,8 @@ export default {
       finish: false,
       loading: false,
       type: 'lost',
-      page: 1
+      page: 1,
+      sitesMap: sitesMap
     }
   },
   computed: {

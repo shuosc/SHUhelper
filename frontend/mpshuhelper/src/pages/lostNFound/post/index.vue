@@ -20,7 +20,7 @@
             | {{post.content}}
         div.tag-wrapper
           span.tag-name 失物招领点：
-          span.tag(v-if="post.site") {{post.site}}
+          span.tag(v-if="post.site") {{sitesMap[post.site]}}
           span.tag(v-else) 无
         div.tag-wrapper
           span.tag-name 位置：
@@ -47,12 +47,14 @@
       div.bottom-button(@click="onContactClick") 一键联系： {{post.contact}}
 </template>
 <script>
+import { sitesMap } from '@/utils'
 export default {
   data() {
     return {
       id: '',
       mapVisiable: false,
-      post: {}
+      post: {},
+      sitesMap: sitesMap
     }
   },
   computed: {
