@@ -12,13 +12,6 @@ from application.models.teaching_manage import *
 course = Blueprint('course', __name__)
 
 
-class CourseAPI(MethodView):
-    def get(self, course_id):
-        if course_id is None:
-            if search:
-                courses = Course
-
-
 class ClassAPI(MethodView):
     pass
 
