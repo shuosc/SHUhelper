@@ -7,8 +7,8 @@ from application.auth.api import auth
 # from application.calendar.api import events
 from application.services.school_time import Time
 # from application.comment.api import comments
-from application.extensions import (admin, allows, babel, cache, captcha_solver,CustomSessionInterface,
-                            celery, db, limiter, login_manager, mail, oauth, redis_store)
+from application.extensions import (admin, allows, babel, cache, captcha_solver, CustomSessionInterface,
+                                    celery, db, limiter, login_manager, mail, oauth, redis_store, ma)
 # from application.feed.api import feeds
 from application.controllers.index import index
 # from application.message.api import conversations
@@ -17,7 +17,9 @@ from application.signals import app_start
 from application.controllers.user import users
 from application.models.user import User
 from application.utils import app_config_from_env
-from application.controllers import room_booking,lost_n_found
+from application.controllers import room_booking, lost_n_found, course
+
+
 def create_app(config=None):
     """
     app factory, return an configured instance 
@@ -39,7 +41,6 @@ def create_app(config=None):
     app_start.send(app)
     # configure_tasks(app,celery)
     return app
-
 
 
 def create_celery_app(config=None):
@@ -123,12 +124,16 @@ def configure_celery_app(app, celery):
 
 def configure_blueprints(app):
     app.register_blueprint(auth, url_prefix='/auth')
-    app.register_blueprint(room_booking.rooms, url_prefix='/room-booking/rooms')
+    app.register_blueprint(
+        room_booking.rooms, url_prefix='/room-booking/rooms')
     app.register_blueprint(index, url_prefix='')
-    app.register_blueprint(room_booking.room_orders, url_prefix='/room-booking/orders')
+    app.register_blueprint(room_booking.room_orders,
+                           url_prefix='/room-booking/orders')
     # app.register_blueprint(time, url_prefix='/time')
     app.register_blueprint(users, url_prefix='/users')
-    app.register_blueprint(lost_n_found.lost_n_found,url_prefix='/lost-n-found')
+    app.register_blueprint(lost_n_found.lost_n_found,
+                           url_prefix='/lost-n-found')
+    app.register_blueprint(course.course, url_prefix='/course')
     # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
     # app.register_blueprint(feeds, url_prefix='/feeds')
@@ -162,6 +167,7 @@ def configure_extensions(app):
     # Flask-Mongo Engine
     db.init_app(app)
 
+    ma.init_app(app)
     # Flask-Cache
     cache.init_app(app, config={'CACHE_TYPE': 'redis', 'CACHE_KEY_PREFIX': 'UHE',
                                 'CACHE_REDIS_URL': app.config['REDIS_URL']})

@@ -17,6 +17,8 @@ from flask_oauthlib.provider import OAuth2Provider
 from flask.sessions import SecureCookieSessionInterface
 from flask_login import current_user, user_loaded_from_request
 from sqlalchemy.dialects.postgresql.base import UUID
+from flask_marshmallow import Marshmallow
+
 # from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from application.schedule import clock
 
@@ -39,6 +41,7 @@ redis_store = FlaskRedis(decode_responses=True)
 
 db = SQLAlchemy()
 db.UUID = UUID
+ma = Marshmallow()
 celery = Celery()
 
 # plugin_manager = PluginManager()

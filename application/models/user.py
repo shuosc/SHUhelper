@@ -18,7 +18,7 @@ class User(UserMixin, db.Model, CRUDMixin):
     # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
     name = db.Column(db.String())
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), unique=True)
     nickname = db.Column(db.String())
     email = db.Column(db.String())
     phone = db.Column(db.String())
@@ -33,10 +33,10 @@ class User(UserMixin, db.Model, CRUDMixin):
     pw_hash = db.Column(db.String())
     oauth = db.relationship('SocialOAuth', lazy='select',
                             backref=db.backref('user', lazy=True))
-    user_type = db.Column(db.String,default='user')
+    user_type = db.Column(db.String, default='user')
     __mapper_args__ = {
-       'polymorphic_identity': 'user',
-       'polymorphic_on': user_type
+        'polymorphic_identity': 'user',
+        'polymorphic_on': user_type
     }
 
     def authenticate(self, password):
@@ -59,6 +59,14 @@ class User(UserMixin, db.Model, CRUDMixin):
         return User.query.get(data['id'])
 
     def save(self):
+        if self.id.startswith("100") or self.id.startswith("510") or self.id.startswith("310") or self.id.startswith("610"):
+            self.user_type = 'teacher'
+        elif self.id[2:4] == '12':
+            self.user_type = 'undergraduate_student'
+        elif self.id[2:4] == '72':
+            self.user_type = 'graduate_student'
+        else:
+            self.user_type = 'user'
         db.session.add(self)
         db.session.commit()
 
@@ -115,6 +123,31 @@ class User(UserMixin, db.Model, CRUDMixin):
         }
         return result
 
+
+class UndergraduateStudent(User):
+    __tablename__ = 'undergraduate_student'
+    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'undergraduate_student',
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
+class GraduateStudent(User):
+    __tablename__ = 'graduate_student'
+    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'graduate_student',
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
 class Teacher(User):
     __tablename__ = 'teacher'
     id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
@@ -126,10 +159,12 @@ class Teacher(User):
     cs = db.Column(db.String())
     intro = db.Column(db.String())
     __mapper_args__ = {
-       'polymorphic_identity': 'teacher',
+        'polymorphic_identity': 'teacher',
     }
+
     def __unicode__(self):
         return self.name
+
 
 class SocialOAuth(db.Model, CRUDMixin):
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
@@ -139,7 +174,7 @@ class SocialOAuth(db.Model, CRUDMixin):
     site = db.Column(db.String())
     site_uid = db.Column(db.String())
     site_uname = db.Column(db.String())
-    created_time = db.Column(db.DateTime,default=datetime.now)
+    created_time = db.Column(db.DateTime, default=datetime.now)
     unionid = db.Column(db.String())
     open_id = db.Column(db.String())
     access_token = db.Column(db.String())
