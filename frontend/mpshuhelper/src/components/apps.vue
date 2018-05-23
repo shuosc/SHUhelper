@@ -23,7 +23,7 @@ export default {
         {
           src: '/static/lostnfound.png',
           name: '失物招领',
-          url: '/pages/lostNFound/main'
+          url: '/pages/lost-n-found/main'
         },
         {
           src: '/static/developing.png',

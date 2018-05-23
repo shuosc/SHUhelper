@@ -75,6 +75,12 @@ export default {
     }
   },
   computed: mapState(['user', 'time']),
+  beforeMount() {
+    this.loaded = false
+  },
+  deactivated() {
+    this.loaded = false
+  },
   mounted() {
     // let now = new Date()
     // this.date = new Date(now.getFullYear(), now.getMonth(), now.getDate())
@@ -85,7 +91,11 @@ export default {
     this.getPost(this.id)
   },
   onShow() {
+    // this.loaded = false
+    // this.post = {}
+    // this.id = this.$root.$mp.query.id
     wx.showNavigationBarLoading()
+    // this.getPost(this.id)
   },
   methods: {
     onSwitchChange(e) {
