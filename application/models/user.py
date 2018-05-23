@@ -1,35 +1,55 @@
-from Crypto.Cipher import AES
-from flask import abort, request, current_app
-from flask_login import UserMixin
-from werkzeug.security import check_password_hash, generate_password_hash
-from application.services.sim_clients import Services
-from application.extensions import db, celery, login_manager, redis_store
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from datetime import datetime
-import uuid
 import binascii
-from application.utils import CRUDMixin
+import uuid
+from datetime import datetime
+
+from Crypto.Cipher import AES
+from flask import abort, current_app, request
+from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from marshmallow import post_load
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from application.extensions import celery, db, login_manager, ma, redis_store
+from application.services.sim_clients import Services
+from application.utils import CRUDMixin, TimeMixin
+
 # from sqlalchemy.dialects.postgresql import UUID
 
 
-class User(UserMixin, db.Model, CRUDMixin):
+class SocialOAuth(db.Model, CRUDMixin, TimeMixin):
+    id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
+    user_id = db.Column(db.String, db.ForeignKey('user.id'))
+    session_key = db.Column(db.String())
+    source = db.Column(db.String())
+    site = db.Column(db.String())
+    site_uid = db.Column(db.String())
+    site_uname = db.Column(db.String())
+    unionid = db.Column(db.String())
+    open_id = db.Column(db.String())
+    access_token = db.Column(db.String())
+    refresh_token = db.Column(db.String())
+    expire_date = db.Column(db.DateTime)
+
+    def bind_user(self, user_id):
+        self.user_id = user_id
+        self.save()
+
+
+class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
     __tablename__ = 'user'
     id = db.Column(db.String(), primary_key=True)
     # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
     name = db.Column(db.String())
-    username = db.Column(db.String(80), unique=True)
+    username = db.Column(db.String(80))
     nickname = db.Column(db.String())
     email = db.Column(db.String())
     phone = db.Column(db.String())
     avatar_URL = db.Column(db.String(), default='avatar_default.jpg')
-    creat_time = db.Column(db.DateTime, nullable=False,
-                           default=datetime.now)
     last_login = db.Column(db.DateTime, nullable=False,
                            default=datetime.now)
     activated = db.Column(db.Boolean)
     robot = db.Column(db.Boolean)
-    deleted = db.Column(db.Boolean)
     pw_hash = db.Column(db.String())
     oauth = db.relationship('SocialOAuth', lazy='select',
                             backref=db.backref('user', lazy=True))
@@ -59,14 +79,6 @@ class User(UserMixin, db.Model, CRUDMixin):
         return User.query.get(data['id'])
 
     def save(self):
-        if self.id.startswith("100") or self.id.startswith("510") or self.id.startswith("310") or self.id.startswith("610"):
-            self.user_type = 'teacher'
-        elif self.id[2:4] == '12':
-            self.user_type = 'undergraduate_student'
-        elif self.id[2:4] == '72':
-            self.user_type = 'graduate_student'
-        else:
-            self.user_type = 'user'
         db.session.add(self)
         db.session.commit()
 
@@ -136,6 +148,24 @@ class UndergraduateStudent(User):
         return self.name
 
 
+# class UserSchema(ma.Schema):
+#     id =
+
+class UndergraduateStudentScheme(ma.ModelSchema):
+    # oauth = ma.List()
+    class Meta:
+        model = UndergraduateStudent
+        exclude = ('oauth', 'pw_hash')
+
+    @post_load
+    def load(self, data):
+        return UndergraduateStudent(**data)
+
+
+undergraduate_student_schema = UndergraduateStudentScheme()
+undergraduate_students_schema = UndergraduateStudentScheme(many=True)
+
+
 class GraduateStudent(User):
     __tablename__ = 'graduate_student'
     id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
@@ -166,35 +196,14 @@ class Teacher(User):
         return self.name
 
 
-class SocialOAuth(db.Model, CRUDMixin):
-    id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
-    user_id = db.Column(db.String, db.ForeignKey('user.id'))
-    session_key = db.Column(db.String())
-    source = db.Column(db.String())
-    site = db.Column(db.String())
-    site_uid = db.Column(db.String())
-    site_uname = db.Column(db.String())
-    created_time = db.Column(db.DateTime, default=datetime.now)
-    unionid = db.Column(db.String())
-    open_id = db.Column(db.String())
-    access_token = db.Column(db.String())
-    refresh_token = db.Column(db.String())
-    expire_date = db.Column(db.DateTime)
-
-    def bind_user(self, user_id):
-        self.user_id = user_id
-        self.save()
-
-
-class UserData(db.Model, CRUDMixin):
+class UserData(db.Model, CRUDMixin,TimeMixin):
     """
     collection of user data, from query used as cache, data encrpted with aes
     """
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     data = db.Column(db.String())
     name = db.Column(db.String())
-    user = db.Column(db.String, db.ForeignKey('user.id'))
-    created = db.Column(db.DateTime, default=datetime.now)
+    user_id = db.Column(db.String, db.ForeignKey('user.id'))
     status = db.Column(db.String())
     # client_id = StringField(default='client_')
 

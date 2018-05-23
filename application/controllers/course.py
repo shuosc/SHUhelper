@@ -8,7 +8,7 @@ from flask_login import current_user, login_required
 
 from application.extensions import db
 from application.models.course import *
-
+from application.utils import register_api
 course = Blueprint('course', __name__)
 
 
@@ -17,17 +17,23 @@ class CourseAPI(MethodView):
         if course_id is None:
             page = request.args.get('page', 1, int)
             per_page = request.args.get('perPage', 15, int)
-            search = request.args.get('search', False)
-            if search:
-                courses = Course.query.filter(
-                    Course.id.contains(search) |
-                    Course.name.contains(search)
-                )
-            else:
-                courses = Course.query.all()
-                paginated_courses = courses.paginate(
-                    page=page, per_page=per_page)
-                return courses_schema.jsonify(paginated_courses.items)
+            course_id = request.args.get('id', '')
+            name = request.args.get('name', '')
+            dept = request.args.get('dept', '')
+            credit = request.args.get('credit', '')
+            # search = request.args.get('search', '')
+            courses = Course.query.filter(
+                Course.id.contains(course_id) &
+                Course.name.contains(name) &
+                Course.dept.contains(dept) &
+                Course.credit.contains(credit)
+            ).order_by(Course.id)
+            # courses = Course.query.all()
+            paginated_courses = courses.paginate(
+                page=page, per_page=per_page)
+            # print(paginated_courses.items[0])
+            result = courses_schema.dump(paginated_courses.items)
+            return jsonify(courses=result.data, total=courses.count())
         else:
             course = Course.get(course_id)
             return course_schema.jsonify(course)
@@ -40,22 +46,19 @@ class CourseAPI(MethodView):
 
     def put(self, course_id):
         json_post = request.json
-        course = Course.get(course_id)
-        course.id = json_post['id']
+        course = Course.query.get(course_id)
+        # course.id = json_post['id']
         course.name = json_post['name']
         course.credit = json_post['credit']
+        course.detail = json_post['detail']
+        course.dept = json_post['dept']
         course.save()
         return course_schema.jsonify(course)
 
     def delete(self, course_id):
-        course = Course.get(course_id)
+        course = Course.query.get(course_id)
         course.delete()
         return jsonify(success=True)
 
 
-view = CourseAPI.as_view('course_api')
-course.add_url_rule('/', defaults={'course_id': None},
-                    view_func=view, methods=['GET', ])
-course.add_url_rule('/', view_func=view, methods=['POST', ])
-course.add_url_rule('/<course_id>', view_func=view,
-                    methods=['GET', 'PUT', 'DELETE'])
+register_api(course, CourseAPI, 'course_api', '/', pk='course_id')

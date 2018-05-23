@@ -5,9 +5,9 @@
         <icon type="success" size="93"></icon>
       </div>
       <div class="weui-msg__text-area">
-        <div class="weui-msg__title">发布成功</div>
+        <div class="weui-msg__title">成功</div>
         <!-- <div class="weui-msg__desc">
-          
+
         </div> -->
       </div>
       <!-- <navigator url="" class="weui-msg__link">文字链接</navigator> -->
@@ -17,7 +17,7 @@
             <button class="weui-btn" type="primary">前往预定页面</button>
           </navigator> -->
           <navigator delta="1" open-type="navigateBack" hover-class="navigator-hover">
-            <button class="weui-btn" type="primary">返回失物招领</button>
+            <button @click="onBackClick" class="weui-btn" type="primary">返回失物招领</button>
           </navigator>
           <!-- <navigator url="/pages/index/main" open-type="redirect" hover-class="navigator-hover">
             <button class="weui-btn" type="default">返回首页</button>
@@ -39,9 +39,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  // methods: {
+  //   onBackClick() {
+  //     wx.redirectTo({ url: '../main?refresh=true' })
+  //   }
+  // }
+}
 </script>
 
 <style>
-
 </style>

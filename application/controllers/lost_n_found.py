@@ -12,6 +12,13 @@ from application.models.lost_n_found import LostNFoundPost as Post
 lost_n_found = Blueprint('lost_n_found', __name__)
 
 
+@lost_n_found.route('/<post_id>/lighten')
+def lighten(post_id):
+    post = Post.query.get(post_id)
+    post.lighten()
+    return jsonify(post=post.to_json())
+
+
 class LostNFoundAPI(MethodView):
     decorators = [login_required]
 
@@ -37,7 +44,7 @@ class LostNFoundAPI(MethodView):
             paginated_posts = posts.paginate(page=page, per_page=15)
             return jsonify(posts=[post.to_json() for post in paginated_posts.items])
         else:
-            post = Post.query.filter_by(id=post_id).first()
+            post = Post.query.get(post_id)
             return jsonify(post=post.to_json())
 
     def post(self):
@@ -52,17 +59,17 @@ class LostNFoundAPI(MethodView):
             return jsonify(msg="无权限"), 401
         else:
             post = Post.query.filter_by(id=post_id).first()
-            if not post.user_id == current_user.id:
+            if not post.author_id == current_user.id:
                 return jsonify(msg="无权限"), 401
             post.delete()
             return jsonify(success=True)
 
     def put(self, post_id):
         post = Post.query.filter_by(id=post_id).first()
-        if not post.user_id == current_user.id:
+        if not post.author_id == current_user.id:
             return jsonify(msg="无权限"), 401
         json_post = request.json
-        is_founded = json_post['isFounded']
+        is_founded = json_post['isFound']
         post.change_found_status(is_founded)
         return jsonify(post=post.to_json())
 

@@ -37,9 +37,9 @@
         div(style="flex:2;display:flex;flex-direction:column;justify-content:space-between;")
           div(style="flex:1;")
             span.tag {{post.category}}
-            | {{post.title}}
+            span(style="font-size:14px;") {{post.title}}
             span.tag(v-if="post.site" style="float:right;margin:5px;") {{sitesMap[post.site]}}
-          div(style="flex:1;font-size:15px;")
+          div(style="flex:1;font-size:10px;height:20px;overflow:hidden;text-overflow: ellipsis;")
             | {{post.content}}
           div(style="flex:1;display:flex;")
             div(style="flex:1;display:flex;align-items:center;justify-contet:space-between;")
@@ -47,12 +47,13 @@
                 img.avatar(:src="user.avatarURL",background-size="cover")
               //- div(style="flex:1;color:black;flex:4;font-size:1rem;")
                 | {{user.username?user.username:'游客'}}
-              div(style="color:black;flex:4;font-size:10px;")
+              div(style="flex:4;font-size:10px;height:15px;overflow:hidden;text-overflow: ellipsis;")
                 span {{post.address}}
+              //- div(style="color:black;flex:4;font-size:10px;")
               //- div(style="flex:1;")
               div(style="flex:2;text-align:right;padding-right:1rem;")
                 span(style="color:grey;font-size:0.5rem;") {{post.occurredTime}}
-        div(v-if="post.found" style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
+        div(v-if="post.isFound" style="display:flex;position:absolute;bottom:5px;right:5px;width:70px;height:70px;border:1px solid red;border-radius:35px;")
           div(style="display:flex;margin:auto;transform:rotate(-30deg);color:grey;") 已找到
     mp-loadmore(v-if="finish" not-content="没有更多啦")
 </template>
@@ -106,6 +107,16 @@ export default {
   },
   mounted() {
     this.getPosts(() => {}, false)
+  },
+  onShow() {
+    // if (this.$root.$mp.query.refresh) {
+    this.page = 1
+    this.finish = false
+
+    this.getPosts(() => {
+      this.posts = []
+    }, false)
+    // }
   },
   methods: {
     bindViewTap() {
@@ -180,6 +191,7 @@ export default {
           search: this.searchText
         })
         .then(resp => {
+          cb()
           for (let post of resp.posts) {
             post.occurredTime = this.$moment(post.occurredTime * 1000).format('YYYY-MM-DD')
             this.posts.push(post)

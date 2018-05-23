@@ -18,7 +18,6 @@ from flask.sessions import SecureCookieSessionInterface
 from flask_login import current_user, user_loaded_from_request
 from sqlalchemy.dialects.postgresql.base import UUID
 from flask_marshmallow import Marshmallow
-
 # from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from application.schedule import clock
 
@@ -47,7 +46,7 @@ celery = Celery()
 # plugin_manager = PluginManager()
 
 captcha_solver = Solver()
-
+# dashboard = flask_monitoringdashboard()
 babel = Babel()
 
 oauth = OAuth2Provider()

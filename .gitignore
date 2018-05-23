@@ -17,3 +17,4 @@ gunicorn.log
 .coverage
 coverage.xml
 .pytest_cache
+flask_monitoringdashboard.db

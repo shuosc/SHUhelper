@@ -6,8 +6,10 @@ from application.enums import Campus
 from datetime import datetime
 import requests
 from sqlalchemy.dialects.postgresql import ENUM
-from application.utils import CRUDMixin, current_ten_minutes,current_day_seconds
+from application.utils import CRUDMixin, current_ten_minutes, current_day_seconds, TimeMixin
 import uuid
+
+
 class Room(db.Model, CRUDMixin):
     __tablename__ = 'room'
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
@@ -24,12 +26,11 @@ class Room(db.Model, CRUDMixin):
                              backref=db.backref('room', lazy=True))
 
 
-class Order(db.Model, CRUDMixin):
+class Order(db.Model, CRUDMixin, TimeMixin):
     __tablename__ = 'room_booking_order'
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
     room_id = db.Column(db.UUID, db.ForeignKey('room.id'))
-    create_time = db.Column(db.DateTime, default=datetime.now)
     contact = db.Column(db.String)
     teacher = db.Column(db.String)
     date = db.Column(db.DateTime)

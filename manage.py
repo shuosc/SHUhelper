@@ -2,6 +2,7 @@ from application.app import create_app
 from application.extensions import db
 from flask_migrate import Migrate, MigrateCommand
 import click
+from application.models.user import User, UndergraduateStudent, GraduateStudent
 # import application.plugins.SHU_course.manage as manage
 # from application.extensions import celery
 print('before app start')
@@ -29,6 +30,23 @@ from application.models.user import Teacher
 # dept
 # intro
 
+
+# @app.cli.command()
+# def update_users():
+#     users = User.query.filter(User.user_type=None).all()
+#     for user in users:
+#         if user.id[2:4] == '12':
+#             user.user_type = 'undergraduate_student'
+#             result = db.engine.execute(
+#                 "INSERT INTO undergraduate_student VALUES('{0}');".format(user.id))
+#             # student =
+#         elif user.id[2:4] == '72':
+#             user.user_type = 'graduate_student'
+#             result = db.engine.execute(
+#                 "INSERT INTO graduate_student VALUES('{0}');".format(user.id))
+#         user.save()
+
+
 @app.cli.command()
 def read_teachers():
     with open('teachers.json', 'r') as myFile:
@@ -50,6 +68,7 @@ def read_teachers():
                     intro=line.get('intro')
                 )
                 teacher.save()
+
 
 from application.models.course import Course
 

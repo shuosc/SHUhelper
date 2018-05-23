@@ -3,19 +3,16 @@ from flask_login import current_user
 from application.extensions import db
 from application.models.user import User
 from application.extensions import ma
+from application.utils import CRUDMixin, TimeMixin
 
 
-class Course(db.Model):
+class Course(db.Model, CRUDMixin, TimeMixin):
     # id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     id = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
     credit = db.Column(db.String)
     detail = db.Column(db.String)
     dept = db.Column(db.String)
-    created = db.Column(db.DateTime, nullable=False,
-                        default=datetime.now)
-    updated = db.Column(db.DateTime, nullable=False,
-                        default=datetime.now)
 
     @classmethod
     def from_json(cls, json_post):
@@ -45,7 +42,7 @@ course_schema = CourseScheme()
 courses_schema = CourseScheme(many=True)
 
 
-class CourseClass(db.Model):
+class CourseClass(db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     teacher_id = db.Column(db.String, db.ForeignKey('teacher.id'))
     teacher_name_raw = db.Column(db.String)
@@ -59,10 +56,6 @@ class CourseClass(db.Model):
     class_id = db.Column(db.String)
     year = db.Column(db.Integer)
     term = db.Column(db.Integer)
-    created = db.Column(db.DateTime, nullable=False,
-                        default=datetime.now)
-    updated = db.Column(db.DateTime, nullable=False,
-                        default=datetime.now)
 
     @classmethod
     def from_json(cls, json_post):
@@ -96,7 +89,8 @@ class CourseClassScheme(ma.Schema):
 course_class_schema = CourseClass()
 course_classes_schema = CourseClass(many=True)
 
-class StudentCourse(db.Model):
+
+class StudentCourse(db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.UUID(as_uuid=True),
                    default=uuid.uuid4, primary_key=True)
     class_id = db.Column(db.UUID, db.ForeignKey('course_class.id'))

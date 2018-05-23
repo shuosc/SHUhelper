@@ -7,8 +7,8 @@
 from flask import Blueprint, jsonify, g, request, abort, current_app
 from application.extensions import limiter
 from datetime import datetime
-from application.models.user import User, SocialOAuth
 from flask_login import login_required, current_user
+from application.models.user import User, SocialOAuth, UndergraduateStudent, GraduateStudent
 
 import requests
 import json
@@ -25,7 +25,7 @@ def check_rate_limiting():
 def login_rate_limit_error(error):
     """Register a custom error handler for a 'Too Many Requests'
     (HTTP CODE 429) error."""
-    return jsonify(message='Too Many Requests'),400
+    return jsonify(message='Too Many Requests'), 400
 
 
 def login_rate_limit():
@@ -103,12 +103,14 @@ def get_open_id():
         return jsonify(result)
     return jsonify(msg='error'), 401
 
+
 @auth.route('/refresh-token')
 @login_required
 def refresh_token():
     user = current_user
     token = user.generate_auth_token(864000)
     return jsonify(token=token)
+
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
@@ -129,7 +131,14 @@ def login():
         if user is not None:
             need_fresh = not user.authenticate(json_post['password'])
         else:
-            user = User(id=json_post['userID'])
+            if json_post['userID'].startswith("100") or json_post['userID'].startswith("510") or json_post['userID'].startswith("310") or json_post['userID'].startswith("610"):
+                user = Teacher(id=json_post['userID'])
+            elif json_post['userID'][2:4] == '12':
+                user = UndergraduateStudent(id=json_post['userID'])
+            elif json_post['userID'][2:4] == '72':
+                user = GraduateStudent(id=json_post['userID'])
+            else:
+                user = User(id=json_post['userID'])
             need_fresh = True
         if need_fresh and not user.regisiter(json_post['password']):
             abort(403)

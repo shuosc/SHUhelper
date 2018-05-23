@@ -3,28 +3,27 @@ from flask_login import current_user
 from application.extensions import db
 from application.models.user import User
 from sqlalchemy.dialects import postgresql
-from application.utils import CRUDMixin
+from application.utils import CRUDMixin, TimeMixin
 import uuid
 
 
-class LostNFoundPost(db.Model, CRUDMixin):
+class LostNFoundPost(db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     author_id = db.Column(db.String, db.ForeignKey('user.id'))
     type = db.Column(db.String)  # lost or found
     title = db.Column(db.String)
     category = db.Column(db.String)
+    location_type = db.Column(db.String)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
     content = db.Column(db.String)
     img_URLs = db.Column(postgresql.ARRAY(db.String, dimensions=1))
     address = db.Column(db.String)
     occurred_time = db.Column(db.DateTime, default=datetime.now)
-    created = db.Column(db.DateTime)
     contact = db.Column(db.String)
     is_found = db.Column(db.Boolean, default=False)
     site = db.Column(db.String)
     hit = db.Column(db.Integer, default=0)
-    is_deleted = db.Column(db.Boolean, default=False)
     lighten_time = db.Column(db.DateTime, default=datetime.now)
     lighten_count = db.Column(db.Integer, default=0)
     author = db.relationship('User', backref=db.backref(
@@ -64,7 +63,7 @@ class LostNFoundPost(db.Model, CRUDMixin):
             'address': self.address,
             'occurredTime': self.occurred_time.timestamp(),
             'contact': self.contact,
-            'found': self.is_found,
+            'isFound': self.is_found,
             'site': self.site,
             'lightenTime': self.lighten_time,
             'lightenCount': self.lighten_count

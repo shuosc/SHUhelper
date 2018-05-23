@@ -17,7 +17,8 @@ from application.signals import app_start
 from application.controllers.user import users
 from application.models.user import User
 from application.utils import app_config_from_env
-from application.controllers import room_booking, lost_n_found, course
+from application.controllers import room_booking, lost_n_found, course, student
+import flask_monitoringdashboard as dashboard
 
 
 def create_app(config=None):
@@ -133,7 +134,10 @@ def configure_blueprints(app):
     app.register_blueprint(users, url_prefix='/users')
     app.register_blueprint(lost_n_found.lost_n_found,
                            url_prefix='/lost-n-found')
-    app.register_blueprint(course.course, url_prefix='/course')
+    app.register_blueprint(lost_n_found.lost_n_found,
+                           url_prefix='/lost-n-found/posts')
+    app.register_blueprint(course.course, url_prefix='/courses')
+    app.register_blueprint(student.students, url_prefix='/students')
     # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
     # app.register_blueprint(feeds, url_prefix='/feeds')
@@ -189,4 +193,5 @@ def configure_extensions(app):
 
     oauth.init_app(app)
 
+    dashboard.bind(app)
     # plugin_manager.init_app(app)

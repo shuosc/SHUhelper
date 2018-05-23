@@ -41,7 +41,7 @@
 				{
 					"id": 1,
 					"name": "失物招领",
-					"pathName": "pages/lostNFound/main",
+					"pathName": "pages/lost-n-found/main",
 					"query": ""
 				},
 				{
