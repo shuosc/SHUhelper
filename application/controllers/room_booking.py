@@ -8,8 +8,9 @@ from flask_login import current_user, login_required
 
 from application.extensions import db
 from application.models.room import Order, Room
+from application.models.user import User
 from application.utils import current_ten_minutes, current_day_seconds
-from sqlalchemy import cast,Integer
+from sqlalchemy import cast, Integer
 rooms = Blueprint('room', __name__)
 room_orders = Blueprint('room_order', __name__)
 
@@ -28,14 +29,16 @@ def render_rooms_info(rooms, orders):
 
 
 def cal_restrict(orders):
-    used = reduce(lambda x, y: x + (y.end-y.start+1), orders, 0)
+    used = reduce(lambda x, y: x + (y.end-y.start), orders, 0)
+    # print('used', used)
     return 4*3600 - used
 
 
 def check_restrict(order, user_id):
     orders = Order.query.filter_by(date=order.date, user_id=user_id).all()
+    # print(orders[0].start, orders[0].end)
     restrict = cal_restrict(orders)
-    return restrict >= (order.end-order.start + 1)
+    return restrict >= (order.end-order.start)
 
 
 @rooms.route('', methods=['GET'])
@@ -72,6 +75,8 @@ def check_room_available(order):
     orders = Order.query.filter_by(
         room_id=order.room_id, date=order.date).all()
     for valid_order in orders:
+        # if order.id == valid_order.id:
+        #     continue
         if valid_order.end < order.start or order.end < valid_order.start:
             continue
         else:
@@ -99,7 +104,8 @@ class OrderAPI(MethodView):
         json = request.json
         json['userID'] = current_user.id
         order = Order.from_json(json)
-
+        if current_user.user_type != 'teacher' and current_user.id != '15121604':
+            return jsonify(msg='目前只有教师可以预约'), 400
         if check_restrict(order, current_user.id) == False:
             return jsonify(msg='您当日借教室时长配额不足'), 400
         if check_room_available(order) == False:
@@ -109,6 +115,9 @@ class OrderAPI(MethodView):
             return jsonify(msg='该日无法预约'), 400
         if timedelta.days == 0 and current_day_seconds() > order.start:
             return jsonify(msg='您选择的时段已过，无法预约'), 400
+        for user_id in json['members']:
+            user = User.query.get(user_id)
+            order.members.append(user)
         order.save()
         return jsonify(order=order.to_json())
 
@@ -127,7 +136,7 @@ class OrderAPI(MethodView):
         if not order.user_id == current_user.id:
             return jsonify(msg="无权限"), 401
         seconds = current_day_seconds()
-        end = seconds - seconds%(600) + 600
+        end = seconds - seconds % (600) + 600
         if end >= order.start and end <= order.end:
             order.end = end
             order.save()

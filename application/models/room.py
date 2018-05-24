@@ -26,6 +26,14 @@ class Room(db.Model, CRUDMixin):
                              backref=db.backref('room', lazy=True))
 
 
+members = db.Table('meeting_members',
+                   db.Column('order_id', db.UUID(as_uuid=True), db.ForeignKey(
+                       'room_booking_order.id'), primary_key=True),
+                   db.Column('member_id', db.String, db.ForeignKey(
+                       'user.id'), primary_key=True)
+                   )
+
+
 class Order(db.Model, CRUDMixin, TimeMixin):
     __tablename__ = 'room_booking_order'
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
@@ -38,6 +46,8 @@ class Order(db.Model, CRUDMixin, TimeMixin):
     end = db.Column(db.Integer)
     remark = db.Column(db.String)
     user = db.relationship('User', backref=db.backref('orders', lazy=True))
+    members = db.relationship('User', secondary=members, lazy='subquery',
+                              backref=db.backref('room_booking_orders', lazy=True))
 
     @property
     def status(self):
@@ -71,19 +81,28 @@ class Order(db.Model, CRUDMixin, TimeMixin):
             'end': self.end,
             'date': self.date.timestamp(),
             'status': self.status,
-            'teacher': self.teacher,
+            # 'teacher': self.teacher,
             'contact': self.contact,
-            'remark': self.remark
+            'remark': self.remark,
+            'members': [member.id for member in self.members]
         }
 
     @staticmethod
     def from_json(json_post):
-        return Order(user_id=json_post['userID'],
-                     room_id=json_post['roomID'],
-                     date=datetime.fromtimestamp(json_post['date']),
-                     start=json_post['start'],
-                     end=json_post['end'],
-                     teacher=json_post['teacher'],
-                     contact=json_post['contact'],
-                     remark=json_post['remark']
-                     )
+        order = Order(user_id=json_post['userID'],
+                      room_id=json_post['roomID'],
+                      date=datetime.fromtimestamp(json_post['date']),
+                      start=json_post['start'],
+                      end=json_post['end'],
+                    #   teacher=json_post['teacher'],
+                      contact=json_post['contact'],
+                      remark=json_post['remark']
+                      )
+        # order.save()
+        return order
+
+
+# class MeetingMember(db.Model):
+#     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
+#     order_id = db.Column(db.UUID, db.ForeignKey('room_booking_order.id'))
+#     member_id = db.Column(db.String,db.ForeignKey('user.id'))

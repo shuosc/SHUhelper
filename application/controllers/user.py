@@ -56,7 +56,7 @@ def user_data(name):
             user_data = UserData(name=name,
                                  user=current_user.id, status='none')
             user_data.save()
-        password = post_data.get('pw') # delete these in next release
+        password = post_data.get('pw')  # delete these in next release
         if password is None:
             password = post_data.get('password')
         task = refresh_data(name, current_user.id,
@@ -82,10 +82,10 @@ def user_data(name):
 #         'name': user.name[0] + '*' * len(user.name[1:])
 #     }for user in users])
 
-# @users.route('/<user_id>')
-# def profile(user_id):
-#     user = User.objects.get_or_404(card_id=user_id)
-#     return jsonify(avatar=user.avatar, nickname=user.nickname, _id=user.id)
+@users.route('/<user_id>')
+def profile(user_id):
+    user = User.query.get_or_404(user_id)
+    return jsonify(user=user.to_dict())
 
 
 # @users.route('/<user_id>/custom', methods=['GET', 'PATCH'])
