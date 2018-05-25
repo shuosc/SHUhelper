@@ -17,7 +17,7 @@ from application.signals import app_start
 from application.controllers.user import users
 from application.models.user import User
 from application.utils import app_config_from_env
-from application.controllers import room_booking, lost_n_found, course, student
+from application.controllers import room_booking, lost_n_found, course, student, teacher
 import flask_monitoringdashboard as dashboard
 
 
@@ -138,6 +138,7 @@ def configure_blueprints(app):
                            url_prefix='/lost-n-found/posts')
     app.register_blueprint(course.course, url_prefix='/courses')
     app.register_blueprint(student.students, url_prefix='/students')
+    app.register_blueprint(teacher.teachers, url_prefix='/teachers')
     # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
     # app.register_blueprint(feeds, url_prefix='/feeds')

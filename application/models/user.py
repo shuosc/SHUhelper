@@ -196,6 +196,22 @@ class Teacher(User):
         return self.name
 
 
+class TeacherScheme(ma.ModelSchema):
+    # oauth = ma.List()
+    class Meta:
+        model = Teacher
+        exclude = ('oauth', 'pw_hash')
+
+    @post_load
+    def load(self, data):
+        return Teacher(**data)
+
+
+teacher_schema = TeacherScheme()
+teachers_schema = TeacherScheme(many=True)
+
+
+
 class UserData(db.Model, CRUDMixin,TimeMixin):
     """
     collection of user data, from query used as cache, data encrpted with aes

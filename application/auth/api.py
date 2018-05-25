@@ -2,13 +2,12 @@
 """
     application.auth.api
     ~~~~~~~~~~~~~~~~~~
-    
 """
 from flask import Blueprint, jsonify, g, request, abort, current_app
 from application.extensions import limiter
 from datetime import datetime
 from flask_login import login_required, current_user
-from application.models.user import User, SocialOAuth, UndergraduateStudent, GraduateStudent
+from application.models.user import User, SocialOAuth, UndergraduateStudent, GraduateStudent, Teacher
 
 import requests
 import json
