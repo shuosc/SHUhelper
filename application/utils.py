@@ -10,7 +10,9 @@ def register_api(blue_print, view, endpoint, url, pk='id', pk_type='int'):
     blue_print.add_url_rule(url, defaults={pk: None},
                             view_func=view_func, methods=['GET', ])
     blue_print.add_url_rule(url, view_func=view_func, methods=['POST', ])
-    blue_print.add_url_rule('%s<%s:%s>' % (url, pk_type, pk), view_func=view_func,
+    # blue_print.add_url_rule('%s<%s:%s>' % (url, pk_type, pk), view_func=view_func,
+    # methods=['GET', 'PUT', 'DELETE'])
+    blue_print.add_url_rule('%s<%s>' % (url, pk), view_func=view_func,
                             methods=['GET', 'PUT', 'DELETE'])
 
 

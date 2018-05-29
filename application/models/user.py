@@ -14,7 +14,7 @@ from application.services.sim_clients import Services
 from application.utils import CRUDMixin, TimeMixin
 
 # from sqlalchemy.dialects.postgresql import UUID
-
+# from application.models.teaching_manage import StudentClass
 
 class SocialOAuth(db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
@@ -136,34 +136,13 @@ class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
         return result
 
 
-class UndergraduateStudent(User):
-    __tablename__ = 'undergraduate_student'
-    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
-
-    __mapper_args__ = {
-        'polymorphic_identity': 'undergraduate_student',
-    }
-
-    def __unicode__(self):
-        return self.name
-
-
-# class UserSchema(ma.Schema):
-#     id =
-
-class UndergraduateStudentScheme(ma.ModelSchema):
-    # oauth = ma.List()
-    class Meta:
-        model = UndergraduateStudent
-        exclude = ('oauth', 'pw_hash')
-
-    @post_load
-    def load(self, data):
-        return UndergraduateStudent(**data)
-
-
-undergraduate_student_schema = UndergraduateStudentScheme()
-undergraduate_students_schema = UndergraduateStudentScheme(many=True)
+# student_classes = db.Table('student_class',
+#                            db.Column('student_id', db.String, db.ForeignKey(
+#                                'undergraduate_student.id'), primary_key=True),
+#                            db.Column('class_id', db.UUID(as_uuid=True), db.ForeignKey(
+#                                'class.id'), primary_key=True),
+#                            db.Column('grade_1', db.Integer),
+#                            db.Column('grade_2', db.Integer))
 
 
 class GraduateStudent(User):
@@ -176,40 +155,6 @@ class GraduateStudent(User):
 
     def __unicode__(self):
         return self.name
-
-
-class Teacher(User):
-    __tablename__ = 'teacher'
-    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
-    degree = db.Column(db.String())
-    sex = db.Column(db.String())
-    title = db.Column(db.String())
-    education = db.Column(db.String())
-    dept = db.Column(db.String())
-    cs = db.Column(db.String())
-    intro = db.Column(db.String())
-    __mapper_args__ = {
-        'polymorphic_identity': 'teacher',
-    }
-
-    def __unicode__(self):
-        return self.name
-
-
-class TeacherScheme(ma.ModelSchema):
-    # oauth = ma.List()
-    class Meta:
-        model = Teacher
-        exclude = ('oauth', 'pw_hash')
-
-    @post_load
-    def load(self, data):
-        return Teacher(**data)
-
-
-teacher_schema = TeacherScheme()
-teachers_schema = TeacherScheme(many=True)
-
 
 
 class UserData(db.Model, CRUDMixin,TimeMixin):

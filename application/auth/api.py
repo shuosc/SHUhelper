@@ -7,8 +7,9 @@ from flask import Blueprint, jsonify, g, request, abort, current_app
 from application.extensions import limiter
 from datetime import datetime
 from flask_login import login_required, current_user
-from application.models.user import User, SocialOAuth, UndergraduateStudent, GraduateStudent, Teacher
-
+from application.models.user import User, SocialOAuth, GraduateStudent
+from application.models.teaching_manage import UndergraduateStudent, Teacher
+# from application.models.teaching_manage import Teacher
 import requests
 import json
 auth = Blueprint("auth", __name__)
@@ -124,20 +125,21 @@ def login():
             abort(401)
     else:
         json_post = request.get_json()
-        user = User.query.get(json_post['userID'])
+        user_id = json_post['userID']
+        user = User.query.get(user_id)
         auth_id = json_post.get('authID')
         need_fresh = False
         if user is not None:
             need_fresh = not user.authenticate(json_post['password'])
         else:
-            if json_post['userID'].startswith("100") or json_post['userID'].startswith("510") or json_post['userID'].startswith("310") or json_post['userID'].startswith("610"):
-                user = Teacher(id=json_post['userID'])
-            elif json_post['userID'][2:4] == '12':
-                user = UndergraduateStudent(id=json_post['userID'])
-            elif json_post['userID'][2:4] == '72':
-                user = GraduateStudent(id=json_post['userID'])
+            if user_id.startswith("100") or user_id.startswith("510") or user_id.startswith("310") or user_id.startswith("610"):
+                user = User(id=user_id,user_type='')
+            elif user_id[2:4] == '12' or user_id[2:4] == '17':
+                user = User(id=user_id)
+            elif user_id[2:4] == '72':
+                user = User(id=user_id)
             else:
-                user = User(id=json_post['userID'])
+                user = User(id=user_id)
             need_fresh = True
         if need_fresh and not user.regisiter(json_post['password']):
             abort(403)

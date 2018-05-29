@@ -1,24 +1,28 @@
 
+import flask_monitoringdashboard as dashboard
 from flask import Flask, g
 from flask_redis import FlaskRedis
 from mockredis import MockRedis
+
+
+from application.controllers import teaching_manage, lost_n_found, room_booking
+# from application.feed.api import feeds
+from application.controllers.index import index
+from application.controllers.user import users
+# from application.comment.api import comments
+from application.extensions import (CustomSessionInterface, admin, allows,
+                                    babel, cache, captcha_solver, celery, db,
+                                    limiter, login_manager, ma, mail, oauth,
+                                    redis_store)
+from application.models.user import User
 from application.auth.api import auth
 # from application.admin.views import configure_admin
 # from application.calendar.api import events
 from application.services.school_time import Time
-# from application.comment.api import comments
-from application.extensions import (admin, allows, babel, cache, captcha_solver, CustomSessionInterface,
-                                    celery, db, limiter, login_manager, mail, oauth, redis_store, ma)
-# from application.feed.api import feeds
-from application.controllers.index import index
 # from application.message.api import conversations
 # from application.models.models import Plugin
 from application.signals import app_start
-from application.controllers.user import users
-from application.models.user import User
 from application.utils import app_config_from_env
-from application.controllers import room_booking, lost_n_found, course, student, teacher
-import flask_monitoringdashboard as dashboard
 
 
 def create_app(config=None):
@@ -136,9 +140,11 @@ def configure_blueprints(app):
                            url_prefix='/lost-n-found')
     app.register_blueprint(lost_n_found.lost_n_found,
                            url_prefix='/lost-n-found/posts')
-    app.register_blueprint(course.course, url_prefix='/courses')
-    app.register_blueprint(student.students, url_prefix='/students')
-    app.register_blueprint(teacher.teachers, url_prefix='/teachers')
+    app.register_blueprint(teaching_manage.course, url_prefix='/courses')
+    app.register_blueprint(teaching_manage._class, url_prefix='/classes')
+    app.register_blueprint(teaching_manage.grades, url_prefix='/grades')
+    app.register_blueprint(teaching_manage.students, url_prefix='/students')
+    app.register_blueprint(teaching_manage.teachers, url_prefix='/teachers')
     # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
     # app.register_blueprint(feeds, url_prefix='/feeds')

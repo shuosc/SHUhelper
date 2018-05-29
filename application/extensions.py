@@ -20,7 +20,7 @@ from sqlalchemy.dialects.postgresql.base import UUID
 from flask_marshmallow import Marshmallow
 # from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from application.schedule import clock
-
+from marshmallow_sqlalchemy import ModelSchema, field_for
 class AnonymousUser(AnonymousUserMixin):
     id = '00000001'
     def get_id(self):
@@ -41,6 +41,7 @@ redis_store = FlaskRedis(decode_responses=True)
 db = SQLAlchemy()
 db.UUID = UUID
 ma = Marshmallow()
+ma.field_for = field_for
 celery = Celery()
 
 # plugin_manager = PluginManager()
