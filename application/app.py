@@ -145,6 +145,7 @@ def configure_blueprints(app):
     app.register_blueprint(teaching_manage.grades, url_prefix='/grades')
     app.register_blueprint(teaching_manage.students, url_prefix='/students')
     app.register_blueprint(teaching_manage.teachers, url_prefix='/teachers')
+    app.register_blueprint(teaching_manage.student_class_bp, url_prefix='/student-class')
     # app.register_blueprint(conversations, url_prefix='/conversations')
     # app.register_blueprint(upload, url_prefix='/upload')
     # app.register_blueprint(feeds, url_prefix='/feeds')

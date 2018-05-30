@@ -9,34 +9,41 @@ from application.utils import CRUDMixin, TimeMixin
 from marshmallow import fields
 from application.models.user import User
 
+
 class StudentClass(db.Model, CRUDMixin, TimeMixin):
     student_id = db.Column(db.String, db.ForeignKey(
         'undergraduate_student.id'), primary_key=True)
     class_id = db.Column(db.UUID(as_uuid=True),
                          db.ForeignKey('class.id'), primary_key=True)
-    grade_1 = db.Column(db.Integer)
-    grade_2 = db.Column(db.Integer)
+    grade_1 = db.Column(db.Integer, default=None)
+    grade_2 = db.Column(db.Integer, default=None)
+    grade = db.Column(db.Float, default=None)
+    point = db.Column(db.Float, default=None)
     _class = db.relationship("Class", back_populates="students")
-    student = db.relationship("UndergraduateStudent",back_populates="classes")
+    student = db.relationship("UndergraduateStudent", back_populates="classes")
+
+    @property
+    def is_grade_register(self):
+        return self.grade_1 is not None and self.grade_2 is not None
 
 
 class Class(db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.UUID(as_uuid=True),
                    default=uuid.uuid4, primary_key=True)
     course_id = db.Column(db.String, db.ForeignKey(
-        'course.id'))
-    term = db.Column(db.String)
-    class_id = db.Column(db.String)
-    teacher_id = db.Column(db.String, db.ForeignKey('teacher.id'))
+        'course.id'), index=True)
+    term = db.Column(db.String, index=True)
+    class_id = db.Column(db.String, index=True)
+    teacher_id = db.Column(db.String, db.ForeignKey('teacher.id'), index=True)
     teacher_raw = db.Column(db.String)
-    time = db.Column(db.String)
+    time = db.Column(db.String, index=True)
     classroom = db.Column(db.String)
-    capacity = db.Column(db.Integer, default=0)
+    capacity = db.Column(db.Integer, default=0, index=True)
     enroll = db.Column(db.Integer, default=0)
-    campus = db.Column(db.String)
+    campus = db.Column(db.String, index=True)
     q_time = db.Column(db.String)
     q_place = db.Column(db.String)
-    credit = db.Column(db.String)
+    credit = db.Column(db.String, index=True)
     status = db.Column(db.String)
     students = db.relationship('StudentClass', back_populates="_class")
     __table_args__ = (db.UniqueConstraint('class_id', 'course_id', 'term'),)
@@ -105,8 +112,28 @@ class TeacherSchema(ma.ModelSchema):
 teacher_schema = TeacherSchema()
 teachers_schema = TeacherSchema(many=True)
 
+
+class StudentClassSchema(ma.ModelSchema):
+    # oauth = ma.List()
+    student = ma.Nested('UndergraduateStudentSchema', only=('id', 'name',))
+    _class = ma.Nested('ClassSchema', data_key='class')
+
+    class Meta:
+        model = StudentClass
+        # exclude = ('oauth', 'pw_hash')
+
+    # @post_load
+    # def load(self, data):
+    #     return StudentClass(**data)
+
+
+student_class_schema = StudentClassSchema()
+student_classes_schema = StudentClassSchema(many=True)
+
+
 class ClassSchema(ma.ModelSchema):
-    students = ma.Nested('StudentSchema', many=True)
+    students = ma.Nested('StudentClassSchema', many=True,
+                         only=('grade_1', 'grade_2', 'grade', 'point','student','class_id'))
     course = ma.Nested('CourseSchema')
     class_id = ma.String(data_key="classID")
     q_time = ma.String(data_key="qTime")
@@ -133,8 +160,8 @@ classes_schema = ClassSchema(many=True)
 class Course(db.Model, CRUDMixin, TimeMixin):
     # id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     id = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    credit = db.Column(db.String)
+    name = db.Column(db.String, index=True)
+    credit = db.Column(db.String, index=True)
     detail = db.Column(db.String)
     dept = db.Column(db.String)
     classes = db.relationship('Class', backref='course', lazy=True)

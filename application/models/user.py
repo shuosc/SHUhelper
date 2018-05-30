@@ -40,7 +40,7 @@ class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.String(), primary_key=True)
     # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
-    name = db.Column(db.String())
+    name = db.Column(db.String(), index=True)
     username = db.Column(db.String(80))
     nickname = db.Column(db.String())
     email = db.Column(db.String())
