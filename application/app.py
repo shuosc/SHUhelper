@@ -9,6 +9,7 @@ from application.controllers import teaching_manage, lost_n_found, room_booking
 # from application.feed.api import feeds
 from application.controllers.index import index
 from application.controllers.user import users
+from application.controllers.calendar import calendar
 # from application.comment.api import comments
 from application.extensions import (CustomSessionInterface, admin, allows,
                                     babel, cache, captcha_solver, celery, db,
@@ -142,6 +143,7 @@ def configure_blueprints(app):
                            url_prefix='/lost-n-found/posts')
     app.register_blueprint(teaching_manage.course, url_prefix='/courses')
     app.register_blueprint(teaching_manage._class, url_prefix='/classes')
+    app.register_blueprint(calendar, url_prefix='/calendar')
     app.register_blueprint(teaching_manage.grades, url_prefix='/grades')
     app.register_blueprint(teaching_manage.students, url_prefix='/students')
     app.register_blueprint(teaching_manage.teachers, url_prefix='/teachers')

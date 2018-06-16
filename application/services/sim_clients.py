@@ -6,7 +6,7 @@ import base64
 import json
 import re
 import time
-
+# from application.utils import get_session_or_create
 import requests
 from bs4 import BeautifulSoup
 from flask import current_app
@@ -30,8 +30,10 @@ class Client(object):
         self.password = password
         self.site = ''
         self.subject = ''
+        # self.session = get_session_or_create(card_id)
         self.session = requests.Session()
         self.data = ''
+
 
     def action(self):
         pass

@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_login import current_user
 from application.extensions import db
-from application.models.user import User
+from .user import User
 from sqlalchemy.dialects import postgresql
 from application.utils import CRUDMixin, TimeMixin
 import uuid

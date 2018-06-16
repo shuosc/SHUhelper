@@ -1,6 +1,7 @@
 from application.app import create_app
 from application.extensions import db
 from flask_migrate import Migrate, MigrateCommand
+from application.services import calendar_installer
 import click
 # from application.models.user import User, UndergraduateStudent, GraduateStudent
 # import application.plugins.SHU_course.manage as manage
@@ -17,6 +18,9 @@ def dbmanger():
     MigrateCommand()
 
 
+@app.cli.command()
+def install_calendar():
+    calendar_installer.install()
 # import csv
 # import json
 # from application.models.user import Teacher

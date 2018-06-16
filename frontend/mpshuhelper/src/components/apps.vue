@@ -18,7 +18,7 @@ export default {
         {
           src: '/static/calendar.png',
           name: '课程表',
-          url: '/pages/myCourse/main'
+          url: '/pages/my-course/main'
         },
         {
           src: '/static/lostnfound.png',
