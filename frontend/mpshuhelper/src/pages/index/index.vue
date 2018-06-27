@@ -107,7 +107,17 @@ export default {
 }
 /* 85b7d8 */
 .user-info {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  padding: 11px 16px 11px 16px;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  border-radius: 8px;
+  margin: 0 0 10px 0;
+  position: relative;
+  top: -2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  padding-top: 1.5rem;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   height: 2rem;
   margin-left: 0.5rem;
@@ -118,7 +128,7 @@ export default {
   background-color: #7eb3ec;
   position: relative;
   top: -2rem;
-  border-bottom: 2px solid #6b93ad;
+  border-bottom: 2px solid #6b93ad; */
   /* background-image: linear-gradient(180deg, #85b7d8 0%, #c2e9fb 90%); */
 }
 .container {
