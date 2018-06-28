@@ -10,7 +10,7 @@
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
 	"appid": "wx4ba431cd599d0d77",
-	"projectname": "shuhelper",
+	"projectname": "shu",
 	"libVersion": "2.0.0",
 	"condition": {
 		"search": {

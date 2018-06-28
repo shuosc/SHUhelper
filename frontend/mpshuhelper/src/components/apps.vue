@@ -36,6 +36,11 @@ export default {
           url: '/pages/school-bus/main'
         },
         {
+          src: '/static/sport.png',
+          name: '课外活动',
+          url: '/pages/sports/main'
+        },
+        {
           src: '/static/developing.png',
           name: '敬请期待'
           // url: '/pages/room-booking/main'
