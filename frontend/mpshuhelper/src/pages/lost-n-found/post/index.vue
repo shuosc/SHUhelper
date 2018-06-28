@@ -26,7 +26,7 @@
           span.tag-name 位置：
           span.tag {{post.address}}
           button(@click="onMapClick" style="margin-top:10px;") 在地图中查看
-        div.image-wrapper(v-for="img in post.imgURLs")
+        div.image-wrapper(v-for="img in post.imgURLs" :key="img")
           img.imageItem(mode="widthFix",:src="img")
       div.card.col-10(v-if="post.authorID===user.userID")
         div.row

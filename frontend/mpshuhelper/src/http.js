@@ -1,7 +1,6 @@
 /* eslint-disable */
 import Fly from 'flyio/dist/npm/wx'
-// var Fly = require('flyio/dist/npm/wx')
-import store from './store/index'
+// import store from './store/index'
 import wx from './wx'
 var http = new Fly()
 // console.log('process', __SERVER)
