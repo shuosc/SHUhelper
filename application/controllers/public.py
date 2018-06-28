@@ -4,8 +4,8 @@ from flask_login import login_required,current_user
 
 public = Blueprint('public', __name__)
 
-@public.route('/sports-schedule')
-def get_sports_schedule():
+@public.route('/sports-schedule/<term>')
+def get_sports_schedule(term):
     pass
 
 @public.route('/empty-room')
