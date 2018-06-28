@@ -37,6 +37,7 @@ module.exports = [
     path: '/pages/campus/index',
     name: 'campus',
     config: {
+      enablePullDownRefresh: true,
       navigationBarTitleText: '校园广场'
     }
   },

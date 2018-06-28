@@ -103,37 +103,36 @@ export default {
         },
         {
           user: {
-            username: 'YS199971',
+            username: 'wswphnh123',
             avatar: '/static/avatar_default.jpg'
           },
-          creatTime: '10小时前',
-          content: '大一什么时候开始军训？',
+          creatTime: '14天前',
+          content: '计算机专业大二秋季学期专业必修课要学哪些书？',
           views: 45,
           likes: 0,
-          comments: [
-            {
-              user: {
-                username: 'TamakiAko'
-              },
-              content: '7月11还是10号的样子'
-            }
-          ]
+          comments: []
         },
         {
           user: {
-            username: 'YS199971',
+            username: 'xuehai',
             avatar: '/static/avatar_default.jpg'
           },
-          creatTime: '10小时前',
-          content: '大一什么时候开始军训？',
+          creatTime: '25天前',
+          content: '学校的游泳馆一次多久呀',
           views: 45,
           likes: 0,
           comments: [
             {
               user: {
-                username: 'TamakiAko'
+                username: 'moonin1q'
               },
-              content: '7月11还是10号的样子'
+              content: '校内人员15/h'
+            },
+            {
+              user: {
+                username: 'AlfredLin'
+              },
+              content: '15/90min'
             }
           ]
         }

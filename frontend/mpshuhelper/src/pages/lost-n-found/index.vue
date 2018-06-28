@@ -295,15 +295,22 @@ export default {
   border-radius: 10px;
 }
 .lost-card {
-  height: 100px;
+  /* height: 100px; */
   display: flex;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   border-radius: 10px;
   background-color: #fff;
   margin: 10px;
   box-shadow: 0 5px 5px #ccd8e2;
   align-items: stretch;
   position: relative;
+
+  /* temp css */
+  background-color: white;
+  padding: 8px 13px 8px 13px;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+  border-radius: 8px;
+  /* margin: 0 0 10px 0; */
 }
 .header-box {
   height: 3rem;

@@ -26,14 +26,14 @@ export default {
           url: '/pages/lost-n-found/main'
         },
         {
+          src: '/static/campus.png',
+          name: '校园广场',
+          url: '/pages/campus/main'
+        },
+        {
           src: '/static/bus.png',
           name: '校车时刻',
           url: '/pages/school-bus/main'
-        },
-        {
-          src: '/static/developing.png',
-          name: '校园广场',
-          url: '/pages/campus/main'
         },
         {
           src: '/static/developing.png',
