@@ -33,6 +33,22 @@ module.exports = [
     }
   },
   {
+    alias: '/campus',
+    path: '/pages/campus/index',
+    name: 'campus',
+    config: {
+      navigationBarTitleText: '校园广场'
+    }
+  },
+  {
+    alias: '/campus/new',
+    path: '/pages/campus/new',
+    name: 'campusNew',
+    config: {
+      navigationBarTitleText: '发表动态'
+    }
+  },
+  {
     alias: '/school-bus',
     path: '/pages/schoolBus',
     name: 'schoolBus',

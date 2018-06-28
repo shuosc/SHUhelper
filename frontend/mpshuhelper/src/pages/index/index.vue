@@ -3,8 +3,8 @@
     div.row.header-box
     div.row.user-info(@click="onAvatarClick")
       .col-2
-      .col-8(style="text-align:center;font-weight:bold;")
-        | Hi, {{user.username}}
+      .col-8(style="text-align:center;")
+        | 欢迎回来, {{user.username}}
       .col-2
         img(@click="onAvatarClick",style="height:1.5rem;width:1.5rem;margin:auto;display:block;" class="userinfo-avatar" v-if="user.avatarURL" :src="user.avatarURL" background-size="cover")
     apps
