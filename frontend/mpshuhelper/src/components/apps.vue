@@ -27,8 +27,8 @@ export default {
         },
         {
           src: '/static/developing.png',
-          name: '敬请期待'
-          // url: '/pages/room-booking/main'
+          name: '校园广场',
+          url: '/pages/campus/main'
         },
         {
           src: '/static/developing.png',
