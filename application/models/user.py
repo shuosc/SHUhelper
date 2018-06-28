@@ -16,6 +16,7 @@ from application.utils import CRUDMixin, TimeMixin
 # from sqlalchemy.dialects.postgresql import UUID
 # from application.models.teaching_manage import StudentClass
 
+
 class SocialOAuth(db.Model, CRUDMixin, TimeMixin):
     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
     user_id = db.Column(db.String, db.ForeignKey('user.id'))
@@ -36,9 +37,7 @@ class SocialOAuth(db.Model, CRUDMixin, TimeMixin):
 
 
 class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
-    __tablename__ = 'user'
     id = db.Column(db.String(), primary_key=True)
-    # uuid = Column(UUID, unique=True, nullable=False)
     open_id = db.Column(db.String())
     name = db.Column(db.String(), index=True)
     username = db.Column(db.String(80))
@@ -54,10 +53,19 @@ class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
     oauth = db.relationship('SocialOAuth', lazy='select',
                             backref=db.backref('user', lazy=True))
     user_type = db.Column(db.String, default='user')
+    extra = db.Column(db.JSON)
     __mapper_args__ = {
         'polymorphic_identity': 'user',
         'polymorphic_on': user_type
     }
+
+    @staticmethod
+    def is_teacher_id(user_id):
+        return user_id.startswith("100") or user_id.startswith("510") or user_id.startswith("310") or user_id.startswith("610")
+
+    @staticmethod
+    def is_student_id(user_id):
+        return user_id[2:4] == '12' or user_id[2:4] == '17':
 
     def authenticate(self, password):
         if check_password_hash(self.pw_hash, password):
@@ -77,10 +85,6 @@ class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
         except:
             return None
         return User.query.get(data['id'])
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
 
     def regisiter(self, password):
         client = Services(self.id, password)
@@ -144,9 +148,69 @@ class User(UserMixin, db.Model, CRUDMixin, TimeMixin):
 #                            db.Column('grade_1', db.Integer),
 #                            db.Column('grade_2', db.Integer))
 
+class UndergraduateStudent(User):
+    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
+    # classes = db.relationship('Class', secondary=student_classes, lazy='subquery',
+    #    backref=db.backref('dtudents', lazy=True))
+    classes = db.relationship('StudentClass', back_populates="student")
+    __mapper_args__ = {
+        'polymorphic_identity': 'undergraduate_student',
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
+class UndergraduateStudentSchema(ma.ModelSchema):
+    # oauth = ma.List()
+    class Meta:
+        model = UndergraduateStudent
+        exclude = ('oauth', 'pw_hash')
+
+    @post_load
+    def load(self, data):
+        return UndergraduateStudent(**data)
+
+
+undergraduate_student_schema = UndergraduateStudentSchema()
+undergraduate_students_schema = UndergraduateStudentSchema(many=True)
+
+
+class Teacher(User):
+    id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
+
+    # degree = db.Column(db.String())
+    # sex = db.Column(db.String())
+    # title = db.Column(db.String())
+    # education = db.Column(db.String())
+    # dept = db.Column(db.String())
+    # cs = db.Column(db.String())
+    # intro = db.Column(db.String())
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'teacher',
+    }
+
+    def __unicode__(self):
+        return self.name
+
+
+class TeacherSchema(ma.ModelSchema):
+    # oauth = ma.List()
+    class Meta:
+        model = Teacher
+        exclude = ('oauth', 'pw_hash')
+
+    @post_load
+    def load(self, data):
+        return Teacher(**data)
+
+
+teacher_schema = TeacherSchema()
+teachers_schema = TeacherSchema(many=True)
+
 
 class GraduateStudent(User):
-    __tablename__ = 'graduate_student'
     id = db.Column(db.String, db.ForeignKey('user.id'), primary_key=True)
 
     __mapper_args__ = {
@@ -157,7 +221,7 @@ class GraduateStudent(User):
         return self.name
 
 
-class UserData(db.Model, CRUDMixin,TimeMixin):
+class UserData(db.Model, CRUDMixin, TimeMixin):
     """
     collection of user data, from query used as cache, data encrpted with aes
     """

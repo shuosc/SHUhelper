@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
     application.auth.api
     ~~~~~~~~~~~~~~~~~~
@@ -132,14 +131,14 @@ def login():
         if user is not None:
             need_fresh = not user.authenticate(json_post['password'])
         else:
-            if user_id.startswith("100") or user_id.startswith("510") or user_id.startswith("310") or user_id.startswith("610"):
-                user = User(id=user_id,user_type='')
-            elif user_id[2:4] == '12' or user_id[2:4] == '17':
-                user = User(id=user_id)
+            if User.is_teacher_id(user_id):
+                user = User(id=user_id, user_type='teacher')
+            elif User.is_student_id(user_id):
+                user = User(id=user_id, user_type='undergraduate_student')
             elif user_id[2:4] == '72':
-                user = User(id=user_id)
+                user = User(id=user_id, user_type='graduate_student')
             else:
-                user = User(id=user_id)
+                user = User(id=user_id, user_type='user')
             need_fresh = True
         if need_fresh and not user.regisiter(json_post['password']):
             abort(403)

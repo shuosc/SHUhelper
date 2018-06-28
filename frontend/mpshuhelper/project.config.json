@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -54,6 +54,12 @@
 					"id": 3,
 					"name": "登陆页",
 					"pathName": "pages/login/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "校车时刻表",
+					"pathName": "pages/school-bus/main",
 					"query": ""
 				}
 			]

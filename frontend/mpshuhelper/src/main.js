@@ -9,7 +9,7 @@ import http from '@/http'
 Vue.prototype.$http = http
 Vue.prototype.$store = store
 // Vue.prototype.$router = store
-const moment = require('moment')
+import moment from 'moment'
 require('moment/locale/zh-cn')
 
 Vue.use(require('vue-moment'), {

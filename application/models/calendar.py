@@ -14,8 +14,7 @@ class Calendar(db.Model, CRUDMixin):
     dayoff = db.Column(db.Boolean)
     good = db.Column(db.String)
     bad = db.Column(db.String)
-    extra = db.Column(db.String)
-    # events =
+    extra = db.Column(db.JSON)
 # class Event(db.Model):
 #     id = db.Column(db.UUID(as_uuid=True), default=uuid.uuid4, primary_key=True)
 #     author_id = db.Column(db.String, db.ForeignKey('user.id'))

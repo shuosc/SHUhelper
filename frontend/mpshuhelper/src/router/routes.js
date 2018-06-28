@@ -31,5 +31,13 @@ module.exports = [
     config: {
       navigationBarTitleText: '启事详情'
     }
+  },
+  {
+    alias: '/school-bus',
+    path: '/pages/schoolBus',
+    name: 'schoolBus',
+    config: {
+      navigationBarTitleText: '校车时刻'
+    }
   }
 ]

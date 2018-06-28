@@ -30,7 +30,7 @@
       input(v-model="searchText" confirm-type="search" @confirm="search")
     //- mp-search.search-bar(@confirm="search" v-model="searchText")
     div()
-      div.lost-card(@click="onPostClick(postIndex)" v-for="(post,postIndex) in posts")
+      div.lost-card(@click="onPostClick(postIndex)" v-for="(post,postIndex) in posts" :key="postIndex")
         div(style="flex:1;display:flex;")
           div(style="background-color:#ccc;height:90%;width:90%;margin:auto;")
             img.thumbnail(:src="post.imgURLs[0]",background-size="cover")
@@ -83,13 +83,13 @@ export default {
     }
   },
   computed: {
-    type: function() {
+    type() {
       return this.tabIndex === 0 ? 'lost' : 'found'
     },
     ...mapState(['user'])
   },
   watch: {
-    tabIndex: function(newIndex, oldIndex) {
+    tabIndex(newIndex, oldIndex) {
       this.page = 1
       this.finish = false
       this.type = newIndex === 0 ? 'lost' : 'found'
