@@ -30,7 +30,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 6,
 			"list": [
 				{
 					"id": 0,
@@ -67,6 +67,11 @@
 					"name": "campus",
 					"pathName": "pages/campus/main",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "sprots",
+					"pathName": "pages/sports/main"
 				}
 			]
 		}
