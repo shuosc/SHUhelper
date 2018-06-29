@@ -53,12 +53,14 @@ div.bus
         }
       },
       nearestDepartures() {
-        let minutes = this.time.slice(0, 2)
-        let hours = this.time.slice(3, 5)
+        let minutes = this.time.slice(3, 5)
+        let hours = this.time.slice(0, 2)
         for (let i = 0; i < this.result.length; i++) {
           let departure = this.result[i]
           let dHours = parseInt(departure.slice(0, 2))
           let dMinutes = parseInt(departure.slice(3, 5))
+          console.log('hours:', hours)
+          console.log('minutes:', minutes)
           if (hours < dHours || (dHours === hours && minutes < dMinutes)) {
             return {
               last: i > 0 ? this.result[i - 1] : null,
@@ -77,6 +79,7 @@ div.bus
         this.placeIndex = e.mp.detail.value
         this.getSchedule()
         const nearestDepartures = this.nearestDepartures()
+        console.log(nearestDepartures)
         this.last = nearestDepartures.last
         this.next = nearestDepartures.next
         this.wait = nearestDepartures.wait
@@ -85,8 +88,14 @@ div.bus
     computed: {
       time() {
         const date = new Date()
-        const hour = date.getHours()
-        const minute = date.getMinutes()
+        let hour = date.getHours()
+        if (hour < 10) {
+          hour = '0' + hour
+        }
+        let minute = date.getMinutes()
+        if (minute < 10) {
+          minute = '0' + minute
+        }
         return `${hour}:${minute}`
       }
     }

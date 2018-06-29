@@ -6,7 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '校车时刻',
-    enablePullDownRefresh: true
+    navigationBarTitleText: '校车时刻'
   }
 }
