@@ -48,39 +48,42 @@ def get(self, post_id):
     return jsonify(post=post.to_json())
 
 
-class LostNFoundAPI(MethodView):
-    decorators = [login_required]
+@lost_n_found.route('/<post_id>'，methods=['PUT'])
+@login_required
+def put(self, post_id):
+    post = Post.query.filter_by(id=post_id).first()
+    if not post.author_id == current_user.id:
+        return jsonify(msg="无权限"), 401
+    json_post = request.json
+    is_founded = json_post['isFound']
+    post.change_found_status(is_founded)
+    return jsonify(post=post.to_json())
 
-    def post(self):
-        json_post = request.json
-        json_post['authorID'] = current_user.id
-        post = Post.from_json(json_post)
-        post.save()
-        return jsonify(post=post.to_json())
-
-    def delete(self, post_id):
-        if post_id is None:
-            return jsonify(msg="无权限"), 401
-        else:
-            post = Post.query.filter_by(id=post_id).first()
-            if not post.author_id == current_user.id:
-                return jsonify(msg="无权限"), 401
-            post.delete()
-            return jsonify(success=True)
-
-    def put(self, post_id):
+@lost_n_found.route('/<post_id>'，methods=['DELETE'])
+@login_required
+def delete(self, post_id):
+    if post_id is None:
+        return jsonify(msg="无权限"), 401
+    else:
         post = Post.query.filter_by(id=post_id).first()
         if not post.author_id == current_user.id:
             return jsonify(msg="无权限"), 401
-        json_post = request.json
-        is_founded = json_post['isFound']
-        post.change_found_status(is_founded)
-        return jsonify(post=post.to_json())
+        post.delete()
+        return jsonify(success=True)
+
+@lost_n_found.route('/'，methods=['POST'])
+@login_required
+def post(self):
+    json_post = request.json
+    json_post['authorID'] = current_user.id
+    post = Post.from_json(json_post)
+    post.save()
+    return jsonify(post=post.to_json())
 
 
-view = LostNFoundAPI.as_view('lost_n_found_api')
-# lost_n_found.add_url_rule('/', defaults={'post_id': None},
-#                           view_func=view, methods=['GET', ])
-lost_n_found.add_url_rule('/', view_func=view, methods=['POST', ])
-lost_n_found.add_url_rule('/<post_id>', view_func=view,
-                          methods=['PUT', 'DELETE'])
+# view = LostNFoundAPI.as_view('lost_n_found_api')
+# # lost_n_found.add_url_rule('/', defaults={'post_id': None},
+# #                           view_func=view, methods=['GET', ])
+# lost_n_found.add_url_rule('/', view_func=view, methods=['POST', ])
+# lost_n_found.add_url_rule('/<post_id>', view_func=view,
+#                           methods=['PUT', 'DELETE'])
