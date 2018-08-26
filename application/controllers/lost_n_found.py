@@ -19,33 +19,37 @@ def lighten(post_id):
     return jsonify(post=post.to_json())
 
 
+@lost_n_found.route('/')
+def get(self):
+    posts_type = request.args.get('type', 'found')
+    author_id = request.args.get('authorID')
+    page = request.args.get('page', 1, int)
+    search = request.args.get('search', False)
+    if search:
+        posts = Post.query.filter((Post.title.contains(search) |
+                                   Post.site.contains(search) |
+                                   Post.category.contains(search) |
+                                   Post.content.contains(search) |
+                                   Post.address.contains(search)) &
+                                  Post.type.contains(posts_type))
+    else:
+        if author_id is None:
+            posts = Post.query.filter_by(type=posts_type)
+        else:
+            posts = Post.query.filter_by(author_id=author_id)
+    posts = posts.order_by(Post.lighten_time.desc())
+    paginated_posts = posts.paginate(page=page, per_page=15)
+    return jsonify(posts=[post.to_json() for post in paginated_posts.items])
+
+
+@lost_n_found.route('/<post_id>')
+def get(self, post_id):
+    post = Post.query.get(post_id)
+    return jsonify(post=post.to_json())
+
+
 class LostNFoundAPI(MethodView):
     decorators = [login_required]
-
-    def get(self, post_id):
-        if post_id is None:
-            posts_type = request.args.get('type', 'found')
-            author_id = request.args.get('authorID')
-            page = request.args.get('page', 1, int)
-            search = request.args.get('search', False)
-            if search:
-                posts = Post.query.filter((Post.title.contains(search) |
-                                           Post.site.contains(search) |
-                                           Post.category.contains(search) |
-                                           Post.content.contains(search) |
-                                           Post.address.contains(search)) &
-                                          Post.type.contains(posts_type))
-            else:
-                if author_id is None:
-                    posts = Post.query.filter_by(type=posts_type)
-                else:
-                    posts = Post.query.filter_by(author_id=author_id)
-            posts = posts.order_by(Post.lighten_time.desc())
-            paginated_posts = posts.paginate(page=page, per_page=15)
-            return jsonify(posts=[post.to_json() for post in paginated_posts.items])
-        else:
-            post = Post.query.get(post_id)
-            return jsonify(post=post.to_json())
 
     def post(self):
         json_post = request.json
@@ -75,8 +79,8 @@ class LostNFoundAPI(MethodView):
 
 
 view = LostNFoundAPI.as_view('lost_n_found_api')
-lost_n_found.add_url_rule('/', defaults={'post_id': None},
-                          view_func=view, methods=['GET', ])
+# lost_n_found.add_url_rule('/', defaults={'post_id': None},
+#                           view_func=view, methods=['GET', ])
 lost_n_found.add_url_rule('/', view_func=view, methods=['POST', ])
 lost_n_found.add_url_rule('/<post_id>', view_func=view,
-                          methods=['GET', 'PUT', 'DELETE'])
+                          methods=['PUT', 'DELETE'])
