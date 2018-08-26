@@ -20,7 +20,7 @@ def lighten(post_id):
 
 
 @lost_n_found.route('/')
-def get(self):
+def get_all(self):
     posts_type = request.args.get('type', 'found')
     author_id = request.args.get('authorID')
     page = request.args.get('page', 1, int)
@@ -43,7 +43,7 @@ def get(self):
 
 
 @lost_n_found.route('/<post_id>')
-def get(self, post_id):
+def get_single(self, post_id):
     post = Post.query.get(post_id)
     return jsonify(post=post.to_json())
 
