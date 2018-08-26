@@ -73,7 +73,7 @@ def delete( post_id):
 
 @lost_n_found.route('/',methods=['POST'])
 @login_required
-def post(self):
+def post():
     json_post = request.json
     json_post['authorID'] = current_user.id
     post = Post.from_json(json_post)
