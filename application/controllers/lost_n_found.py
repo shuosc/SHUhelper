@@ -48,7 +48,7 @@ def get(self, post_id):
     return jsonify(post=post.to_json())
 
 
-@lost_n_found.route('/<post_id>'，methods=['PUT'])
+@lost_n_found.route('/<post_id>', methods=['PUT'])
 @login_required
 def put(self, post_id):
     post = Post.query.filter_by(id=post_id).first()
@@ -59,7 +59,7 @@ def put(self, post_id):
     post.change_found_status(is_founded)
     return jsonify(post=post.to_json())
 
-@lost_n_found.route('/<post_id>'，methods=['DELETE'])
+@lost_n_found.route('/<post_id>', methods=['DELETE'])
 @login_required
 def delete(self, post_id):
     if post_id is None:
@@ -71,7 +71,7 @@ def delete(self, post_id):
         post.delete()
         return jsonify(success=True)
 
-@lost_n_found.route('/'，methods=['POST'])
+@lost_n_found.route('/',methods=['POST'])
 @login_required
 def post(self):
     json_post = request.json
