@@ -20,7 +20,7 @@ def lighten(post_id):
 
 
 @lost_n_found.route('/')
-def get_all(self):
+def get_all():
     posts_type = request.args.get('type', 'found')
     author_id = request.args.get('authorID')
     page = request.args.get('page', 1, int)
@@ -43,14 +43,14 @@ def get_all(self):
 
 
 @lost_n_found.route('/<post_id>')
-def get_single(self, post_id):
+def get_single(post_id):
     post = Post.query.get(post_id)
     return jsonify(post=post.to_json())
 
 
 @lost_n_found.route('/<post_id>', methods=['PUT'])
 @login_required
-def put(self, post_id):
+def put( post_id):
     post = Post.query.filter_by(id=post_id).first()
     if not post.author_id == current_user.id:
         return jsonify(msg="无权限"), 401
@@ -61,7 +61,7 @@ def put(self, post_id):
 
 @lost_n_found.route('/<post_id>', methods=['DELETE'])
 @login_required
-def delete(self, post_id):
+def delete( post_id):
     if post_id is None:
         return jsonify(msg="无权限"), 401
     else:
