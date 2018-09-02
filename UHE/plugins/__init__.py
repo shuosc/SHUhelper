@@ -80,7 +80,7 @@ class Plugin(object):
         self.path = os.path.abspath(path)
         print(path, 'info.json')
         with open(os.path.join(path, 'info.json')) as fd:
-            self.info = i = json.load(fd)
+            self.info = i = json.load(fd, encoding="utf-8")
 
         #: The plugin's name, as given in info.json. This is the human
         #: readable name.
