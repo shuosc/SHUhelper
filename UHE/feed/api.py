@@ -4,7 +4,7 @@ import requests
 from flask import Blueprint, jsonify, request, abort
 from flask.views import MethodView
 from flask_login import current_user, login_required
-from flask_restful import Resource, Api
+# from flask_restful import Resource, Api
 from UHE.feed.models import Feed, Comment
 from UHE.user.models import User
 
