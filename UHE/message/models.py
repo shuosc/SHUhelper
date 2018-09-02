@@ -5,7 +5,7 @@ from flask_login import current_user
 from mongoengine import (BooleanField, DateTimeField, CASCADE,PULL,IntField,
                          ListField, ReferenceField, StringField)
 
-from UHE.extens puions import db
+from UHE.extensions import db
 from UHE.user.models import User
 
 
