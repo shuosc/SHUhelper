@@ -24,10 +24,8 @@
             q-toolbar-title
               | 17-18学年校历
         div(v-if="calendarOpen")
-          img.responsive(src="/statics/2017-2018秋.jpg")
-          img.responsive(src="/statics/2017-2018冬.jpg")
-          img.responsive(src="/statics/2017-2018春.jpg")
-          img.responsive(src="/statics/2017-2018夏.jpg")
+          img.responsive(src="/statics/2018-2019-1.jpeg")
+          img.responsive(src="/statics/2018-2019-2.jpeg")
 </template>
 
 <script>

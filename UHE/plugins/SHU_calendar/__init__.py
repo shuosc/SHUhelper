@@ -13,13 +13,40 @@ __plugin__ = "SHUCalendar"
 date = datetime.datetime
 delta = datetime.timedelta
 
+WEEKS = {
+    2016: (
+        ((2016, 9, 5), 0, 12, '2016-2017学年秋季学期', '2016_1'),
+        ((2016, 11, 28), 0, 6, '2016-2017学年冬季学期', '2016_2'),
+        ((2017, 2, 13), 6, 12, '2016_2017学年冬季学期', '2016_2'),
+        ((2017, 3, 27), 0, 12, '2016-2017学年春季学期', '2016_3'),
+        ((2017, 6, 19), 0, 4, '2016-2017学年夏季学期', '2016_4'),
+    ),
+    2017: (
+        ((2017, 9, 11), 0, 9, '2017-2018学年秋季学期', '2017_1'),
+        ((2017, 11, 20), 9, 12, '2017-2018学年秋季学期', '2017_1'),
+        ((2017, 12, 11), 0, 8, '2017-2018学年冬季学期', '2017_2'),
+        ((2018, 2, 26), 8, 12, '2017_2018学年冬季学期', '2017_2'),
+        ((2018, 3, 26), 0, 12, '2017-2018学年春季学期', '2017_3'),
+        ((2018, 6, 18), 0, 4, '2017-2018学年夏季学期', '2017_4'),
+    ),
+    2018: (
+        ((2018, 9, 1), 0, 12, '2018-2019学年秋季学期', '2018_1'),
+        ((2018, 11, 26), 0, 8, '2018-2019学年冬季学期', '2017_2'),
+        ((2019, 2, 25), 8, 12, '2018-2019学年冬季学期', '2017_2'),
+        ((2019, 3, 25), 0, 12, '2018-2019学年春季学期', '2017_3'),
+        ((2019, 6, 17), 0, 4, '2018-2019学年夏季学期', '2017_4'),
+    )
+}
+COURSES_SCHEDULE = ((8, 0), (8, 55), (10, 0), (10, 55), (12, 10), (13, 5),
+                    (14, 10), (15, 5), (16, 0), (16, 55), (18, 0), (18, 55), (19, 50))
+
 
 class SHUCalendar(UHEPlugin):
     settings_key = 'SHU_calendar'
 
     def setup(self, app):
-        self.year = 2017
-        
+        self.year = 2018
+
         print('setup', __plugin__)
         # celery.add_periodic_task(5.0, clock.s('five'))
         # plugin = Plugin.objects(name=)
@@ -47,7 +74,6 @@ class SHUCalendar(UHEPlugin):
         self.install_school_term()
         self.install_school_week()
         self.install_basic_schedule_course()
-        self.event.need_update = False
         self.event.save()
 
     def install_acdemic_year(self):
@@ -58,13 +84,20 @@ class SHUCalendar(UHEPlugin):
                                  end=datetime.datetime(2018, 8, 27),
                                  event=self.event)
             sub_event.save()
+        elif if self.year == 2018:
+            sub_event = Activity(title='上海大学%s-%s学年' % (self.year, self.year + 1),
+                                 key='year', args=str(self.year), category='school_calendar',
+                                 start=datetime.datetime(2018, 9, 1),
+                                 end=datetime.datetime(2019, 9, 1),
+                                 event=self.event)
+            sub_event.save()
 
     def install_school_term(self):
-        if self.year == 2017:
-            terms = (((2017, 9, 4), (2017, 12, 11)),
-                     ((2017, 12, 11), (2018, 3, 26)),
-                     ((2018, 3, 26), (2018, 6, 18)),
-                     ((2018, 6, 18), (2018, 8, 27)))
+        if self.year == 2018:
+            terms = (((2018, 9, 4), (2018, 11, 26)),
+                     ((2018, 11, 26), (2019, 3, 25)),
+                     ((2018, 3, 25), (2018, 6, 17)),
+                     ((2018, 6, 17), (2018, 9, 1)))
             term_names = ('秋季学期', '冬季学期', '春季学期', '夏季学期')
             for i in range(4):
                 Activity(title='上海大学{}-{}学年{}'.format(self.year, self.year + 1, term_names[i]),
@@ -76,7 +109,7 @@ class SHUCalendar(UHEPlugin):
                          event=self.event).save()
 
     @staticmethod
-    def create_week(*start, start_week, end_week, term, key_prefix):
+    def create_week(start, start_week, end_week, term, key_prefix):
         week_events = []
         for i in range(start_week, end_week):
             week = {'start': date(*start) + delta(days=(i-start_week) * 7),
@@ -88,25 +121,13 @@ class SHUCalendar(UHEPlugin):
         return week_events
 
     def weeks(self):
-        if self.year == 2016:
-            weeks_of_year = self.create_week(2016, 9, 5, start_week=0, end_week=12, term="2016-2017学年秋季学期", key_prefix="2016_1") + \
-                self.create_week(2016, 11, 28,  start_week=0, end_week=6, term="2016-2017学年冬季学期", key_prefix="2016_2") + \
-                self.create_week(2017, 2, 13, start_week=6, end_week=12, term="2016_2017学年冬季学期", key_prefix="2016_2") + \
-                self.create_week(2017, 3, 27,  start_week=0, end_week=12, term="2016-2017学年春季学期", key_prefix="2016_3") + \
-                self.create_week(2017, 6, 19,  start_week=0, end_week=4,
-                                 term="2016-2017学年夏季学期", key_prefix="2016_4")
-        elif self.year == 2017:
-            weeks_of_year = self.create_week(2017, 9, 11, start_week=0, end_week=9, term="2017-2018学年秋季学期", key_prefix="2017_1") + \
-                self.create_week(2017, 11, 20,  start_week=9, end_week=12, term="2017-2018学年秋季学期", key_prefix="2017_1") + \
-                self.create_week(2017, 12, 11,  start_week=0, end_week=8, term="2017-2018学年冬季学期", key_prefix="2017_2") + \
-                self.create_week(2018, 2, 26, start_week=8, end_week=12, term="2017_2018学年冬季学期", key_prefix="2017_2") + \
-                self.create_week(2018, 3, 26,  start_week=0, end_week=12, term="2017-2018学年春季学期", key_prefix="2017_3") + \
-                self.create_week(2018, 6, 18,  start_week=0, end_week=4,
-                                 term="2017-2018学年夏季学期", key_prefix="2017_4")
+        weeks_of_year = []
+        for week in WEEKS[self.year]:
+            weeks_of_year += self.create_week(*week)
         return weeks_of_year
 
     def install_school_week(self):
-        if self.year == 2017:
+        if self.year == 2018:
             weeks = self.weeks()
             for week in weeks:
                 schedule_event = Activity(
@@ -116,12 +137,11 @@ class SHUCalendar(UHEPlugin):
                 schedule_event.save()
 
     def course_subevent(self, day, weekday, title, args):
-        times = [(8, 0), (8, 55), (10, 0), (10, 55), (12, 10), (13, 5),
-                 (14, 10), (15, 5), (16, 0), (16, 55), (18, 0), (18, 55), (19, 50)]
         for i in range(12):
-            start_delta = delta(hours=times[i][0], minutes=times[i][1])
+            start_delta = delta(
+                hours=COURSES_SCHEDULE[i][0], minutes=COURSES_SCHEDULE[i][1])
             end_delta = delta(
-                hours=times[i][0], minutes=times[i][1]) + delta(minutes=45)
+                hours=COURSES_SCHEDULE[i][0], minutes=COURSES_SCHEDULE[i][1]) + delta(minutes=45)
             course_event = {
                 'start': day + start_delta,
                 'end': day + end_delta,
