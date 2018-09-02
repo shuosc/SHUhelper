@@ -87,7 +87,7 @@ class SHUCalendar(UHEPlugin):
         elif self.year == 2018:
             sub_event = Activity(title='上海大学%s-%s学年' % (self.year, self.year + 1),
                                  key='year', args=str(self.year), category='school_calendar',
-                                 start=datetime.datetime(2018, 9, 1),
+                                 start=datetime.datetime(2018, 9, 3),
                                  end=datetime.datetime(2019, 9, 1),
                                  event=self.event)
             sub_event.save()
