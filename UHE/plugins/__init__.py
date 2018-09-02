@@ -78,7 +78,7 @@ class Plugin(object):
         #: The plugin's root path. All the files in the plugin are under this
         #: path.
         self.path = os.path.abspath(path)
-
+        print(path, 'info.json')
         with open(os.path.join(path, 'info.json')) as fd:
             self.info = i = json.load(fd)
 
