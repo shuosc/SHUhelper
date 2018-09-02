@@ -28,6 +28,13 @@ WEEKS = {
         ((2018, 2, 26), 8, 12, '2017_2018学年冬季学期', '2017_2'),
         ((2018, 3, 26), 0, 12, '2017-2018学年春季学期', '2017_3'),
         ((2018, 6, 18), 0, 4, '2017-2018学年夏季学期', '2017_4'),
+    ),
+    2018: (
+        ((2018, 9, 1), 0, 12, '2018-2019学年秋季学期', '2018_1'),
+        ((2018, 11, 26), 0, 8, '2018-2019学年冬季学期', '2017_2'),
+        ((2019, 2, 25), 8, 12, '2018-2019学年冬季学期', '2017_2'),
+        ((2019, 3, 25), 0, 12, '2018-2019学年春季学期', '2017_3'),
+        ((2019, 6, 17), 0, 4, '2018-2019学年夏季学期', '2017_4'),
     )
 }
 COURSES_SCHEDULE = ((8, 0), (8, 55), (10, 0), (10, 55), (12, 10), (13, 5),
@@ -38,7 +45,7 @@ class SHUCalendar(UHEPlugin):
     settings_key = 'SHU_calendar'
 
     def setup(self, app):
-        self.year = 2017
+        self.year = 2018
 
         print('setup', __plugin__)
         # celery.add_periodic_task(5.0, clock.s('five'))
@@ -77,13 +84,20 @@ class SHUCalendar(UHEPlugin):
                                  end=datetime.datetime(2018, 8, 27),
                                  event=self.event)
             sub_event.save()
+        elif if self.year == 2018:
+            sub_event = Activity(title='上海大学%s-%s学年' % (self.year, self.year + 1),
+                                 key='year', args=str(self.year), category='school_calendar',
+                                 start=datetime.datetime(2018, 9, 1),
+                                 end=datetime.datetime(2019, 9, 1),
+                                 event=self.event)
+            sub_event.save()
 
     def install_school_term(self):
-        if self.year == 2017:
-            terms = (((2017, 9, 4), (2017, 12, 11)),
-                     ((2017, 12, 11), (2018, 3, 26)),
-                     ((2018, 3, 26), (2018, 6, 18)),
-                     ((2018, 6, 18), (2018, 8, 27)))
+        if self.year == 2018:
+            terms = (((2018, 9, 4), (2018, 11, 26)),
+                     ((2018, 11, 26), (2019, 3, 25)),
+                     ((2018, 3, 25), (2018, 6, 17)),
+                     ((2018, 6, 17), (2018, 9, 1)))
             term_names = ('秋季学期', '冬季学期', '春季学期', '夏季学期')
             for i in range(4):
                 Activity(title='上海大学{}-{}学年{}'.format(self.year, self.year + 1, term_names[i]),
@@ -113,7 +127,7 @@ class SHUCalendar(UHEPlugin):
         return weeks_of_year
 
     def install_school_week(self):
-        if self.year == 2017:
+        if self.year == 2018:
             weeks = self.weeks()
             for week in weeks:
                 schedule_event = Activity(

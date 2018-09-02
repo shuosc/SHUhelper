@@ -15,7 +15,7 @@
       q-card-separator
       q-card-actions
         q-btn.full-width(flat @click="open()")
-          | 查看本学年校历（测试）
+          | 查看本学年校历
     q-modal(ref="calendar" :content-css="{minWidth: '80vw', minHeight: '80vh'}")
       q-modal-layout
         q-toolbar(slot="header" color="primary")
@@ -24,11 +24,9 @@
             q-toolbar-title
               | 17-18学年校历
         div(v-if="calendarOpen")
-          <!--img.responsive(src="/statics/2017-2018秋.jpg")-->
-          <!--img.responsive(src="/statics/2017-2018冬.jpg")-->
-          <!--img.responsive(src="/statics/2017-2018春.jpg")-->
-          <!--img.responsive(src="/statics/2017-2018夏.jpg")-->
-          calender
+          img.responsive(src="/statics/2018-2019-1.jpeg")
+          img.responsive(src="/statics/2018-2019-2.jpeg")
+          //- calender
 </template>
 
 <script>

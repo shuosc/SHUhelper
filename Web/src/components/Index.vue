@@ -1,5 +1,5 @@
 <template lang="pug">
-      
+
   div()
     //- q-pull-to-refresh(:handler="refresher", :refresh-icon="false")
     //- pull-to(:top-load-method='refresher' :wrapper-height="'500px'" :is-bottom-bounce="false" :is-top-bounce="false")
@@ -12,13 +12,20 @@
           q-icon(name='room')
             | 宝山
       //- <q-gallery-carousel :src="slider"></q-gallery-carousel>
-      q-card.namecard
-        q-card-main
-          q-item
-            q-item-side
-              q-spinner-hearts(color='red', :size='30')
-            q-item-main
-              q-item-tile(label='') {{$store.state.user.name}}，{{welcome}} 
+      //- q-card.namecard
+      //-   q-card-main
+      //-     q-item
+      //-       q-item-side
+      //-         q-spinner-hearts(color='red', :size='30')
+      //-       q-item-main
+      //-         q-item-tile(label='') {{$store.state.user.name}}，{{welcome}}
+      //-       q-card.namecard
+      q-card-main
+        q-item
+          q-item-side
+            q-spinner-hearts(color='red', :size='30')
+          q-item-main
+            q-item-tile(label='') 感谢大家的支持，我们正在筹备新版本，这可能会需要一些时间，爱你们❤️
             //- q-item-side
               q-toggle(v-model="snow"  left-label :label="snow?'雪停吧！':'下点大雪吧！'")
         //- q-card-actions.justify-end
@@ -35,7 +42,7 @@
         q-card-title.text-center.full-width.no-margin(flat style="padding-bottom:0;")
           q-icon(name="card_giftcard")
           | 圣诞快乐&元旦快乐
-        index-merry-christmas 
+        index-merry-christmas
         q-btn.full-width(@click="$router.push('/2018')")
           | 写下你的新年愿望
       course-time(v-if="$store.state.time.day<=5")
