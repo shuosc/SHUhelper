@@ -220,7 +220,7 @@ def configure_admin(app):
     admin.add_view(BasicPrivateModelView(Event, endpoint='event-manage'))
     admin.add_view(BasicPrivateModelView(
         Activity, endpoint='sub-event-manage'))
-    admin.add_view(BasicPrivateModelView(Feed, endpoint='feed-manage'))
+    # admin.add_view(BasicPrivateModelView(Feed, endpoint='feed-manage'))
     # admin.add_view(BasicPrivateModelView(Comment, endpoint='comment-manage'))
     # admin.add_view(rediscli.RedisCli(Redis()))
     admin.add_link(NotAuthenticatedMenuLink(name='登录',
