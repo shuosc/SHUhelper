@@ -76,6 +76,6 @@ class Time():
     def get_course(self):
         ctime = int(self.now.strftime("%H%M"))
         for (index, value) in enumerate(COURSE_SCHEDULE):
-            if ctime <= value
+            if ctime <= value:
                 return index
         return 0
