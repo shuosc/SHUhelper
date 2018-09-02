@@ -43,7 +43,7 @@ class SHUEmptyRoom(UHEPlugin):
             in_this_week = int(time.group(
                 5)) <= week <= int(time.group(6))
         elif time.group(7) is not None:
-            in_this_week = week == int(time.group(7)) or week == int(time.group(8)):
+            in_this_week = week == int(time.group(7)) or week == int(time.group(8))
         else:
             in_this_week = True
         return in_this_week
