@@ -2,7 +2,7 @@ import datetime
 
 import mongoengine
 from flask_login import current_user
-from mongoengine import (BooleanField, DateTimeField, CASCADE,
+from mongoengine import (BooleanField, DateTimeField, CASCADE,PULL,IntField
                          ListField, ReferenceField, StringField)
 
 from UHE.extensions import db
@@ -48,7 +48,7 @@ class Message(db.Document):
 
 
 class Conversation(db.Document):
-    members = ListField(ReferenceField(User, reverse_delete_rule=PULL))
+    members = ListField(ReferenceField(User, reverse_delete_rule=mongoengine.PULL))
     messages = ListField(ReferenceField(
         Message, reverse_delete_rule=mongoengine.PULL, default=lambda: []))
     deleted = BooleanField(default=False)
