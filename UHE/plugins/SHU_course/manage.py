@@ -196,7 +196,7 @@ def get_latest_course(url):
         r = s.get(
             url + 'Login/GetValidateCode?%20%20+%20GetTimestamp()', timeout=10, stream=True)
         captcha_img = r.raw.read()
-        checkimg = captcha_solver.create(captcha_img, site='xk')
+        checkimg = captcha_solver.create(captcha_img, site='XK')
         print('get checkimg success', checkimg)
         postData = {
             'txtUserName': current_app.config['TESTING_CARD_ID'],
