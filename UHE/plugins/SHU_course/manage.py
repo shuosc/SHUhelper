@@ -89,13 +89,8 @@ def save_courses(courselist, term):
             if teacher is None:
                 if teacher_name[-1] == '等':
                     teacher = Teacher.objects(name=teacher_name[:-1]).first()
-            
-        if teacher is None:
-            teacher = Teacher(**{
-                'name':teacher_name,
-                'no':teacher_no
-            })
-            teacher.save()
+            if teacher is None:
+                teacher = Teacher.objects(no='00000000').first()   
         course_basic['teacher'] = teacher
         course_basic['teacher_name'] = teacher.name
         course_db = Course.objects(
