@@ -79,7 +79,7 @@ def save_courses(courselist, term):
                         'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid=', teacher_no)
                     teacher = Teacher.objects(no=teacher_no).first()   
                 except:
-                    teacher = Teacher({
+                    teacher = Teacher(**{
                         'name':teacher_name,
                         'no':teacher_no
                     })
