@@ -77,13 +77,13 @@ def save_courses(courselist, term):
                 try:
                     get_teacher(
                         'http://jwc.shu.edu.cn:8080/jwc/tinfo/viewinfo1.jsp?tid=', teacher_no)
-                    teacher = Teacher.objects(no=teacher_no).first()   
                 except:
                     teacher = Teacher(**{
                         'name':teacher_name,
                         'no':teacher_no
                     })
                     teacher.save()
+                teacher = Teacher.objects(no=teacher_no).first()   
         else:
             teacher = Teacher.objects(name=teacher_name).first()
             if teacher is None:
