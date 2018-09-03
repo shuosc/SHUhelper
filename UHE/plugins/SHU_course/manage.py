@@ -81,7 +81,7 @@ def save_courses(courselist, term):
                 except:
                     teacher = Teacher({
                         'name':teacher_name,
-                        'no':teacher_name
+                        'no':teacher_no
                     })
                     teacher.save()
         else:
