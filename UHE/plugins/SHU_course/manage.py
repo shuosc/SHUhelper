@@ -66,6 +66,7 @@ def save_courses(courselist, term):
     term_string = current_app.school_time.term_string
     now = datetime.datetime.now()
     for course in courselist:
+        pritn(course)
         course_basic = {
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tags')
         }
