@@ -69,6 +69,8 @@ def save_courses(courselist, term):
         course_basic = {
             key: course.get(key) for key in ('no', 'name', 'teacher', 'credit', 'school', 'tags')
         }
+        if course_basic is None:
+            continue
         teacher_name = course['teacher_name']
         teacher_no = course['teacher_id']
         if teacher_no is not None:
