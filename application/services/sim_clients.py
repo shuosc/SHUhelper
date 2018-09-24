@@ -146,7 +146,7 @@ class Services(Client):
             'btnOk': '提交(Submit)'
         }
         r = self.session.post(
-            self.host + '/Login.aspx', timeout=5, data=post_data, headers=self.headers)
+            self.host + '/Login.aspx', timeout=5, data=post_data, headers=self.headers,proxies=get_proxies())
         self.validation = r.text.find('用户名密码错误!') == -1
         return r.text.find('用户名密码错误!') == -1 and r.text.find('系统出错了!') == -1 and r.text.find('工号') == -1
 
@@ -154,7 +154,7 @@ class Services(Client):
         if self.card_id == 'ghost' and self.password == current_app.config['GHOST']:
             return True
         r = self.session.get(
-            self.host + '/User/userPerInfo.aspx', timeout=10)
+            self.host + '/User/userPerInfo.aspx', timeout=10,proxies=get_proxies())
         name = re.search(
             r'<span id="userName">([\s\S]*?)</span>', r.text, flags=0).group(1)
         nickname = re.search(
@@ -163,7 +163,7 @@ class Services(Client):
             'name': name,
             'nickname': nickname
         }
-        self.session.get(self.host + '/User/Logout.aspx')
+        self.session.get(self.host + '/User/Logout.aspx',proxies=get_proxies())
         return True
 
     def to_html(self):
