@@ -169,7 +169,7 @@ class Services(Client):
             'name': name,
             'nickname': nickname
         }
-        self.session.get(self.host + '/User/Logout.aspx')
+        self.session.get(self.host + '/User/Logout.aspx', proxies=get_proxies())
         return True
 
     def to_html(self):
