@@ -1,6 +1,6 @@
-from UHE.app import create_app
-from UHE.extensions import celery
-from UHE.calendar import clock
+from application.app import create_app
+from application.extensions import celery
+from application.calendar import clock
 from celery.schedules import crontab
 from blinker import signal
 app = create_app()

@@ -6,11 +6,15 @@
 /instance/config.py
 /.idea
 *.pyc
+/data
 *.rdb
-/UHE-frontend-Vue/static/SHU
 celerybeat-schedule.*
 npm-debug.log
 celerybeat-schedule
 celery.log
 gunicorn.log
 .cache
+.coverage
+coverage.xml
+.pytest_cache
+flask_monitoringdashboard.db

@@ -20,23 +20,22 @@ MAIL_PASSWORD = 'password'
 MAIL_DEFAULT_SENDER = ('name', 'me@sample.om')
 
 
-# these config for babel locale
+# babel locale configs
 BABEL_DEFAULT_LOCALE = 'zh_CN'
 DEFAULT_LOCALE = 'zh_CN'
 
 
-# === these settings you can leave it empty
+# === these settings are not required
 
-# celery broker settings, check celery docs for confirm
-# but you can just leave it empty, beacuse celery was deprecated
+# celery broker settings, check celery docs to confirm
 CELERY_BROKER_URL = ''
 CELERY_RESULT_BACKEND = ''
 
 # captcha solver for SHU sites
-# leave it empty if you dont have one
+# leave it empty if you don't have one
 CAPTCHA_SERVER = ''
 
-# write down your cardID and password here
+# fill with your own cardID and password here
 TESTING_CARD_ID = ''
 TESTING_PASSWORD = ''
 
@@ -44,10 +43,10 @@ TESTING_PASSWORD = ''
 TESTING_EMAIL = ''
 
 # qiniu access key and secret key, see qiniu.com to apply one
-# leave it empty if you dont need to
+# leave it empty if you don't need to
 QINIU_ACCESS_KEY = ''
 QINIU_SECRET_KEY = ''
 
-# you can leave it empty
+# leave it empty if you don't know
 PROXY = '' 
 MEOW = "123"

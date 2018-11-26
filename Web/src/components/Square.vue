@@ -234,6 +234,46 @@ export default {
           done()
         })
     },
+    transformKey(key) {
+      key = btoa(key)
+      key.replace('+', '-')
+      key.replace('/', '_')
+      key.replace('=', '')
+      return key
+    },
+    uploadImg(file, base64) {
+      this.$http.get(`/api/upload/token?key=${this.key}`).then(response => {
+        this.token = response.data.uptoken
+        this.$nextTick(() => {
+          let index = base64.indexOf(',') + 1
+          this.key = this.transformKey(this.key)
+          this.$http
+            .post(`/upload/putb64/-1/key/${this.key}`, base64.slice(index), {
+              headers: {
+                Authorization: 'UpToken ' + this.token,
+                'Content-Type': 'application/octet-stream'
+              }
+            })
+            .then(response => {
+              console.log(response)
+              for (let i in this.uploadImgs) {
+                console.log(this.uploadImgs[i].url, response.data.key)
+                if (this.uploadImgs[i].url === response.data.key) {
+                  this.uploadImgs[i].status = 'success'
+                }
+              }
+            })
+            .catch(error => {
+              console.log(error)
+              for (let i in this.uploadImgs) {
+                if (this.uploadImgs[i].url === this.key) {
+                  this.uploadImgs[i].status = 'failed'
+                }
+              }
+            })
+        })
+      })
+    },
     upload(e) {
       // console.log(e.target)
       /* eslint-disable no-new */
@@ -248,46 +288,7 @@ export default {
         },
         done: (file, base64) => {
           console.log('压缩成功...')
-          this.$http.get(`/api/upload/token?key=${this.key}`).then(response => {
-            this.token = response.data.uptoken
-            this.$nextTick(() => {
-              // var f = new FormData(this.$refs.testform)
-              // f
-              let index = base64.indexOf(',') + 1
-              this.key = btoa(this.key)
-              this.key.replace('+', '-')
-              this.key.replace('/', '_')
-              this.key.replace('=', '')
-              this.$http
-                .post(
-                  `/upload/putb64/-1/key/${this.key}`,
-                  base64.slice(index),
-                  {
-                    headers: {
-                      Authorization: 'UpToken ' + this.token,
-                      'Content-Type': 'application/octet-stream'
-                    }
-                  }
-                )
-                .then(response => {
-                  console.log(response)
-                  for (let i in this.uploadImgs) {
-                    console.log(this.uploadImgs[i].url, response.data.key)
-                    if (this.uploadImgs[i].url === response.data.key) {
-                      this.uploadImgs[i].status = 'success'
-                    }
-                  }
-                })
-                .catch(error => {
-                  console.log(error)
-                  for (let i in this.uploadImgs) {
-                    if (this.uploadImgs[i].url === this.key) {
-                      this.uploadImgs[i].status = 'failed'
-                    }
-                  }
-                })
-            })
-          })
+          this.uploadImg(file, base64)
           // ajax和服务器通信上传base64图片等操作
         },
         fail: function(file) {
@@ -323,42 +324,34 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.news {
-  background: #4e54c8; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #8f94fb, #4e54c8); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #8f94fb, #4e54c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+.news
+  background #4e54c8 /* fallback for old browsers */
+  background -webkit-linear-gradient(to right, #8f94fb, #4e54c8) /* Chrome 10-25, Safari 5.1-6 */
+  background linear-gradient(to right, #8f94fb, #4e54c8) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-.tree-hole {
-  background: #9D50BB; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #6E48AA, #9D50BB); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+.tree-hole
+  background #9D50BB /* fallback for old browsers */
+  background -webkit-linear-gradient(to right, #6E48AA, #9D50BB) /* Chrome 10-25, Safari 5.1-6 */
+  background linear-gradient(to right, #6E48AA, #9D50BB) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-.love {
+.love
   // background: #FF5F6D;  /* fallback for old browsers */
   // background: -webkit-linear-gradient(to right, #FFC371, #FF5F6D);  /* Chrome 10-25, Safari 5.1-6 */
   // background: linear-gradient(to right, #FFC371, #FF5F6D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: #E44D26; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #F16529, #E44D26); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #F16529, #E44D26); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
+  background #E44D26 /* fallback for old browsers */
+  background -webkit-linear-gradient(to right, #F16529, #E44D26) /* Chrome 10-25, Safari 5.1-6 */
+  background linear-gradient(to right, #F16529, #E44D26) /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-@media screen and (max-height: 750px) {
-  .schedule-container {
-    height: 750px;
-  }
-}
+@media screen and (max-height: 750px)
+  .schedule-container
+    height 750px
 
-@media screen and (min-height: 750px) {
-  .schedule-container {
-    height: 100vh;
-  }
-}
+@media screen and (min-height: 750px)
+  .schedule-container
+    height 100vh
 
-img {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-}
+img
+  margin-left auto
+  margin-right auto
+  display block
 </style>

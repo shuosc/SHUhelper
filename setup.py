@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='University Helper Engine',
-    packages=['UHE'],
+    packages=['application'],
     include_package_data=True,
     install_requires=[
         'flask','flask_login'
