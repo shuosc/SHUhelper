@@ -6,7 +6,7 @@
           q-item-side
             q-icon(color='primary', name='date_range', style='font-size:2rem;')
           q-item-main
-            q-item-tile(label='') 今天是{{time.year+ '_' + time.term|term}}，第{{time.week|cnNum}}周，周{{time.day|cnNum}}
+            q-item-tile(label='') 今天是{{time.year+ '_' + time.term|term}}，第{{time.week|cnWeek}}周，周{{time.day|cnWeekDay}}
             q-item-tile(sublabel='') 今天努力学习了吗
         q-item
           q-item-main
