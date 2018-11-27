@@ -199,7 +199,7 @@ Vue.filter('two_digits', value => {
 })
 
 
-Vue.filter('cnNum', function (value) {
+Vue.filter('cnWeek', function (value) {
   value = value.toString()
   let map = {
     '1': '一',
@@ -210,7 +210,23 @@ Vue.filter('cnNum', function (value) {
     '6': '六',
     '7': '七',
     '8': '八',
-    '9': '九'
+    '9': '九',
+    '10': '十',
+    '11': '十一',
+    '12': '十二',
+  }
+  return map[value]
+})
+Vue.filter('cnWeekDay', function (value) {
+  value = value.toString()
+  let map = {
+    '1': '一',
+    '2': '二',
+    '3': '三',
+    '4': '四',
+    '5': '五',
+    '6': '六',
+    '7': '日',
   }
   return map[value]
 })
@@ -220,7 +236,7 @@ Vue.filter('term', function (value) {
     '1': '秋',
     '2': '冬',
     '3': '春',
-    '4': '夏'
+    '4': '夏',
   }
   value = value.toString()
   let year = parseInt(value.slice(2, 4))
