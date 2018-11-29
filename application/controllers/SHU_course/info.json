@@ -1,8 +1,0 @@
-{
-    "identifier": "SHUCourse",
-    "name": "SHU Course",
-    "author": "cosformula",
-    "license": "BSD",
-    "description": "抓取课程并保存在本地数据库",
-    "version": "1.0.0"
-}
