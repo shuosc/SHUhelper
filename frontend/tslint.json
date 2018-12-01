@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "tslint-config-standard"
+  ],
+  "rules": {
+    "import-spacing": true,
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "no-bitwise": false,
+    "import-blacklist": [
+      true,
+      "rxjs"
+    ],
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
+    "interface-name": [
+      false
+    ],
+    // Pending fix for shorthand property names.
+    "object-literal-sort-keys": false
+  }
+}

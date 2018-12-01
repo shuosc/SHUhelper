@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "strict": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck" : true,
+    "sourceMap": true,
+    "baseUrl": "./typescript-nuxt-starter",
+    "allowJs": true,
+    "lib": ["dom", "es2015"],
+    "paths": {
+      "~/*": [
+        "./*"
+      ]
+    }
+  },
+  "exclude": [
+    ".nuxt",
+    "dist",
+    "node_modules"
+  ]
+}

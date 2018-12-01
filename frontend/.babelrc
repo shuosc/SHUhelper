@@ -1,0 +1,18 @@
+{
+    "presets": [
+        ["vue-app", { "useBuiltIns": true } ],
+        "stage-2"
+    ],
+    "plugins": [
+        "transform-class-properties"
+    ],
+    "comments": false,
+    "env": {
+        "test": {
+            "presets": [
+                ["vue-app", { "useBuiltIns": true } ],
+                "stage-2"
+            ]
+        }
+    }
+}
