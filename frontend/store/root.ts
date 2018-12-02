@@ -14,11 +14,11 @@ export const state = (): State => ({
 export const getters: GetterTree<State, RootState> = {};
 
 export interface Actions<S, R> extends ActionTree<S, R> {
-  getVersion (context: ActionContext<S, R>): void;
+  getVersion(context: ActionContext<S, R>): void;
 }
 
 export const actions: Actions<State, RootState> = {
-  async getVersion (context: ActionContext<State, RootState>) {
+  async getVersion(context: ActionContext<State, RootState>) {
     return context.state.version;
   }
 };
