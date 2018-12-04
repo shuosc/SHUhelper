@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import * as auth from './modules/auth';
+import * as date from './modules/date';
 import * as root from './root';
 
 Vue.use(Vuex);
@@ -15,6 +16,7 @@ Vue.use(Vuex);
 // mutations: Modify the state
 interface ModulesStates {
   auth: auth.State;
+  date: date.State;
 }
 
 export type RootState = root.State & ModulesStates;
@@ -25,6 +27,8 @@ export default () => new Vuex.Store({
   mutations: root.mutations,
   actions: root.actions as any,
   modules: {
-    [auth.name]: auth
-  }
+    [auth.name]: auth,
+    [date.name]: date
+  },
+  strict: process.env.NODE_ENV !== 'production'
 });
