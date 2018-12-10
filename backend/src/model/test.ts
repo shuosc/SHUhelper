@@ -2,7 +2,7 @@
 // will be removed soon
 import { Document, model, Model, Schema } from 'mongoose';
 
-interface ITest extends Document {
+export interface ITest extends Document {
   name: string
 }
 

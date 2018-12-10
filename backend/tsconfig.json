@@ -2,11 +2,15 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
-      "es6",
-      "dom"
+      "es2015",
+      "es6"
     ],
     "downlevelIteration": true,
     "sourceMap": true,
-    "declaration": true
-  }
+    "declaration": true,
+    "experimentalDecorators": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

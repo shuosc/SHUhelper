@@ -14,7 +14,7 @@
 
     @Component
     export default class Index extends Vue {
-        async fetch({ store, params }) {
+        async fetch({ store, params }: { store: any, params: any }) {
             let { data } = await Axios.get('https://www.shuhelper.cn/api/time/');
             store.commit(Date.name + '/' + Date.Types.DATE_SET, data);
         }
