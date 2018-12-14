@@ -7,7 +7,7 @@ export async function login(fromURL: string, studentId: string, password: string
   let $ = Cheerio.load(await Request.get(fromURL, {
     jar: cookiejar
   }));
-  // Silly Webstorm! It is NOT JQuery!!!
+  // Silly WebStorm! It is NOT JQuery!!!
   // noinspection JSJQueryEfficiency
   let form = $('form').serializeArray();
   await Request.post('https://sso.shu.edu.cn/idp/profile/SAML2/POST/SSO', {

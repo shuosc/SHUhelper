@@ -31,7 +31,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Runtime data
+# Runtime model
 pids
 *.pid
 *.seed
@@ -148,3 +148,4 @@ Temporary Items
 /backend/data/
 /backend/dump.rdb
 
+/data/

@@ -1,8 +1,12 @@
 {
   "dependencies": {
+    "@types/html-entities": "^1.2.16",
+    "@types/koa-bodyparser": "^4.2.1",
     "cheerio": "^1.0.0-rc.2",
+    "html-entities": "^1.2.1",
     "ioredis": "^4.2.0",
     "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mongoose": "^5.3.14",
     "request": "^2.88.0",

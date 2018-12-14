@@ -5,8 +5,8 @@ import { expect } from 'chai';
 
 describe('模拟登录测试', () => {
   it('登录并拿到Cookie', async () => {
-    const cookie = await login('http://xk.autoisp.shu.edu.cn', process.env.STUDENT_ID, process.env.PASSWORD);
-    expect(cookie[0].cookieString().indexOf('ASP.NET_SessionId')).not.equal(-1);
+    const cookies = await login('http://xk.autoisp.shu.edu.cn', process.env.STUDENT_ID, process.env.PASSWORD);
+    expect(cookies[0].cookieString().indexOf('ASP.NET_SessionId')).not.equal(-1);
   });
   it('拿到的Cookie可以用于访问课程列表', async () => {
     const cookie = await login('http://xk.autoisp.shu.edu.cn', process.env.STUDENT_ID, process.env.PASSWORD);

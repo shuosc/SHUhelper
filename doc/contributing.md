@@ -49,15 +49,28 @@ UI框架使用 [Vuetify](https://vuetifyjs.com) 。
 进入frontend文件夹后，执行
 
 ```bash
+npm install
 npm run dev
 ```
 
 或
 
 ```bash
+yarn
 yarn dev
 ```
 即可启动前端。
+
+⚠️：如果yarn报了有关 upath 和 node 版本的错误，可以先：
+```bash
+yarn config set ignore-engines true
+```
+再
+```bash
+yarn
+yarn dev
+```
+试试。
 
 ## Styleguides
 
