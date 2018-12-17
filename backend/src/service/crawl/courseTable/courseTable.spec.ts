@@ -22,7 +22,7 @@ describe('爬取课表测试', async () => {
     await initSemester();
     await Teacher.deleteMany({}).exec();
     await Course.deleteMany({}).exec();
-    const coursePage = fs.readFileSync('./backend/src/service/crawl/courseTable/coursePageExample.html').toString();
+    const coursePage = fs.readFileSync('./src/service/crawl/courseTable/coursePageExample.html').toString();
     const courses = await parseCoursePage(coursePage);
     for (let course of courses) {
       await course.save();

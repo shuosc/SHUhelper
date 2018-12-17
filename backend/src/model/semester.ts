@@ -11,10 +11,6 @@ export interface IHolidayWithShift extends Document, sharedSemester.IHolidayWith
 
 export interface ISemester extends Document, sharedSemester.ISemester {
   id: string
-  //
-  // getClassDayForDate(day: Date): number
-  //
-  // getStartDateForWeek(weekId: number): Date
 }
 
 export const HolidaySchema: Schema = new Schema({
@@ -44,7 +40,7 @@ export const Semester: Model<ISemester> = model('Semester', SemesterSchema);
  * todo: 实现后台管理页面后，将不再从json文件加载信息
  */
 export async function initSemester() {
-  const semesterJson = JSON.parse(fs.readFileSync('./backend/initialData/semester.json').toString());
+  const semesterJson = JSON.parse(fs.readFileSync('./initialData/semester.json').toString());
   for (let semester of semesterJson.semester) {
     let model = await Semester.findOne({ id: semester.id }).exec();
     if (model === null) {
