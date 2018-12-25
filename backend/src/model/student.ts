@@ -18,7 +18,8 @@ export class Student {
         return this._name;
     }
 
-    xkCookie: Cookie;
+    xkCookie: Cookie;       // 此处命名xk是由于要登录的网站是 xk......
+                            // 可以商榷是否改名为courseSelectingCookie等
 
     async serialize() {
         return {
@@ -44,6 +45,9 @@ export class Student {
     }
 }
 
+// 学生的相关信息暂时没有准备放入数据库，仅存在redis中
+// 学生到所选课程的关系如何建模、是否保存仍待考虑
+// 日后可能有入库的必要
 export namespace StudentRepository {
     export async function getById(id: string): Promise<Student> {
         let result = await redis.get('student_' + id);

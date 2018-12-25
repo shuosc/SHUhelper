@@ -42,3 +42,5 @@ class中视需要而可能有静态工厂方法：
 目前将 Repository 写为类+静态方法和写为 namespace + 普通函数 基本等效，偏好后一种方法。
 
 Repository 负责从数据库或缓存中查询出符合某种条件的对象，以及将某个对象放到缓存或数据库中。
+
+Redis缓存在Repository这一层做。
