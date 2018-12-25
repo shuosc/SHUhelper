@@ -30,25 +30,25 @@
 <script lang="ts">
     import Component from 'nuxt-class-component';
     import Vue from 'vue';
-    import { Emit, Prop } from 'vue-property-decorator';
-    import { clone } from '../../tools/clone';
+    import {Emit, Prop} from 'vue-property-decorator';
+    import {clone} from '~/tools/clone';
     import Day from './day.vue';
-    import { isSameDate } from '../../../shared/tools/date';
+    import {isSameDate} from '../../../shared/tools/date';
 
     @Component({
-        components: { Day },
-        methods: { isSameDate }
+        components: {Day},
+        methods: {isSameDate}
     })
     export default class Calendar extends Vue {
-        @Prop({ default: new Date() })
-        initialDate: Date;
+        @Prop({default: new Date()})
+        initialDate!: Date;
 
         firstDayOfCurrentWatchingMonth: Date = new Date();
 
         currentWatchingDate: Date = new Date();
 
         created() {
-            this.firstDayOfCurrentWatchingMonth = this.initialDate;
+            this.firstDayOfCurrentWatchingMonth = clone(this.initialDate);
             this.firstDayOfCurrentWatchingMonth.setDate(1);
         }
 

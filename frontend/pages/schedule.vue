@@ -13,11 +13,11 @@
 
 <script lang="ts">
     import Component from 'nuxt-class-component';
-    import { Vue } from 'vue-property-decorator';
+    import {Vue} from 'vue-property-decorator';
     import Calendar from '../components/schedule/calendar.vue';
 
     @Component({
-        components: { Calendar }
+        components: {Calendar}
     })
     export default class Schedule extends Vue {
     }

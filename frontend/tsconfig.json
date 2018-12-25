@@ -8,11 +8,14 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
-    "skipLibCheck" : true,
+    "skipLibCheck": true,
     "sourceMap": true,
-    "baseUrl": "./typescript-nuxt-starter",
+    "baseUrl": "./",
     "allowJs": true,
-    "lib": ["dom", "es2015"],
+    "lib": [
+      "dom",
+      "es2015"
+    ],
     "paths": {
       "~/*": [
         "./*"

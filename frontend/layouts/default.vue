@@ -2,21 +2,25 @@
     <v-app dark>
         <v-navigation-drawer :mini-variant.sync="miniVariant" app fixed v-model="drawer">
             <v-list>
-                <v-list-tile :to="'sign-in'" avatar class="login">
+                <v-list-tile avatar class="auth-button">
                     <v-list-tile-avatar>
-                        <img :src="avatar" alt="">
+                        <img src="~/assets/image/avatar_default.jpg" alt="">
                     </v-list-tile-avatar>
                     <v-layout align-center fill-height justify-space-between row>
-                        <v-list-tile-title>游客</v-list-tile-title>
-                        <v-list-tile-sub-title>登录</v-list-tile-sub-title>
+                        <v-list-tile-title>{{getName}}</v-list-tile-title>
+                        <v-list-tile-sub-title class="auth-button">
+                            <v-btn @click="auth" flat small>
+                                {{this.isLogged?'注销':'登录'}}
+                            </v-btn>
+                        </v-list-tile-sub-title>
                     </v-layout>
                 </v-list-tile>
                 <v-list-tile
-                    router
-                    :to="item.to"
-                    :key="i"
-                    v-for="(item, i) in items"
-                    exact>
+                        router
+                        :to="item.to"
+                        :key="i"
+                        v-for="(item, i) in items"
+                        exact>
                     <v-list-tile-action>
                         <v-icon v-html="item.icon"></v-icon>
                     </v-list-tile-action>
@@ -29,8 +33,8 @@
         <v-toolbar app fixed>
             <v-toolbar-side-icon @click="drawer = !drawer"></v-toolbar-side-icon>
             <v-btn
-                icon
-                @click.stop="miniVariant = !miniVariant">
+                    icon
+                    @click.stop="miniVariant = !miniVariant">
                 <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
             </v-btn>
             <v-toolbar-title v-text="title"></v-toolbar-title>
@@ -48,51 +52,40 @@
 </template>
 
 <script lang="ts">
-    import Component from 'nuxt-class-component';
+    import Component, {namespace} from 'nuxt-class-component';
     import Vue from 'vue';
-    import { namespace, State } from 'vuex-class';
+    import * as user from '~/store/modules/user';
 
-    import * as auth from '../store/modules/auth';
-
-    const AuthState = namespace(auth.name, State);
-
+    const User = namespace(user.name);
     @Component
     export default class extends Vue {
-        @AuthState isLogged: boolean;
+        @User.Getter getName: any;
+        @User.Getter isLogged: any;
+        @User.Action doLogout: any;
         drawer = true;
         miniVariant = false;
         title = 'SHUHelper';
         items = [
-            { icon: 'school', title: '首页', to: '/' },
-            { icon: 'explore', title: '应用', to: '/apps' },
-            { icon: 'filter_vintage', title: '广场', to: '/square' },
-            { icon: 'calendar_today', title: '日程', to: '/schedule' },
-            { icon: 'info', title: '关于', to: '/about' }
+            {icon: 'school', title: '首页', to: '/'},
+            {icon: 'explore', title: '应用', to: '/apps'},
+            {icon: 'filter_vintage', title: '广场', to: '/square'},
+            {icon: 'calendar_today', title: '日程', to: '/schedule'},
+            {icon: 'info', title: '关于', to: '/about'}
         ];
-        avatar = require('~/assets/images/avatar_default.jpg');
+
+        auth() {
+            if (this.isLogged) {
+                this.doLogout();
+                this.$router.push('/');
+            } else {
+                this.$router.push('/login');
+            }
+        }
     };
 </script>
 
-<style lang="stylus">
-    .login {
-        margin 10px
-
-        a {
-            border-radius 6px
-        }
-
-        .list__tile__title {
-            width auto
-        }
-
-        .list__tile__sub-title {
-            width auto
-        }
-    }
-
-    .navigation-drawer.navigation-drawer--mini-variant {
-        .list__tile.list__tile--link.list__tile--avatar {
-            padding-left 5px
-        }
+<style>
+    .auth-button {
+        text-align: right;
     }
 </style>

@@ -7,13 +7,13 @@
 <script lang="ts">
     import Component from 'nuxt-class-component';
     import Vue from 'vue';
-    import { Prop } from 'vue-property-decorator';
-    import { isSameDate } from '../../../shared/tools/date';
+    import {Prop} from 'vue-property-decorator';
+    import {isSameDate} from '../../../shared/tools/date';
 
     @Component
     export default class Day extends Vue {
-        @Prop({ default: null, type: Date })
-        content: Date | null;
+        @Prop({default: null, type: Date})
+        content!: Date;
 
         get isToday(): boolean {
             if (this.content === null) {
