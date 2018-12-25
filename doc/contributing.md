@@ -10,6 +10,8 @@
 
 前端使用 [Nuxt 框架](https://nuxtjs.org)来进行SSR。
 
+使用 Nuxt 自带的 [Vuex](https://vuex.vuejs.org/zh/) 和 [Axios](https://axios.nuxtjs.org)。
+
 UI框架使用 [Vuetify](https://vuetifyjs.com) 。
 
 除配置文件等完全不包含业务逻辑的代码文件外，应尽可能使用typescript代替javascript。
@@ -34,9 +36,20 @@ UI框架使用 [Vuetify](https://vuetifyjs.com) 。
 
 ### 启动后端
 
-我们提供了开发服务器启动脚本。
+进入backend文件夹后:
 
-进入backend文件夹后，执行
+首先用yarn或npm安装所有npm包:
+```shell
+yarn
+```
+或
+```bash
+npm install
+```
+
+接着就可以启动了，我们提供了开发服务器启动脚本。
+
+执行
 
 ```bash
 ./script/dev-server.sh
@@ -46,29 +59,37 @@ UI框架使用 [Vuetify](https://vuetifyjs.com) 。
 
 ### 启动前端
 
-进入frontend文件夹后，执行
+进入frontend文件夹后:
 
+首先用yarn或npm安装所有npm包:
+```shell
+yarn
+```
+或
 ```bash
 npm install
+```
+
+接着：
+
+```bash
 npm run dev
 ```
 
 或
 
 ```bash
-yarn
 yarn dev
 ```
 即可启动前端。
 
-⚠️：如果yarn报了有关 upath 和 node 版本的错误，可以先：
+⚠️：如果安装包时yarn报了有关 upath 和 node 版本的错误，可以先：
 ```bash
 yarn config set ignore-engines true
 ```
 再
 ```bash
 yarn
-yarn dev
 ```
 试试。
 
@@ -102,6 +123,8 @@ Commit message写法参考 [AngularJS Git Commit Message Conventions](https://gi
 ## 代码Styleguide
 
 ⚠️：你可以拒绝遵守这些规定，但请你在commit了这么做的代码之后，开一个issue来找一个愿意这么做的人来帮你修改你的代码。
+
+如果你发现代码中有不符合这些规定的内容，而不愿意自行修复它，请开一个issue来让我们知道。
 
 ### 变量、函数和自定义类型的命名
 

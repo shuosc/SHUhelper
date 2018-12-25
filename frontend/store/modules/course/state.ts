@@ -1,0 +1,3 @@
+interface Course {
+    name: string
+}

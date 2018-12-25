@@ -2,6 +2,11 @@ import * as Request from 'request-promise-native';
 import * as Cheerio from 'cheerio';
 import * as Tough from 'tough-cookie';
 
+/**
+ * 模拟登录
+ * @param fromURL 要登录的网站的url
+ * @return 拿到的cookie，可以用于下次请求这个网站的内容
+ */
 export async function simulateLogin(fromURL: string, studentId: string, password: string): Promise<Array<Tough.Cookie>> {
     let cookiejar = Request.jar();
     let $ = Cheerio.load(await Request.get(fromURL, {
@@ -39,8 +44,8 @@ export async function simulateLogin(fromURL: string, studentId: string, password
         simple: false,
         followAllRedirects: true
     });
-    $ = Cheerio.load(await Request.get(fromURL, {
+    await Request.get(fromURL, {
         jar: cookiejar
-    }));
+    });
     return cookiejar.getCookies(fromURL);
 }

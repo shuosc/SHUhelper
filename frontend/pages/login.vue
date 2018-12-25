@@ -29,9 +29,7 @@
         username: string = "";
         password: string = "";
         @User.Action doLogin: any;
-
         @User.Getter isLogged: any;
-
         loading = false;
 
         async login() {

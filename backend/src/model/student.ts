@@ -1,4 +1,3 @@
-import {ObjectID} from "mongodb";
 import {redis} from "../infrastructure/redis";
 import {Cookie} from "tough-cookie";
 import {fetchCoursePage, getStudentNameFromPage} from "../service/crawl/courseTable/courseTable";
@@ -46,7 +45,7 @@ export class Student {
 }
 
 export namespace StudentRepository {
-    export async function getById(id: ObjectID): Promise<Student> {
+    export async function getById(id: string): Promise<Student> {
         let result = await redis.get('student_' + id);
         if (result === null) {
             return null;
@@ -56,7 +55,6 @@ export namespace StudentRepository {
 
     export async function save(object: Student) {
         let data = JSON.stringify(await object.serialize());
-        console.log(data);
         await redis.set('student_' + object.id, data);
     }
 }

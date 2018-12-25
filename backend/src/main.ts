@@ -2,10 +2,11 @@ import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import * as KoaBodyParser from 'koa-bodyparser';
 import * as jwt from 'jsonwebtoken';
-import {mongodb} from "./infrastructure/mongodb";
+import {initDB} from "./infrastructure/mongodb";
 import {simulateLogin} from "./service/simulateLogin/simulateLogin";
 import {Student, StudentRepository} from "./model/student";
 import {authMiddleware} from "./middleware/auth";
+import {initSemesters} from "./model/semester";
 
 const app = new Koa();
 const router = new Router();
@@ -31,12 +32,13 @@ router
     })
     .get('/*', async (ctx: Router.IRouterContext) => {
         ctx.body = 'It works!';
-        await mongodb.collection("test").insertMany([{I: "nobody"}]);
     });
 
 app.use(router.routes());
 
-app.listen(3001);
-
-console.log('Server running on port 3001');
-
+(async () => {
+    await initDB();
+    await initSemesters();
+    app.listen(3001);
+    console.log('Server running on port 3001');
+})();

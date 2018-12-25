@@ -1,7 +1,6 @@
 {
   "semester": [
     {
-      "id": 1,
       "name": "2018-2019 冬季学期",
       "begin": [
         2018,
@@ -13,7 +12,7 @@
         3,
         24
       ],
-      "holiday": [
+      "holidays": [
         {
           "name": "寒假",
           "begin": [

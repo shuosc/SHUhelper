@@ -1,6 +1,5 @@
 import {State} from './state';
 import {ActionContext, ActionTree} from 'vuex';
-// import axios from 'axios';
 import {RootState} from "~/store";
 import {Types} from "~/store/modules/user/types";
 
