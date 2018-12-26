@@ -45,17 +45,20 @@ export class Holiday {
 }
 
 export class Semester {
+    readonly _id: ObjectID;
+
     constructor(
-        public _id: ObjectID,
+        id: ObjectID,
         public name: string,
         public dateRange: DateRange,
         public holidays: Array<Holiday>
     ) {
+        this._id = id;
     }
 
     static fromJson(json: JSON): Semester {
         return new Semester(
-            json['id'],
+            json['id'] === undefined || json['id'] === null ? null : json['id'],
             json['name'],
             new DateRange(
                 createDate(json['begin'][0], json['begin'][1], json['begin'][2]),
@@ -88,6 +91,11 @@ export class Semester {
 export namespace SemesterRepository {
     let currentSemester: Semester = null;
 
+    async function cache(object: Semester) {
+        let data = JSON.stringify(await object.serialize());
+        await redis.set('semester_' + object._id, data);
+    }
+
     export async function getById(id: ObjectID | string): Promise<Semester | null> {
         if (typeof id === 'string') {
             id = new ObjectID(id);
@@ -99,7 +107,9 @@ export namespace SemesterRepository {
         const rawObject = await mongodb.collection('semester').findOne({id: id});
         if (rawObject === null)
             return null;
-        return Semester.fromRawObject(rawObject);
+        let semester = Semester.fromRawObject(rawObject);
+        await cache(semester);
+        return semester;
     }
 
     export async function getByName(name: string): Promise<Semester | null> {
@@ -122,9 +132,13 @@ export namespace SemesterRepository {
     }
 
     export async function save(object: Semester) {
-        let data = JSON.stringify(await object.serialize());
-        await redis.set('semester_' + object._id, data);
-        await mongodb.collection('semester').insertOne(object.serialize());
+        if (object._id === null) {
+            await mongodb.collection('semester').insertOne(object.serialize());
+        } else {
+            const cachePromise = cache(object);
+            const mongodbPromise = mongodb.collection('semester').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
+            await Promise.all([cachePromise, mongodbPromise]);
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import * as KoaBodyParser from 'koa-bodyparser';
+import * as KoaLogger from 'koa-logger';
 import * as jwt from 'jsonwebtoken';
 import {initDB} from "./infrastructure/mongodb";
 import {simulateLogin} from "./service/simulateLogin/simulateLogin";
@@ -12,7 +13,9 @@ const app = new Koa();
 const router = new Router();
 
 app.use(KoaBodyParser());
+app.use(KoaLogger());
 app.use(authMiddleware);
+
 router
     .post('/auth/login', async (ctx: Router.IRouterContext) => {
         const username = ctx.request.body['username'];
