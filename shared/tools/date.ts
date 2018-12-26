@@ -1,3 +1,17 @@
+export const DAY_CHINESE_TO_NUMBER = new Map<string, number>(
+    [
+        ['日', 0],
+        ['一', 1],
+        ['二', 2],
+        ['三', 3],
+        ['四', 4],
+        ['五', 5],
+        ['六', 6]
+    ]
+);
+
+export const DAY_NUMBER_TO_CHINESE = ['日', '一', '二', '三', '四', '五', '六'];
+
 /**
  * 使用人类的格式创建一个日期对象
  * @param year 年份

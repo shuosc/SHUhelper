@@ -31,7 +31,7 @@
     import Component from 'nuxt-class-component';
     import Vue from 'vue';
     import {Emit, Prop} from 'vue-property-decorator';
-    import {clone} from '~/tools/clone';
+    import {clone} from '~/../../../shared/tools/clone';
     import Day from './day.vue';
     import {isSameDate} from '../../../shared/tools/date';
 

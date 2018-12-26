@@ -3,11 +3,9 @@ import {Cookie} from "tough-cookie";
 import {fetchCoursePage, getStudentNameFromPage} from "../service/crawl/courseTable/courseTable";
 
 export class Student {
-    constructor(id: string) {
+    constructor(readonly id: string) {
         this.id = id;
     }
-
-    readonly id: string;
 
     private _name: string = null;
 

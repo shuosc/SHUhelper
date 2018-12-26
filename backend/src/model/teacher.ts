@@ -3,13 +3,10 @@ import {redis} from "../infrastructure/redis";
 import {mongodb} from "../infrastructure/mongodb";
 
 export class Teacher {
-    readonly _id: ObjectID;
-
     constructor(
-        id: ObjectID,
+        readonly _id: ObjectID,
         public name: string,
     ) {
-        this._id = id;
     }
 
     static fromJson(json: JSON): Teacher {

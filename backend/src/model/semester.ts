@@ -45,15 +45,12 @@ export class Holiday {
 }
 
 export class Semester {
-    readonly _id: ObjectID;
-
     constructor(
-        id: ObjectID,
+        readonly _id: ObjectID,
         public name: string,
         public dateRange: DateRange,
         public holidays: Array<Holiday>
     ) {
-        this._id = id;
     }
 
     static fromJson(json: JSON): Semester {

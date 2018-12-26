@@ -1,11 +1,9 @@
 import 'mocha';
-import * as mongoose from 'mongoose';
 import {simulateLogin} from '../../simulateLogin/simulateLogin';
 import {expect} from 'chai';
 import {Cookie} from "tough-cookie";
-import {fetchCoursePage, getStudentNameFromPage} from "./courseTable";
-
-mongoose.connect('mongodb://localhost:4004/');
+import {fetchCoursePage} from "./courseTable";
+import * as fs from "fs";
 
 describe('爬取课表测试', async () => {
     it('能爬到课表页面', async () => {
@@ -19,7 +17,7 @@ describe('爬取课表测试', async () => {
         // await initSemester();
         // await Teacher.deleteMany({}).exec();
         // await Course.deleteMany({}).exec();
-        // const coursePage = fs.readFileSync('./src/service/crawl/courseTable/coursePageExample.html').toString();
+        const coursePage = fs.readFileSync('./src/service/crawl/courseTable/coursePageExample.html').toString();
         // const courses = await parseCoursePage(coursePage);
         // for (let course of courses) {
         //     await course.save();
