@@ -49,6 +49,11 @@ npm install
 
 接着就可以启动了，我们提供了开发服务器启动脚本。
 
+先设置环境变量
+```bash
+export JWT_SECRET=xxxxx
+```
+
 执行
 
 ```bash
