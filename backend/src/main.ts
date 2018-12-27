@@ -7,7 +7,7 @@ import {initDB} from "./infrastructure/mongodb";
 import {simulateLogin} from "./service/simulateLogin/simulateLogin";
 import {Student, StudentRepository} from "./model/student";
 import {authMiddleware} from "./middleware/auth";
-import {initSemesters} from "./model/semester";
+import {initSemesters} from "./model/semester/semester";
 
 const app = new Koa();
 const router = new Router();

@@ -1,23 +1,27 @@
 import {ObjectID} from "mongodb";
 import {redis} from "../infrastructure/redis";
 import {mongodb} from "../infrastructure/mongodb";
+import {assert} from "../../../shared/tools/assert";
 
 export class Teacher {
     constructor(
         readonly _id: ObjectID,
-        public name: string,
-    ) {
+        public name: string) {
+        if (_id === null || _id === undefined) {
+            this._id = new ObjectID();
+        }
     }
 
     static fromJson(json: JSON): Teacher {
-        return new Teacher(json['id'], json['name']);
+        return this.fromRawObject(json);
     }
 
-    static fromRawObject(rawObject) {
-        return new Teacher(rawObject['id'], rawObject['name']);
+    static fromRawObject(rawObject): Teacher {
+        return new Teacher(new ObjectID(rawObject['_id']), rawObject['name']);
     }
 
     serialize() {
+        assert(this._id !== null);
         return this;
     }
 }
@@ -36,21 +40,33 @@ export namespace TeacherRepository {
         if (objectInBuffer !== null) {
             return Teacher.fromJson(JSON.parse(objectInBuffer));
         }
-        const rawObject = await mongodb.collection('teacher').findOne({id: id});
+        const rawObject = await mongodb.collection('teacher').findOne({_id: id});
         if (rawObject === null)
             return null;
-        let teacher = Teacher.fromRawObject(rawObject);
+        let teacher = await Teacher.fromRawObject(rawObject);
+        await cache(teacher);
+        return teacher;
+    }
+
+    export async function getOrCreateByName(name: string): Promise<Teacher> {
+        const rawObject = await mongodb.collection('teacher').findOne({name: name});
+        if (rawObject === null) {
+            let teacher = new Teacher((await mongodb.collection('teacher')
+                .insertOne({
+                    _id: new ObjectID(),
+                    name: name
+                })).insertedId, name);
+            await cache(teacher);
+            return teacher;
+        }
+        let teacher = await Teacher.fromRawObject(rawObject);
         await cache(teacher);
         return teacher;
     }
 
     export async function save(object: Teacher) {
-        if (object._id === null) {
-            await mongodb.collection('teacher').insertOne(object.serialize());
-        } else {
-            const cachePromise = cache(object);
-            const mongodbPromise = mongodb.collection('teacher').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
-            await Promise.all([cachePromise, mongodbPromise]);
-        }
+        const cachePromise = cache(object);
+        const mongodbPromise = mongodb.collection('teacher').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
+        await Promise.all([cachePromise, mongodbPromise]);
     }
 }

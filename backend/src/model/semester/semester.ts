@@ -1,7 +1,7 @@
 import {ObjectID} from "mongodb";
-import {createDate} from "../../../shared/tools/date";
-import {mongodb} from "../infrastructure/mongodb";
-import {redis} from "../infrastructure/redis";
+import {createDate} from "../../../../shared/tools/date";
+import {mongodb} from "../../infrastructure/mongodb";
+import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
 
 export class DateRange {
@@ -51,11 +51,14 @@ export class Semester {
         public dateRange: DateRange,
         public holidays: Array<Holiday>
     ) {
+        if (_id === null || _id === undefined) {
+            this._id = new ObjectID();
+        }
     }
 
     static fromJson(json: JSON): Semester {
         return new Semester(
-            json['id'] === undefined || json['id'] === null ? null : json['id'],
+            json['_id'],
             json['name'],
             new DateRange(
                 createDate(json['begin'][0], json['begin'][1], json['begin'][2]),
@@ -123,6 +126,9 @@ export namespace SemesterRepository {
                 begin: {$lte: now},
                 end: {$gt: now}
             });
+            if (rawObject === null) {
+                return null;
+            }
             currentSemester = Semester.fromRawObject(rawObject);
         }
         return currentSemester;
@@ -147,7 +153,7 @@ export async function initSemesters() {
     const data = fs.readFileSync('./initialData/semester.json');
     const json = JSON.parse(data.toString());
     for (let semester of json['semester']) {
-        if (SemesterRepository.getByName(semester['name']) === null) {
+        if ((await SemesterRepository.getByName(semester['name'])) === null) {
             await SemesterRepository.save(Semester.fromJson(semester));
         }
     }

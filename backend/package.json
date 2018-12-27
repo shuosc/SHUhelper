@@ -33,6 +33,6 @@
     "typescript": "^3.1.6"
   },
   "scripts": {
-    "dev": "nodemon --inspect --watch 'src/**/*' -e ts,tsx --exec 'node -r ts-node/register' ./src/main.ts"
+    "dev": "nodemon --inspect --watch 'src/**/*' -e ts,tsx --exec node -r ts-node/register ./src/main.ts"
   }
 }
