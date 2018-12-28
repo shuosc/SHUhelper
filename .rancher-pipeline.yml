@@ -6,4 +6,5 @@ stages:
       shellScript: |-
         ls
         pwd
+        bash ./backend/script/dev-server.sh
 timeout: 60
