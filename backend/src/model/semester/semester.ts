@@ -104,7 +104,7 @@ export namespace SemesterRepository {
         if (objectInBuffer !== null) {
             return Semester.fromJson(JSON.parse(objectInBuffer));
         }
-        const rawObject = await mongodb.collection('semester').findOne({id: id});
+        const rawObject = await mongodb.collection('semester').findOne({_id: id});
         if (rawObject === null)
             return null;
         let semester = Semester.fromRawObject(rawObject);

@@ -46,12 +46,16 @@ export class Course {
     }
 
     static async fromRawObject(rawObject) {
+        const semester = await SemesterRepository.getById(rawObject['semesterId']);
+        const teacher = await TeacherRepository.getById(rawObject['teacherId']);
+        assert(semester !== null);
+        assert(teacher !== null);
         return new Course(
             rawObject['_id'],
             rawObject['id'],
             rawObject['name'],
-            await SemesterRepository.getById(rawObject['semesterId']),
-            await TeacherRepository.getById(rawObject['teacherId']),
+            semester,
+            teacher,
             rawObject['multipleTeacher'],
             rawObject['time'].map(CourseTime.fromRawObject),
             rawObject['place']
@@ -59,6 +63,8 @@ export class Course {
     }
 
     static async fromJson(json: JSON): Promise<Course> {
+        assert(json['semesterId'] !== null);
+        assert(json['teacherId'] !== null);
         return this.fromRawObject(json);
     }
 
@@ -92,6 +98,7 @@ export namespace CourseRepository {
         const rawObject = await mongodb.collection('course').findOne({id: id});
         if (rawObject === null)
             return null;
+        assert(rawObject.teacherId !== null);
         let course = await Course.fromRawObject(rawObject);
         await cache(course);
         return course;
@@ -101,7 +108,7 @@ export namespace CourseRepository {
         await TeacherRepository.save(object.teacher);
         await SemesterRepository.save(object.semester);
         const cachePromise = cache(object);
-        const mongodbPromise = mongodb.collection('course').updateOne({_id: object._id}, {$set: object}, {upsert: true});
+        const mongodbPromise = mongodb.collection('course').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
         await Promise.all([cachePromise, mongodbPromise]);
     }
 

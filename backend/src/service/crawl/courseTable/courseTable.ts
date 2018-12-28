@@ -40,7 +40,6 @@ export async function parseCourseTimes(str: string): Promise<Array<CourseTime>> 
 
 async function parseCourse(cols: Array<string>): Promise<Course> {
     const id = cols[1];
-    console.log(cols[1]);
     let result = await CourseRepository.getById(cols[1]);
     if (result !== null) {
         return result;
