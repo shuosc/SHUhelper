@@ -1,7 +1,7 @@
 stages:
-- name: hello
+- name: backend-serve
   steps:
   - runScriptConfig:
       image: node:latest
-      shellScript: echo hello
+      shellScript: ./SHUhelper/backend/script/dev-server.sh
 timeout: 60
