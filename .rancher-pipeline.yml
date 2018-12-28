@@ -3,5 +3,7 @@ stages:
   steps:
   - runScriptConfig:
       image: node:latest
-      shellScript: ./SHUhelper/backend/script/dev-server.sh
+      shellScript: |-
+        ls
+        pwd
 timeout: 60
