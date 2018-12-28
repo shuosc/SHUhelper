@@ -1,6 +1,8 @@
 import {redis} from "../infrastructure/redis";
 import {Cookie} from "tough-cookie";
-import {fetchCoursePage, getStudentNameFromPage} from "../service/crawl/courseTable/courseTable";
+import {fetchCoursePage, getStudentNameFromPage, parseCoursePage} from "../service/crawl/courseTable/courseTable";
+import {Course, CourseRepository} from "./course/course";
+import {assert} from "../../../shared/tools/assert";
 
 export class Student {
     constructor(readonly id: string) {
@@ -19,15 +21,9 @@ export class Student {
     xkCookie: Cookie;       // 此处命名xk是由于要登录的网站是 xk......
                             // 可以商榷是否改名为courseSelectingCookie等
 
-    async serialize() {
-        return {
-            id: this.id,
-            name: await this.getName(),
-            xkCookie: this.xkCookie.toJSON()
-        }
-    }
+    private _courses: Array<Course> = null;
 
-    static fromJson(json: JSON): Student {
+    static async fromJson(json: JSON): Promise<Student> {
         let result = new Student(json['id']);
         if (json['name'] === undefined) {
             result._name = null;
@@ -39,7 +35,39 @@ export class Student {
         } else {
             result.xkCookie = Cookie.fromJSON(json['xkCookie']);
         }
+        if (json['courseIds'] === undefined || json['courseIds'] === null) {
+            result._courses = null;
+        } else {
+            let coursePromises: Array<Promise<Course>> = json['courseIds'].map(
+                async id => CourseRepository.getById(id)
+            );
+            result._courses = await Promise.all(coursePromises);
+        }
         return result;
+    }
+
+    async serialize() {
+        return {
+            id: this.id,
+            name: await this.getName(),
+            xkCookie: this.xkCookie.toJSON(),
+            courseIds: (await this.getCourses()).map(it => it.id)
+        }
+    }
+
+    async getCourses(): Promise<Array<Course>> {
+        if (this._courses === null) {
+            const coursePage = await fetchCoursePage(this.id, [this.xkCookie]);
+            this._courses = await parseCoursePage(coursePage);
+            await Promise.all(this._courses.map(async it => CourseRepository.save(it)));
+            for (let course of this._courses) {
+                assert(course !== null);
+            }
+        }
+        for (let course of this._courses) {
+            assert(course !== null);
+        }
+        return this._courses;
     }
 }
 
@@ -52,7 +80,7 @@ export namespace StudentRepository {
         if (result === null) {
             return null;
         }
-        return Student.fromJson(JSON.parse(result))
+        return await Student.fromJson(JSON.parse(result))
     }
 
     export async function save(object: Student) {
