@@ -34,7 +34,7 @@ router
         }
     })
     .get('/api/courses', async (ctx: Router.IRouterContext) => {
-        ctx.body = await ctx.request.user.getCourses();
+        ctx.body = (await ctx.request.user.getCourses()).map(it => it.serialize());
     })
     .get('/*', async (ctx: Router.IRouterContext) => {
         ctx.body = 'It works!';
