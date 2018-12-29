@@ -2,30 +2,9 @@ import {Teacher, TeacherRepository} from "../teacher";
 import {ObjectID} from "bson";
 import {redis} from "../../infrastructure/redis";
 import {mongodb} from "../../infrastructure/mongodb";
-import {DAY_CHINESE_TO_NUMBER} from "../../../../shared/tools/date";
 import {Semester, SemesterRepository} from "../semester/semester";
 import {assert} from "../../../../shared/tools/assert";
-
-export class CourseTime {
-    constructor(public day: number,
-                public beginSector: number,
-                public endSector: number) {
-    }
-
-    static fromRawObject(rawObject): CourseTime {
-        return new CourseTime(rawObject['day'], rawObject['beginSector'], rawObject['endSector']);
-    }
-
-    static fromString(str: string) {
-        const regex = /([一二三四五六日])(\d+)-(\d+)/;
-        let result = regex.exec(str);
-        return new CourseTime(DAY_CHINESE_TO_NUMBER.get(str[0]), parseInt(result[2]), parseInt(result[3]));
-    }
-
-    serialize() {
-        return this;
-    }
-}
+import {CourseTime} from "../../../../shared/model/courseTime";
 
 export class Course {
     constructor(

@@ -1,5 +1,4 @@
 import {ObjectID} from "mongodb";
-import {createDate} from "../../../../shared/tools/date";
 import {mongodb} from "../../infrastructure/mongodb";
 import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
@@ -19,6 +18,14 @@ export class DateRange {
     isDateIn(date: Date) {
         return this.begin <= date && date < this.end;
     }
+
+    static fromRawObject(rawObject: { begin: Date, end: Date }): DateRange {
+        return new DateRange(rawObject.begin, rawObject.end);
+    }
+
+    static fromJson(json: JSON): DateRange {
+        return this.fromRawObject(json as any);
+    }
 }
 
 export class Holiday {
@@ -26,20 +33,21 @@ export class Holiday {
                 public dateRange: DateRange) {
     }
 
-    static fromJson(json: JSON): Holiday {
+    static fromRawObject(rawObject): Holiday {
         return new Holiday(
-            json['name'],
-            new DateRange(
-                createDate(json['begin'][0], json['begin'][1], json['begin'][2]),
-                createDate(json['end'][0], json['end'][1], json['end'][2])
-            )
+            rawObject['name'],
+            DateRange.fromJson(rawObject['dateRange'])
         );
+    }
+
+    static fromJson(json: JSON): Holiday {
+        return this.fromRawObject(json);
     }
 
     serialize() {
         return {
             name: this.name,
-            ...this.dateRange.serialize()
+            dateRange: this.dateRange.serialize()
         };
     }
 }
@@ -60,10 +68,7 @@ export class Semester {
         return new Semester(
             json['_id'],
             json['name'],
-            new DateRange(
-                createDate(json['begin'][0], json['begin'][1], json['begin'][2]),
-                createDate(json['end'][0], json['end'][1], json['end'][2])
-            ),
+            DateRange.fromJson(json['dateRange']),
             json['holidays'].map((it: JSON) => Holiday.fromJson(it)));
     }
 
@@ -72,9 +77,7 @@ export class Semester {
             rawObject._id,
             rawObject.name,
             new DateRange(rawObject['begin'], rawObject['end']),
-            rawObject.holidays.map(it => {
-                return new Holiday(it.name, new DateRange(it['begin'], it['end']))
-            })
+            rawObject.holidays.map(it => Holiday.fromRawObject(it))
         );
     }
 
@@ -82,7 +85,7 @@ export class Semester {
         return {
             _id: this._id,
             name: this.name,
-            ...this.dateRange.serialize(),
+            dateRange: this.dateRange.serialize(),
             holidays: this.holidays.map((it: Holiday) => it.serialize())
         }
     }

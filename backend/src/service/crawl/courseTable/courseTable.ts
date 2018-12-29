@@ -2,9 +2,10 @@ import {Cookie} from 'tough-cookie';
 import {postFormWithCookies} from '../../../infrastructure/request';
 import * as Cheerio from 'cheerio';
 import * as Entities from "html-entities";
-import {Course, CourseRepository, CourseTime} from "../../../model/course/course";
+import {Course, CourseRepository} from "../../../model/course/course";
 import {TeacherRepository} from "../../../model/teacher";
 import {SemesterRepository} from "../../../model/semester/semester";
+import {CourseTime} from "../../../../../shared/model/courseTime";
 
 const entities = new Entities.XmlEntities();
 
