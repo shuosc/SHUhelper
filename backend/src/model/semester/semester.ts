@@ -1,7 +1,8 @@
-import {ObjectID} from "mongodb";
+import {ObjectId, ObjectID} from "mongodb";
 import {mongodb} from "../../infrastructure/mongodb";
 import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
+import {assert} from "../../../../shared/tools/assert";
 
 export class DateRange {
     constructor(public begin: Date, public end: Date) {
@@ -69,7 +70,7 @@ export class Semester {
 
     static fromJson(json: JSON): Semester {
         return new Semester(
-            json['_id'],
+            new ObjectID(json['_id']),
             json['name'],
             DateRange.fromJson(json['dateRange']),
             json['holidays'].map((it: JSON) => Holiday.fromJson(it)));
@@ -77,7 +78,7 @@ export class Semester {
 
     static fromRawObject(rawObject) {
         return new Semester(
-            rawObject._id,
+            new ObjectId(rawObject._id),
             rawObject.name,
             new DateRange(new Date(rawObject['begin']), new Date(rawObject['end'])),
             rawObject.holidays.map(it => Holiday.fromRawObject(it))
@@ -85,6 +86,7 @@ export class Semester {
     }
 
     serialize() {
+        assert(this._id instanceof ObjectID);
         return {
             _id: this._id,
             name: this.name,
@@ -130,7 +132,7 @@ export namespace SemesterRepository {
             const now = new Date();
             const rawObject = await mongodb.collection('semester').findOne({
                 "dateRange.begin": {$lte: now},
-                // "dateRange.end": {$gt: now}
+                "dateRange.end": {$gt: now}
             });
             if (rawObject === null) {
                 return null;

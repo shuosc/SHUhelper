@@ -25,12 +25,12 @@ export class Course {
     }
 
     static async fromRawObject(rawObject) {
-        const semester = await SemesterRepository.getById(rawObject['semesterId']);
-        const teacher = await TeacherRepository.getById(rawObject['teacherId']);
+        const semester = await SemesterRepository.getById(new ObjectID(rawObject['semesterId']));
+        const teacher = await TeacherRepository.getById(new ObjectID(rawObject['teacherId']));
         assert(semester !== null);
         assert(teacher !== null);
         return new Course(
-            rawObject['_id'],
+            new ObjectID(rawObject['_id']),
             rawObject['id'],
             rawObject['name'],
             semester,
@@ -50,6 +50,7 @@ export class Course {
     serialize() {
         assert(this.semester !== null);
         assert(this.teacher !== null);
+        assert(this._id instanceof ObjectID);
         return {
             _id: this._id,
             id: this.id,
