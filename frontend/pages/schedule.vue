@@ -13,7 +13,7 @@
     import Component, {namespace} from 'nuxt-class-component';
     import {Vue} from 'vue-property-decorator';
     import Calendar from '../components/schedule/calendar.vue';
-    import * as courses from '~/store/modules/courses';
+    import * as courses from '~/store/modules/course';
     import CourseList from "~/components/schedule/courseList.vue";
 
     const Courses = namespace(courses.name);
@@ -27,7 +27,7 @@
         watchingDate = new Date();
 
         async asyncData(context: { store: any }) {
-            await context.store.dispatch('courses/fetchCourses');
+            await context.store.dispatch('course/fetchCourses');
         }
 
         daySelected(theDate: Date) {

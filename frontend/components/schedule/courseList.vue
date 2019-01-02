@@ -29,7 +29,7 @@
 <script lang="ts">
     import Component from 'nuxt-class-component';
     import {Prop, Vue} from 'vue-property-decorator';
-    import {Course} from "~/store/modules/courses";
+    import {Course} from "~/store/modules/course";
     import {CourseTime} from "../../../shared/model/courseTime";
 
     @Component

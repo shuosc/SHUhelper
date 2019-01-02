@@ -15,8 +15,7 @@
 ├── script                  # 工具脚本，现在只有一个普通的开发服务器启动脚本
 └── src                     # 主要代码文件夹
     ├── infrastructure      # 基础设施
-    │   ├── mongodb.ts
-    │   ├── redis.ts
+    │   ├── mongo.ts   │   ├── redis.ts
     │   └── request.ts
     ├── main.ts             # 服务器主文件
     ├── middleware          # 服务器中间件，例如auth中间件
@@ -47,6 +46,6 @@ Redis 缓存在 Repository 这一层做。
 
 #### 关于 id 和 _id
 
-mongodb 会自动生成 _id 字段，但部分数据本身就有 id （如从教务系统中爬到的数据）。
+mongo 会自动生成 _id 字段，但部分数据本身就有 id （如从教务系统中爬到的数据）。
 
 我们在数据本身有 id 时，会坚持使用数据本身的 id 而非自动生成的 _id。在数据本身无 id 时才会使用 _id 。

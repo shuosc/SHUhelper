@@ -1,7 +1,7 @@
 import {Teacher, TeacherRepository} from "../teacher";
 import {ObjectID} from "bson";
 import {redis} from "../../infrastructure/redis";
-import {mongodb} from "../../infrastructure/mongodb";
+import {mongo} from "../../infrastructure/mongo";
 import {Semester, SemesterRepository} from "../semester/semester";
 import {assert} from "../../../../shared/tools/assert";
 import {CourseTime} from "../../../../shared/model/courseTime";
@@ -75,7 +75,7 @@ export namespace CourseRepository {
         if (objectInBuffer !== null) {
             return Course.fromJson(JSON.parse(objectInBuffer));
         }
-        const rawObject = await mongodb.collection('course').findOne({id: id});
+        const rawObject = await mongo.collection('course').findOne({id: id});
         if (rawObject === null)
             return null;
         assert(rawObject.teacherId !== null);
@@ -88,11 +88,11 @@ export namespace CourseRepository {
         await TeacherRepository.save(object.teacher);
         await SemesterRepository.save(object.semester);
         const cachePromise = cache(object);
-        const mongodbPromise = mongodb.collection('course').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
+        const mongodbPromise = mongo.collection('course').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
         await Promise.all([cachePromise, mongodbPromise]);
     }
 
     export async function count(): Promise<number> {
-        return await mongodb.collection('course').countDocuments();
+        return await mongo.collection('course').countDocuments();
     }
 }

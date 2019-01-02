@@ -3,11 +3,11 @@ import * as Router from 'koa-router';
 import * as KoaBodyParser from 'koa-bodyparser';
 import * as KoaLogger from 'koa-logger';
 import * as jwt from 'jsonwebtoken';
-import {initDB} from "./infrastructure/mongodb";
+import {initDB} from "./infrastructure/mongo";
 import {simulateLogin} from "./service/simulateLogin/simulateLogin";
 import {Student, StudentRepository} from "./model/student";
 import {authMiddleware} from "./middleware/auth";
-import {initSemesters} from "./model/semester/semester";
+import {initSemesters, SemesterRepository} from "./model/semester/semester";
 
 const app = new Koa();
 const router = new Router();
@@ -34,8 +34,15 @@ router
         }
     })
     .get('/api/courses', async (ctx: Router.IRouterContext) => {
+        if (ctx.request.user === null) {
+            ctx.body = [];
+            return;
+        }
         const courses = await ctx.request.user.getCourses();
         ctx.body = courses.map(it => it.serialize());
+    })
+    .get('/api/semester/:id', async (ctx: Router.IRouterContext) => {
+        ctx.body = await SemesterRepository.getById(ctx.params.id);
     })
     .get('/*', async (ctx: Router.IRouterContext) => {
         ctx.body = 'It works!';

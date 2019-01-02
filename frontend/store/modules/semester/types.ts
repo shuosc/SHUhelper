@@ -1,0 +1,4 @@
+export enum Types {
+    SET_SEMESTERS = 'SET_SEMESTERS',
+    ADD_SEMESTER = 'ADD_SEMESTER'
+}

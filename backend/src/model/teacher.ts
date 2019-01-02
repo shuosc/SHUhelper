@@ -1,6 +1,6 @@
 import {ObjectID} from "mongodb";
 import {redis} from "../infrastructure/redis";
-import {mongodb} from "../infrastructure/mongodb";
+import {mongo} from "../infrastructure/mongo";
 import {assert} from "../../../shared/tools/assert";
 
 export class Teacher {
@@ -40,7 +40,7 @@ export namespace TeacherRepository {
         if (objectInBuffer !== null) {
             return Teacher.fromJson(JSON.parse(objectInBuffer));
         }
-        const rawObject = await mongodb.collection('teacher').findOne({_id: id});
+        const rawObject = await mongo.collection('teacher').findOne({_id: id});
         if (rawObject === null)
             return null;
         let teacher = await Teacher.fromRawObject(rawObject);
@@ -49,9 +49,9 @@ export namespace TeacherRepository {
     }
 
     export async function getOrCreateByName(name: string): Promise<Teacher> {
-        const rawObject = await mongodb.collection('teacher').findOne({name: name});
+        const rawObject = await mongo.collection('teacher').findOne({name: name});
         if (rawObject === null) {
-            let teacher = new Teacher((await mongodb.collection('teacher')
+            let teacher = new Teacher((await mongo.collection('teacher')
                 .insertOne({
                     _id: new ObjectID(),
                     name: name
@@ -66,7 +66,7 @@ export namespace TeacherRepository {
 
     export async function save(object: Teacher) {
         const cachePromise = cache(object);
-        const mongodbPromise = mongodb.collection('teacher').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
+        const mongodbPromise = mongo.collection('teacher').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
         await Promise.all([cachePromise, mongodbPromise]);
     }
 }

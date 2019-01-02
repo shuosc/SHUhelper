@@ -1,60 +1,10 @@
 import {ObjectId, ObjectID} from "mongodb";
-import {mongodb} from "../../infrastructure/mongodb";
+import {mongo} from "../../infrastructure/mongo";
 import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
 import {assert} from "../../../../shared/tools/assert";
-
-export class DateRange {
-    constructor(public begin: Date, public end: Date) {
-    }
-
-    get isNowIn() {
-        return this.isDateIn(new Date());
-    }
-
-    static fromRawObject(rawObject: { begin: Date, end: Date }): DateRange {
-        return new DateRange(new Date(rawObject.begin), new Date(rawObject.end));
-    }
-
-    isDateIn(date: Date) {
-        return this.begin <= date && date < this.end;
-    }
-
-    serialize() {
-        return {
-            begin: new Date(this.begin),
-            end: new Date(this.end)
-        };
-    }
-
-    static fromJson(json: JSON): DateRange {
-        return this.fromRawObject(json as any);
-    }
-}
-
-export class Holiday {
-    constructor(public name: string,
-                public dateRange: DateRange) {
-    }
-
-    static fromRawObject(rawObject): Holiday {
-        return new Holiday(
-            rawObject['name'],
-            DateRange.fromJson(rawObject['dateRange'])
-        );
-    }
-
-    static fromJson(json: JSON): Holiday {
-        return this.fromRawObject(json);
-    }
-
-    serialize() {
-        return {
-            name: this.name,
-            dateRange: this.dateRange.serialize()
-        };
-    }
-}
+import {DateRange} from "../../../../shared/model/dateRange";
+import {Holiday} from "../../../../shared/model/holiday";
 
 export class Semester {
     constructor(
@@ -112,7 +62,7 @@ export namespace SemesterRepository {
         if (objectInBuffer !== null) {
             return Semester.fromJson(JSON.parse(objectInBuffer));
         }
-        const rawObject = await mongodb.collection('semester').findOne({_id: id});
+        const rawObject = await mongo.collection('semester').findOne({_id: id});
         if (rawObject === null)
             return null;
         let semester = Semester.fromRawObject(rawObject);
@@ -121,7 +71,7 @@ export namespace SemesterRepository {
     }
 
     export async function getByName(name: string): Promise<Semester | null> {
-        const rawObject = await mongodb.collection('semester').findOne({name: name});
+        const rawObject = await mongo.collection('semester').findOne({name: name});
         if (rawObject === null)
             return null;
         return Semester.fromRawObject(rawObject);
@@ -130,7 +80,7 @@ export namespace SemesterRepository {
     export async function current(): Promise<Semester | null> {
         if (currentSemester === null || !currentSemester.dateRange.isNowIn) {
             const now = new Date();
-            const rawObject = await mongodb.collection('semester').findOne({
+            const rawObject = await mongo.collection('semester').findOne({
                 "dateRange.begin": {$lte: now},
                 "dateRange.end": {$gt: now}
             });
@@ -144,10 +94,10 @@ export namespace SemesterRepository {
 
     export async function save(object: Semester) {
         if (object._id === null) {
-            await mongodb.collection('semester').insertOne(object.serialize());
+            await mongo.collection('semester').insertOne(object.serialize());
         } else {
             const cachePromise = cache(object);
-            const mongodbPromise = mongodb.collection('semester').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
+            const mongodbPromise = mongo.collection('semester').updateOne({_id: object._id}, {$set: object.serialize()}, {upsert: true});
             await Promise.all([cachePromise, mongodbPromise]);
         }
     }

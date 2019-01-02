@@ -9,11 +9,12 @@ export const getters: GetterTree<State, RootState> = {
         }
         return state.courses;
     },
-    getCoursesForDate: (state: State) => {
+    getCoursesForDate: (state: State, _: any, rootState: RootState, rootGetters: any) => {
         return (date: Date): Array<Course> => {
             if (state.courses === null) {
                 return [];
             }
+            console.log(rootGetters['semester/getSemesterForDate'](rootState.semesters));
             return state.courses.filter((course: Course) => {
                 for (let time of course.time) {
                     if (time.day === date.getDay()) {

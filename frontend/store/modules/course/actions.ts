@@ -1,7 +1,7 @@
 import {ActionContext, ActionTree} from "vuex";
 import {RootState} from "~/store";
-import {State} from "~/store/modules/courses/state";
-import {Types} from "~/store/modules/courses/types";
+import {State} from "~/store/modules/course/state";
+import {Types} from "~/store/modules/course/types";
 
 export interface Actions<S, R> extends ActionTree<S, R> {
     fetchCourses: (context: ActionContext<S, R>, payload: any) => void;
