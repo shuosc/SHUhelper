@@ -14,7 +14,7 @@ module.exports = {
     }],
     axios: {
         proxy: true,
-        credentials: true,
+        credentials: true
     },
     proxy: {
         '/auth': process.env.AUTH_BACKEND_URL || 'http://localhost:3001',

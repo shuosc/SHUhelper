@@ -17,6 +17,7 @@ export const actions: Actions<State, RootState> = {
                 token: data.token
             }
         });
+        (this.$axios as any).setToken(data.token, 'Bearer')
     },
     doLogout: async function ({commit}) {
         commit(Types.SET_USER, {user: null});

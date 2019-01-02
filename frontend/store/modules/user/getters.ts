@@ -1,4 +1,4 @@
-import {GetterTree} from "~/node_modules/vuex";
+import {GetterTree} from "vuex";
 import {State} from "./state";
 import {RootState} from "~/store";
 

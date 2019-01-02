@@ -11,16 +11,19 @@ export class DateRange {
         return this.isDateIn(new Date());
     }
 
-    serialize() {
-        return this;
+    static fromRawObject(rawObject: { begin: Date, end: Date }): DateRange {
+        return new DateRange(new Date(rawObject.begin), new Date(rawObject.end));
     }
 
     isDateIn(date: Date) {
         return this.begin <= date && date < this.end;
     }
 
-    static fromRawObject(rawObject: { begin: Date, end: Date }): DateRange {
-        return new DateRange(rawObject.begin, rawObject.end);
+    serialize() {
+        return {
+            begin: new Date(this.begin),
+            end: new Date(this.end)
+        };
     }
 
     static fromJson(json: JSON): DateRange {
@@ -76,7 +79,7 @@ export class Semester {
         return new Semester(
             rawObject._id,
             rawObject.name,
-            new DateRange(rawObject['begin'], rawObject['end']),
+            new DateRange(new Date(rawObject['begin']), new Date(rawObject['end'])),
             rawObject.holidays.map(it => Holiday.fromRawObject(it))
         );
     }
@@ -126,8 +129,8 @@ export namespace SemesterRepository {
         if (currentSemester === null || !currentSemester.dateRange.isNowIn) {
             const now = new Date();
             const rawObject = await mongodb.collection('semester').findOne({
-                begin: {$lte: now},
-                end: {$gt: now}
+                "dateRange.begin": {$lte: now},
+                // "dateRange.end": {$gt: now}
             });
             if (rawObject === null) {
                 return null;

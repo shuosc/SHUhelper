@@ -6,14 +6,16 @@ export class CourseTime {
                 public endSector: number) {
     }
 
-    static fromRawObject(rawObject): CourseTime {
+    static fromRawObject(rawObject: any): CourseTime {
         return new CourseTime(rawObject['day'], rawObject['beginSector'], rawObject['endSector']);
     }
 
-    static fromString(str: string) {
+    static fromString(str: string): CourseTime | null {
         const regex = /([一二三四五六日])(\d+)-(\d+)/;
         let result = regex.exec(str);
-        return new CourseTime(DAY_CHINESE_TO_NUMBER.get(str[0]), parseInt(result[2]), parseInt(result[3]));
+        if (result === null)
+            return null;
+        return new CourseTime(DAY_CHINESE_TO_NUMBER.get(str[0]) as number, parseInt(result[2]), parseInt(result[3]));
     }
 
     serialize() {
