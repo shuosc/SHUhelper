@@ -1,5 +1,5 @@
-import {DateRange} from "../../../../shared/model/dateRange";
-import {Holiday} from "../../../../shared/model/holiday";
+import {DateRange} from "../../../../shared/model/dateRange/dateRange";
+import {Holiday} from "../../../../shared/model/semester/holiday/holiday";
 
 export interface Semester {
     _id: any;

@@ -1,13 +1,14 @@
 import {Cookie} from 'tough-cookie';
 import {postFormWithCookies} from '../../../infrastructure/request';
 import * as Cheerio from 'cheerio';
-import * as Entities from "html-entities";
-import {Course, CourseRepository} from "../../../model/course/course";
-import {TeacherRepository} from "../../../model/teacher";
+import {CourseTime, CourseTimeService} from "../../../../../shared/model/courseTime/courseTime";
+import {CourseRepository} from "../../../model/course/course";
+import {XmlEntities} from "html-entities";
+import {TeacherRepository} from "../../../model/teacher/teacher";
+import {Course} from "../../../../../shared/model/course/course";
 import {SemesterRepository} from "../../../model/semester/semester";
-import {CourseTime} from "../../../../../shared/model/courseTime";
 
-const entities = new Entities.XmlEntities();
+const entities = new XmlEntities();
 
 /**
  * 下载课程页面
@@ -33,7 +34,7 @@ export async function parseCourseTimes(str: string): Promise<Array<CourseTime>> 
     do {
         match = regex.exec(str);
         if (match !== null) {
-            result.push(CourseTime.fromString(match[0]));
+            result.push(CourseTimeService.fromString(match[0]));
         }
     } while (match !== null);
     return result;
@@ -51,14 +52,21 @@ async function parseCourse(cols: Array<string>): Promise<Course> {
     const semester = await SemesterRepository.current();
     const courseTimes = await parseCourseTimes(cols[6]);
     const place = await cols[7];
-    return new Course(null, id, name, semester, teacher, hasManyTeacher, courseTimes, place);
+    return {
+        id: id,
+        name: name,
+        teacherId: teacher._id,
+        semesterId: semester._id,
+        times: courseTimes,
+        place: place
+    };
 }
 
 /**
  * 从课程页面中解析出课程
  * @param coursePage
  */
-export async function parseCoursePage(coursePage: string): Promise<Array<Course>> {
+export async function getCoursesFromPage(coursePage: string): Promise<Array<Course>> {
     const $ = Cheerio.load(coursePage, {ignoreWhitespace: true});
     const rows = $(".tbllist tr");
     let courses: Array<Course> = [];
@@ -72,6 +80,7 @@ export async function parseCoursePage(coursePage: string): Promise<Array<Course>
             break;
         }
         let course = await parseCourse(cols);
+        await CourseRepository.save(course);
         courses.push(course);
     }
     return courses;

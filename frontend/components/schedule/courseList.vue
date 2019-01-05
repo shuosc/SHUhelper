@@ -30,7 +30,7 @@
     import Component from 'nuxt-class-component';
     import {Prop, Vue} from 'vue-property-decorator';
     import {Course} from "~/store/modules/course";
-    import {CourseTime} from "../../../shared/model/courseTime";
+    import {CourseTime} from "../../../shared/model/courseTime/courseTime";
 
     @Component
     export default class CourseList extends Vue {

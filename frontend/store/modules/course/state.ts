@@ -1,4 +1,4 @@
-import {CourseTime} from "../../../../shared/model/courseTime";
+import {CourseTime} from "../../../../shared/model/courseTime/courseTime";
 
 export interface Course {
     readonly id: string,

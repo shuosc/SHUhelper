@@ -3,11 +3,11 @@ import * as Router from 'koa-router';
 import * as KoaBodyParser from 'koa-bodyparser';
 import * as KoaLogger from 'koa-logger';
 import * as jwt from 'jsonwebtoken';
-import {initDB} from "./infrastructure/mongo";
-import {simulateLogin} from "./service/simulateLogin/simulateLogin";
-import {Student, StudentRepository} from "./model/student";
 import {authMiddleware} from "./middleware/auth";
-import {initSemesters, SemesterRepository} from "./model/semester/semester";
+import {initDB} from "./infrastructure/mongo";
+import {initSemesters} from "./model/semester/semester";
+import {StudentRepository, StudentService} from "./model/student/student";
+import {CourseRepository} from "./model/course/course";
 
 const app = new Koa();
 const router = new Router();
@@ -17,35 +17,30 @@ app.use(KoaLogger());
 app.use(authMiddleware);
 
 router
-    .post('/auth/login', async (ctx: Router.IRouterContext) => {
-        const username = ctx.request.body['username'];
-        const password = ctx.request.body['password'];
-        let theStudent = await StudentRepository.getById(username);
+    .post('/auth/login', async (context) => {
+        const username = context.request.body['username'];
+        const password = context.request.body['password'];
+        const theStudent = await StudentService.login(username, password);
         if (theStudent === null) {
-            const cookies = await simulateLogin('http://xk.autoisp.shu.edu.cn', username, password);
-            theStudent = new Student(username);
-            theStudent.xkCookie = cookies[0];
-            await StudentRepository.save(theStudent);
-        }
-        let token = jwt.sign({user: username}, process.env['JWT_SECRET'], {expiresIn: 60 * 60 * 24 * 7});
-        ctx.body = {
-            token: token,
-            name: await theStudent.getName()
-        }
-    })
-    .get('/api/courses', async (ctx: Router.IRouterContext) => {
-        if (ctx.request.user === null) {
-            ctx.body = [];
+            context.status = 403;
             return;
         }
-        const courses = await ctx.request.user.getCourses();
-        ctx.body = courses.map(it => it.serialize());
+        await StudentRepository.save(theStudent);
+        let token = jwt.sign({user: username}, process.env['JWT_SECRET'], {expiresIn: 60 * 60 * 24 * 7});
+        context.body = {
+            token: token,
+            name: theStudent.name
+        }
     })
-    .get('/api/semester/:id', async (ctx: Router.IRouterContext) => {
-        ctx.body = await SemesterRepository.getById(ctx.params.id);
+    .get('/api/courses', async (context) => {
+        if (context.request.user === null) {
+            context.status = 403;
+        } else {
+            context.body = await Promise.all(context.request.user.courseIds.map(id => CourseRepository.getById(id)));
+        }
     })
-    .get('/*', async (ctx: Router.IRouterContext) => {
-        ctx.body = 'It works!';
+    .get('/*', async (context) => {
+        context.body = 'It works!';
     });
 
 app.use(router.routes());

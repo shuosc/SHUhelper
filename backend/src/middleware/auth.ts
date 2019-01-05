@@ -1,10 +1,10 @@
 import * as Koa from 'koa';
 import * as jwt from 'jsonwebtoken';
-import {Student, StudentRepository} from "../model/student";
+import {Student, StudentRepository} from "../model/student/student";
 
 declare module "koa" {
     interface Request {
-        user: Student;
+        user: Student | null;
     }
 }
 

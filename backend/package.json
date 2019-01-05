@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@types/mongodb": "^3.1.18",
     "cheerio": "^1.0.0-rc.2",
     "html-entities": "^1.2.1",
     "ioredis": "^4.2.0",
@@ -14,6 +13,7 @@
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
+    "@types/mongodb": "^3.1.18",
     "@types/chai": "^4.1.7",
     "@types/cheerio": "^0.22.10",
     "@types/html-entities": "^1.2.16",
@@ -26,6 +26,7 @@
     "@types/mocha": "^5.2.5",
     "@types/request-promise-native": "^1.0.15",
     "@types/tough-cookie": "^2.3.4",
+    "nyc": "^13.1.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.7",
