@@ -17,7 +17,7 @@ export const getters: GetterTree<State, RootState> = {
                 return null;
             }
             return state.semesters.find(it => {
-                return it.dateRange.begin <= date && date < it.dateRange.end;
+                return it.begin <= date && date < it.end;
             });
         }
     }

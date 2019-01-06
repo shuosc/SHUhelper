@@ -12,8 +12,12 @@ export namespace CourseTimeService {
         let result = regex.exec(str);
         if (result === null)
             return null;
+        const day = DAY_CHINESE_TO_NUMBER.get(str[0]);
+        if (day === undefined) {
+            return null;
+        }
         return {
-            day: DAY_CHINESE_TO_NUMBER.get(str[0]),
+            day: day,
             beginSector: parseInt(result[2]),
             endSector: parseInt(result[3])
         }

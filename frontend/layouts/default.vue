@@ -54,14 +54,14 @@
 <script lang="ts">
     import Component, {namespace} from 'nuxt-class-component';
     import Vue from 'vue';
-    import * as user from '~/store/modules/user';
+    import * as student from '~/store/modules/student';
 
-    const User = namespace(user.name);
+    const Student = namespace(student.name);
     @Component
     export default class extends Vue {
-        @User.Getter getName: any;
-        @User.Getter isLogged: any;
-        @User.Action doLogout: any;
+        @Student.Getter getName: any;
+        @Student.Getter isLogged: any;
+        @Student.Action doLogout: any;
         drawer = true;
         miniVariant = false;
         title = 'SHUHelper';

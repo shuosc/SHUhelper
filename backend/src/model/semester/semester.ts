@@ -2,8 +2,9 @@ import {ObjectID} from "mongodb";
 import {mongo} from "../../infrastructure/mongo";
 import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
-import {Semester} from "../../../../shared/model/semester/semester";
+import {Semester, SemesterService} from "../../../../shared/model/semester/semester";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
+import {assert} from "../../../../shared/tools/assert";
 
 export namespace SemesterRepository {
     let currentSemester: Semester = null;
@@ -21,10 +22,11 @@ export namespace SemesterRepository {
         if (objectInBuffer !== null) {
             return JSON.parse(objectInBuffer);
         }
-        const semester = await mongo.collection('semester').findOne({_id: id});
+        const semester: Semester = await mongo.collection('semester').findOne({_id: id});
         if (semester === null)
             return null;
         await cache(semester);
+        assert(semester.begin instanceof Date);
         return semester;
     }
 
@@ -54,6 +56,7 @@ export namespace SemesterRepository {
     }
 }
 
+
 /**
  * 这个函数是临时的
  * 在管理员后台准备好之前将会使用json文件来初始化
@@ -64,12 +67,7 @@ export async function initSemesters() {
     for (let semester of json['semester']) {
         if ((await SemesterRepository.getByName(semester['name'])) === null) {
             semester._id = new ObjectID();
-            semester.begin = new Date(semester.begin);
-            semester.end = new Date(semester.end);
-            for (let holiday of semester.holidays) {
-                holiday.begin = new Date(holiday.begin);
-                holiday.end = new Date(holiday.end);
-            }
+            semester = SemesterService.normalize(semester);
             await SemesterRepository.save(semester);
         }
     }

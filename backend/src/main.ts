@@ -5,7 +5,7 @@ import * as KoaLogger from 'koa-logger';
 import * as jwt from 'jsonwebtoken';
 import {authMiddleware} from "./middleware/auth";
 import {initDB} from "./infrastructure/mongo";
-import {initSemesters} from "./model/semester/semester";
+import {initSemesters, SemesterRepository} from "./model/semester/semester";
 import {StudentRepository, StudentService} from "./model/student/student";
 import {CourseRepository} from "./model/course/course";
 
@@ -26,18 +26,27 @@ router
             return;
         }
         await StudentRepository.save(theStudent);
-        let token = jwt.sign({user: username}, process.env['JWT_SECRET'], {expiresIn: 60 * 60 * 24 * 7});
+        let token = jwt.sign({student: username}, process.env['JWT_SECRET'], {expiresIn: 60 * 60 * 24 * 7});
         context.body = {
-            token: token,
-            name: theStudent.name
+            token: token
         }
     })
-    .get('/api/courses', async (context) => {
-        if (context.request.user === null) {
-            context.status = 403;
+    .get('/api/student', async (context) => {
+        if (context.request.student === null) {
+            context.status = 404;
         } else {
-            context.body = await Promise.all(context.request.user.courseIds.map(id => CourseRepository.getById(id)));
+            context.body = {
+                id: context.request.student.id,
+                name: context.request.student.name,
+                courseIds: context.request.student.courseIds
+            };
         }
+    })
+    .get('/api/course/:id', async (context) => {
+        context.body = await CourseRepository.getById(context.params.id);
+    })
+    .get('/api/semester/:id', async (context) => {
+        context.body = await SemesterRepository.getById(context.params.id);
     })
     .get('/*', async (context) => {
         context.body = 'It works!';

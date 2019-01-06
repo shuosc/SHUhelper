@@ -17,9 +17,9 @@
 <script lang="ts">
     import Component, {namespace} from 'nuxt-class-component';
     import Vue from 'vue';
-    import * as user from '~/store/modules/user';
+    import * as student from '~/store/modules/student';
 
-    const User = namespace(user.name);
+    const Student = namespace(student.name);
     @Component
     export default class Login extends Vue {
         layout() {
@@ -28,8 +28,8 @@
 
         username: string = "";
         password: string = "";
-        @User.Action doLogin: any;
-        @User.Getter isLogged: any;
+        @Student.Action doLogin: any;
+        @Student.Getter isLogged: any;
         loading = false;
 
         async login() {

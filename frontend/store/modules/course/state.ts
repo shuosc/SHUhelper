@@ -1,19 +1,9 @@
-import {CourseTime} from "../../../../shared/model/courseTime/courseTime";
-
-export interface Course {
-    readonly id: string,
-    name: string,
-    semesterId: string,
-    teacherId: string,
-    multipleTeacher: boolean,
-    time: Array<CourseTime>,
-    place: string
-}
+import {Course} from "../../../../shared/model/course/course";
 
 export interface State {
-    courses: Array<Course> | null;
+    courses: Array<Course>;
 }
 
 export const state = (): State => ({
-    courses: null
+    courses: []
 });

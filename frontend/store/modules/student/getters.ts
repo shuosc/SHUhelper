@@ -4,12 +4,12 @@ import {RootState} from "~/store";
 
 export const getters: GetterTree<State, RootState> = {
     isLogged: (state: State) => {
-        return state.user !== null;
+        return state.student !== null;
     },
     getName: (state: State) => {
-        if (state.user === null || state.user === undefined) {
+        if (state.student === null || state.student === undefined) {
             return '游客'
         }
-        return state.user.name;
+        return state.student.name;
     }
 };

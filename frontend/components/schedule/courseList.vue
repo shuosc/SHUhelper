@@ -27,27 +27,29 @@
 </template>
 
 <script lang="ts">
-    import Component from 'nuxt-class-component';
+    import Component, {namespace} from 'nuxt-class-component';
     import {Prop, Vue} from 'vue-property-decorator';
-    import {Course} from "~/store/modules/course";
     import {CourseTime} from "../../../shared/model/courseTime/courseTime";
+    import {Course} from "../../../shared/model/course/course";
+    import * as courses from '~/store/modules/course';
 
+    const Courses = namespace(courses.name);
     @Component
     export default class CourseList extends Vue {
-        @Prop({default: []})
-        courses!: Array<Course>;
-
         @Prop({default: null})
         date!: Date;
 
+        @Courses.Getter getCoursesForDate: any;
+
         private getTimeForDate(course: Course, date: Date): CourseTime {
-            return course.time.filter((time: CourseTime) => {
+            return course.times.filter((time: CourseTime) => {
                 return time.day === date.getDay();
             })[0];
         }
 
         get allCourses() {
-            return this.courses.sort((a: Course, b: Course) => {
+            const coursesForDate = this.getCoursesForDate(this.date);
+            return coursesForDate.sort((a: Course, b: Course) => {
                 return this.getTimeForDate(a, this.date).beginSector - this.getTimeForDate(b, this.date).endSector;
             })
         }

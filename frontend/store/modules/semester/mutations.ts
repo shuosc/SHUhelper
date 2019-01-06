@@ -10,7 +10,7 @@ export const mutations: MutationTree<State> = {
         if (state.semesters === null) {
             state.semesters = [payload.data];
         } else {
-            if (state.semesters.find(it => it._id === payload.data._id) === null) {
+            if (state.semesters.find(it => it._id === payload.data._id) === undefined) {
                 state.semesters.push(payload.data);
             }
         }

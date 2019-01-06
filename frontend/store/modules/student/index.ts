@@ -4,6 +4,6 @@ export * from './mutations';
 export * from './state';
 export * from './types';
 
-export const name = 'user';
+export const name = 'student';
 
 export const namespaced = true;

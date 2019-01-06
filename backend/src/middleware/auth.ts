@@ -4,7 +4,7 @@ import {Student, StudentRepository} from "../model/student/student";
 
 declare module "koa" {
     interface Request {
-        user: Student | null;
+        student: Student | null;
     }
 }
 
@@ -12,10 +12,10 @@ export async function authMiddleware(ctx: Koa.Context, next) {
     try {
         let token = ctx.request.header['authorization'].slice(7);
         let decoded = jwt.decode(token);
-        ctx.request.user = await StudentRepository.getById(decoded['user']);
+        ctx.request.student = await StudentRepository.getById(decoded['student']);
     } catch (e) {
         if (e instanceof TypeError) {
-            ctx.request.user = null;
+            ctx.request.student = null;
         }
     }
     await next();
