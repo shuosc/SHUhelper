@@ -4,7 +4,7 @@
             <v-card>
                 <Calendar :initialDate="new Date()" @daySelected="daySelected"></Calendar>
             </v-card>
-            <CourseList :courses="[]" :date="watchingDate"></CourseList>
+            <CourseList :date="watchingDate"></CourseList>
         </v-flex>
     </v-layout>
 </template>
