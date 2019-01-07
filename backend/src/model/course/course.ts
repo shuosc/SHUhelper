@@ -1,6 +1,6 @@
 import {Course} from "../../../../shared/model/course/course";
 import {redis} from "../../infrastructure/redis";
-import {mongo} from "../../infrastructure/mongo";
+import {mongo, removeId} from "../../infrastructure/mongo";
 
 export namespace CourseRepository {
     async function cache(object: Course) {
@@ -18,7 +18,7 @@ export namespace CourseRepository {
 
     export async function save(object: Course) {
         const cachePromise = cache(object);
-        const mongodbPromise = mongo.collection('course').updateOne({id: object.id}, {$set: object}, {upsert: true});
+        const mongodbPromise = mongo.collection('course').updateOne({id: object.id}, {$set: removeId(object as any)}, {upsert: true});
         await Promise.all([cachePromise, mongodbPromise]);
     }
 

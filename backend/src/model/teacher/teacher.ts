@@ -1,7 +1,7 @@
 import {Teacher as SharedTeacher} from "../../../../shared/model/teacher/teacher";
 import {ObjectID} from "mongodb";
 import {redis} from "../../infrastructure/redis";
-import {mongo} from "../../infrastructure/mongo";
+import {mongo, removeId} from "../../infrastructure/mongo";
 
 export interface Teacher extends SharedTeacher {
     _id: ObjectID;
@@ -25,7 +25,7 @@ export namespace TeacherRepository {
 
     export async function save(object: Teacher) {
         const cachePromise = cache(object);
-        const mongodbPromise = mongo.collection('teacher').updateOne({_id: object._id}, {$set: object}, {upsert: true});
+        const mongodbPromise = mongo.collection('teacher').updateOne({_id: object._id}, {$set: removeId(object)}, {upsert: true});
         await Promise.all([cachePromise, mongodbPromise]);
     }
 

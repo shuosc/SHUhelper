@@ -1,5 +1,5 @@
 import {ObjectID} from "mongodb";
-import {mongo} from "../../infrastructure/mongo";
+import {mongo, removeId} from "../../infrastructure/mongo";
 import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
 import {Semester, SemesterService} from "../../../../shared/model/semester/semester";
@@ -50,7 +50,7 @@ export namespace SemesterRepository {
             await mongo.collection('semester').insertOne(object);
         } else {
             const cachePromise = cache(object);
-            const mongodbPromise = mongo.collection('semester').updateOne({_id: object._id}, {$set: object}, {upsert: true});
+            const mongodbPromise = mongo.collection('semester').updateOne({_id: object._id}, {$set: removeId(object)}, {upsert: true});
             await Promise.all([cachePromise, mongodbPromise]);
         }
     }

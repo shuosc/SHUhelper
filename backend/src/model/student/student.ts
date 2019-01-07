@@ -22,7 +22,7 @@ export namespace StudentRepository {
     }
 
     export async function save(object: Student) {
-        let data = JSON.stringify(await object);
+        let data = JSON.stringify(object);
         await redis.set('student_' + object.id, data);
     }
 }

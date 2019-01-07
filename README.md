@@ -1,4 +1,7 @@
 # SHUHelper
+
+![travis-status](https://www.travis-ci.org/shuopensourcecommunity/SHUhelper.svg?branch=v5)
+
 ## 目标
 
 * 收集并整合常用校园公共信息，并且使其易于搜索和使用
