@@ -18,7 +18,13 @@ export namespace CourseRepository {
 
     export async function save(object: Course) {
         const cachePromise = cache(object);
-        const mongodbPromise = mongo.collection('course').updateOne({id: object.id}, {$set: removeId(object as any)}, {upsert: true});
+        let alreadyInDB = await mongo.collection('course').findOne({id: object.id});
+        let mongodbPromise: Promise<any>;
+        if (alreadyInDB === null) {
+            mongodbPromise = mongo.collection('course').insertOne(object);
+        } else {
+            mongodbPromise = mongo.collection('course').updateOne({id: object.id}, {$set: removeId(object as any)}, {upsert: true});
+        }
         await Promise.all([cachePromise, mongodbPromise]);
     }
 
