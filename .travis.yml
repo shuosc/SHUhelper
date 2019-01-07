@@ -1,0 +1,39 @@
+language: node_js
+
+services:
+  - docker
+
+node_js:
+  - "node"
+jobs:
+  include:
+    - stage: build backend docker image
+      script:
+        - cd backend
+        - yarn
+        - yarn global add typescript
+        - tsc
+        - rm -rf ./**/*.ts
+        - rm -rf ./**/*.js.map
+        - cd ../shared
+        - yarn
+        - tsc
+        - rm -rf ./**/*.ts
+        - rm -rf ./**/*.js.map
+        - cd ..
+        - ls
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build . -f ./backend/Dockerfile -t shuhelper-backend
+        - docker tag shuhelper-backend $DOCKER_USERNAME/shuhelper-backend
+        - docker push $DOCKER_USERNAME/shuhelper-backend
+    - stage: build frontend docker image
+      script:
+        - cd frontend
+        - yarn global add nuxt
+        - yarn
+        - yarn build
+        - cd ..
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build . -f ./frontend/Dockerfile -t shuhelper-frontend
+        - docker tag shuhelper-frontend $DOCKER_USERNAME/shuhelper-frontend
+        - docker push $DOCKER_USERNAME/shuhelper-frontend
