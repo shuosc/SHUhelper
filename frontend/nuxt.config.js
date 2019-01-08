@@ -1,4 +1,8 @@
 module.exports = {
+    server: {
+        port: 8000,
+        host: '0.0.0.0',
+    },
     dev: process.env.NODE_ENV !== 'production',
     env: {
         baseUrl: process.env.BASE_URL || 'http://localhost:3001'

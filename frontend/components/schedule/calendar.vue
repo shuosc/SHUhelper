@@ -1,16 +1,16 @@
 <template>
     <div class="calendar">
         <v-layout justify-space-between row>
-            <v-flex class="arrow-left" xs3>
-                <v-btn @click="navigateToLastMonth">
+            <v-flex class="arrow-left text-xs-center" xs3>
+                <v-btn @click="navigateToLastMonth" fab small>
                     <v-icon>arrow_left</v-icon>
                 </v-btn>
             </v-flex>
             <v-flex class="today-date" xs6>
                 {{firstDayOfCurrentWatchingMonth.getFullYear()}}年{{firstDayOfCurrentWatchingMonth.getMonth()+1}}月
             </v-flex>
-            <v-flex class="arrow-right" xs3>
-                <v-btn @click="navigateToNextMonth">
+            <v-flex class="arrow-right text-xs-center" xs3>
+                <v-btn @click="navigateToNextMonth" fab small>
                     <v-icon>arrow_right</v-icon>
                 </v-btn>
             </v-flex>
@@ -94,13 +94,6 @@
         padding 10px
     }
 
-    .arrow-right,
-    .arrow-left {
-        height 50px
-        line-height 50px
-        text-align center
-    }
-
     .today-date {
         text-align center
         line-height 50px
@@ -108,10 +101,6 @@
 
     .watching {
         border solid 1px #ff9752
-    }
-
-    button.btn {
-        max-width 50px
     }
 
     .month-complete-item {
