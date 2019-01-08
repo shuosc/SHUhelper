@@ -62,9 +62,10 @@ export REDIS_ADDRESS=redis://localhost:6379
 ```bash
 ./script/dev-server.sh
 ```
-如果出现问题，可以尝试清除redis的缓存。
 
 即可启动后端开发服务器。
+
+如果出现问题，可以清空redis以及清空数据库，再试一次。
 
 ### 启动前端
 

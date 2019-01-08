@@ -15,7 +15,8 @@
 ├── script                  # 工具脚本，现在只有一个普通的开发服务器启动脚本
 └── src                     # 主要代码文件夹
     ├── infrastructure      # 基础设施
-    │   ├── mongo.ts   │   ├── redis.ts
+    │   ├── mongo.ts     
+    │   ├── redis.ts
     │   └── request.ts
     ├── main.ts             # 服务器主文件
     ├── middleware          # 服务器中间件，例如auth中间件
@@ -27,14 +28,9 @@
 
 ### model设计
 
-每种领域模型中的对象类型都被建模为一个class。
+每种领域模型中的对象类型都被建模为一个interface。
 
-尽量建模成贫血模型。
-
-class中视需要而可能有静态工厂方法：
-- `fromJson`：从Json中构造对象
-- `fromRawObject`：从Mongo的失血模型构造对应贫血模型。
-有序列化为失血模型的方法`serialize`。
+将对象的行为都放入对应 Service 中。
 
 使用一个 Repository 来管理所有对象。
 
