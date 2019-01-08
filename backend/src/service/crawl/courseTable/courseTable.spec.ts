@@ -1,9 +1,12 @@
 import 'mocha';
 import {expect} from 'chai';
 import {Cookie} from "tough-cookie";
-import {fetchCoursePage, getStudentNameFromPage} from "./courseTable";
+import {fetchCoursePage, getCoursesFromPage, getStudentNameFromPage} from "./courseTable";
 import {simulateLogin} from "../../simulateLogin/simulateLogin";
 import * as fs from "fs";
+import {initDB, mongo} from "../../../infrastructure/mongo";
+import {initSemesters} from "../../../model/semester/semester";
+import {redis} from "../../../infrastructure/redis";
 
 describe('爬取课表测试', async () => {
     it('能爬到课表页面', async () => {
@@ -16,5 +19,43 @@ describe('爬取课表测试', async () => {
         const coursePage = fs.readFileSync('./src/service/crawl/courseTable/coursePageExample.html').toString();
         const studentName = getStudentNameFromPage(coursePage);
         expect(studentName).equals("龙方淞");
+    });
+    it('能读取课程', async () => {
+        await initDB();
+        await initSemesters();
+        await mongo.collection('course').deleteMany({});
+        await redis.flushall();
+        const coursePage = fs.readFileSync('./src/service/crawl/courseTable/coursePageExample.html').toString();
+        const courses = await getCoursesFromPage(coursePage);
+        const testCourse1 = courses.find(it => it.id === '00853521');
+        expect(testCourse1.times.length).equals(1);
+        expect(testCourse1.times[0].weeks).contains(1);
+        expect(testCourse1.times[0].weeks).contains(2);
+        expect(testCourse1.times[0].weeks).contains(3);
+        expect(testCourse1.times[0].weeks).contains(5);
+        expect(testCourse1.times[0].weeks).contains(8);
+        const testCourse2 = courses.find(it => it.id === '08305010');
+        expect(testCourse2.times.length).equals(2);
+        const testCourse3 = courses.find(it => it.id === '08305075');
+        expect(testCourse3.times[0].weeks).not.contains(1);
+        expect(testCourse3.times[0].weeks).not.contains(3);
+        expect(testCourse3.times[0].weeks).contains(4);
+        expect(testCourse3.times[0].weeks).contains(7);
+        expect(testCourse3.times[0].weeks).contains(10);
+        const testCourse4 = courses.find(it => it.id === '16583109');
+        expect(testCourse4.times[0].weeks).contains(2);
+        expect(testCourse4.times[0].weeks).contains(7);
+        expect(testCourse4.times[0].weeks).not.contains(1);
+        expect(testCourse4.times[0].weeks).not.contains(3);
+        expect(testCourse4.times[0].weeks).not.contains(4);
+        expect(testCourse4.times[0].weeks).not.contains(8);
+        const testCourse5 = courses.find(it => it.id === '12345678');
+        expect(testCourse5.times.length).equals(3);
+        expect(testCourse5.times[2].weeks).contains(1);
+        expect(testCourse5.times[2].weeks).contains(3);
+        expect(testCourse5.times[2].weeks).contains(9);
+        expect(testCourse5.times[2].weeks).not.contains(2);
+        expect(testCourse5.times[2].weeks).not.contains(4);
+        expect(testCourse5.times[2].weeks).not.contains(10);
     });
 });

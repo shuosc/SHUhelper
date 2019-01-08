@@ -1,7 +1,7 @@
 import {Cookie} from 'tough-cookie';
 import {postFormWithCookies} from '../../../infrastructure/request';
 import * as Cheerio from 'cheerio';
-import {CourseTime, CourseTimeService} from "../../../../../shared/model/courseTime/courseTime";
+import {CourseTime, CourseTimeService} from "../../../../../shared/model/course/courseTime/courseTime";
 import {CourseRepository} from "../../../model/course/course";
 import {XmlEntities} from "html-entities";
 import {TeacherRepository} from "../../../model/teacher/teacher";
@@ -28,7 +28,7 @@ export function getStudentNameFromPage(coursePage: string) {
 }
 
 export async function parseCourseTimes(str: string): Promise<Array<CourseTime>> {
-    const regex = /[一二三四五六日]\d+-\d+/gm;
+    const regex = /[一二三四五六日]\d+-\d+([^一二三四五]*)/gm;
     let result = new Array<CourseTime>();
     let match;
     do {

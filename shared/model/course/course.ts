@@ -1,4 +1,4 @@
-import {CourseTime} from "../courseTime/courseTime";
+import {CourseTime} from "./courseTime/courseTime";
 import {Semester} from "../semester/semester";
 
 export interface Course {
