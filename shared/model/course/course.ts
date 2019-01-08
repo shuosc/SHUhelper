@@ -1,12 +1,14 @@
-import {CourseTime} from "./courseTime/courseTime";
+import {Class, ClassService} from "./class/class";
 import {Semester} from "../semester/semester";
+import {assert} from "../../tools/assert";
+import {DateRangeService} from "../dateRange/dateRange";
 
 export interface Course {
     readonly id: any;
     readonly name: string;
     readonly teacherId: any;
     readonly semesterId: any;
-    readonly times: Array<CourseTime>;
+    readonly classes: Array<Class>;
     readonly place: string;
 }
 
@@ -15,9 +17,10 @@ export namespace CourseService {
         return course.semesterId === semester._id;
     }
 
-    export function hasClassOnDay(course: Course, day: number): boolean {
-        for (const time of course.times) {
-            if (time.day === day) {
+    export function hasClassOnDate(course: Course, semester: Semester, date: Date) {
+        assert(DateRangeService.isDateIn(semester, date));
+        for (let class_ of course.classes) {
+            if (ClassService.isOnDate(class_, semester, date)) {
                 return true;
             }
         }

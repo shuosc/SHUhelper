@@ -29,7 +29,7 @@
 <script lang="ts">
     import Component, {namespace} from 'nuxt-class-component';
     import {Prop, Vue} from 'vue-property-decorator';
-    import {CourseTime} from "../../../shared/model/course/courseTime/courseTime";
+    import {Class} from "../../../shared/model/course/class/class";
     import {Course} from "../../../shared/model/course/course";
     import * as courses from '~/store/modules/course';
 
@@ -41,8 +41,8 @@
 
         @Courses.Getter getCoursesForDate: any;
 
-        private getTimeForDate(course: Course, date: Date): CourseTime {
-            return course.times.filter((time: CourseTime) => {
+        private getTimeForDate(course: Course, date: Date): Class {
+            return course.classes.filter((time: Class) => {
                 return time.day === date.getDay();
             })[0];
         }

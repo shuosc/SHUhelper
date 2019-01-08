@@ -32,3 +32,11 @@ export function isSameDate(date1: Date, date2: Date): boolean {
         date1.getMonth() === date2.getMonth() &&
         date1.getFullYear() === date2.getFullYear();
 }
+
+export function toNextWeek(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+}
+
+export function toLastWeek(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 7);
+}
