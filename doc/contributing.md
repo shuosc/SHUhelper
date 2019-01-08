@@ -51,7 +51,10 @@ npm install
 
 先设置环境变量
 ```bash
+export TS_NODE_COMPILER_OPTIONS='{"target":"es5","lib":["es2015","es6"],"downlevelIteration":true,"sourceMap":true,"declaration":true,"experimentalDecorators":true}'
 export JWT_SECRET=xxxxx
+export MONGODB_ADDRESS=mongodb://localhost:4004
+export REDIS_ADDRESS=redis://localhost:6379
 ```
 
 执行
@@ -59,6 +62,7 @@ export JWT_SECRET=xxxxx
 ```bash
 ./script/dev-server.sh
 ```
+如果出现问题，可以尝试清除redis的缓存。
 
 即可启动后端开发服务器。
 
