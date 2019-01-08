@@ -1,7 +1,7 @@
 import {DateRange, DateRangeJson, DateRangeService} from "../dateRange/dateRange";
 import {Holiday, HolidayJson, HolidayService} from "./holiday/holiday";
 import {assert} from "../../tools/assert";
-import {DAY_CHINESE_TO_NUMBER, toNextWeek} from "../../tools/date";
+import {toNextWeek} from "../../tools/date";
 
 export interface Semester extends DateRange {
     readonly _id: any;
@@ -25,14 +25,6 @@ export namespace SemesterService {
         return false;
     }
 
-    export function getSchoolDayInSemester(semester: Semester, date: Date): number {
-        assert(DateRangeService.isDateIn(semester, date));
-        if (isHoliday(semester, date)) {
-            return DAY_CHINESE_TO_NUMBER.get('日') as number;
-        }
-        return date.getDay();
-    }
-
     export function normalize(json: SemesterJson): Semester {
         return {
             _id: json._id,
@@ -42,6 +34,10 @@ export namespace SemesterService {
         };
     }
 
+    /**
+     * 获取某一天是学期中的第几周
+     * 假期不算
+     */
     export function getWeekIndex(semester: Semester, date: Date): number {
         assert(semester.begin.getDay() === 1);
         if (isHoliday(semester, date)) {

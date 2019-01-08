@@ -34,6 +34,9 @@ export namespace SemesterRepository {
         return await mongo.collection('semester').findOne({name: name});
     }
 
+    /**
+     * 当前学期
+     */
     export async function current(): Promise<Semester | null> {
         const now = new Date();
         if (currentSemester === null || !DateRangeService.isDateIn(currentSemester, now)) {

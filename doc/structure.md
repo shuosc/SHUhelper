@@ -32,13 +32,21 @@
 
 将对象的行为都放入对应 Service 中。
 
-使用一个 Repository 来管理所有对象。
+#### Repository
+
+对于每种领域模型，我们使用一个 Repository 来管理所有对象。
 
 目前将 Repository 写为类+静态方法和写为 namespace + 普通函数 基本等效，偏好后一种方法。
 
 Repository 负责从数据库或缓存中查询出符合某种条件的对象，以及将某个对象放到缓存或数据库中。
 
 Redis 缓存在 Repository 这一层做。
+
+Repository 中一般来说有这几个函数：
+
+- `cache` 将对象放入缓存
+- `getBy...` 用某个字段的值查取对象
+- `save` 储存对象（放入缓存和数据库）
 
 #### 关于 id 和 _id
 

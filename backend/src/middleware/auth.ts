@@ -8,9 +8,12 @@ declare module "koa" {
     }
 }
 
+/**
+ * 鉴权中间件
+ */
 export async function authMiddleware(ctx: Koa.Context, next) {
     try {
-        let token = ctx.request.header['authorization'].slice(7);
+        let token = ctx.request.header['authorization'].slice('Bearer '.length);
         let decoded = jwt.decode(token);
         ctx.request.student = await StudentRepository.getById(decoded['student']);
     } catch (e) {
