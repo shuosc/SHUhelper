@@ -27,6 +27,9 @@ export function getStudentNameFromPage(coursePage: string) {
     return $("#showStudent td div:nth-of-type(2)").text().trim().slice(3).trim();
 }
 
+/**
+ * 从字符串中解析出所有课
+ */
 export async function parseClasses(str: string): Promise<Array<Class>> {
     const regex = /[一二三四五六日]\d+-\d+([^一二三四五]*)/gm;
     let result = new Array<Class>();
@@ -40,6 +43,9 @@ export async function parseClasses(str: string): Promise<Array<Class>> {
     return result;
 }
 
+/**
+ * 从爬到的课程表格的一行中解析出课程
+ */
 async function parseCourse(cols: Array<string>): Promise<Course> {
     const id = cols[1] + '_' + cols[3];
     let result = await CourseRepository.getById(cols[1]);
@@ -63,8 +69,7 @@ async function parseCourse(cols: Array<string>): Promise<Course> {
 }
 
 /**
- * 从课程页面中解析出课程
- * @param coursePage
+ * 从课程页面中解析出所有课程
  */
 export async function getCoursesFromPage(coursePage: string): Promise<Array<Course>> {
     const $ = Cheerio.load(coursePage, {ignoreWhitespace: true});
