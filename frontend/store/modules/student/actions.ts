@@ -11,7 +11,6 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 
 async function getStudentInfo(commit: Commit, axios: any, token: string) {
     axios.setToken(token, 'Bearer');
-    console.log(token);
     let studentInfo = await axios.$get('/api/student');
     commit(Types.SET_STUDENT, {
         student: {

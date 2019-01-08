@@ -15,7 +15,7 @@ export namespace TeacherRepository {
     }
 
     export async function getById(id: string | ObjectID): Promise<Teacher | null> {
-        const objectId = new ObjectID(id);
+        let objectId = new ObjectID(id);
         let objectInBuffer = await redis.get('teacher_' + objectId);
         if (objectInBuffer !== null) {
             return JSON.parse(objectInBuffer);
@@ -34,7 +34,7 @@ export namespace TeacherRepository {
     }
 
     export async function getOrCreateByName(name: string) {
-        let teacher = await mongo.collection('teacher').findOne({name: name});
+        let teacher: Teacher = await mongo.collection('teacher').findOne({name: name});
         if (teacher === null) {
             teacher = {
                 _id: new ObjectID(),

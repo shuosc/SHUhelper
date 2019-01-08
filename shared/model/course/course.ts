@@ -4,7 +4,7 @@ import {assert} from "../../tools/assert";
 import {DateRangeService} from "../dateRange/dateRange";
 
 export interface Course {
-    readonly id: any;
+    readonly id: string;
     readonly name: string;
     readonly teacherId: any;
     readonly semesterId: any;

@@ -41,7 +41,7 @@ export async function parseClasses(str: string): Promise<Array<Class>> {
 }
 
 async function parseCourse(cols: Array<string>): Promise<Course> {
-    const id = cols[1];
+    const id = cols[1] + '_' + cols[3];
     let result = await CourseRepository.getById(cols[1]);
     if (result !== null) {
         return result;

@@ -1,15 +1,15 @@
 <template>
     <div class="calendar">
         <v-layout justify-space-between row>
-            <v-flex class="arrow-left text-xs-center" xs3>
+            <v-flex class="arrow-left text-xs-center" sm1 xs2>
                 <v-btn @click="navigateToLastMonth" fab small>
                     <v-icon>arrow_left</v-icon>
                 </v-btn>
             </v-flex>
-            <v-flex class="today-date" xs6>
+            <v-flex class="today-date" xs8>
                 {{firstDayOfCurrentWatchingMonth.getFullYear()}}年{{firstDayOfCurrentWatchingMonth.getMonth()+1}}月
             </v-flex>
-            <v-flex class="arrow-right text-xs-center" xs3>
+            <v-flex class="arrow-right text-xs-center" sm1 xs2>
                 <v-btn @click="navigateToNextMonth" fab small>
                     <v-icon>arrow_right</v-icon>
                 </v-btn>
