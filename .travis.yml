@@ -1,13 +1,9 @@
-language: node_js
-
 services:
   - docker
-
-node_js:
-  - "node"
-jobs:
+matrix:
   include:
-    - stage: build backend docker image
+    - node_js: "node"
+      language: node_js
       script:
         - cd backend
         - yarn
@@ -26,7 +22,8 @@ jobs:
         - docker build . -f ./backend/Dockerfile -t shuhelper-backend
         - docker tag shuhelper-backend $DOCKER_USERNAME/shuhelper-backend
         - docker push $DOCKER_USERNAME/shuhelper-backend
-    - stage: build frontend docker image
+    - node_js: "node"
+      language: node_js
       script:
         - cd frontend
         - yarn global add nuxt

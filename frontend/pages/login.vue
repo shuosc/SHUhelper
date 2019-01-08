@@ -30,12 +30,14 @@
         password: string = "";
         @Student.Action doLogin: any;
         @Student.Getter isLogged: any;
+        @Student.Getter getToken: any;
         loading = false;
 
         async login() {
             this.loading = true;
             await this.doLogin({username: this.username, password: this.password});
             this.$router.push('/');
+            localStorage.token = this.getToken;
         }
     }
 </script>

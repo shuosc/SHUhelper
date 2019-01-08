@@ -62,6 +62,7 @@
         @Student.Getter getName: any;
         @Student.Getter isLogged: any;
         @Student.Action doLogout: any;
+        @Student.Action restoreLogin: any;
         drawer = true;
         miniVariant = false;
         title = 'SHUHelper';
@@ -76,9 +77,16 @@
         auth() {
             if (this.isLogged) {
                 this.doLogout();
+                localStorage.clear();
                 this.$router.push('/');
             } else {
                 this.$router.push('/login');
+            }
+        }
+
+        mounted() {
+            if (localStorage.token) {
+                this.restoreLogin({token: localStorage.token});
             }
         }
     };

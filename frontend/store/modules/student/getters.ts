@@ -11,5 +11,11 @@ export const getters: GetterTree<State, RootState> = {
             return '游客'
         }
         return state.student.name;
+    },
+    getToken: (state: State) => {
+        if (state.student !== null) {
+            return state.student.token;
+        }
+        return null;
     }
 };
