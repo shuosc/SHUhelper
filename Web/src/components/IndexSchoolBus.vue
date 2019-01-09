@@ -7,7 +7,11 @@
             q-icon(color='primary', name='fa-bus', style='font-size:2rem;')
           q-item-main
             q-item-tile(label='') 校车时刻表
-            q-item-tile(sublabel='') 周一到周五
+             q-select(
+            v-model="station.data"
+            float-label="时间"
+            radio
+            :options="datas")
         div.flex.row
           q-select.col-6(
             v-model="station.from"
@@ -36,15 +40,30 @@
           q-item-tile.text-center
             | {{nearestDepartures.next}}
       q-card-separator
-      q-card-actions
+      q-card-actions()
         q-collapsible.full-width(dense='', label='查看完整时刻表')
-          q-list(no-border dense)
+          q-list(v-if= "station.data==='周一至周五'" no-border dense)
             q-item(v-for="(departure,index) in departures" :key="departure")
               q-item-side
                 | {{index+1}}
-              q-item-main
+              q-item-main(v-if="station.from==='延长校区北门'&&station.to==='嘉定校区南门'&&transferStation1.indexOf(departure)+1")
+                | {{departure}}(途径本部)
+              q-item-main(v-else-if="station.from==='嘉定校区南门'&&station.to==='延长校区北门'&&transferStation2.indexOf(departure)+1")
+                | {{departure}}(途径本部)
+              q-item-main(v-else)
                 | {{departure}}
-        
+          q-list(v-else no-border dense)
+            q-item(v-for="(departure,index) in departures" :key="departure")
+              q-item-side
+                | {{index+1}}
+              q-item-main(v-if="station.from==='延长校区北门'&&station.to==='嘉定校区南门'&&transferStation1.indexOf(departure)+1")
+                | {{departure}}(途径本部)
+              q-item-main(v-else-if="station.from==='嘉定校区南门'&&station.to==='延长校区北门'&&transferStation2.indexOf(departure)+1")
+                | {{departure}}(途径本部)
+              q-item-main(v-else)
+                | {{departure}}
+
+
 </template>
 <script>
 function listToSelect(l) {
@@ -52,32 +71,51 @@ function listToSelect(l) {
     return { label: x, value: x }
   })
 }
-const BusSchedule = {
+const weekDayBusSchedule = {
   嘉定校区南门: {
-    校本部: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '17:00', '21:00'],
-    延长校区北门: ['18:00', '21:00', '途径校本部']
+    校本部: ['07:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '17:00', '21:00'],
+    延长校区北门: ['07:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '17:00', '18:00', '21:00']
   },
   校本部: {
-    延长校区北门: ['09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '18:00', '21:40'],
-    嘉定校区南门: ['08:00', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '18:00', '21:00']
+    延长校区北门: ['07:00', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '17:00', '18:00', '21:40'],
+    嘉定校区南门: ['07:00', '08:00', '09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '17:00', '18:00', '21:00']
   },
   延长校区北门: {
-    校本部: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
-    嘉定校区南门: ['21:00']
+    校本部: ['07:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '17:00'],
+    嘉定校区南门: ['07:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '17:00', '21:00']
   }
 }
+const weekendBusSchedule = {
+  嘉定校区南门: {
+    校本部: ['07:00', '16:00'],
+    延长校区北门: ['07:30', '16:00']
+  },
+  校本部: {
+    延长校区北门: ['08:30', '17:00'],
+    嘉定校区南门: ['08:30', '17:00']
+  },
+  延长校区北门: {
+    校本部: ['07:30', '16:00'],
+    嘉定校区南门: ['08:30', '17:00']
+  }
+}
+
 export default {
   name: 'SchoolBus',
   data() {
     return {
-      busSchedule: BusSchedule,
+      busSchedule: weekDayBusSchedule,
       station: {
         from: '校本部',
-        to: '延长校区北门'
+        to: '延长校区北门',
+        data: '工作日'
       },
       stations: listToSelect(['校本部', '延长校区北门', '嘉定校区南门']),
+      datas: listToSelect(['工作日', '节假日']),
       timerID: '',
-      time: new Date()
+      time: new Date(),
+      transferStation1: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+      transferStation2: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '21:00']
     }
   },
   created() {
@@ -89,6 +127,15 @@ export default {
   methods: {
     updateTime() {
       this.time = new Date()
+    }
+  },
+  watch: {
+    'station.data': function(val) {
+      if (val === '节假日') {
+        this.busSchedule = weekendBusSchedule
+      } else {
+        this.busSchedule = weekDayBusSchedule
+      }
     }
   },
   computed: {
@@ -126,6 +173,5 @@ export default {
 }
 </script>
 <style scoped>
-
 </style>
 
