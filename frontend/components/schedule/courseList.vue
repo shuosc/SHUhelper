@@ -7,7 +7,7 @@
                 v-for="course in allCourses"
         >
             <v-list-tile-avatar>
-                <v-icon>class</v-icon>
+                <v-icon :style="{background: course.color}">class</v-icon>
             </v-list-tile-avatar>
 
             <v-list-tile-content>

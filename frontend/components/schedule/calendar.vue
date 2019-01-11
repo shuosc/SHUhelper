@@ -16,6 +16,7 @@
             </v-flex>
         </v-layout>
         <v-layout row wrap>
+            <v-flex :key="day" class="day-name text-xs-center" v-for="day in DAY_NUMBER_TO_CHINESE">{{day}}</v-flex>
             <Day :key="-i" class="day-empty" v-for="i in marginDaysBeforeFirstDay"></Day>
             <Day :class="{watching:isSameDate(day,currentWatchingDate)}"
                  :content="day"
@@ -33,13 +34,14 @@
     import {Emit, Prop} from 'vue-property-decorator';
     import {clone} from '../../../shared/tools/clone';
     import Day from './day.vue';
-    import {isSameDate} from '../../../shared/tools/date';
+    import {DAY_NUMBER_TO_CHINESE, isSameDate} from '../../../shared/tools/date';
 
     @Component({
         components: {Day},
-        methods: {isSameDate}
+        methods: {isSameDate},
     })
     export default class Calendar extends Vue {
+        DAY_NUMBER_TO_CHINESE = DAY_NUMBER_TO_CHINESE;
         @Prop({default: new Date()})
         initialDate!: Date;
 
@@ -116,5 +118,9 @@
 
     .month-complete-leave-active {
         position: absolute;
+    }
+
+    .day-name {
+        flex 14.28%;
     }
 </style>

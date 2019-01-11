@@ -1,4 +1,8 @@
-import {Course} from "../../../../shared/model/course/course";
+import {Course as SharedCourse} from "../../../../shared/model/course/course";
+
+export interface Course extends SharedCourse {
+    color: string;
+}
 
 export interface State {
     courses: Array<Course>;

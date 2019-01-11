@@ -23,6 +23,7 @@ async function getStudentInfo(commit: Commit, axios: any, token: string) {
 export const actions: Actions<State, RootState> = {
     doLogin: async function ({commit}, payload: { username: string, password: string }) {
         let data = await (this.$axios as any).$post('/auth/login', payload);
+        console.log(data);
         await getStudentInfo(commit, this.$axios as any, data.token);
     },
     doLogout: async function ({commit}) {

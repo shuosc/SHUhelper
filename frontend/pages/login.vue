@@ -3,9 +3,9 @@
         <v-card-text>
             <v-form>
                 <v-text-field v-model="username" prepend-icon="person" name="username" label="一卡通账号"
-                              type="text"></v-text-field>
+                              @keyup.enter="login" type="text"></v-text-field>
                 <v-text-field v-model="password" prepend-icon="lock" name="password" label="密码"
-                              type="password"></v-text-field>
+                              @keyup.enter="login" type="password"></v-text-field>
             </v-form>
         </v-card-text>
         <v-card-actions>
