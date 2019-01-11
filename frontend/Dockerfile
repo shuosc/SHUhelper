@@ -7,5 +7,5 @@ RUN npm install nuxt -g && npm install --production
 ENV HOST 0.0.0.0
 ENV PORT 80
 ENV NODE_ENV production
-EXPOSE 3000
+EXPOSE 80
 CMD ["npm","run","start"]
