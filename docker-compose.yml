@@ -17,9 +17,12 @@ services:
     ports:
       - "3001:3001"
     restart: always
-    depends_on:
-      - mongodb
-      - redis
+  # 此处 depends_on 仅供参考用
+  # 由于docker-compose只能保证容器的启动顺序，而不保证容器中的服务已经启动
+  # 故实际启动顺序的编排由 shell 脚本执行
+  # depends_on:
+  #   - mongodb
+  #   - redis
 
   frontend:
     image: 'longfangsong/shuhelper-frontend'
@@ -28,7 +31,10 @@ services:
       AUTH_BACKEND_URL: "http://backend:3001"
       API_BACKEND_URL: "http://backend:3001"
     ports:
-      - "3000:3000"
+      - "80:80"
     restart: always
-    depends_on:
-      - backend
+  # 此处 depends_on 仅供参考用
+  # 由于docker-compose只能保证容器的启动顺序，而不保证容器中的服务已经启动
+  # 故实际启动顺序的编排由 shell 脚本执行
+  #    depends_on:
+  #      - backend
