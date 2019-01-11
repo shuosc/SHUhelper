@@ -9,10 +9,15 @@ module.exports = {
         '@nuxtjs/axios',
         '@nuxtjs/proxy'
     ],
-    plugins: [{
-        src: '~/plugins/vue-flat-surface-shader',
-        ssr: false
-    }],
+    plugins: [
+        {
+            src: '~/plugins/vueFlatSurfaceShader',
+            ssr: false
+        },
+        {
+            src: '~/plugins/fetchOnRefresh',
+            ssr: true
+        }],
     axios: {
         proxy: true,
         credentials: true

@@ -83,12 +83,6 @@
                 this.$router.push('/login');
             }
         }
-
-        mounted() {
-            if (localStorage.token) {
-                this.restoreLogin({token: localStorage.token});
-            }
-        }
     };
 </script>
 
