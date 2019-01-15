@@ -9,7 +9,7 @@ services:
     restart: always
 
   backend:
-    image: 'longfangsong/shuhelper-backend'
+    image: 'shuosc/shuhelper-backend'
     environment:
       JWT_SECRET: CHANGE_WHEN_DEPLOY
       MONGODB_ADDRESS: 'mongodb://mongodb'
@@ -25,7 +25,7 @@ services:
   #   - redis
 
   frontend:
-    image: 'longfangsong/shuhelper-frontend'
+    image: 'shuosc/shuhelper-frontend'
     environment:
       BASE_URL: "http://backend:3001"
       AUTH_BACKEND_URL: "http://backend:3001"
