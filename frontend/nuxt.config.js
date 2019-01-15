@@ -26,4 +26,7 @@ module.exports = {
         '/auth': process.env.AUTH_BACKEND_URL || 'http://localhost:3001',
         '/api': process.env.API_BACKEND_URL || 'http://localhost:3001'
     },
+    router: {
+        base: process.env.URL_PREFIX || '/'
+    }
 };

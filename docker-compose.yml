@@ -9,6 +9,9 @@ services:
     restart: always
 
   backend:
+    # dev-version:
+    # image: 'longfangsong/shuhelper-backend'
+    # release-version:
     image: 'shuosc/shuhelper-backend'
     environment:
       JWT_SECRET: CHANGE_WHEN_DEPLOY
@@ -25,11 +28,15 @@ services:
   #   - redis
 
   frontend:
+    # dev-version:
+    # image: 'longfangsong/shuhelper-frontend'
+    # release-version:
     image: 'shuosc/shuhelper-frontend'
     environment:
       BASE_URL: "http://backend:3001"
       AUTH_BACKEND_URL: "http://backend:3001"
       API_BACKEND_URL: "http://backend:3001"
+      URL_PREFIX: "/"
     ports:
       - "80:80"
     restart: always
