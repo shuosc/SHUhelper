@@ -28,5 +28,8 @@ module.exports = {
     },
     router: {
         base: process.env.URL_PREFIX || '/'
+    },
+    vuetify: {
+        materialIcons: false
     }
 };
