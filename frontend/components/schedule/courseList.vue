@@ -12,16 +12,19 @@
 
             <v-list-tile-content>
                 <v-list-tile-title>{{ course.name }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ getTimeForDate(course,date).beginSector }}-{{
-                    getTimeForDate(course,date).endSector }}
+                <v-list-tile-sub-title>
+                    <v-container class="class-info" grid-list-xs text-xs-left>
+                        <v-layout row wrap>
+                            <v-flex xs2>{{ getTimeForDate(course,date).beginSector }}-{{
+                                getTimeForDate(course,date).endSector }}
+                            </v-flex>
+                            <v-flex xs10>
+                                {{course.place}}
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
                 </v-list-tile-sub-title>
             </v-list-tile-content>
-
-            <v-list-tile-action>
-                <v-btn icon ripple>
-                    <v-icon color="grey lighten-1">info</v-icon>
-                </v-btn>
-            </v-list-tile-action>
         </v-list-tile>
     </v-card>
 </template>
@@ -57,5 +60,7 @@
 </script>
 
 <style scoped>
-
+    .class-info {
+        padding: 0;
+    }
 </style>

@@ -27,12 +27,11 @@ matrix:
         - rm -rf ./**/*.ts
         - rm -rf ./**/*.js.map
         - cd ..
-        - ls
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker build . -f ./backend/Dockerfile -t shuhelper-backend
         - docker tag shuhelper-backend $DOCKER_USERNAME/shuhelper-backend
         - docker push $DOCKER_USERNAME/shuhelper-backend
-        - sleep 10
+        - sleep 5
         - ssh -i ./deploy_key root@helper.gtmdcm.com ./deploy.sh
         - ssh -i ./deploy_key root@helper.gtmdcm.com touch backend_success.txt
     - node_js: node
@@ -40,11 +39,9 @@ matrix:
       before_install:
         - openssl aes-256-cbc -K $encrypted_656ce386c8d6_key -iv $encrypted_656ce386c8d6_iv
           -in deploy_key.enc -out ./deploy_key -d
-        - ls
         - eval "$(ssh-agent -s)"
         - chmod 600 ./deploy_key
         - ssh-add ./deploy_key
-        - ssh -i ./deploy_key root@helper.gtmdcm.com touch success2.tmp
       script:
         - cd frontend
         - yarn global add nuxt
@@ -55,6 +52,6 @@ matrix:
         - docker build . -f ./frontend/Dockerfile -t shuhelper-frontend
         - docker tag shuhelper-frontend $DOCKER_USERNAME/shuhelper-frontend
         - docker push $DOCKER_USERNAME/shuhelper-frontend
-        - sleep 10
+        - sleep 5
         - ssh -i ./deploy_key root@helper.gtmdcm.com ./deploy.sh
         - ssh -i ./deploy_key root@helper.gtmdcm.com touch frontend_success.txt
