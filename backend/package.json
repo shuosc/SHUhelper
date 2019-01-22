@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "date-normalizer": "^1.0.6",
     "html-entities": "^1.2.1",
     "ioredis": "^4.2.0",
     "jsonwebtoken": "^8.4.0",
@@ -8,12 +9,13 @@
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
+    "lodash": "^4.17.11",
     "mongodb": "^3.1.10",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5"
   },
   "devDependencies": {
-    "@types/mongodb": "^3.1.18",
+    "@types/lodash": "^4.14.120",
     "@types/chai": "^4.1.7",
     "@types/cheerio": "^0.22.10",
     "@types/html-entities": "^1.2.16",
@@ -24,12 +26,13 @@
     "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.0.35",
     "@types/mocha": "^5.2.5",
+    "@types/mongodb": "^3.1.18",
     "@types/request-promise-native": "^1.0.15",
     "@types/tough-cookie": "^2.3.4",
-    "nyc": "^13.1.0",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.7",
+    "nyc": "^13.1.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.1.6"
   },

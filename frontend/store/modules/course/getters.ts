@@ -1,25 +1,27 @@
 import {GetterTree} from "vuex";
 import {RootState} from "~/store";
 import {State} from "~/store/modules/course/state";
-import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
 import {Course, CourseService} from "../../../../shared/model/course/course";
+import {find} from "../../../../shared/tools/functools/find";
+import {Semester} from "../../../../shared/model/semester/semester";
+import {ClassService} from "../../../../shared/model/course/class/class";
+import extractClasses = CourseService.extractClasses;
+import isOnDate = ClassService.isOnDate;
 
 export const getters: GetterTree<State, RootState> = {
     getCourses: (state: State) => {
-        if (state.courses === null) {
-            return null;
-        }
         return state.courses;
     },
-    getCoursesForDate: (state: State, _: any, rootState: RootState) => {
-        const hasClassOnDate = (course: Course, date: Date) => {
-            const semester = rootState.semester.semesters.find(it => DateRangeService.isDateIn(it, date));
-            if (semester === undefined)
-                return false;
-            return CourseService.hasClassOnDate(course, semester, date);
-        };
-        return (date: Date) => {
-            return state.courses.filter((it) => hasClassOnDate(it, date));
+    getCourse: (state: State) => {
+        return (id: any) => find(state.courses, (course: Course) => course.id === id);
+    },
+    getClasses: (state: State) => {
+        return extractClasses(state.courses);
+    },
+    getClassesForDate: (state: State) => {
+        return (semester: Semester, date: Date) => {
+            return extractClasses(state.courses)
+                .filter(class_ => isOnDate(class_, semester, date));
         }
     }
 };

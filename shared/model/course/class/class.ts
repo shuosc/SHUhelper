@@ -1,13 +1,15 @@
-import {DAY_CHINESE_TO_NUMBER} from "../../../tools/date";
+import {dayChineseToNumber} from "../../../tools/date/date";
 import {Semester, SemesterService} from "../../semester/semester";
 import {assert} from "../../../tools/assert";
 import {DateRangeService} from "../../dateRange/dateRange";
+import {Maybe} from "../../../tools/functools/maybe";
 
 /**
  * 表示一节课
  */
 export interface Class {
     readonly day: number;           // 周几的课
+    readonly courseId: any;         // 所属课程
     readonly beginSector: number;   // 在第几节开始
     readonly endSector: number;     // 在第几节结束
     readonly weeks: Array<number>;  // 哪几周有这个课
@@ -47,35 +49,37 @@ export namespace ClassService {
 
     /**
      * 从字符串中构造出一节课的信息
-     * @param str
      */
-    export function fromString(str: string): Class | null {
+    export function fromString(str: string, courseId: any): Maybe<Class> {
         const regex = /([一二三四五六日])(\d+)-(\d+)([^一二三四五]*)/;
-        let result = regex.exec(str);
-        if (result === null)
-            return null;
-        const day = DAY_CHINESE_TO_NUMBER.get(str[0]);
-        if (day === undefined) {
-            return null;
-        }
-        return {
-            day: day,
-            beginSector: parseInt(result[2]),
-            endSector: parseInt(result[3]),
-            weeks: parseWeeks(result[4].trim())
-        }
+        let result = new Maybe(regex.exec(str));
+        return result.flatMap((infoColumns =>
+            dayChineseToNumber(infoColumns[1]).map(day => {
+                return {
+                    day: day,
+                    courseId: courseId,
+                    beginSector: parseInt(infoColumns[2]),
+                    endSector: parseInt(infoColumns[3]),
+                    weeks: parseWeeks(infoColumns[4].trim())
+                }
+            }))
+        );
     }
 
-    // 也许应该 curry 化这个函数？
     /**
      * 判断在某一天是否要上某节课
      */
     export function isOnDate(class_: Class, semester: Semester, date: Date): boolean {
-        assert(DateRangeService.isDateIn(semester, date));
-        if (SemesterService.isHoliday(semester, date)) {
+        assert(DateRangeService.isDateIn(semester, date), `${date} is not in ${semester.name}!`);
+        const day = SemesterService.getSchoolDay(semester, date);
+        if (day === SemesterService.HOLIDAY || day === 0 || day === 6) {
             return false;
         }
         const week = SemesterService.getWeekIndex(semester, date);
-        return class_.day === date.getDay() && class_.weeks.indexOf(week) !== -1;
+        return class_.day === day && class_.weeks.indexOf(week) !== -1;
+    }
+
+    export function isOnSector(class_: Class, sectorId: number): boolean {
+        return class_.beginSector <= sectorId && sectorId <= class_.endSector;
     }
 }

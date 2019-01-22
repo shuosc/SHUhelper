@@ -2,7 +2,7 @@ import {redis} from "../../infrastructure/redis";
 import {Cookie} from "tough-cookie";
 import {fetchCoursePage, getCoursesFromPage, getStudentNameFromPage} from "../../service/crawl/courseTable/courseTable";
 import {simulateLogin} from "../../service/simulateLogin/simulateLogin";
-import {Student as SharedStudent} from "../../../../shared/model/student";
+import {Student as SharedStudent} from "../../../../shared/model/student/student";
 
 export interface Student extends SharedStudent {
     readonly xkCookie: Cookie;

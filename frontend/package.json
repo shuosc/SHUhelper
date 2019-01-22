@@ -11,6 +11,8 @@
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/proxy": "^1.3.1",
     "@nuxtjs/vuetify": "^0.5.0",
+    "date-normalizer": "^1.0.6",
+    "lodash": "^4.17.11",
     "nuxt": "^2.3.4",
     "nuxt-class-component": "^1.2.1",
     "vue-class-component": "^6.3.2",
@@ -21,6 +23,7 @@
     "vuex-class": "^0.3.1"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.120",
     "@types/vue-router": "^2.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",

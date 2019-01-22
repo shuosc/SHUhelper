@@ -907,6 +907,11 @@
     mustache "^2.3.0"
     stack-trace "0.0.10"
 
+"@types/lodash@^4.14.120":
+  version "4.14.120"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.120.tgz#cf265d06f6c7a710db087ed07523ab8c1a24047b"
+  integrity sha512-jQ21kQ120mo+IrDs1nFNVm/AsdFxIx2+vZ347DbogHJPd/JzKNMOqU6HCYin1W6v8l5R9XSO2/e9cxmn7HAnVw==
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "https://registry.npmjs.org/@types/q/-/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
@@ -2289,6 +2294,11 @@ cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.npmjs.org/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
+
+date-normalizer@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/date-normalizer/-/date-normalizer-1.0.6.tgz#e209a05715dfbaa22c7e09629c38003c5eb0905f"
+  integrity sha512-Qb5vgYYK778W62IA7whjsJ7Cf52i/Jqcuslwvma4thh83niDnK6v201wPV83WVIm4QzaB7/kDS/PZmD5iMsYrA==
 
 date-now@^0.1.4:
   version "0.1.4"

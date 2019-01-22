@@ -1,7 +1,7 @@
 import {Cookie} from 'tough-cookie';
 import {postFormWithCookies} from '../../../infrastructure/request';
 import * as Cheerio from 'cheerio';
-import {Class, ClassService} from "../../../../../shared/model/course/class/class";
+import {ClassService} from "../../../../../shared/model/course/class/class";
 import {CourseRepository} from "../../../model/course/course";
 import {XmlEntities} from "html-entities";
 import {TeacherRepository} from "../../../model/teacher/teacher";
@@ -30,14 +30,14 @@ export function getStudentNameFromPage(coursePage: string) {
 /**
  * 从字符串中解析出所有课
  */
-export async function parseClasses(str: string): Promise<Array<Class>> {
+export async function parseClassStrings(str: string): Promise<Array<string>> {
     const regex = /[一二三四五六日]\d+-\d+([^一二三四五]*)/gm;
-    let result = new Array<Class>();
+    let result = new Array<string>();
     let match;
     do {
         match = regex.exec(str);
         if (match !== null) {
-            result.push(ClassService.fromString(match[0]));
+            result.push(match[0]);
         }
     } while (match !== null);
     return result;
@@ -56,7 +56,10 @@ async function parseCourse(cols: Array<string>): Promise<Course> {
     const hasManyTeacher = cols[4][cols[4].length - 1] === '等';
     const teacher = await TeacherRepository.getOrCreateByName(hasManyTeacher ? cols[4].slice(0, -1) : cols[4]);
     const semester = await SemesterRepository.current();
-    const classes = await parseClasses(cols[6]);
+    const classes = (await parseClassStrings(cols[6]))
+        .map(it => ClassService.fromString(it, id))
+        .filter(it => it.value !== null)
+        .map(it => it.value);
     const place = await cols[7];
     return {
         id: id,

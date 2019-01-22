@@ -22,7 +22,7 @@
         watchingDate = new Date();
 
         async fetch(context: { store: any, params: any }) {
-            await context.store.dispatch("course/fetchCourses")
+            await context.store.dispatch("course/fetchCourses");
         }
 
         daySelected(theDate: Date) {

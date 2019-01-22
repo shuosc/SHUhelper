@@ -1,3 +1,6 @@
+import {Maybe} from "../../tools/functools/maybe";
+import {TimeService} from "../../tools/time/time";
+
 /**
  * 日期区间类型
  */
@@ -6,27 +9,29 @@ export interface DateRange {
     readonly end: Date;
 }
 
-/**
- * 日期区间被序列化成 JSON 后的类型
- * todo: 考虑使用遍历对象元素+正则表达式判断字符串格式+new Date来替代
- */
-export interface DateRangeJson {
-    readonly begin: string;
-    readonly end: string;
-}
-
 export namespace DateRangeService {
     export function isDateIn(dateRange: DateRange, date: Date): boolean {
         return dateRange.begin <= date && date < dateRange.end;
     }
 
-    /**
-     * 将序列化为 json 的 DateRange 转回来
-     */
-    export function normalize(json: DateRangeJson): DateRange {
-        return {
-            begin: new Date(json.begin),
-            end: new Date(json.end)
+    export function nearestToDate<T extends DateRange>(dateRanges: Array<T>, date: Date): Maybe<T> {
+        const result = dateRanges
+            .sort((first: DateRange, second: DateRange) => {
+                return first.begin.getTime() - second.begin.getTime();
+            })
+            .find((it: DateRange) => it.begin > date);
+        return new Maybe(result);
+    }
+
+    export function daysTo(date: Date, dateRange: DateRange): number {
+        if (isDateIn(dateRange, date)) {
+            return 0;
         }
+        if (date < dateRange.begin) {
+            return TimeService.timestampDifferenceToDay(dateRange.begin.getTime() - date.getTime());
+        } else if (date >= dateRange.begin) {
+            return TimeService.timestampDifferenceToDay(date.getTime() - dateRange.end.getTime());
+        }
+        throw Error("Should never reach here")
     }
 }

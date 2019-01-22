@@ -4,20 +4,35 @@ services:
 addons:
   ssh_known_hosts: helper.gtmdcm.com
 
-matrix:
+language:
+  node_js
+
+jobs:
   include:
-    - node_js: node
+    - stage: test
       language: node_js
-      before_install:
-        - openssl aes-256-cbc -K $encrypted_656ce386c8d6_key -iv $encrypted_656ce386c8d6_iv
-          -in deploy_key.enc -out ./deploy_key -d
-        - eval "$(ssh-agent -s)"
-        - chmod 600 ./deploy_key
-        - ssh-add ./deploy_key
+      node_js: node
+      install:
+        - cd shared
+        - yarn
       script:
+        - yarn test
+
+    - stage: build
+      language: node_js
+      node_js: node
+      install:
+        - yarn global add typescript
         - cd backend
         - yarn
-        - yarn global add typescript
+        - cd ../shared
+        - yarn
+        - cd ../frontend
+        - yarn
+        - cd ..
+      script:
+        - set -e
+        - cd backend
         - tsc
         - rm -rf ./**/*.ts
         - rm -rf ./**/*.js.map
@@ -31,11 +46,30 @@ matrix:
         - docker build . -f ./backend/Dockerfile -t shuhelper-backend
         - docker tag shuhelper-backend $DOCKER_USERNAME/shuhelper-backend
         - docker push $DOCKER_USERNAME/shuhelper-backend
-        - sleep 5
-        - ssh -i ./deploy_key root@helper.gtmdcm.com ./deploy.sh
-        - ssh -i ./deploy_key root@helper.gtmdcm.com touch backend_success.txt
-    - node_js: node
+    - # still stage: build
       language: node_js
+      node_js: node
+      install:
+        - yarn global add nuxt
+        - yarn global add typescript
+        - cd frontend
+        - yarn
+        - cd ../shared
+        - yarn
+        - cd ..
+      script:
+        - set -e
+        - cd frontend
+        - yarn build
+        - cd ..
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build . -f ./frontend/Dockerfile -t shuhelper-frontend
+        - docker tag shuhelper-frontend $DOCKER_USERNAME/shuhelper-frontend
+        - docker push $DOCKER_USERNAME/shuhelper-frontend
+
+    - stage: deploy
+      language: node_js
+      node_js: node
       before_install:
         - openssl aes-256-cbc -K $encrypted_656ce386c8d6_key -iv $encrypted_656ce386c8d6_iv
           -in deploy_key.enc -out ./deploy_key -d
@@ -43,15 +77,5 @@ matrix:
         - chmod 600 ./deploy_key
         - ssh-add ./deploy_key
       script:
-        - cd frontend
-        - yarn global add nuxt
-        - yarn
-        - yarn build
-        - cd ..
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker build . -f ./frontend/Dockerfile -t shuhelper-frontend
-        - docker tag shuhelper-frontend $DOCKER_USERNAME/shuhelper-frontend
-        - docker push $DOCKER_USERNAME/shuhelper-frontend
-        - sleep 5
         - ssh -i ./deploy_key root@helper.gtmdcm.com ./deploy.sh
-        - ssh -i ./deploy_key root@helper.gtmdcm.com touch frontend_success.txt
+        - ssh -i ./deploy_key root@helper.gtmdcm.com touch backend_success.txt

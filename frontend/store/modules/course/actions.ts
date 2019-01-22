@@ -3,6 +3,7 @@ import {RootState} from "~/store";
 import {State} from "~/store/modules/course/state";
 import {Types} from "~/store/modules/course/types";
 import {Course} from "../../../../shared/model/course/course";
+import {assert} from "../../../../shared/tools/assert";
 
 export interface Actions<S, R> extends ActionTree<S, R> {
     fetchCourses: (context: ActionContext<S, R>, payload: any) => void;
@@ -11,6 +12,7 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 export const actions: Actions<State, RootState> = {
     fetchCourses: async function ({commit, state, rootState, dispatch}) {
         if (rootState.student.student !== null) {
+            assert(rootState.student.student !== null && rootState.student.student !== undefined);
             let data: Array<Course> = await Promise.all(rootState.student.student.courseIds.map((id) => (this.$axios as any).$get('/api/course/' + id)));
             commit(Types.SET_COURSES, {
                 data

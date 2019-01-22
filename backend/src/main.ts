@@ -6,8 +6,8 @@ import * as jwt from 'jsonwebtoken';
 import {authMiddleware} from "./middleware/auth";
 import {initDB} from "./infrastructure/mongo";
 import {initSemesters, SemesterRepository} from "./model/semester/semester";
-import {StudentRepository, StudentService} from "./model/student/student";
 import {CourseRepository} from "./model/course/course";
+import {StudentRepository, StudentService} from "./model/student/student";
 
 const app = new Koa();
 const router = new Router();
@@ -33,7 +33,7 @@ router
     })
     .get('/api/student', async (context) => {
         if (context.request.student === null) {
-            context.status = 404;
+            context.status = 403;
         } else {
             context.body = {
                 id: context.request.student.id,
@@ -44,6 +44,9 @@ router
     })
     .get('/api/course/:id', async (context) => {
         context.body = await CourseRepository.getById(context.params.id);
+    })
+    .get('/api/semester/current', async (context) => {
+        context.body = await SemesterRepository.current();
     })
     .get('/api/semester/:id', async (context) => {
         context.body = await SemesterRepository.getById(context.params.id);

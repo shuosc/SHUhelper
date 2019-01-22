@@ -9,7 +9,7 @@ describe('dateRange测试', async () => {
             begin: new Date(2019, 0, 1),
             end: new Date(2019, 1, 1)
         };
-        expect(DateRangeService.isDateIn(holiday, new Date(2019, 0, 10)));
+        expect(DateRangeService.isDateIn(holiday, new Date(2019, 0, 10))).true;
         expect(DateRangeService.isDateIn(holiday, new Date(2019, 10, 10))).false;
     });
 });

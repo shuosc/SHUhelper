@@ -2,9 +2,13 @@ import {ObjectID} from "mongodb";
 import {mongo, removeId} from "../../infrastructure/mongo";
 import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
-import {Semester, SemesterService} from "../../../../shared/model/semester/semester";
+import {Semester} from "../../../../shared/model/semester/semester";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
 import {assert} from "../../../../shared/tools/assert";
+import * as dateNormalizer from "date-normalizer";
+
+const normalizeDateInObject = (dateNormalizer as any)['date-normalizer'].normalizeDateInObject;
+
 
 export namespace SemesterRepository {
     let currentSemester: Semester = null;
@@ -69,8 +73,8 @@ export async function initSemesters() {
     const json = JSON.parse(data.toString());
     for (let semester of json['semester']) {
         if ((await SemesterRepository.getByName(semester['name'])) === null) {
+            semester = normalizeDateInObject(semester);
             semester._id = new ObjectID();
-            semester = SemesterService.normalize(semester);
             await SemesterRepository.save(semester);
         }
     }

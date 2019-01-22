@@ -1,4 +1,4 @@
-import {Student as SharedStudent} from "../../../../shared/model/student";
+import {Student as SharedStudent} from "../../../../shared/model/student/student";
 
 interface Student extends SharedStudent {
     readonly token: string;

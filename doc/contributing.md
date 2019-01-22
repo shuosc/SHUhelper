@@ -51,7 +51,6 @@ npm install
 
 先设置环境变量
 ```bash
-export TS_NODE_COMPILER_OPTIONS='{"target":"es5","lib":["es2015","es6"],"downlevelIteration":true,"sourceMap":true,"declaration":true,"experimentalDecorators":true}'
 export JWT_SECRET=xxxxx
 export MONGODB_ADDRESS=mongodb://localhost:4004
 export REDIS_ADDRESS=redis://localhost:6379

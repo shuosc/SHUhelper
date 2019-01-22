@@ -35,4 +35,9 @@ export namespace CourseService {
         }
         return false;
     }
+
+    export function extractClasses(courses: Array<Course>): Array<Class> {
+        return courses.map(it => it.classes)
+            .reduce((classes1, classes2) => classes1.concat(classes2), [])
+    }
 }
