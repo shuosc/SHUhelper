@@ -46,7 +46,7 @@
             </v-container>
         </v-content>
         <v-footer app>
-            <span>&copy; 2017</span>
+            <span>&copy; 2017 ~ {{ new Date().getFullYear() }}</span>
         </v-footer>
     </v-app>
 </template>

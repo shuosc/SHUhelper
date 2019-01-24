@@ -15,7 +15,12 @@
                 </v-btn>
             </v-flex>
         </v-layout>
-        <v-layout row wrap>
+        <v-layout
+                row wrap
+                v-touch="{
+                    left: () => navigateToNextMonth(),
+                    right: () => navigateToLastMonth() }"
+                >
             <v-flex :key="day" class="day-name text-xs-center" v-for="day in DAY_NUMBER_TO_CHINESE">{{day}}</v-flex>
             <Day :key="-i" class="day-empty" v-for="i in marginDaysBeforeFirstDay"></Day>
             <Day :class="{watching:isSameDate(day,currentWatchingDate)}"
