@@ -25,7 +25,7 @@ router
             context.status = 403;
             return;
         }
-        await StudentRepository.save(theStudent);
+        await theStudent.map(StudentRepository.save).value;
         let token = jwt.sign({student: username}, process.env['JWT_SECRET'], {expiresIn: 60 * 60 * 24 * 7});
         context.body = {
             token: token
@@ -35,21 +35,23 @@ router
         if (context.request.student === null) {
             context.status = 403;
         } else {
-            context.body = {
-                id: context.request.student.id,
-                name: context.request.student.name,
-                courseIds: context.request.student.courseIds
-            };
+            context.body = context.request.student.map(student => {
+                return {
+                    id: student.id,
+                    name: student.name,
+                    courseIds: student.courseIds
+                }
+            }).value;
         }
     })
     .get('/api/course/:id', async (context) => {
-        context.body = await CourseRepository.getById(context.params.id);
+        context.body = (await CourseRepository.getById(context.params.id)).value;
     })
     .get('/api/semester/current', async (context) => {
-        context.body = await SemesterRepository.current();
+        context.body = (await SemesterRepository.current()).value;
     })
     .get('/api/semester/:id', async (context) => {
-        context.body = await SemesterRepository.getById(context.params.id);
+        context.body = (await SemesterRepository.getById(context.params.id)).value;
     })
     .get('/*', async (context) => {
         context.body = 'It works!';

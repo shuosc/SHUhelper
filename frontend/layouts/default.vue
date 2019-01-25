@@ -7,10 +7,10 @@
                         <img src="~/assets/image/avatar_default.jpg" alt="">
                     </v-list-tile-avatar>
                     <v-layout align-center fill-height justify-space-between row>
-                        <v-list-tile-title>{{getName}}</v-list-tile-title>
+                        <v-list-tile-title>{{this.student.isNull?'游客':this.student.value.name}}</v-list-tile-title>
                         <v-list-tile-sub-title class="auth-button">
                             <v-btn @click="auth" flat small>
-                                {{this.isLogged?'注销':'登录'}}
+                                {{this.student.isNull?'登录':'注销'}}
                             </v-btn>
                         </v-list-tile-sub-title>
                     </v-layout>
@@ -46,7 +46,7 @@
             </v-container>
         </v-content>
         <v-footer app>
-            <span>&copy; 2017 ~ {{ new Date().getFullYear() }}</span>
+            <span>&copy; 2017 ~ {{(new Date()).getFullYear() }}</span>
         </v-footer>
     </v-app>
 </template>
@@ -55,14 +55,14 @@
     import Component, {namespace} from 'nuxt-class-component';
     import Vue from 'vue';
     import * as student from '~/store/modules/student';
+    import {Student} from '~/store/modules/student';
+    import {Maybe} from "../../shared/tools/functools/maybe";
 
-    const Student = namespace(student.name);
+    const StudentNamespace = namespace(student.name);
     @Component
     export default class extends Vue {
-        @Student.Getter getName: any;
-        @Student.Getter isLogged: any;
-        @Student.Action doLogout: any;
-        @Student.Action restoreLogin: any;
+        @StudentNamespace.Getter student!: Maybe<Student>;
+        @StudentNamespace.Action doLogout!: () => void;
         drawer = true;
         miniVariant = false;
         title = 'SHUHelper';
@@ -72,12 +72,12 @@
         ];
 
         auth() {
-            if (this.isLogged) {
+            if (this.student.isNull) {
+                this.$router.push('/login');
+            } else {
                 this.doLogout();
                 localStorage.clear();
                 this.$router.push('/');
-            } else {
-                this.$router.push('/login');
             }
         }
     };

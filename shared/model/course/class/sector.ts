@@ -1,7 +1,7 @@
 import {clone} from "../../../tools/clone";
-import {Maybe} from "../../../tools/functools/maybe";
+import {just, Maybe} from "../../../tools/functools/maybe";
 import {findIndex} from "../../../tools/functools/find";
-import {TimeService} from "../../../tools/time/time";
+import {TimeService} from "../../../tools/dateTime/time/time";
 
 function createTime(hour: number, minute: number): Date {
     return new Date(0, 0, 0, hour, minute);
@@ -49,10 +49,10 @@ export namespace SectorService {
     export function currentSector(time: Date): Maybe<number> {
         for (let sectorId = 1; sectorId <= SECTOR_TO_START_TIME.length; ++sectorId) {
             if (isTimeInSector(time, sectorId)) {
-                return new Maybe(sectorId);
+                return just(sectorId);
             }
         }
-        return new Maybe<number>(null);
+        return just<number>(null);
     }
 
     export function nextSector(time: Date): Maybe<number> {
@@ -60,16 +60,34 @@ export namespace SectorService {
         return findIndex(SECTOR_TO_START_TIME, it => it > nowTime).map(it => it + 1);
     }
 
-    export function minutesBetweenSectors(firstSectorId: number): number {
+    export function lastSector(time: Date): Maybe<number> {
+        for (let sectorId = SECTOR_TO_START_TIME.length; sectorId > 0; --sectorId) {
+            if (TimeService.earlierThan(getSectorStartTime(sectorId), time)) {
+                return just(sectorId);
+            }
+        }
+        return just<number>(null);
+    }
+
+    export function restTimeAfterSector(firstSectorId: number): number {
         const timestampDifference = TimeService.timeDistance(getSectorEndTime(firstSectorId), getSectorStartTime(firstSectorId + 1));
         return TimeService.timestampDifferenceToMinutes(timestampDifference);
     }
 
-    export function isBeforeFirstSector(time: Date) {
+    export function isBeforeFirstSector(time: Date): boolean {
         return TimeService.earlierThan(time, getSectorStartTime(1));
     }
 
-    export function isAfterLastSector(time: Date) {
-        return TimeService.earlierThan(getSectorEndTime(SECTOR_TO_START_TIME.length), time);
+    export function isAfterLastSector(time: Date): boolean {
+        return TimeService.laterThan(time, getSectorEndTime(SECTOR_TO_START_TIME.length));
+    }
+
+    export function isInASector(time: Date): boolean {
+        for (let i = 1; i <= SECTOR_TO_START_TIME.length; ++i) {
+            if (isTimeInSector(time, i)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

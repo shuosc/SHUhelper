@@ -7,6 +7,8 @@ import {XmlEntities} from "html-entities";
 import {TeacherRepository} from "../../../model/teacher/teacher";
 import {Course} from "../../../../../shared/model/course/course";
 import {SemesterRepository} from "../../../model/semester/semester";
+import * as _ from "lodash";
+import {Maybe} from "../../../../../shared/tools/functools/maybe";
 
 const entities = new XmlEntities();
 
@@ -46,29 +48,32 @@ export async function parseClassStrings(str: string): Promise<Array<string>> {
 /**
  * 从爬到的课程表格的一行中解析出课程
  */
-async function parseCourse(cols: Array<string>): Promise<Course> {
+async function parseCourse(cols: Array<string>): Promise<Maybe<Course>> {
     const id = cols[1] + '_' + cols[3];
     let result = await CourseRepository.getById(cols[1]);
-    if (result !== null) {
+    if (!result.isNull) {
         return result;
     }
     const name = cols[2];
     const hasManyTeacher = cols[4][cols[4].length - 1] === '等';
     const teacher = await TeacherRepository.getOrCreateByName(hasManyTeacher ? cols[4].slice(0, -1) : cols[4]);
     const semester = await SemesterRepository.current();
+    const classFromString = _.partial(ClassService.fromString, _, id);
     const classes = (await parseClassStrings(cols[6]))
-        .map(it => ClassService.fromString(it, id))
+        .map(classFromString)
         .filter(it => it.value !== null)
         .map(it => it.value);
     const place = await cols[7];
-    return {
-        id: id,
-        name: name,
-        teacherId: teacher._id,
-        semesterId: semester._id,
-        classes: classes,
-        place: place
-    };
+    return semester.map(semester => {
+        return {
+            id: id,
+            name: name,
+            teacherId: teacher._id,
+            semesterId: semester._id,
+            classes: classes,
+            place: place
+        }
+    });
 }
 
 /**
@@ -88,8 +93,10 @@ export async function getCoursesFromPage(coursePage: string): Promise<Array<Cour
             break;
         }
         let course = await parseCourse(cols);
-        await CourseRepository.save(course);
-        courses.push(course);
+        await course.map(CourseRepository.save).value;
+        if (!course.isNull) {
+            courses.push(course.value);
+        }
     }
     return courses;
 }

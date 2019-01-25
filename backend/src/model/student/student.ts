@@ -3,6 +3,7 @@ import {Cookie} from "tough-cookie";
 import {fetchCoursePage, getCoursesFromPage, getStudentNameFromPage} from "../../service/crawl/courseTable/courseTable";
 import {simulateLogin} from "../../service/simulateLogin/simulateLogin";
 import {Student as SharedStudent} from "../../../../shared/model/student/student";
+import {just, Maybe} from "../../../../shared/tools/functools/maybe";
 
 export interface Student extends SharedStudent {
     readonly xkCookie: Cookie;
@@ -28,30 +29,30 @@ export namespace StudentRepository {
 }
 
 export namespace StudentService {
-    export async function login(studentId: string, password: string): Promise<Student | null> {
+    export async function login(studentId: string, password: string): Promise<Maybe<Student>> {
         let cookie: Array<Cookie>;
         try {
             cookie = await simulateLogin('http://xk.autoisp.shu.edu.cn', studentId, password);
         } catch (e) {
-            return null;
+            return just(null);
         }
         if (cookie.length === 0) {
-            return null;
+            return just(null);
         }
-        let student = await StudentRepository.getById(studentId);
-        if (student !== null) {
+        let student = just(await StudentRepository.getById(studentId));
+        if (!student.isNull) {
             return student;
         }
         const coursePage = await fetchCoursePage(studentId, cookie);
         const name = await getStudentNameFromPage(coursePage);
         const courses = await getCoursesFromPage(coursePage);
-        student = {
+        student = just({
             id: studentId,
             name: name,
             xkCookie: cookie[0],
             courseIds: courses.map(it => it.id)
-        };
-        await StudentRepository.save(student);
+        });
+        await student.map(StudentRepository.save).value;
         return student;
     }
 }

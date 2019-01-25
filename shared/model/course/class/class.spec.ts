@@ -2,7 +2,7 @@ import 'mocha';
 import {expect} from 'chai';
 import {Class, ClassService} from "./class";
 import {Semester} from "../../semester/semester";
-import {DateService} from "../../../tools/date/date";
+import {DateService} from "../../../tools/dateTime/date/date";
 import createDate = DateService.createDate;
 
 describe('Class 测试', async () => {
@@ -106,5 +106,19 @@ describe('Class 测试', async () => {
         expect(ClassService.isOnDate(theClass, semester, createDate(2019, 1, 22))).false;
         expect(ClassService.isOnDate(theClass, semester, createDate(2019, 2, 26))).true;
         expect(ClassService.isOnDate(theClass, semester, createDate(2018, 12, 30))).true;
+    });
+    it('能判断某个 sector 是否在上 某节课', async () => {
+        const theClass: Class = {
+            courseId: null,
+            day: 2,
+            beginSector: 1,
+            endSector: 3,
+            weeks: [1, 3, 5, 6, 7, 9]
+        };
+        expect(ClassService.isOnSector(theClass, 1)).true;
+        expect(ClassService.isOnSector(theClass, 2)).true;
+        expect(ClassService.isOnSector(theClass, 3)).true;
+        expect(ClassService.isOnSector(theClass, 4)).false;
+        expect(ClassService.isOnSector(theClass, 5)).false;
     });
 });

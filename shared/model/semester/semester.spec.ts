@@ -1,7 +1,7 @@
 import 'mocha';
 import {Semester, SemesterService} from "./semester";
 import {expect} from 'chai';
-import {DateService} from "../../tools/date/date";
+import {DateService} from "../../tools/dateTime/date/date";
 import createDate = DateService.createDate;
 
 const semester: Semester = {
@@ -51,5 +51,8 @@ describe('semester测试', async () => {
         expect(SemesterService.getWeekIndex(semester, createDate(2019, 3, 10))).equals(10);
         expect(SemesterService.getWeekIndex(semester, createDate(2018, 12, 30))).equals(
             SemesterService.getWeekIndex(semester, createDate(2019, 1, 2)));
+    });
+    it('能获取总的工作日数量', async () => {
+        expect(SemesterService.getTotalWorkingDayCount(semester)).equals(58);
     });
 });

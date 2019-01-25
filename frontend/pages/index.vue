@@ -6,24 +6,21 @@
 </template>
 
 <script lang="ts">
-    import Component, {namespace} from 'nuxt-class-component';
+    import Component from 'nuxt-class-component';
     import Vue from 'vue';
     import DateInfo from "~/components/index/dateInfo.vue";
     import CourseInfo from "~/components/index/courseInfo.vue";
-    import * as course from '~/store/modules/course';
-    import * as semester from '~/store/modules/semester';
-
-    const Course = namespace(course.name);
-    const Semester = namespace(semester.name);
 
     @Component({
-        components: {CourseInfo, DateInfo}
+        components: {
+            DateInfo,
+            CourseInfo
+        }
     })
     export default class Index extends Vue {
-        @Course.Getter getCourses: any;
-        @Semester.Getter getSemesterForDate: any;
-
         async fetch(context: { store: any, params: any }) {
+            // vuex is a piece of sh*t!
+            // use plain string? serious?
             await context.store.dispatch("semester/fetchCurrentSemester");
             await context.store.dispatch("course/fetchCourses");
         }

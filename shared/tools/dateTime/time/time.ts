@@ -7,7 +7,7 @@ export namespace TimeService {
     }
 
     /**
-     * 返回两个时间点之间的时间差
+     * 返回两个时间点之间的时间差，注意只比较时间部分，忽略日期部分
      * @return 单位为毫秒的时间差
      */
     export function timeDistance(now: Date, target: Date): number {
@@ -17,7 +17,8 @@ export namespace TimeService {
     }
 
     /**
-     * 判断 @arg now 的 时间 是否早于 @arg target
+     * 判断 @arg now 的 时间 是否早于 @arg target，只比较时间部分，忽略日期部分
+     * @note 不包含等于的情况
      */
     export function earlierThan(now: Date, target: Date): boolean {
         const nowTime = createTime(now.getHours(), now.getMinutes(), now.getSeconds());
@@ -26,12 +27,13 @@ export namespace TimeService {
     }
 
     /**
-     * 判断 @arg now 的 时间 是否晚于 @arg target
+     * 判断 @arg now 的 时间 是否晚于 @arg target，只比较时间部分，忽略日期部分
+     * @note 包含等于的情况
      */
     export function laterThan(now: Date, target: Date): boolean {
         const nowTime = createTime(now.getHours(), now.getMinutes(), now.getSeconds());
         const targetTime = createTime(target.getHours(), target.getMinutes(), target.getSeconds());
-        return nowTime.getTime() > targetTime.getTime();
+        return nowTime.getTime() >= targetTime.getTime();
     }
 
     export function timestampDifferenceToSeconds(timestampDifference: number): number {

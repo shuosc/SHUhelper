@@ -42,15 +42,29 @@ export function shade(color: string, percent: number) {
     else return shadeHexColor(color, percent);
 }
 
-export const BEAUTIFUL_LIGHT_COLOR = [
+const BEAUTIFUL_LIGHT_COLOR = [
     '#0099FF',
-    '#6699FF',
-    '#99CCFF',
-    '#CC99FF',
+    '#F9DF74',
+    '#FF6699',
     '#66FF99',
+    '#C9CBA3',
+    '#EDAE49',
+    '#6699FF',
+    '#E5D1D0',
     '#99FF99',
     '#CC9999',
-    '#FF9999',
+    '#BFC8AD',
     '#FFCC99',
-    '#FF6699'
+    '#CC99FF',
+    '#91F9E5',
+    '#63A375',
+    '#FF9999',
+    '#CAE7B9',
+    '#99CCFF'
 ];
+
+let nextBeautifulLightColorIndex = 0;
+
+export function nextBeautifulLightColor(): string {
+    return BEAUTIFUL_LIGHT_COLOR[(nextBeautifulLightColorIndex++) % BEAUTIFUL_LIGHT_COLOR.length];
+}

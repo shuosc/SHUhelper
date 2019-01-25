@@ -9,13 +9,13 @@ import extractClasses = CourseService.extractClasses;
 import isOnDate = ClassService.isOnDate;
 
 export const getters: GetterTree<State, RootState> = {
-    getCourses: (state: State) => {
+    courses: (state: State) => {
         return state.courses;
     },
     getCourse: (state: State) => {
         return (id: any) => find(state.courses, (course: Course) => course.id === id);
     },
-    getClasses: (state: State) => {
+    classes: (state: State) => {
         return extractClasses(state.courses);
     },
     getClassesForDate: (state: State) => {

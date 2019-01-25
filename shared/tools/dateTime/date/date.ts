@@ -1,32 +1,3 @@
-import {Maybe} from "../functools/maybe";
-import {get} from "../functools/get";
-
-const DAY_CHINESE_TO_NUMBER = new Map<string, number>(
-    [
-        ['日', 0],
-        ['一', 1],
-        ['二', 2],
-        ['三', 3],
-        ['四', 4],
-        ['五', 5],
-        ['六', 6]
-    ]
-);
-
-export function dayChineseToNumber(chinese: string): Maybe<number> {
-    return get(DAY_CHINESE_TO_NUMBER, chinese);
-}
-
-export const DAY_NUMBER_TO_CHINESE = ['日', '一', '二', '三', '四', '五', '六'];
-
-
-/**
- * 合并日期和时间，合并结果有 @param date 的日期 和 @param time 的时间
- */
-export function mergeDateTime(date: Date, time: Date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), time.getHours(), time.getMinutes(), time.getSeconds());
-}
-
 export namespace DateService {
     /**
      * 使用人类的格式创建一个日期对象

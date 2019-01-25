@@ -17,9 +17,11 @@
 <script lang="ts">
     import Component, {namespace} from 'nuxt-class-component';
     import Vue from 'vue';
-    import * as student from '~/store/modules/student';
+    import * as studentModule from '~/store/modules/student';
+    import {Student} from '~/store/modules/student';
+    import {Maybe} from "../../shared/tools/functools/maybe";
 
-    const Student = namespace(student.name);
+    const StudentNamespace = namespace(studentModule.name);
     @Component
     export default class Login extends Vue {
         layout() {
@@ -28,16 +30,19 @@
 
         username: string = "";
         password: string = "";
-        @Student.Action doLogin: any;
-        @Student.Getter isLogged: any;
-        @Student.Getter getToken: any;
         loading = false;
+
+        @StudentNamespace.Action doLogin!: (payload: { username: string, password: string }) => Promise<void>;
+        @StudentNamespace.Getter student!: Maybe<Student>;
+
 
         async login() {
             this.loading = true;
             await this.doLogin({username: this.username, password: this.password});
-            this.$router.push('/');
-            localStorage.token = this.getToken;
+            if (this.student.value !== null) {
+                this.$router.push('/');
+                localStorage.token = this.student.value.token;
+            }
         }
     }
 </script>

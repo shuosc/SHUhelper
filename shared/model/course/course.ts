@@ -2,6 +2,7 @@ import {Class, ClassService} from "./class/class";
 import {Semester} from "../semester/semester";
 import {assert} from "../../tools/assert";
 import {DateRangeService} from "../dateRange/dateRange";
+import * as _ from "lodash";
 
 /**
  * 课程模型
@@ -28,14 +29,13 @@ export namespace CourseService {
      */
     export function hasClassOnDate(course: Course, semester: Semester, date: Date) {
         assert(DateRangeService.isDateIn(semester, date));
-        for (let class_ of course.classes) {
-            if (ClassService.isOnDate(class_, semester, date)) {
-                return true;
-            }
-        }
-        return false;
+        const isOnDate = _.partial(ClassService.isOnDate, _, semester, date);
+        return course.classes.some(isOnDate);
     }
 
+    /**
+     * 从课程列表中解出所有的课
+     */
     export function extractClasses(courses: Array<Course>): Array<Class> {
         return courses.map(it => it.classes)
             .reduce((classes1, classes2) => classes1.concat(classes2), [])

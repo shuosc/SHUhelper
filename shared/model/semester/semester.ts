@@ -3,7 +3,9 @@ import {Holiday, HolidayService, HolidayWithShift} from "./holiday/holiday";
 import {assert} from "../../tools/assert";
 import {find} from "../../tools/functools/find";
 import {clone} from "../../tools/clone";
-import {DateService} from "../../tools/date/date";
+import {DateService} from "../../tools/dateTime/date/date";
+import {Maybe} from "../../tools/functools/maybe";
+import * as _ from "lodash";
 
 export interface Semester extends DateRange {
     readonly _id: any;
@@ -41,11 +43,16 @@ export namespace SemesterService {
         return date.getDay();
     }
 
-    export function isHoliday(semester: Semester, date: Date) {
+    export function isHoliday(semester: Semester, date: Date): boolean {
         return getSchoolDay(semester, date) === HOLIDAY;
     }
 
-    export function getShiftFrom(semester: Semester, date: Date): Date {
+    export function getHolidayForDate(semester: Semester, date: Date): Maybe<Holiday | HolidayWithShift> {
+        const isDateIn = _.partial(DateRangeService.isDateIn, _, date);
+        return find<Holiday | HolidayWithShift>(semester.holidays, isDateIn);
+    }
+
+    function getShiftFrom(semester: Semester, date: Date): Date {
         const result = find(semester.holidays.filter(HolidayService.hasShift), holiday => DateRangeService.isDateIn(holiday, date))
             .flatMap(theHoliday => find(theHoliday.shifts, shift => DateService.isSameDate(date, shift.to)))
             .map(theShift => theShift.from);
@@ -77,9 +84,12 @@ export namespace SemesterService {
         throw Error("Should never reached here")
     }
 
-    export function getWorkingDayCountFrom(semester: Semester, from: Date): number {
+    /**
+     * 获取从@arg from 开始到 @arg to 的工作日数量
+     */
+    export function getWorkingDayCount(semester: Semester, from: Date, to: Date): number {
         let result = 0;
-        for (let day = clone(from); !DateService.isSameDate(day, semester.end); day.setDate(day.getDate() + 1)) {
+        for (let day = clone(from); !DateService.isSameDate(day, to); day.setDate(day.getDate() + 1)) {
             if (!(isHoliday(semester, day) || day.getDay() === 0 || day.getDay() === 6)) {
                 ++result;
             }
@@ -87,7 +97,10 @@ export namespace SemesterService {
         return result;
     }
 
-    export function getWorkingDayCount(semester: Semester): number {
-        return getWorkingDayCountFrom(semester, semester.begin);
+    /**
+     * 获取总的工作日数量
+     */
+    export function getTotalWorkingDayCount(semester: Semester): number {
+        return getWorkingDayCount(semester, semester.begin, semester.end);
     }
 }

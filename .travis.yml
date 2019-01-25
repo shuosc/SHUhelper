@@ -27,8 +27,6 @@ jobs:
         - yarn
         - cd ../shared
         - yarn
-        - cd ../frontend
-        - yarn
         - cd ..
       script:
         - set -e

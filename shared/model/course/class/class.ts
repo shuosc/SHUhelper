@@ -1,8 +1,8 @@
-import {dayChineseToNumber} from "../../../tools/date/date";
 import {Semester, SemesterService} from "../../semester/semester";
 import {assert} from "../../../tools/assert";
 import {DateRangeService} from "../../dateRange/dateRange";
 import {Maybe} from "../../../tools/functools/maybe";
+import {DayService} from "../../../tools/dateTime/day/day";
 
 /**
  * 表示一节课
@@ -54,7 +54,7 @@ export namespace ClassService {
         const regex = /([一二三四五六日])(\d+)-(\d+)([^一二三四五]*)/;
         let result = new Maybe(regex.exec(str));
         return result.flatMap((infoColumns =>
-            dayChineseToNumber(infoColumns[1]).map(day => {
+            DayService.dayChineseToNumber(infoColumns[1]).map(day => {
                 return {
                     day: day,
                     courseId: courseId,
@@ -79,6 +79,9 @@ export namespace ClassService {
         return class_.day === day && class_.weeks.indexOf(week) !== -1;
     }
 
+    /**
+     * 能判断某个 sector 是否在上 某节课
+     */
     export function isOnSector(class_: Class, sectorId: number): boolean {
         return class_.beginSector <= sectorId && sectorId <= class_.endSector;
     }

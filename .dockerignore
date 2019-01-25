@@ -224,3 +224,4 @@ fabric.properties
 .nfs*
 /dump.rdb
 /deploy_key
+.git

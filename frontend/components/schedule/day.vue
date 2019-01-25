@@ -25,25 +25,25 @@
     import Component, {namespace} from 'nuxt-class-component';
     import Vue from 'vue';
     import {Prop} from 'vue-property-decorator';
-    import * as courses from '~/store/modules/course';
+    import * as courseModule from '~/store/modules/course';
     import {Course} from '~/store/modules/course';
-    import * as semester from '~/store/modules/semester';
+    import * as semesterModule from '~/store/modules/semester';
     import {Semester, SemesterService} from "../../../shared/model/semester/semester";
-    import {DateService} from "../../../shared/tools/date/date";
+    import {DateService} from "../../../shared/tools/dateTime/date/date";
     import {Class} from "../../../shared/model/course/class/class";
     import {Maybe} from "../../../shared/tools/functools/maybe";
     import * as _ from "lodash";
 
-    const Semester = namespace(semester.name);
-    const Courses = namespace(courses.name);
+    const SemesterNamespace = namespace(semesterModule.name);
+    const CourseNamespace = namespace(courseModule.name);
 
     @Component
     export default class Day extends Vue {
         @Prop({default: null, type: Date})
         date!: Date;
-        @Courses.Getter getClassesForDate: any;
-        @Courses.Getter getCourse: any;
-        @Semester.Getter getSemesterForDate: any;
+        @CourseNamespace.Getter getClassesForDate!: (semester: Semester, date: Date) => Array<Class>;
+        @CourseNamespace.Getter getCourse!: (id: string) => Maybe<Course>;
+        @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
 
         get isToday(): boolean {
             if (this.date === null) {

@@ -1,6 +1,9 @@
 <template>
     <div class="calendar">
-        <v-layout justify-space-between row>
+        <v-layout justify-space-between row v-touch="{
+                    left: navigateToNextMonth,
+                    right: navigateToLastMonth
+                }">
             <v-flex class="arrow-left text-xs-center" sm1 xs2>
                 <v-btn @click="navigateToLastMonth" fab small>
                     <v-icon>arrow_left</v-icon>
@@ -15,13 +18,8 @@
                 </v-btn>
             </v-flex>
         </v-layout>
-        <v-layout
-                row wrap
-                v-touch="{
-                    left: () => navigateToNextMonth(),
-                    right: () => navigateToLastMonth() }"
-                >
-            <v-flex :key="day" class="day-name text-xs-center" v-for="day in DAY_NUMBER_TO_CHINESE">{{day}}</v-flex>
+        <v-layout row wrap>
+            <v-flex :key="day" class="day-name text-xs-center" v-for="day in DAY_CHINESES">{{day}}</v-flex>
             <Day :key="-i" class="day-empty" v-for="i in marginDaysBeforeFirstDay"></Day>
             <Day :class="{watching:isSameDate(day,currentWatchingDate)}"
                  :date="day"
@@ -39,7 +37,8 @@
     import {Emit, Prop} from 'vue-property-decorator';
     import {clone} from '../../../shared/tools/clone';
     import Day from './day.vue';
-    import {DateService, DAY_NUMBER_TO_CHINESE} from "../../../shared/tools/date/date";
+    import {DateService} from "../../../shared/tools/dateTime/date/date";
+    import {DayService} from "../../../shared/tools/dateTime/day/day";
     import isSameDate = DateService.isSameDate;
 
     @Component({
@@ -51,7 +50,8 @@
         },
     })
     export default class Calendar extends Vue {
-        DAY_NUMBER_TO_CHINESE = DAY_NUMBER_TO_CHINESE;
+        DAY_CHINESES = DayService.DAY_NUMBER_TO_CHINESE;
+
         @Prop({default: new Date()})
         initialDate!: Date;
 
@@ -69,6 +69,13 @@
             return firstDayInThisMonth.getDay();
         }
 
+        get marginDaysAfterLastDay(): number {
+            let lastDayInThisMonth = this.firstDayOfCurrentWatchingMonth;
+            lastDayInThisMonth.setMonth(lastDayInThisMonth.getMonth() + 1);
+            lastDayInThisMonth.setDate(0);
+            return 6 - lastDayInThisMonth.getDay();
+        }
+
         get daysInThisMonth(): Array<Date> {
             let result = [];
             let firstDay = this.firstDayOfCurrentWatchingMonth;
@@ -78,19 +85,12 @@
             return result;
         }
 
-        get marginDaysAfterLastDay(): number {
-            let lastDayInThisMonth = this.firstDayOfCurrentWatchingMonth;
-            lastDayInThisMonth.setMonth(lastDayInThisMonth.getMonth() + 1);
-            lastDayInThisMonth.setDate(0);
-            return 6 - lastDayInThisMonth.getDay();
+        navigateToLastMonth() {
+            this.firstDayOfCurrentWatchingMonth = new Date(this.firstDayOfCurrentWatchingMonth.getFullYear(), this.firstDayOfCurrentWatchingMonth.getMonth() - 1, 1);
         }
 
         navigateToNextMonth() {
             this.firstDayOfCurrentWatchingMonth = new Date(this.firstDayOfCurrentWatchingMonth.getFullYear(), this.firstDayOfCurrentWatchingMonth.getMonth() + 1, 1);
-        }
-
-        navigateToLastMonth() {
-            this.firstDayOfCurrentWatchingMonth = new Date(this.firstDayOfCurrentWatchingMonth.getFullYear(), this.firstDayOfCurrentWatchingMonth.getMonth() - 1, 1);
         }
 
         @Emit('daySelected')
@@ -102,32 +102,32 @@
 
 <style scoped lang="stylus">
     .calendar {
-        justify-content: flex-start;
-        padding 10px
+        justify-content: flex-start
+        padding: 10px
     }
 
     .today-date {
-        text-align center
-        line-height 50px
+        text-align: center
+        line-height: 50px
     }
 
     .watching {
-        border solid 1px #ff9752
+        border: solid 1px #ff9752
     }
 
     .month-complete-item {
-        transition: all 1s;
-        display: inline-block;
-        margin-right: 10px;
+        transition: all 1s
+        display: inline-block
+        margin-right: 10px
     }
 
     .month-complete-enter, .list-complete-leave-to {
-        opacity: 0;
-        transform: translateY(30px);
+        opacity: 0
+        transform: translateY(30px)
     }
 
     .month-complete-leave-active {
-        position: absolute;
+        position: absolute
     }
 
     .day-name {
