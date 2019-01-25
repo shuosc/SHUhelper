@@ -18,7 +18,8 @@
                 </v-btn>
             </v-flex>
         </v-layout>
-        <v-layout row wrap>
+        <v-slide-x-transition class="row wrap" group tag="v-layout"
+                              v-touch="{left: navigateToNextMonth,right: navigateToLastMonth}">
             <v-flex :key="day" class="day-name text-xs-center" v-for="day in DAY_CHINESES">{{day}}</v-flex>
             <Day :key="-i" class="day-empty" v-for="i in marginDaysBeforeFirstDay"></Day>
             <Day :class="{watching:isSameDate(day,currentWatchingDate)}"
@@ -27,7 +28,7 @@
                  @click="daySelected"
                  v-for="day in daysInThisMonth"></Day>
             <Day :key="i+31" class="day-empty" v-for="i in marginDaysAfterLastDay"></Day>
-        </v-layout>
+        </v-slide-x-transition>
     </div>
 </template>
 
@@ -132,5 +133,13 @@
 
     .day-name {
         flex 14.28%;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s
+    }
+
+    .fade-enter, .fade-leave-active {
+        opacity: 0
     }
 </style>
