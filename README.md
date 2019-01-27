@@ -1,6 +1,9 @@
 # SHUHelper
 
 ![travis-status](https://www.travis-ci.org/shuopensourcecommunity/SHUhelper.svg?branch=v5)
+![GPL-3.0](https://img.shields.io/github/license/shuopensourcecommunity/SHUhelper.svg)
+[![codebeat badge](https://codebeat.co/badges/b5740d24-a5e9-4db9-be6a-ec09015acb83)](https://codebeat.co/projects/github-com-shuopensourcecommunity-shuhelper-v5)
+![maintainability](https://camo.githubusercontent.com/081296cdc929793fa603bf9c0a34b0c04de0865b/68747470733a2f2f6170692e636f6465636c696d6174652e636f6d2f76312f6261646765732f61373363343237333338633864376164643036342f6d61696e7461696e6162696c697479)
 
 ## 目标
 
