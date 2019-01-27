@@ -1,8 +1,7 @@
 import {GetterTree} from "vuex";
 import {RootState} from "~/store";
 import {State} from "~/store/modules/semester/state";
-import {Maybe} from "../../../../shared/tools/functools/maybe";
-import {find} from "../../../../shared/tools/functools/find";
+import {find, Maybe} from "../../../../shared/tools/functools/maybe";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
 import * as _ from "lodash";
 

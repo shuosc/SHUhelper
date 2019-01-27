@@ -1,10 +1,9 @@
 import {DateRange, DateRangeService} from "../dateRange/dateRange";
 import {Holiday, HolidayService, HolidayWithShift} from "./holiday/holiday";
 import {assert} from "../../tools/assert";
-import {find} from "../../tools/functools/find";
+import {find, Maybe} from "../../tools/functools/maybe";
 import {clone} from "../../tools/clone";
 import {DateService} from "../../tools/dateTime/date/date";
-import {Maybe} from "../../tools/functools/maybe";
 import * as _ from "lodash";
 
 export interface Semester extends DateRange {

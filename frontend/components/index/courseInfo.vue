@@ -103,10 +103,9 @@
     import * as courseModule from '~/store/modules/course';
     import {Course} from '~/store/modules/course';
     import {Semester} from "../../../shared/model/semester/semester";
-    import {just, Maybe} from "../../../shared/tools/functools/maybe";
+    import {find, just, Maybe} from "../../../shared/tools/functools/maybe";
     import {Holiday, HolidayWithShift} from "../../../shared/model/semester/holiday/holiday";
     import {DateRangeService} from "../../../shared/model/dateRange/dateRange";
-    import {find} from "../../../shared/tools/functools/find";
     import {SectorService} from "../../../shared/model/course/class/sector";
     import {TimeService} from "../../../shared/tools/dateTime/time/time";
     import {toPercent} from "~/tools/toPercent";

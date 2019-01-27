@@ -2,6 +2,43 @@
 
 显而易见的，代码顶层分为三个部分，前端，后端和共享内容。
 
+## 共享内容
+
+为了让前后端可以共享领域模型的结构和行为，以及提供一些和前端/后端使用的特定技术无关的工具代码，我们将这部分代码单独抽取出来放在共享内容中。
+
+其中需要关注的结构有这些：
+```
+.
+├── model               # 领域模型
+│   ├── course          # 课程（名字、课程号、教室等信息）
+│   │   └── class       # 课（上课时间、上课地点等信息）
+│   ├── dateRange       # 日期区间，被semester、holiday等继承
+│   ├── semester        # 学期
+│   │   └── holiday     # 代表假期
+│   │       └── shift   # 调休相关
+│   ├── student         # 学生
+│   └── teacher         # 教师
+└── tools               # 工具
+    ├── assert.ts       # 断言库
+    ├── clone.ts        # 深拷贝库
+    ├── dateTime        # 日期时间处理，填 JS Date、Time不分的坑
+    │   ├── date
+    │   ├── day
+    │   └── time
+    └── functools       # 函数式编程工具
+        └── maybe.ts    # Maybe monad，参考Haskell Maybe和Scala Option
+```
+
+### model设计
+
+每种领域模型中的对象类型都被建模为一个 interface。
+
+将对象的行为都放入对应 Service 中。
+
+这样做的好处有：
+1. 便于使用函数式编程范式（使用高阶函数、进行函数组合等）
+2. interface 比 class更便于序列化和反序列化
+
 ## 前端
 
 前端是一个典型的 Nuxt 项目，可以参考[官方说明](https://zh.nuxtjs.org/guide/directory-structure)。
@@ -20,17 +57,11 @@
     │   └── request.ts
     ├── main.ts             # 服务器主文件
     ├── middleware          # 服务器中间件，例如auth中间件
-    ├── model               # 领域模型
+    ├── model               # 模型，主要是Repository部分
     └── service   
         ├── crawl           # 从学校网站爬各类信息的爬虫
         └── simulateLogin   # 模拟登录获取cookie
 ```
-
-### model设计
-
-每种领域模型中的对象类型都被建模为一个interface。
-
-将对象的行为都放入对应 Service 中。
 
 #### Repository
 

@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+/**
+ * 在页面刷新后，恢复登录并执行当前页面的 fetch
+ */
 Vue.mixin({
     async beforeMount() {
         // @ts-ignore

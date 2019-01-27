@@ -1,5 +1,4 @@
-import {just, Maybe} from "../../functools/maybe";
-import {get} from "../../functools/get";
+import {get, just, Maybe} from "../../functools/maybe";
 
 export namespace DayService {
     export const DAY_CHINESE_TO_NUMBER = new Map<string, number>([

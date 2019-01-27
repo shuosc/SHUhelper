@@ -1,6 +1,5 @@
 import {clone} from "../../../tools/clone";
-import {just, Maybe} from "../../../tools/functools/maybe";
-import {findIndex} from "../../../tools/functools/find";
+import {findIndex, just, Maybe} from "../../../tools/functools/maybe";
 import {TimeService} from "../../../tools/dateTime/time/time";
 
 function createTime(hour: number, minute: number): Date {
