@@ -38,7 +38,14 @@ UI框架使用 [Vuetify](https://vuetifyjs.com) 。
 
 ### 启动后端
 
-进入backend文件夹后:
+进入shared文件夹后：
+
+用yarn或npm安装所有npm包:
+```shell
+yarn
+```
+
+退出shared，进入backend文件夹后:
 
 首先用yarn或npm安装所有npm包:
 ```shell
@@ -70,7 +77,14 @@ export REDIS_ADDRESS=redis://localhost:6379
 
 ### 启动前端
 
-进入frontend文件夹后:
+进入shared文件夹后：
+
+用yarn或npm安装所有npm包:
+```shell
+yarn
+```
+
+退出shared，进入frontend文件夹后:
 
 首先用yarn或npm安装所有npm包:
 ```shell

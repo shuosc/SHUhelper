@@ -1,6 +1,19 @@
 import * as Request from 'request-promise-native';
 import * as Cheerio from 'cheerio';
 import * as Tough from 'tough-cookie';
+import {CookieJar} from "request";
+
+async function postWithSaml(url: string, samlRequest: string, relayState: string, jar: CookieJar) {
+    await Request.post(url, {
+        jar: jar,
+        form: {
+            SAMLRequest: samlRequest,
+            RelayState: relayState
+        },
+        simple: false,
+        followAllRedirects: true
+    });
+}
 
 /**
  * 模拟登录
@@ -15,15 +28,7 @@ export async function simulateLogin(fromURL: string, studentId: string, password
     // Silly WebStorm! It is NOT JQuery!!!
     // noinspection JSJQueryEfficiency
     let form = $('form').serializeArray();
-    await Request.post('https://sso.shu.edu.cn/idp/profile/SAML2/POST/SSO', {
-        jar: cookiejar,
-        form: {
-            SAMLRequest: form[0].value,
-            RelayState: form[1].value
-        },
-        simple: false,
-        followAllRedirects: true
-    });
+    await postWithSaml('https://sso.shu.edu.cn/idp/profile/SAML2/POST/SSO', form[0].value, form[1].value, cookiejar);
     $ = Cheerio.load(await Request.post('https://sso.shu.edu.cn/idp/Authn/UserPassword', {
         jar: cookiejar,
         form: {
@@ -35,15 +40,7 @@ export async function simulateLogin(fromURL: string, studentId: string, password
     }));
     // noinspection JSJQueryEfficiency
     form = $('form').serializeArray();
-    await Request.post('http://oauth.shu.edu.cn/oauth/Shibboleth.sso/SAML2/POST', {
-        jar: cookiejar,
-        form: {
-            SAMLRequest: form[1].value,
-            RelayState: form[0].value
-        },
-        simple: false,
-        followAllRedirects: true
-    });
+    await postWithSaml('http://oauth.shu.edu.cn/oauth/Shibboleth.sso/SAML2/POST', form[1].value, form[0].value, cookiejar);
     await Request.get(fromURL, {
         jar: cookiejar
     });

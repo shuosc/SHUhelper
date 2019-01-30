@@ -7,12 +7,19 @@ export namespace TimeService {
     }
 
     /**
+     * 从日期时间对象中提取纯时间对象
+     */
+    function extractTime(dateTime: Date): Date {
+        return createTime(dateTime.getHours(), dateTime.getMinutes(), dateTime.getSeconds());
+    }
+
+    /**
      * 返回两个时间点之间的时间差，注意只比较时间部分，忽略日期部分
      * @return 单位为毫秒的时间差
      */
     export function timeDistance(now: Date, target: Date): number {
-        const nowTime = createTime(now.getHours(), now.getMinutes(), now.getSeconds());
-        const targetTime = createTime(target.getHours(), target.getMinutes(), target.getSeconds());
+        const nowTime = extractTime(now);
+        const targetTime = extractTime(target);
         return Math.abs(nowTime.getTime() - targetTime.getTime());
     }
 
@@ -21,8 +28,8 @@ export namespace TimeService {
      * @note 不包含等于的情况
      */
     export function earlierThan(now: Date, target: Date): boolean {
-        const nowTime = createTime(now.getHours(), now.getMinutes(), now.getSeconds());
-        const targetTime = createTime(target.getHours(), target.getMinutes(), target.getSeconds());
+        const nowTime = extractTime(now);
+        const targetTime = extractTime(target);
         return nowTime.getTime() < targetTime.getTime();
     }
 
@@ -31,8 +38,8 @@ export namespace TimeService {
      * @note 包含等于的情况
      */
     export function laterThan(now: Date, target: Date): boolean {
-        const nowTime = createTime(now.getHours(), now.getMinutes(), now.getSeconds());
-        const targetTime = createTime(target.getHours(), target.getMinutes(), target.getSeconds());
+        const nowTime = extractTime(now);
+        const targetTime = extractTime(target);
         return nowTime.getTime() >= targetTime.getTime();
     }
 
