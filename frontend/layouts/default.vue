@@ -78,6 +78,7 @@
                 this.doLogout();
                 localStorage.clear();
                 this.$router.push('/');
+                window.location.reload();
             }
         }
     };

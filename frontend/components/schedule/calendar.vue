@@ -27,7 +27,7 @@
             <Day :key="-i" class="day-empty" v-for="i in marginDaysBeforeFirstDay"></Day>
             <Day :class="{watching:isSameDate(day,currentWatchingDate)}"
                  :date="day"
-                 :key="day"
+                 :key="day.getDate()"
                  @click="daySelected"
                  v-for="day in daysInThisMonth"></Day>
             <Day :key="i+31" class="day-empty" v-for="i in marginDaysAfterLastDay"></Day>
@@ -108,6 +108,7 @@
     .calendar {
         justify-content: flex-start
         padding: 10px
+        max-width: 600px
     }
 
     .today-date {
