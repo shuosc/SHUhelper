@@ -1,5 +1,7 @@
 <template>
-
+    <h1>
+        在左侧选择功能
+    </h1>
 </template>
 
 <script lang="ts">
@@ -8,6 +10,15 @@
 
     @Component
     export default class Admin extends Vue {
+        token = "";
+
+        layout() {
+            return "admin"
+        }
+
+        submit() {
+
+        }
     }
 </script>
 

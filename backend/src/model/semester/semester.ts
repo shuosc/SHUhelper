@@ -4,12 +4,9 @@ import {redis} from "../../infrastructure/redis";
 import * as fs from "fs";
 import {Semester} from "../../../../shared/model/semester/semester";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
-import * as dateNormalizer from "date-normalizer";
 import {just, Maybe} from "../../../../shared/tools/functools/maybe";
 import * as _ from "lodash";
 import {DateTimeService} from "../../../../shared/tools/dateTime/dateTime";
-
-const normalizeDateInObject = (dateNormalizer as any)['date-normalizer'].normalizeDateInObject;
 
 
 export namespace SemesterRepository {
@@ -63,6 +60,19 @@ export namespace SemesterRepository {
             await Promise.all([cachePromise, mongodbPromise]);
         }
     }
+
+    export async function all(): Promise<Array<Semester>> {
+        let cursor = mongo.collection('semester').find();
+        let result = [];
+        await cursor.forEach((thisSemester) => {
+            result.push(thisSemester);
+        });
+        return result;
+    }
+
+    export async function remove(id: ObjectID) {
+        await mongo.collection('semester').deleteOne({_id: id});
+    }
 }
 
 
@@ -74,8 +84,8 @@ export async function initSemesters() {
     const data = fs.readFileSync('./initialData/semester.json');
     const json = JSON.parse(data.toString());
     for (let semester of json['semester']) {
-        if ((await SemesterRepository.getByName(semester['name'])) === null) {
-            semester = normalizeDateInObject(semester);
+        if ((await SemesterRepository.getByName(semester['name'])).isNull) {
+            semester = DateTimeService.normalizeDateInObject(semester);
             semester._id = new ObjectID();
             await SemesterRepository.save(semester);
         }

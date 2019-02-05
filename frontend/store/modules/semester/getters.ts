@@ -17,5 +17,8 @@ export const getters: GetterTree<State, RootState> = {
             const isDateIn = _.partial(DateRangeService.isDateIn, _, date);
             return semesters.flatMap(semesters => find(semesters, isDateIn));
         }
+    },
+    semesters: (state: State) => {
+        return state.semesters;
     }
 };
