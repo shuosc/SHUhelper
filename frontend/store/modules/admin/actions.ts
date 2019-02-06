@@ -1,6 +1,6 @@
 import {ActionContext, ActionTree} from "vuex";
 import {RootState} from "~/store";
-import {State} from "./State";
+import {State} from "./state";
 import {Types} from "~/store/modules/admin/types";
 
 export interface Actions<S, R> extends ActionTree<S, R> {
