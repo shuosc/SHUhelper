@@ -891,12 +891,12 @@
     consola "^1.4.4"
     http-proxy-middleware "^0.19.0"
 
-"@nuxtjs/vuetify@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.npmjs.org/@nuxtjs/vuetify/-/vuetify-0.5.0.tgz#eb5de1ca7b304519733741f4e5a06a84b3d5b929"
-  integrity sha512-BVh42Pq82eI+RvAUcMeYxZnm7V56vlu/G9ZHv5vbb6tlGYSABASJ3WxGBoUiZAoWc1+lSarEypl+U8prmgR29g==
+"@nuxtjs/vuetify@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.npmjs.org/@nuxtjs/vuetify/-/vuetify-0.5.3.tgz#00df159692ec63e48acd3f7fddbc2d810eff9739"
+  integrity sha512-+q9d8S2PNqxHGV67ZVyRMW48yNoVOVekWbhPnZ3zMMSbYW7b1U4SgPNBYR7eivgl/QenM8r9R1SylJEzr6UfTw==
   dependencies:
-    vuetify "^1.3.15"
+    vuetify "^1.5.0"
 
 "@nuxtjs/youch@^4.2.3":
   version "4.2.3"
@@ -6579,10 +6579,10 @@ vue@^2.5.17:
   resolved "https://registry.npmjs.org/vue/-/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
   integrity sha512-Aejvyyfhn0zjVeLvXd70h4hrE4zZDx1wfZqia6ekkobLmUZ+vNFQer53B4fu0EjWBSiqApxPejzkO1Znt3joxQ==
 
-vuetify@^1.3.15:
-  version "1.3.15"
-  resolved "https://registry.npmjs.org/vuetify/-/vuetify-1.3.15.tgz#8ef70a931d38093072775fd5a323b7ec882a45c6"
-  integrity sha512-4xpSvvz2OPwf8L9grz4clsgRswvw8xRJKe1xGmUi26gvbXllqPAMtiMt84vwXoGWYCb7dhnj/bWZ6h3Wj8lNLg==
+vuetify@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/vuetify/-/vuetify-1.5.0.tgz#b7334f525b5dd416b01d5e9ddbadad22beeb9d7f"
+  integrity sha512-I2bITwvtkfbUf2hfrKo3Uta4egpv5KzEcKR1czgdyjZdA1nlo96XV2EDu0XetLl6p+AjhOqwlZWbLSezy9ZZmQ==
 
 vuex-class@^0.3.0, vuex-class@^0.3.1:
   version "0.3.1"

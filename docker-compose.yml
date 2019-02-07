@@ -17,6 +17,7 @@ services:
       JWT_SECRET: CHANGE_WHEN_DEPLOY
       MONGODB_ADDRESS: 'mongodb://mongodb'
       REDIS_ADDRESS: 'redis'
+      ADMIN_TOKEN: CHANGE_WHEN_DEPLOY
     ports:
       - "3001:3001"
     restart: always

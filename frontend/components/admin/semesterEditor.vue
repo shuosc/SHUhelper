@@ -1,5 +1,5 @@
 <template>
-    <v-form>
+    <v-form class="indigo">
         <v-container fluid grid-list-md text-xs-center>
             <v-layout row wrap>
                 <v-flex xs12>
@@ -13,6 +13,7 @@
                     开始日期
                     <br>
                     <v-date-picker :allowed-dates="(date) => new Date(date).getDay() === 1" color="primary"
+                                   locale="zh-cn"
                                    v-model="begin"></v-date-picker>
                 </v-flex>
                 <v-flex sm6 xs12>
@@ -21,25 +22,34 @@
                     <v-date-picker
                             :allowed-dates="(date) => (new Date(date).getDay() === 5) && (new Date(date) > new Date(begin))"
                             color="green lighten-1"
-                            v-model="end"></v-date-picker>
+                            locale="zh-cn"
+                            v-model="end"
+                    ></v-date-picker>
                 </v-flex>
                 <v-flex xs12>
-                    <HolidayEditor :data="holiday"
-                                   :key="holiday.name"
-                                   @remove="removeHoliday(index)"
-                                   @save="(holiday) => updateHoliday(index,holiday)"
-                                   v-for="(holiday,index) in holidays"
-                    ></HolidayEditor>
+                    <v-expansion-panel>
+                        <v-expansion-panel-content
+                                :key="holiday.name"
+                                v-for="(holiday,index) in holidays">
+                            <div slot="header">{{holiday.name}}</div>
+                            <HolidayEditor :data="holiday"
+                                           @remove="removeHoliday(index)"
+                                           @save="(holiday) => updateHoliday(index,holiday)"
+                            ></HolidayEditor>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
                 </v-flex>
-                <v-flex xs12>
+                <v-layout row wrap>
+                    <v-flex sm4 xs12>
                     <v-btn @click="addHoliday" block color="primary">添加假期</v-btn>
                 </v-flex>
-                <v-flex xs12>
-                    <v-btn @click="remove" block color="primary">删除</v-btn>
+                    <v-flex sm4 xs6>
+                        <v-btn @click="remove" block color="error">删除</v-btn>
                 </v-flex>
-                <v-flex xs12>
+                    <v-flex sm4 xs6>
                     <v-btn @click="save" block color="primary">确定</v-btn>
                 </v-flex>
+                </v-layout>
             </v-layout>
         </v-container>
     </v-form>
@@ -71,8 +81,8 @@
 
         mounted() {
             this.name = this.data.name;
-            this.begin = this.data.begin.toLocaleDateString().replace('/', '-').replace('/', '-');
-            this.end = this.data.end.toLocaleDateString().replace('/', '-').replace('/', '-');
+            this.begin = this.data.begin.toLocaleDateString().split('/').map(it => it.length < 2 ? '0' + it : it).join('-');
+            this.end = this.data.end.toLocaleDateString().split('/').map(it => it.length < 2 ? '0' + it : it).join('-');
             this.holidays = this.data.holidays;
         }
 
@@ -83,17 +93,17 @@
                     name: this.name,
                     begin: new Date(this.begin),
                     end: new Date(this.end),
-                    holidays: this.data.holidays
+                    holidays: this.holidays
                 }
             });
         }
 
         updateHoliday(index: number, holiday: Holiday | HolidayWithShift) {
-            this.data.holidays[index] = holiday;
+            this.holidays.splice(index, 1, holiday);
         }
 
         addHoliday() {
-            this.data.holidays.push({
+            this.holidays.push({
                 name: "新的假期",
                 begin: new Date(),
                 end: new Date()
@@ -101,7 +111,7 @@
         }
 
         removeHoliday(index: number) {
-            this.data.holidays.splice(index);
+            this.holidays.splice(index);
         }
 
         remove() {

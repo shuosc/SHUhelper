@@ -2,12 +2,6 @@
     <v-app dark>
         <v-navigation-drawer :mini-variant.sync="miniVariant" app fixed v-model="drawer">
             <v-list>
-                <v-list-tile v-if="token === ''">
-                    <v-btn block color="primary" nuxt to="/admin/login">输入token</v-btn>
-                </v-list-tile>
-                <v-list-tile v-else>
-                    token已经输入
-                </v-list-tile>
                 <v-list-tile
                         :key="i"
                         :to="item.to"

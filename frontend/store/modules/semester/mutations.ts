@@ -17,7 +17,7 @@ export const mutations: MutationTree<State> = {
         }
     },
     [Types.SET_SEMESTER]: (state: State, payload: { semester: Semester }) => {
-        state.semesters.map(it => {
+        state.semesters = state.semesters.map(it => {
             if (payload.semester._id === it._id) {
                 return payload.semester;
             }

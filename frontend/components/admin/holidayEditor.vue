@@ -12,18 +12,22 @@
                 <v-flex sm6 xs12>
                     开始日期
                     <br>
-                    <v-date-picker color="primary" v-model="begin"></v-date-picker>
+                    <v-date-picker color="primary" locale="zh-cn" v-model="begin"></v-date-picker>
                 </v-flex>
                 <v-flex sm6 xs12>
                     结束日期
                     <br>
-                    <v-date-picker color="green lighten-1" v-model="end"></v-date-picker>
+                    <v-date-picker color="green lighten-1" locale="zh-cn" v-model="end"></v-date-picker>
                 </v-flex>
                 <v-flex xs12>
-                    <v-flex xs12>
-                        <v-btn @click="remove" block color="red">删除</v-btn>
-                    </v-flex>
-                    <v-btn @click="save(holiday)" block color="primary">确定</v-btn>
+                    <v-layout row wrap>
+                        <v-flex xs6>
+                            <v-btn @click="remove" block color="error">删除</v-btn>
+                        </v-flex>
+                        <v-flex xs6>
+                            <v-btn @click="save(holiday)" block color="primary">确定</v-btn>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
             </v-layout>
         </v-container>
@@ -47,8 +51,8 @@
 
         mounted() {
             this.name = this.data.name;
-            this.begin = this.data.begin.toLocaleDateString().replace('/', '-').replace('/', '-');
-            this.end = this.data.end.toLocaleDateString().replace('/', '-').replace('/', '-');
+            this.begin = this.data.begin.toLocaleDateString().split('/').map(it => it.length < 2 ? '0' + it : it).join('-');
+            this.end = this.data.end.toLocaleDateString().split('/').map(it => it.length < 2 ? '0' + it : it).join('-');
         }
 
         get holiday(): Holiday | HolidayWithShift {

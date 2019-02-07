@@ -1,8 +1,16 @@
 <template>
     <v-card>
-        <SemesterEditor :data="semester" :key="semester.name" v-for="semester in semesters"></SemesterEditor>
+        <v-expansion-panel class="purple">
+            <v-expansion-panel-content
+                    :key="semester.name"
+                    v-for="semester in semesters"
+            >
+                <div slot="header">{{semester.name}}</div>
+                <SemesterEditor :data="semester"></SemesterEditor>
+            </v-expansion-panel-content>
+        </v-expansion-panel>
         <v-flex xs12>
-            <v-btn @click="addSemester" block color="primary">添加学期</v-btn>
+            <v-btn @click="addSemester" block color="primary mt-0">添加学期</v-btn>
         </v-flex>
     </v-card>
 </template>
