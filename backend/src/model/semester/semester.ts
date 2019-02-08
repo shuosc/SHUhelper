@@ -1,7 +1,6 @@
 import {ObjectID} from "mongodb";
 import {mongo, removeId} from "../../infrastructure/mongo";
 import {redis} from "../../infrastructure/redis";
-import * as fs from "fs";
 import {Semester} from "../../../../shared/model/semester/semester";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
 import {just, Maybe} from "../../../../shared/tools/functools/maybe";
@@ -72,22 +71,5 @@ export namespace SemesterRepository {
 
     export async function remove(id: ObjectID) {
         await mongo.collection('semester').deleteOne({_id: id});
-    }
-}
-
-
-/**
- * 这个函数是临时的
- * 在管理员后台准备好之前将会使用json文件来初始化
- */
-export async function initSemesters() {
-    const data = fs.readFileSync('./initialData/semester.json');
-    const json = JSON.parse(data.toString());
-    for (let semester of json['semester']) {
-        if ((await SemesterRepository.getByName(semester['name'])).isNull) {
-            semester = DateTimeService.normalizeDateInObject(semester);
-            semester._id = new ObjectID();
-            await SemesterRepository.save(semester);
-        }
     }
 }

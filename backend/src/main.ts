@@ -5,7 +5,7 @@ import * as KoaLogger from 'koa-logger';
 import * as jwt from 'jsonwebtoken';
 import {adminAuthMiddleware, authMiddleware} from "./middleware/auth";
 import {initDB} from "./infrastructure/mongo";
-import {initSemesters, SemesterRepository} from "./model/semester/semester";
+import {SemesterRepository} from "./model/semester/semester";
 import {CourseRepository} from "./model/course/course";
 import {StudentRepository, StudentService} from "./model/student/student";
 import {ObjectID} from "bson";
@@ -120,7 +120,6 @@ app.use(router.routes());
 
 (async () => {
     await initDB();
-    await initSemesters();
     app.listen(3001);
     console.log('Server running on port 3001');
 })();

@@ -10,14 +10,14 @@
                     ></v-text-field>
                 </v-flex>
                 <v-flex sm6 xs12>
-                    开始日期
+                    开始日期{{new Date(this.begin)}}
                     <br>
                     <v-date-picker :allowed-dates="(date) => new Date(date).getDay() === 1" color="primary"
                                    locale="zh-cn"
                                    v-model="begin"></v-date-picker>
                 </v-flex>
                 <v-flex sm6 xs12>
-                    结束日期
+                    结束日期{{new Date(this.end)}}
                     <br>
                     <v-date-picker
                             :allowed-dates="(date) => (new Date(date).getDay() === 5) && (new Date(date) > new Date(begin))"
@@ -41,14 +41,14 @@
                 </v-flex>
                 <v-layout row wrap>
                     <v-flex sm4 xs12>
-                    <v-btn @click="addHoliday" block color="primary">添加假期</v-btn>
-                </v-flex>
+                        <v-btn @click="addHoliday" block color="primary">添加假期</v-btn>
+                    </v-flex>
                     <v-flex sm4 xs6>
                         <v-btn @click="remove" block color="error">删除</v-btn>
-                </v-flex>
+                    </v-flex>
                     <v-flex sm4 xs6>
-                    <v-btn @click="save" block color="primary">确定</v-btn>
-                </v-flex>
+                        <v-btn @click="save" block color="primary">确定</v-btn>
+                    </v-flex>
                 </v-layout>
             </v-layout>
         </v-container>
