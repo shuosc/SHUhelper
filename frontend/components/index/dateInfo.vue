@@ -76,7 +76,7 @@
         }
     })
     export default class DateInfo extends Vue {
-        now = new Date(2018, 11, 3);
+        now = new Date();
         @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
 
         mounted() {
