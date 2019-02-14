@@ -36,24 +36,22 @@ UI框架使用 [Vuetify](https://vuetifyjs.com) 。
 
 上述依赖的安装请参考互联网上资料和官方文档。
 
+**请注意一定要使用yarn**，npm在某些环境下有不可抗bug
+
 ### 启动后端
 
 进入shared文件夹后：
 
-用yarn或npm安装所有npm包:
+用yarn安装所有npm包:
 ```shell
 yarn
 ```
 
 退出shared，进入backend文件夹后:
 
-首先用yarn或npm安装所有npm包:
+首先用yarn安装所有npm包:
 ```shell
 yarn
-```
-或
-```bash
-npm install
 ```
 
 接着就可以启动了，我们提供了开发服务器启动脚本。
@@ -79,29 +77,19 @@ export REDIS_ADDRESS=redis://localhost:6379
 
 进入shared文件夹后：
 
-用yarn或npm安装所有npm包:
+用yarn安装所有npm包:
 ```shell
 yarn
 ```
 
 退出shared，进入frontend文件夹后:
 
-首先用yarn或npm安装所有npm包:
+首先用yarn安装所有npm包:
 ```shell
 yarn
 ```
-或
-```bash
-npm install
-```
 
 接着：
-
-```bash
-npm run dev
-```
-
-或
 
 ```bash
 yarn dev
