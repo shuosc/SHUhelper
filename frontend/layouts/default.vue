@@ -1,6 +1,6 @@
 <template>
     <v-app dark>
-        <v-navigation-drawer :mini-variant.sync="miniVariant" app fixed v-model="drawer">
+        <v-navigation-drawer :mini-variant="miniVariant" app fixed v-model="drawer">
             <v-list>
                 <v-list-tile avatar class="auth-button">
                     <v-list-tile-avatar>

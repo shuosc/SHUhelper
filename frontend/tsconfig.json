@@ -12,6 +12,8 @@
     "sourceMap": true,
     "baseUrl": "./",
     "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "lib": [
       "dom",
       "es2015"

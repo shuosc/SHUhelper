@@ -2,6 +2,7 @@
     <div>
         <DateInfo class="mt-3"></DateInfo>
         <CourseInfo class="mt-3"></CourseInfo>
+        <busTimeInfo class="mt-3"></busTimeInfo>
     </div>
 </template>
 
@@ -10,11 +11,13 @@
     import Vue from 'vue';
     import DateInfo from "~/components/index/dateInfo.vue";
     import CourseInfo from "~/components/index/courseInfo.vue";
+    import busTimeInfo from "~/components/index/busTimeInfo.vue";
 
     @Component({
         components: {
             DateInfo,
-            CourseInfo
+            CourseInfo,
+            busTimeInfo
         }
     })
     export default class Index extends Vue {
