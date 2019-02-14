@@ -39,8 +39,8 @@
                                     <v-expansion-panel-content >
                                         <div slot="header" >查询所有时刻</div>
                                         <v-list>
-                                            <v-list-tile v-for="item in allBusSchedule" :key="allBusSchedule.indexOf(item)">
-                                                <v-list-tile-action>{{allBusSchedule.indexOf(item)+1}}</v-list-tile-action>
+                                            <v-list-tile v-for="item in showAllBusSchedule" :key="showAllBusSchedule.indexOf(item)">
+                                                <v-list-tile-action>{{showAllBusSchedule.indexOf(item)+1}}</v-list-tile-action>
                                                 <v-list-tile-content>{{item}}</v-list-tile-content>
                                             </v-list-tile>
                                         </v-list>
@@ -75,6 +75,7 @@ export default class busTimeInfo extends Vue{
     endStation:string = "延长校区北门";
     oldStartStation:string = "校本部";
     oldEndStation:string = "延长校区北门";
+    showAllBusSchedule:Array<string> = (<any>schoolBusSchedule)["显示内容"][this.day][this.startStation][this.endStation]
     allBusSchedule:Array<string> = (<any>schoolBusSchedule)[this.day][this.startStation][this.endStation]
     @Watch('selectedStation',{immediate:true,deep:true})
     onSelectedStaionsChanged(){
@@ -86,6 +87,7 @@ export default class busTimeInfo extends Vue{
         this.oldStartStation =this.startStation;
         this.oldEndStation = this.endStation;
         this.allBusSchedule = (<any>schoolBusSchedule)[this.day][this.startStation][this.endStation];
+        this.showAllBusSchedule = (<any>schoolBusSchedule)["显示内容"][this.day][this.startStation][this.endStation];
     }
 
     @Watch('nextBusTimeChanged',{immediate:true,deep:true})
