@@ -13,10 +13,13 @@
                     <v-divider class="mx-3" inset vertical></v-divider>
                     <v-flex xs9>
                         <v-layout column>
-                            <v-flex xs5>
-                                距下一趟校车还有{{nextBusTime}}分钟
+                            <v-flex xs12 v-if="this.nextBusTime!==Infinity">
+                                距下一趟校车还有{{this.nextBusTime}}分钟
                             </v-flex>
-                            <v-flex xs6>
+                            <v-flex xs12 v-else>
+                                今天此趟最后一辆校车已经走了哦,下次请早点来吧!
+                            </v-flex>
+                            <v-flex xs12>
                             <v-radio-group row v-model="day">
                                 <v-radio label="工作日" value="工作日" color="primary"></v-radio>
                                 <v-radio label="节假日" value="节假日" color="primary"></v-radio>
@@ -24,20 +27,20 @@
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
-                            <v-flex xs7>
+                            <v-flex xs12>
                                 <v-select label="起始" :items="allStations" v-model="startStation"> 
                                 </v-select>
                             </v-flex>
-                            <v-flex xs7>
+                            <v-flex xs12>
                                 <v-select label="终点" :items="allStations" v-model="endStation">
                                 </v-select>
                             </v-flex>
                         </v-layout>
                         <v-layout row>
                             <v-flex xs12>
-                                <v-expansion-panel dark>
+                                <v-expansion-panel>
                                     <v-expansion-panel-content >
-                                        <div slot="header" >查询所有时刻</div>
+                                        <div slot="header" >查询校车时刻表</div>
                                         <v-list>
                                             <v-list-tile v-for="item in showAllBusSchedule" :key="showAllBusSchedule.indexOf(item)">
                                                 <v-list-tile-action>{{showAllBusSchedule.indexOf(item)+1}}</v-list-tile-action>
@@ -92,6 +95,7 @@ export default class busTimeInfo extends Vue{
 
     @Watch('nextBusTimeChanged',{immediate:true,deep:true})
     onNextBusTimeChangedChanged(){
+        //判断下一辆车还有多少时间
         this.nextBusTime=Infinity;
         this.allBusSchedule.forEach(element => {
             let hours:string;
@@ -105,18 +109,10 @@ export default class busTimeInfo extends Vue{
         });
     }
 
-
     mounted() {
         setInterval(() => {
             this.now = new Date();
         }, 1000);
-    }
-
-    get caculateNowTime() {
-        let thisTime = this.now;
-        let thisHour:string = thisTime.getHours()<10 ? "0".concat(thisTime.getHours().toString()) : "".concat(thisTime.getHours().toString());
-        let thisMinutes:string = thisTime.getMinutes().toString();
-        return thisHour.concat(":").concat(thisMinutes)
     }
 
     get allStations(): Array<string> {
@@ -134,6 +130,5 @@ export default class busTimeInfo extends Vue{
 </script>
 
 <style>
-
 </style>
 
