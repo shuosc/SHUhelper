@@ -13,7 +13,6 @@
                     <v-divider class="mx-3" inset vertical></v-divider>
                     <v-flex xs9>
                         <v-layout row wrap>
-                            <v-flex xs12>{{now.toLocaleString()}}</v-flex>
                             <v-flex class="pa-1" sm6 xs12>
                                 <v-select :items="CampusRepository.all"
                                           item-text="name"
@@ -43,14 +42,14 @@
                                         </v-progress-circular>
                                     </v-flex>
                                     <v-flex sm11 xs10>
-                                        距下一趟校车还有{{Math.floor(minutesToNextBus.value / 60) !== 0 ?
+                                        此线路下一班校车还有{{Math.floor(minutesToNextBus.value / 60) !== 0 ?
                                         `${Math.floor(minutesToNextBus.value / 60)}小时`:''}}{{minutesToNextBus.value %
                                         60}}分钟
                                     </v-flex>
                                 </v-layout>
                             </v-flex>
                             <v-flex v-else xs12>
-                                今天此趟最后一辆校车已经走了哦,下次请早点来吧！
+                                今天此线路最后一辆校车已经走了哦,下次请早点来吧！
                             </v-flex>
                             <v-flex xs12>
                                 <v-expansion-panel expand v-model="expanded">
