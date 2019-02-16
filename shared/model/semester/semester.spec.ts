@@ -53,6 +53,6 @@ describe('semester测试', async () => {
             SemesterService.getWeekIndex(semester, createDate(2019, 1, 2)));
     });
     it('能获取总的工作日数量', async () => {
-        expect(SemesterService.getTotalWorkingDayCount(semester)).equals(58);
+        expect(SemesterService.getTotalWorkingDayCount(semester)).equals(59);
     });
 });

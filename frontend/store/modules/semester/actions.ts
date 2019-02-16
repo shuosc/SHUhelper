@@ -18,14 +18,14 @@ export const actions: Actions<State, RootState> = {
     fetchCurrentSemester: async function ({commit}) {
         let data = await (this.$axios as any).$get('/api/semester/current');
         commit(Types.ADD_SEMESTER, {
-            data: DateTimeService.normalizeDateInObject(data)
+            data: DateTimeService.normalizeDateTimeInObject(data)
         });
     },
     fetchSemesterIfNecessary: async function ({commit, state}, payload: { id: string }) {
         if (state.semesters.find(it => it._id === payload.id) === undefined) {
             let data = await (this.$axios as any).$get('/api/semester/' + payload.id);
             commit(Types.ADD_SEMESTER, {
-                data: DateTimeService.normalizeDateInObject(data)
+                data: DateTimeService.normalizeDateTimeInObject(data)
             });
         }
     },
@@ -33,7 +33,7 @@ export const actions: Actions<State, RootState> = {
         let data = await (this.$axios as any).$get('/api/semesters');
         data.map((semester: any) => {
             commit(Types.ADD_SEMESTER, {
-                data: DateTimeService.normalizeDateInObject(semester)
+                data: DateTimeService.normalizeDateTimeInObject(semester)
             });
         });
     },
@@ -49,7 +49,7 @@ export const actions: Actions<State, RootState> = {
             }
         });
         commit(Types.ADD_SEMESTER, {
-            data: DateTimeService.normalizeDateInObject(result.result)
+            data: DateTimeService.normalizeDateTimeInObject(result.result)
         });
     },
     putSemester: async function ({commit, state, rootState}, payload: { semester: Semester }) {

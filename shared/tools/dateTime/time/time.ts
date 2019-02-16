@@ -1,9 +1,23 @@
+import {just, Maybe} from "../../functools/maybe";
+
 export namespace TimeService {
     /**
      * 创建一个时间对象
      */
     export function createTime(hour: number, minute: number, second: number = 0): Date {
         return new Date(0, 0, 0, hour, minute, second);
+    }
+
+    export function createTimeFromString(str: string): Maybe<Date> {
+        const toNumber = str.split(':').map(it => parseInt(it));
+        if ((toNumber.length !== 2 && toNumber.length !== 3) || toNumber.some(it => isNaN(it))) {
+            return new Maybe<Date>(null);
+        }
+        if (toNumber.length === 2) {
+            return just(createTime(toNumber[0], toNumber[1]));
+        } else {
+            return just(createTime(toNumber[0], toNumber[1], toNumber[2]));
+        }
     }
 
     /**

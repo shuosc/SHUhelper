@@ -69,7 +69,7 @@ router
             const id = new ObjectID();
             await SemesterRepository.save({
                 _id: id,
-                ...DateTimeService.normalizeDateInObject({
+                ...DateTimeService.normalizeDateTimeInObject({
                     begin: context.request.body.begin,
                     end: context.request.body.end,
                     holidays: context.request.body.holidays,
@@ -88,7 +88,7 @@ router
         if (context.request.admin) {
             await SemesterRepository.save({
                 _id: new ObjectID(context.params.id),
-                ...DateTimeService.normalizeDateInObject({
+                ...DateTimeService.normalizeDateTimeInObject({
                     begin: context.request.body.begin,
                     end: context.request.body.end,
                     holidays: context.request.body.holidays,

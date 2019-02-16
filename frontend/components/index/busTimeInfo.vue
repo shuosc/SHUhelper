@@ -12,41 +12,68 @@
                     </v-flex>
                     <v-divider class="mx-3" inset vertical></v-divider>
                     <v-flex xs9>
-                        <v-layout column>
-                            <v-flex xs12 v-if="this.nextBusTime!==Infinity">
-                                距下一趟校车还有{{this.nextBusTime}}分钟
-                            </v-flex>
-                            <v-flex xs12 v-else>
-                                今天此趟最后一辆校车已经走了哦,下次请早点来吧!
-                            </v-flex>
-                            <v-flex xs12>
-                            <v-radio-group row v-model="day">
-                                <v-radio label="工作日" value="工作日" color="primary"></v-radio>
-                                <v-radio label="节假日" value="节假日" color="primary"></v-radio>
-                            </v-radio-group>
-                            </v-flex>
-                        </v-layout>
                         <v-layout row wrap>
-                            <v-flex xs12>
-                                <v-select label="起始" :items="allStations" v-model="startStation"> 
+                            <v-flex xs12>{{now.toLocaleString()}}</v-flex>
+                            <v-flex class="pa-1" sm6 xs12>
+                                <v-select :items="CampusRepository.all"
+                                          item-text="name"
+                                          item-value="id"
+                                          label="起始"
+                                          v-model="fromCampusId">
                                 </v-select>
                             </v-flex>
-                            <v-flex xs12>
-                                <v-select label="终点" :items="allStations" v-model="endStation">
+                            <v-flex class="pa-1" sm6 xs12>
+                                <v-select :items="CampusRepository.all"
+                                          item-text="name"
+                                          item-value="id"
+                                          label="终点"
+                                          v-model="toCampusId">
                                 </v-select>
                             </v-flex>
-                        </v-layout>
-                        <v-layout row>
+                            <v-flex v-if="!nextBus.isNull" xs12>
+                                <v-layout align-center class="mb-2" row wrap>
+                                    <v-flex sm1 v-if="!minutesFromLastToNextBus.isNull" xs2>
+                                        <v-progress-circular
+                                                :size="35"
+                                                :value="toPercent(minutesToNextBus.value,minutesFromLastToNextBus.value)"
+                                                :width="2"
+                                                color="green">
+                                            {{Math.floor(minutesToNextBus.value / 60)}}:{{minutesToNextBus.value %
+                                            60<10?'0':''}}{{minutesToNextBus.value % 60}}
+                                        </v-progress-circular>
+                                    </v-flex>
+                                    <v-flex sm11 xs10>
+                                        距下一趟校车还有{{Math.floor(minutesToNextBus.value / 60) !== 0 ?
+                                        `${Math.floor(minutesToNextBus.value / 60)}小时`:''}}{{minutesToNextBus.value %
+                                        60}}分钟
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+                            <v-flex v-else xs12>
+                                今天此趟最后一辆校车已经走了哦,下次请早点来吧！
+                            </v-flex>
                             <v-flex xs12>
-                                <v-expansion-panel>
-                                    <v-expansion-panel-content >
-                                        <div slot="header" >查询校车时刻表</div>
-                                        <v-list>
-                                            <v-list-tile v-for="item in showAllBusSchedule" :key="showAllBusSchedule.indexOf(item)">
-                                                <v-list-tile-action>{{showAllBusSchedule.indexOf(item)+1}}</v-list-tile-action>
-                                                <v-list-tile-content>{{item}}</v-list-tile-content>
-                                            </v-list-tile>
-                                        </v-list>
+                                <v-expansion-panel expand v-model="expanded">
+                                    <v-expansion-panel-content>
+                                        <div slot="header" v-if="expanded[0]">收起</div>
+                                        <div slot="header" v-else>查看该线路所有班次</div>
+                                        <v-radio-group class="ml-3" row v-model="schoolBusRoutineType">
+                                            <v-radio :value="SchoolBusRoutineType.WorkingDay" color="primary"
+                                                     label="工作日"></v-radio>
+                                            <v-radio :value="SchoolBusRoutineType.NonWorkingDay" color="primary"
+                                                     label="节假日"></v-radio>
+                                        </v-radio-group>
+                                        <v-data-table
+                                                :headers="[{ text: '班次', value: 'index' },{ text: '时间', value: 'time' }]"
+                                                :items="timeTable.map((it,index) => {return {
+                                        index:index+1,
+                                        time:it.toTimeString().slice(0,5)
+                                        }})" class="elevation-1">
+                                            <template slot="items" slot-scope="props">
+                                                <td>{{ props.item.index }}</td>
+                                                <td>{{ props.item.time }}</td>
+                                            </template>
+                                        </v-data-table>
                                     </v-expansion-panel-content>
                                 </v-expansion-panel>
                             </v-flex>
@@ -59,76 +86,102 @@
 </template>
 
 <script lang="ts">
-import {avatarSize} from "~/tools/avatarSize";
-import schoolBusSchedule from "~/store/modules/busSchedule/schoolBusSchedule.json";
-import Component from "nuxt-class-component";
-import {Watch, Vue} from 'vue-property-decorator';
+    import {avatarSize} from "~/tools/avatarSize";
+    import Component, {namespace} from "nuxt-class-component";
+    import {Vue, Watch} from 'vue-property-decorator';
+    import {Campus, CampusRepository} from "../../../shared/model/campus/campus";
+    import {
+        SchoolBus,
+        SchoolBusRepository,
+        SchoolBusRoutineType,
+        SchoolBusService
+    } from "../../../shared/model/schoolBus/schoolBus"
+    import * as semesterModule from '~/store/modules/semester';
+    import {just, Maybe} from "../../../shared/tools/functools/maybe";
+    import {Semester} from "../../../shared/model/semester/semester";
+    import {TimeService} from "../../../shared/tools/dateTime/time/time";
+    import * as _ from "lodash";
+    import {toPercent} from "~/tools/toPercent";
 
-@Component({
-    methods:{
-        avatarSize
-    }
-})
+    const SemesterNamespace = namespace(semesterModule.name);
 
-export default class busTimeInfo extends Vue{
-    now = new Date();
-    day:string = "工作日";
-    nextBusTime:number = Infinity;
-    startStation:string ="校本部";
-    endStation:string = "延长校区北门";
-    oldStartStation:string = "校本部";
-    oldEndStation:string = "延长校区北门";
-    showAllBusSchedule:Array<string> = (<any>schoolBusSchedule)["显示内容"][this.day][this.startStation][this.endStation]
-    allBusSchedule:Array<string> = (<any>schoolBusSchedule)[this.day][this.startStation][this.endStation]
-    @Watch('selectedStation',{immediate:true,deep:true})
-    onSelectedStaionsChanged(){
-        //判断起始和终点站是否相同
-        if(this.startStation === this.endStation) {
-            this.startStation =this.oldEndStation;
-            this.endStation =this.oldStartStation;
+    @Component({
+        methods: {
+            avatarSize,
+            toPercent
         }
-        this.oldStartStation =this.startStation;
-        this.oldEndStation = this.endStation;
-        this.allBusSchedule = (<any>schoolBusSchedule)[this.day][this.startStation][this.endStation];
-        this.showAllBusSchedule = (<any>schoolBusSchedule)["显示内容"][this.day][this.startStation][this.endStation];
-    }
+    })
+    export default class BusTimeInfo extends Vue {
+        SchoolBusRoutineType = SchoolBusRoutineType;
+        SchoolBusRepository = SchoolBusRepository;
+        CampusRepository = CampusRepository;
+        now = new Date();
+        schoolBusRoutineType = SchoolBusRoutineType.WorkingDay;
+        fromCampusId: number = 0;
+        toCampusId: number = 1;
+        expanded = [false];
+        @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
 
-    @Watch('nextBusTimeChanged',{immediate:true,deep:true})
-    onNextBusTimeChangedChanged(){
-        //判断下一辆车还有多少时间
-        this.nextBusTime=Infinity;
-        this.allBusSchedule.forEach(element => {
-            let hours:string;
-            let minutes:string;
-            [hours,minutes]=element.split(":");
-            let totalMinutes:number = parseInt(hours)*60+parseInt(minutes);
-            let nowMinutes:number = this.now.getHours()*60+this.now.getMinutes();
-            if(totalMinutes - nowMinutes < this.nextBusTime && totalMinutes - nowMinutes>=0) {
-                this.nextBusTime = totalMinutes - nowMinutes;
+
+        mounted() {
+            setInterval(() => {
+                this.now = new Date();
+            }, 1000);
+        }
+
+        get timeTable(): Array<Date> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
+            const toCampus = CampusRepository.getById(this.toCampusId).value as Campus;
+            return SchoolBusRepository.getByFromTo(fromCampus, toCampus, this.schoolBusRoutineType)
+                .map((schoolBus: SchoolBus) => SchoolBusService.startTimeInCampus(schoolBus, fromCampus).value as Date);
+        }
+
+        @Watch('fromCampusId', {immediate: true, deep: true})
+        onFromCampusId() {
+            if (this.fromCampusId === this.toCampusId) {
+                this.toCampusId = (this.fromCampusId + 1) % CampusRepository.all.length;
             }
-        });
-    }
+        }
 
-    mounted() {
-        setInterval(() => {
-            this.now = new Date();
-        }, 1000);
-    }
+        @Watch('toCampusId', {immediate: true, deep: true})
+        onToCampusId() {
+            if (this.fromCampusId === this.toCampusId) {
+                this.fromCampusId = (this.toCampusId + 1) % CampusRepository.all.length;
+            }
+        }
 
-    get allStations(): Array<string> {
-        const stations = ["校本部", "延长校区北门", "嘉定校区南门"];
-        return stations;
-    }
-    get selectedStation():Array<string> {
-        return [this.startStation,this.endStation,this.day]
-    }
-    get nextBusTimeChanged():Array<any>{
-        return [this.startStation,this.endStation,this.day,this.now]
-    }
+        get nextBus(): Maybe<SchoolBus> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
+            const toCampus = CampusRepository.getById(this.toCampusId).value as Campus;
+            const currentSemester = this.getSemesterForDate(this.now);
+            return currentSemester.flatMap(_.partial(SchoolBusRepository.getByFromToAtDateTime, fromCampus, toCampus, this.now));
+        }
 
-}
+        get lastBus(): Maybe<SchoolBus> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
+            const toCampus = CampusRepository.getById(this.toCampusId).value as Campus;
+            const currentSemester = this.getSemesterForDate(this.now);
+            return currentSemester.flatMap(_.partial(SchoolBusRepository.getLastByFromToAtDateTime, fromCampus, toCampus, this.now));
+        }
+
+        get minutesToNextBus(): Maybe<number> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
+            const nextBusTime: Maybe<Date> = this.nextBus.flatMap(_.partial(SchoolBusService.startTimeInCampus, _, fromCampus));
+            const timestampDifference = nextBusTime.map(_.partial(TimeService.timeDistance, this.now));
+            return timestampDifference.map(TimeService.timestampDifferenceToMinutes)
+        }
+
+        get minutesFromLastToNextBus(): Maybe<number> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
+            const lastBusTime: Maybe<Date> = this.lastBus.flatMap(_.partial(SchoolBusService.startTimeInCampus, _, fromCampus));
+            const nextBusTime: Maybe<Date> = this.nextBus.flatMap(_.partial(SchoolBusService.startTimeInCampus, _, fromCampus));
+            let timestampDifference;
+            if (lastBusTime.isNull || nextBusTime.isNull) {
+                timestampDifference = new Maybe<number>(null);
+            } else {
+                timestampDifference = just(TimeService.timeDistance(lastBusTime.value as Date, nextBusTime.value as Date));
+            }
+            return timestampDifference.map(TimeService.timestampDifferenceToMinutes)
+        }
+    }
 </script>
-
-<style>
-</style>
-

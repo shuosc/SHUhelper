@@ -46,6 +46,10 @@ export namespace SemesterService {
         return getSchoolDay(semester, date) === HOLIDAY;
     }
 
+    export function isWorkingDay(semester: Semester, date: Date): boolean {
+        return getSchoolDay(semester, date) !== 0 && getSchoolDay(semester, date) !== 6 && getSchoolDay(semester, date) !== HOLIDAY;
+    }
+
     export function getHolidayForDate(semester: Semester, date: Date): Maybe<Holiday | HolidayWithShift> {
         const isDateIn = _.partial(DateRangeService.isDateIn, _, date);
         return find<Holiday | HolidayWithShift>(semester.holidays, isDateIn);
@@ -80,7 +84,8 @@ export namespace SemesterService {
             }
             currentMonday = nextMonday;
         }
-        throw Error("Should never reached here")
+        return -1;
+        // throw Error("Should never reached here")
     }
 
     /**
@@ -89,7 +94,7 @@ export namespace SemesterService {
     export function getWorkingDayCount(semester: Semester, from: Date, to: Date): number {
         let result = 0;
         for (let day = clone(from); !DateService.isSameDate(day, to); day.setDate(day.getDate() + 1)) {
-            if (!(isHoliday(semester, day) || day.getDay() === 0 || day.getDay() === 6)) {
+            if (isWorkingDay(semester, day)) {
                 ++result;
             }
         }
