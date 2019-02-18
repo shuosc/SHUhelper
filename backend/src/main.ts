@@ -19,12 +19,24 @@ app.use(KoaLogger());
 app.use(authMiddleware);
 app.use(adminAuthMiddleware);
 
+async function saveSemesterInContext(id, context) {
+    await SemesterRepository.save({
+        _id: id,
+        ...DateTimeService.normalizeDateTimeInObject({
+            begin: context.request.body.begin,
+            end: context.request.body.end,
+            holidays: context.request.body.holidays,
+            name: context.request.body.name
+        })
+    });
+}
+
 router
     .post('/auth/login', async (context) => {
         const username = context.request.body['username'];
         const password = context.request.body['password'];
         const theStudent = await StudentService.login(username, password);
-        if (theStudent === null) {
+        if (theStudent.isNull) {
             context.status = 403;
             return;
         }
@@ -67,15 +79,7 @@ router
     .post('/api/semester/', async (context) => {
         if (context.request.admin) {
             const id = new ObjectID();
-            await SemesterRepository.save({
-                _id: id,
-                ...DateTimeService.normalizeDateTimeInObject({
-                    begin: context.request.body.begin,
-                    end: context.request.body.end,
-                    holidays: context.request.body.holidays,
-                    name: context.request.body.name
-                })
-            });
+            await saveSemesterInContext(id, context);
             context.body = {
                 success: true,
                 result: (await SemesterRepository.getById(id)).value
@@ -86,15 +90,8 @@ router
     })
     .put('/api/semester/:id', async (context) => {
         if (context.request.admin) {
-            await SemesterRepository.save({
-                _id: new ObjectID(context.params.id),
-                ...DateTimeService.normalizeDateTimeInObject({
-                    begin: context.request.body.begin,
-                    end: context.request.body.end,
-                    holidays: context.request.body.holidays,
-                    name: context.request.body.name
-                })
-            });
+            const id = new ObjectID(context.params.id);
+            await saveSemesterInContext(id, context);
             context.body = {
                 success: true
             }

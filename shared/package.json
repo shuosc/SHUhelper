@@ -10,7 +10,7 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "date-normalizer": "^1.0.6",
+    "date-normalizer": "^1.1.0",
     "lodash": "^4.17.11"
   },
   "scripts": {

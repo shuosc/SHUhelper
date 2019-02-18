@@ -1,14 +1,12 @@
 import {Course} from "../../../../shared/model/course/course";
-import {redis} from "../../infrastructure/redis";
+import {redis, RedisService} from "../../infrastructure/redis";
 import {mongo, removeId} from "../../infrastructure/mongo";
 import {ObjectID} from "bson";
 import {just, Maybe} from "../../../../shared/tools/functools/maybe";
+import * as _ from "lodash";
 
 export namespace CourseRepository {
-    async function cache(object: Course) {
-        let data = JSON.stringify(object);
-        await redis.set('course_' + object.id, data);
-    }
+    const cache = _.partial(RedisService.cache, 'course');
 
     export async function getById(id: string): Promise<Maybe<Course>> {
         let objectInBuffer = just(await redis.get('course_' + id));

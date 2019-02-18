@@ -1,7 +1,8 @@
 import {Teacher as SharedTeacher} from "../../../../shared/model/teacher/teacher";
 import {ObjectID} from "mongodb";
-import {redis} from "../../infrastructure/redis";
+import {redis, RedisService} from "../../infrastructure/redis";
 import {mongo, removeId} from "../../infrastructure/mongo";
+import * as _ from "lodash";
 
 export interface Teacher extends SharedTeacher {
     _id: ObjectID;
@@ -9,10 +10,7 @@ export interface Teacher extends SharedTeacher {
 
 
 export namespace TeacherRepository {
-    async function cache(object: Teacher) {
-        let data = JSON.stringify(object);
-        await redis.set('teacher_' + object._id, data);
-    }
+    const cache = _.partial(RedisService.cache, 'course');
 
     export async function getById(id: string | ObjectID): Promise<Teacher | null> {
         let objectId = new ObjectID(id);

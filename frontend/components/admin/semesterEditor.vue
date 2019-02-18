@@ -10,14 +10,14 @@
                     ></v-text-field>
                 </v-flex>
                 <v-flex sm6 xs12>
-                    开始日期{{new Date(this.begin)}}
+                    开始日期
                     <br>
                     <v-date-picker :allowed-dates="(date) => new Date(date).getDay() === 1" color="primary"
                                    locale="zh-cn"
                                    v-model="begin"></v-date-picker>
                 </v-flex>
                 <v-flex sm6 xs12>
-                    结束日期{{new Date(this.end)}}
+                    结束日期
                     <br>
                     <v-date-picker
                             :allowed-dates="(date) => (new Date(date).getDay() === 5) && (new Date(date) > new Date(begin))"

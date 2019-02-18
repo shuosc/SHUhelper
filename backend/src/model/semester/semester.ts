@@ -1,6 +1,6 @@
 import {ObjectID} from "mongodb";
 import {mongo, removeId} from "../../infrastructure/mongo";
-import {redis} from "../../infrastructure/redis";
+import {redis, RedisService} from "../../infrastructure/redis";
 import {Semester} from "../../../../shared/model/semester/semester";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
 import {just, Maybe} from "../../../../shared/tools/functools/maybe";
@@ -11,10 +11,7 @@ import {DateTimeService} from "../../../../shared/tools/dateTime/dateTime";
 export namespace SemesterRepository {
     let currentSemester: Maybe<Semester> = just(null);
 
-    async function cache(object: Semester) {
-        let data = JSON.stringify(object);
-        await redis.set('semester_' + object._id, data);
-    }
+    const cache = _.partial(RedisService.cache, 'semester');
 
     export async function getById(id: ObjectID | string): Promise<Maybe<Semester>> {
         if (typeof id === 'string') {
@@ -25,8 +22,6 @@ export namespace SemesterRepository {
             return objectInBuffer.map(JSON.parse);
         }
         const semester: Maybe<Semester> = just(await mongo.collection('semester').findOne({_id: id}));
-        if (semester === null)
-            return null;
         semester.map(cache);
         return semester;
     }

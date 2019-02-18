@@ -1,7 +1,7 @@
 import * as dateNormalizer from "date-normalizer";
 
 export namespace DateTimeService {
-    export const normalizeDateTimeInObject = (dateNormalizer as any)['date-normalizer'].normalizeDateInObject;
+    export const normalizeDateTimeInObject = ((dateNormalizer as any)['date-normalizer'] as any).normalizeDateTimeInObject as (arg: any) => any;
 
     /**
      * 合并日期和时间，合并结果有 @param date 的日期 和 @param time 的时间

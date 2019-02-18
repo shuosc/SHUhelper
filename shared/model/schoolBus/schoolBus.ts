@@ -88,13 +88,19 @@ export namespace SchoolBusRepository {
             });
     }
 
-    function getNextByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBusRoutine> {
+    type FindFunction = (routines: Array<SchoolBusRoutine>, pred: (bus: SchoolBusRoutine) => boolean) => Maybe<SchoolBusRoutine>
+
+    function findByFromToAtTime(findFunction: FindFunction, from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType) {
         const routinesWithRightFromTo = getByFromTo(from, to, type);
-        return find(routinesWithRightFromTo, (bus: SchoolBusRoutine) => {
+        return findFunction(routinesWithRightFromTo, (bus: SchoolBusRoutine) => {
             const fromStartTime = SchoolBusService.startTimeInCampus(bus, from);
             assert(!fromStartTime.isNull);
             return TimeService.earlierThan(time, fromStartTime.value as Date);
         });
+    }
+
+    function getNextByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBusRoutine> {
+        return findByFromToAtTime(find, from, to, time, type);
     }
 
     /**
@@ -110,12 +116,7 @@ export namespace SchoolBusRepository {
     }
 
     function getLastByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBusRoutine> {
-        const routinesWithRightFromTo = getByFromTo(from, to, type);
-        return findBefore(routinesWithRightFromTo, (bus: SchoolBusRoutine) => {
-            const fromStartTime = SchoolBusService.startTimeInCampus(bus, from);
-            assert(!fromStartTime.isNull);
-            return TimeService.earlierThan(time, fromStartTime.value as Date);
-        });
+        return findByFromToAtTime(findBefore, from, to, time, type);
     }
 
     /**
