@@ -1,5 +1,6 @@
-import {just, Maybe} from "../../tools/functools/maybe";
+import {Maybe} from "../../tools/functools/maybe";
 import {TimeService} from "../../tools/dateTime/time/time";
+import {find} from "../../tools/functools/array/array";
 
 /**
  * 日期区间类型
@@ -21,12 +22,10 @@ export namespace DateRangeService {
      * 求 @arg dateRanges 之中，开始在 @arg date 之后的中的最先的一个
      */
     export function nextFromDate<T extends DateRange>(dateRanges: Array<T>, date: Date): Maybe<T> {
-        const result = dateRanges
+        return find(dateRanges
             .sort((first: DateRange, second: DateRange) => {
                 return first.begin.getTime() - second.begin.getTime();
-            })
-            .find((it: DateRange) => it.begin > date);
-        return just(result);
+            }), (it: T) => it.begin > date);
     }
 
     /**

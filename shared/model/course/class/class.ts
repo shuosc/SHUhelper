@@ -1,7 +1,7 @@
 import {Semester, SemesterService} from "../../semester/semester";
 import {assert} from "../../../tools/assert";
 import {DateRangeService} from "../../dateRange/dateRange";
-import {Maybe} from "../../../tools/functools/maybe";
+import {just, Maybe} from "../../../tools/functools/maybe";
 import {DayService} from "../../../tools/dateTime/day/day";
 
 /**
@@ -52,8 +52,7 @@ export namespace ClassService {
      */
     export function fromString(str: string, courseId: any): Maybe<Class> {
         const regex = /([一二三四五六日])(\d+)-(\d+)([^一二三四五]*)/;
-        let result = new Maybe(regex.exec(str));
-        return result.flatMap((infoColumns =>
+        return just(regex.exec(str)).flatMap((infoColumns =>
             DayService.dayChineseToNumber(infoColumns[1]).map(day => {
                 return {
                     day: day,

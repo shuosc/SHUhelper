@@ -290,10 +290,10 @@ cross-spawn@^5.0.1:
     shebang-command "^1.2.0"
     which "^1.2.9"
 
-date-normalizer@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/date-normalizer/-/date-normalizer-1.0.6.tgz#e209a05715dfbaa22c7e09629c38003c5eb0905f"
-  integrity sha512-Qb5vgYYK778W62IA7whjsJ7Cf52i/Jqcuslwvma4thh83niDnK6v201wPV83WVIm4QzaB7/kDS/PZmD5iMsYrA==
+date-normalizer@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.npmjs.org/date-normalizer/-/date-normalizer-1.0.12.tgz#999670ff523ef01b9e624f777ff62fb7276dfc76"
+  integrity sha512-H54EU6Ow6N1DL1Zr1aRpMgfprduZmvF31Df1iHRVexIaaZhtMMQ0wjktr/aKCLMMdaZAbue8L+HP7h4vXyjorA==
 
 debug-log@^1.0.1:
   version "1.0.1"

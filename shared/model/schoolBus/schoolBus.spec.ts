@@ -1,6 +1,6 @@
 import 'mocha';
 import {expect} from 'chai';
-import {SchoolBus, SchoolBusRepository, SchoolBusRoutineType, SchoolBusService} from "./schoolBus";
+import {SchoolBusRepository, SchoolBusRoutine, SchoolBusRoutineType, SchoolBusService} from "./schoolBus";
 import {CampusRepository} from "../campus/campus";
 import {Semester} from "../semester/semester";
 import {DateService} from "../../tools/dateTime/date/date";
@@ -38,7 +38,7 @@ describe('schoolBus测试', async () => {
     it('能打出时刻表', async () => {
         (function testCase1() {
             const timeTable = SchoolBusRepository.getByFromTo(baoshanCampus, yanchangCampus, SchoolBusRoutineType.WorkingDay)
-                .map((schoolBus: SchoolBus) => {
+                .map((schoolBus: SchoolBusRoutine) => {
                     return SchoolBusService.startTimeInCampus(schoolBus, baoshanCampus).value;
                 })
                 .map((it: Date) => it.toTimeString().slice(0, 5));
@@ -51,7 +51,7 @@ describe('schoolBus测试', async () => {
         })();
         (function testCase2() {
             const timeTable = SchoolBusRepository.getByFromTo(yanchangCampus, baoshanCampus, SchoolBusRoutineType.WorkingDay)
-                .map((schoolBus: SchoolBus) => {
+                .map((schoolBus: SchoolBusRoutine) => {
                     return SchoolBusService.startTimeInCampus(schoolBus, yanchangCampus).value;
                 })
                 .map((it: Date) => it.toTimeString().slice(0, 5));
@@ -64,7 +64,7 @@ describe('schoolBus测试', async () => {
         })();
         (function testCase3() {
             const timeTable = SchoolBusRepository.getByFromTo(yanchangCampus, jiadinCampus, SchoolBusRoutineType.WorkingDay)
-                .map((schoolBus: SchoolBus) => {
+                .map((schoolBus: SchoolBusRoutine) => {
                     return SchoolBusService.startTimeInCampus(schoolBus, yanchangCampus).value;
                 })
                 .map((it: Date) => it.toTimeString().slice(0, 5));
@@ -80,7 +80,7 @@ describe('schoolBus测试', async () => {
     it('能获取某一时间从某个校区到另一校区的校车', async () => {
         (function testCase1() {
             const dateTime = mergeDateTime(createDate(2018, 12, 3), createTime(6, 50));
-            const bus = SchoolBusRepository.getByFromToAtDateTime(baoshanCampus, yanchangCampus, dateTime, semester);
+            const bus = SchoolBusRepository.getNextByFromTo(baoshanCampus, yanchangCampus, dateTime, semester);
             expect(bus.isNull).false;
             expect(bus.value[0].startTime.toTimeString()).equals(createTime(7, 0).toTimeString());
         })()

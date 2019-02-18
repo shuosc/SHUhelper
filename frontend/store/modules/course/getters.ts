@@ -2,7 +2,7 @@ import {GetterTree} from "vuex";
 import {RootState} from "~/store";
 import {State} from "~/store/modules/course/state";
 import {Course, CourseService} from "../../../../shared/model/course/course";
-import {find} from "../../../../shared/tools/functools/maybe";
+import {find} from "../../../../shared/tools/functools/array/array";
 import {Semester} from "../../../../shared/model/semester/semester";
 import {ClassService} from "../../../../shared/model/course/class/class";
 import extractClasses = CourseService.extractClasses;

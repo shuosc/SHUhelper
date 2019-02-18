@@ -8,7 +8,10 @@ export namespace TimeService {
         return new Date(0, 0, 0, hour, minute, second);
     }
 
-    export function createTimeFromString(str: string): Maybe<Date> {
+    /**
+     * 从形如 hh:mm:ss 格式的字符串中构造出时间
+     */
+    export function createTimeFromHourMinuteString(str: string): Maybe<Date> {
         const toNumber = str.split(':').map(it => parseInt(it));
         if ((toNumber.length !== 2 && toNumber.length !== 3) || toNumber.some(it => isNaN(it))) {
             return new Maybe<Date>(null);
@@ -18,6 +21,24 @@ export namespace TimeService {
         } else {
             return just(createTime(toNumber[0], toNumber[1], toNumber[2]));
         }
+    }
+
+    function to2DigitsString(n: number): string {
+        return n < 10 ? `0${n}` : `${n}`;
+    }
+
+    /**
+     * 将时间格式化为 hh点mm分ss秒 的格式
+     */
+    export function toChineseString(date: Date): string {
+        return `${date.getHours()}点${date.getMinutes()}分${date.getSeconds()}秒`
+    }
+
+    /**
+     * 将时间格式化为 hh:mm 的格式
+     */
+    export function toHourMinuteString(date: Date) {
+        return date.toTimeString().slice(0, 5);
     }
 
     /**
@@ -57,6 +78,7 @@ export namespace TimeService {
         return nowTime.getTime() >= targetTime.getTime();
     }
 
+    /// 将单位为毫秒的时间差转化为各种不同单位
     export function timestampDifferenceToSeconds(timestampDifference: number): number {
         return Math.round(timestampDifference / 1000);
     }
@@ -67,5 +89,22 @@ export namespace TimeService {
 
     export function timestampDifferenceToDay(timestampDifference: number): number {
         return Math.round(timestampDifference / 1000 / 60 / 60 / 24);
+    }
+
+    /**
+     * 将单位为毫秒的时间差格式化为 hh:mm 的格式
+     */
+    export function timestampDifferenceToHourMinutesString(timestampDifference: number): string {
+        const minuteDifference = timestampDifferenceToMinutes(timestampDifference);
+        return `${Math.floor(minuteDifference / 60)}:${to2DigitsString(minuteDifference % 60)}`;
+    }
+
+    /**
+     * 将单位为毫秒的时间差格式化为hh小时mm分钟的格式
+     */
+    export function timestampDifferenceToHourMinutesChinese(timestampDifference: number): string {
+        const minuteDifference = timestampDifferenceToMinutes(timestampDifference);
+        const hours = Math.floor(minuteDifference / 60);
+        return `${hours === 0 ? '' : `${hours}小时`}${minuteDifference % 60}分钟`;
     }
 }

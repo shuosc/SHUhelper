@@ -1,4 +1,5 @@
-import {find, Maybe} from "../../tools/functools/maybe";
+import {Maybe} from "../../tools/functools/maybe";
+import {find} from "../../tools/functools/array/array";
 
 export interface Campus {
     id: number,

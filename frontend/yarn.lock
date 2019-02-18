@@ -2295,10 +2295,10 @@ cyclist@~0.2.2:
   resolved "https://registry.npmjs.org/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
 
-date-normalizer@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.npmjs.org/date-normalizer/-/date-normalizer-1.0.6.tgz#e209a05715dfbaa22c7e09629c38003c5eb0905f"
-  integrity sha512-Qb5vgYYK778W62IA7whjsJ7Cf52i/Jqcuslwvma4thh83niDnK6v201wPV83WVIm4QzaB7/kDS/PZmD5iMsYrA==
+date-normalizer@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.npmjs.org/date-normalizer/-/date-normalizer-1.0.12.tgz#999670ff523ef01b9e624f777ff62fb7276dfc76"
+  integrity sha512-H54EU6Ow6N1DL1Zr1aRpMgfprduZmvF31Df1iHRVexIaaZhtMMQ0wjktr/aKCLMMdaZAbue8L+HP7h4vXyjorA==
 
 date-now@^0.1.4:
   version "0.1.4"

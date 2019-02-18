@@ -29,22 +29,19 @@
                                           v-model="toCampusId">
                                 </v-select>
                             </v-flex>
-                            <v-flex v-if="!nextBus.isNull" xs12>
+                            <v-flex v-if="!timestampDifferenceToNextBus.isNull" xs12>
                                 <v-layout align-center class="mb-2" row wrap>
-                                    <v-flex sm1 v-if="!minutesFromLastToNextBus.isNull" xs2>
+                                    <v-flex sm1 v-if="!timestampDifferenceLastToNextBus.isNull" xs2>
                                         <v-progress-circular
                                                 :size="35"
-                                                :value="toPercent(minutesToNextBus.value,minutesFromLastToNextBus.value)"
+                                                :value="toPercent(timestampDifferenceToNextBus.value,timestampDifferenceLastToNextBus.value)"
                                                 :width="2"
                                                 color="green">
-                                            {{Math.floor(minutesToNextBus.value / 60)}}:{{minutesToNextBus.value %
-                                            60<10?'0':''}}{{minutesToNextBus.value % 60}}
+                                            {{timestampDifferenceToNextBus.map(timestampDifferenceToHourMinutesString).value}}
                                         </v-progress-circular>
                                     </v-flex>
                                     <v-flex sm11 xs10>
-                                        此线路下一班校车还有{{Math.floor(minutesToNextBus.value / 60) !== 0 ?
-                                        `${Math.floor(minutesToNextBus.value / 60)}小时`:''}}{{minutesToNextBus.value %
-                                        60}}分钟
+                                        此线路下一班校车还有{{timestampDifferenceToNextBus.map(timestampDifferenceToHourMinutesChinese).value}}
                                     </v-flex>
                                 </v-layout>
                             </v-flex>
@@ -64,10 +61,8 @@
                                         </v-radio-group>
                                         <v-data-table
                                                 :headers="[{ text: '班次', value: 'index' },{ text: '时间', value: 'time' }]"
-                                                :items="timeTable.map((it,index) => {return {
-                                        index:index+1,
-                                        time:it.toTimeString().slice(0,5)
-                                        }})" class="elevation-1">
+                                                :items="timeTable.map((it,index) => {return {index:index+1,time:it.toTimeString().slice(0,5)}})"
+                                                class="elevation-1">
                                             <template slot="items" slot-scope="props">
                                                 <td>{{ props.item.index }}</td>
                                                 <td>{{ props.item.time }}</td>
@@ -90,8 +85,8 @@
     import {Vue, Watch} from 'vue-property-decorator';
     import {Campus, CampusRepository} from "../../../shared/model/campus/campus";
     import {
-        SchoolBus,
         SchoolBusRepository,
+        SchoolBusRoutine,
         SchoolBusRoutineType,
         SchoolBusService
     } from "../../../shared/model/schoolBus/schoolBus"
@@ -99,15 +94,19 @@
     import {just, Maybe} from "../../../shared/tools/functools/maybe";
     import {Semester} from "../../../shared/model/semester/semester";
     import {TimeService} from "../../../shared/tools/dateTime/time/time";
-    import * as _ from "lodash";
     import {toPercent} from "~/tools/toPercent";
+    import * as _ from "lodash";
+    import timestampDifferenceToHourMinutesString = TimeService.timestampDifferenceToHourMinutesString;
+    import timestampDifferenceToHourMinutesChinese = TimeService.timestampDifferenceToHourMinutesChinese;
 
     const SemesterNamespace = namespace(semesterModule.name);
 
     @Component({
         methods: {
             avatarSize,
-            toPercent
+            toPercent,
+            timestampDifferenceToHourMinutesString,
+            timestampDifferenceToHourMinutesChinese
         }
     })
     export default class BusTimeInfo extends Vue {
@@ -121,10 +120,9 @@
         expanded = [false];
         @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
 
-
         mounted() {
             setInterval(() => {
-                this.now = new Date();
+                this.now = new Date()
             }, 1000);
         }
 
@@ -132,7 +130,7 @@
             const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
             const toCampus = CampusRepository.getById(this.toCampusId).value as Campus;
             return SchoolBusRepository.getByFromTo(fromCampus, toCampus, this.schoolBusRoutineType)
-                .map((schoolBus: SchoolBus) => SchoolBusService.startTimeInCampus(schoolBus, fromCampus).value as Date);
+                .map((schoolBus: SchoolBusRoutine) => SchoolBusService.startTimeInCampus(schoolBus, fromCampus).value as Date);
         }
 
         @Watch('fromCampusId', {immediate: true, deep: true})
@@ -149,38 +147,28 @@
             }
         }
 
-        get nextBus(): Maybe<SchoolBus> {
-            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
-            const toCampus = CampusRepository.getById(this.toCampusId).value as Campus;
+        get timestampDifferenceToNextBus(): Maybe<number> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId);
+            const toCampus = CampusRepository.getById(this.toCampusId);
             const currentSemester = this.getSemesterForDate(this.now);
-            return currentSemester.flatMap(_.partial(SchoolBusRepository.getByFromToAtDateTime, fromCampus, toCampus, this.now));
+            // noinspection TypeScriptValidateTypes
+            return just(_.curry(SchoolBusRepository.timeDifferenceToNext))
+                .apply(fromCampus)
+                .apply(toCampus)
+                .apply(just(this.now))
+                .apply(currentSemester);
         }
 
-        get lastBus(): Maybe<SchoolBus> {
-            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
-            const toCampus = CampusRepository.getById(this.toCampusId).value as Campus;
+        get timestampDifferenceLastToNextBus(): Maybe<number> {
+            const fromCampus = CampusRepository.getById(this.fromCampusId);
+            const toCampus = CampusRepository.getById(this.toCampusId);
             const currentSemester = this.getSemesterForDate(this.now);
-            return currentSemester.flatMap(_.partial(SchoolBusRepository.getLastByFromToAtDateTime, fromCampus, toCampus, this.now));
-        }
-
-        get minutesToNextBus(): Maybe<number> {
-            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
-            const nextBusTime: Maybe<Date> = this.nextBus.flatMap(_.partial(SchoolBusService.startTimeInCampus, _, fromCampus));
-            const timestampDifference = nextBusTime.map(_.partial(TimeService.timeDistance, this.now));
-            return timestampDifference.map(TimeService.timestampDifferenceToMinutes)
-        }
-
-        get minutesFromLastToNextBus(): Maybe<number> {
-            const fromCampus = CampusRepository.getById(this.fromCampusId).value as Campus;
-            const lastBusTime: Maybe<Date> = this.lastBus.flatMap(_.partial(SchoolBusService.startTimeInCampus, _, fromCampus));
-            const nextBusTime: Maybe<Date> = this.nextBus.flatMap(_.partial(SchoolBusService.startTimeInCampus, _, fromCampus));
-            let timestampDifference;
-            if (lastBusTime.isNull || nextBusTime.isNull) {
-                timestampDifference = new Maybe<number>(null);
-            } else {
-                timestampDifference = just(TimeService.timeDistance(lastBusTime.value as Date, nextBusTime.value as Date));
-            }
-            return timestampDifference.map(TimeService.timestampDifferenceToMinutes)
+            // noinspection TypeScriptValidateTypes
+            return just(_.curry(SchoolBusRepository.timeDifferenceBetweenLastAndNext))
+                .apply(fromCampus)
+                .apply(toCampus)
+                .apply(just(this.now))
+                .apply(currentSemester);
         }
     }
 </script>

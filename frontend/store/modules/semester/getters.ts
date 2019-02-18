@@ -1,9 +1,10 @@
 import {GetterTree} from "vuex";
 import {RootState} from "~/store";
 import {State} from "~/store/modules/semester/state";
-import {find, Maybe} from "../../../../shared/tools/functools/maybe";
+import {Maybe} from "../../../../shared/tools/functools/maybe";
 import {DateRangeService} from "../../../../shared/model/dateRange/dateRange";
 import * as _ from "lodash";
+import {find} from "../../../../shared/tools/functools/array/array";
 
 export const getters: GetterTree<State, RootState> = {
     getSemester: (state: State) => {

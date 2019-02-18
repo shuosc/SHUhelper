@@ -14,9 +14,7 @@
                     <v-flex xs9>
                         <v-layout row wrap>
                             <v-flex xs12>
-                                现在是 {{now.getHours()}} 点
-                                {{(now.getMinutes() < 10 ? '0' :'') + now.getMinutes()}} 分
-                                {{(now.getSeconds() < 10 ? '0' :'') + now.getSeconds()}} 秒
+                                现在是{{toChineseString(now)}}
                             </v-flex>
                             <v-flex v-if="student.isNull" xs12>
                                 <v-btn @click="auth" block color="primary">需要登录</v-btn>
@@ -103,16 +101,18 @@
     import * as courseModule from '~/store/modules/course';
     import {Course} from '~/store/modules/course';
     import {Semester} from "../../../shared/model/semester/semester";
-    import {find, just, Maybe} from "../../../shared/tools/functools/maybe";
+    import {just, Maybe} from "../../../shared/tools/functools/maybe";
     import {Holiday, HolidayWithShift} from "../../../shared/model/semester/holiday/holiday";
     import {DateRangeService} from "../../../shared/model/dateRange/dateRange";
     import {SectorService} from "../../../shared/model/course/class/sector";
     import {TimeService} from "../../../shared/tools/dateTime/time/time";
     import {toPercent} from "~/tools/toPercent";
     import {Class, ClassService} from "../../../shared/model/course/class/class";
+    import {find} from "../../../shared/tools/functools/array/array";
     import isBeforeFirstSector = SectorService.isBeforeFirstSector;
     import isAfterLastSector = SectorService.isAfterLastSector;
     import isInASector = SectorService.isInASector;
+    import toChineseString = TimeService.toChineseString;
 
     const SemesterNamespace = namespace(semesterModule.name);
     const StudentNamespace = namespace(studentModule.name);
@@ -124,7 +124,8 @@
             isBeforeFirstSector,
             isAfterLastSector,
             isInASector,
-            toPercent
+            toPercent,
+            toChineseString
         }
     })
     export default class CourseInfo extends Vue {

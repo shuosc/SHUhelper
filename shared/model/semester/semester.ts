@@ -1,10 +1,11 @@
 import {DateRange, DateRangeService} from "../dateRange/dateRange";
 import {Holiday, HolidayService, HolidayWithShift} from "./holiday/holiday";
 import {assert} from "../../tools/assert";
-import {find, Maybe} from "../../tools/functools/maybe";
+import {Maybe} from "../../tools/functools/maybe";
 import {clone} from "../../tools/clone";
 import {DateService} from "../../tools/dateTime/date/date";
 import * as _ from "lodash";
+import {find} from "../../tools/functools/array/array";
 
 export interface Semester extends DateRange {
     readonly _id: any;
@@ -85,7 +86,6 @@ export namespace SemesterService {
             currentMonday = nextMonday;
         }
         return -1;
-        // throw Error("Should never reached here")
     }
 
     /**

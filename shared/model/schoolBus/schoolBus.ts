@@ -1,5 +1,5 @@
 import {Campus, CampusRepository} from "../campus/campus";
-import {find, findIndex, just, Maybe} from "../../tools/functools/maybe";
+import {just, Maybe} from "../../tools/functools/maybe";
 import {assert} from "../../tools/assert";
 import * as _ from "lodash";
 import {TimeService} from "../../tools/dateTime/time/time";
@@ -7,18 +7,24 @@ import {TimeService} from "../../tools/dateTime/time/time";
 // @ts-ignore
 import * as schedule from "./shedule.json";
 import {Semester, SemesterService} from "../semester/semester";
+import {find, findBefore} from "../../tools/functools/array/array";
 
-export type SchoolBus = Array<{ campusId: number, startTime?: Date }>
+interface SchoolBusStation {
+    campusId: number,
+    startTime?: Date
+}
+
+export type SchoolBusRoutine = Array<SchoolBusStation>;
 
 export namespace SchoolBusService {
-    export function hasFromTo(bus: SchoolBus, from: Campus, to: Campus): Boolean {
+    export function hasFromTo(bus: SchoolBusRoutine, from: Campus, to: Campus): boolean {
         assert(from !== to);
-        const fromIndex = bus.findIndex((it) => it.campusId === from.id);
-        const toIndex = bus.findIndex((it) => it.campusId === to.id);
+        const fromIndex = bus.findIndex(it => it.campusId === from.id);
+        const toIndex = bus.findIndex(it => it.campusId === to.id);
         return fromIndex !== -1 && toIndex !== -1 && fromIndex < toIndex;
     }
 
-    export function startTimeInCampus(bus: SchoolBus, campus: Campus): Maybe<Date> {
+    export function startTimeInCampus(bus: SchoolBusRoutine, campus: Campus): Maybe<Date> {
         return find(bus, it => it.campusId === campus.id).flatMap(it => just(it.startTime));
     }
 }
@@ -30,47 +36,51 @@ export enum SchoolBusRoutineType {
 }
 
 export namespace SchoolBusRepository {
-    function parseRoutine(json: any): Array<SchoolBus> {
+    function parseSchoolBusStation(campusId: number, startTime: Date | undefined): SchoolBusStation {
+        if (startTime === undefined) {
+            return {
+                campusId: campusId
+            }
+        } else {
+            return {
+                campusId: campusId,
+                startTime: startTime
+            }
+        }
+    }
+
+    function parseRoutineForOneType(json: any): Array<SchoolBusRoutine> {
         const result = [];
         for (let route in json) {
             const campuses = route.split('-')
                 .map(CampusRepository.getByName)
-                .map(it => it.value);
-            for (let routins of json[route]) {
-                const times: Array<Date | undefined> = routins.map(TimeService.createTimeFromString).map((it: Maybe<Date>) => it.value);
-                times.push(undefined);
-                assert(campuses.length === times.length);
-                result.push(_.zip(campuses, times)
-                    .map(it => {
-                        if (it[1] === undefined) {
-                            return {
-                                campusId: (it[0] as Campus).id
-                            }
-                        } else {
-                            return {
-                                campusId: (it[0] as Campus).id,
-                                startTime: it[1]
-                            }
-                        }
-                    }));
+                .map(it => (it.value as Campus).id);
+            for (let routines of json[route]) {
+                const times: Array<Date | undefined> = routines
+                    .map(TimeService.createTimeFromHourMinuteString)
+                    .map((it: Maybe<Date>) => it.value);
+                result.push(_.zip(campuses, times).map(it => parseSchoolBusStation(it[0] as number, it[1])));
             }
         }
         return result;
     }
 
-    function parseJson(): Array<Array<SchoolBus>> {
+    function parseJson(): Array<Array<SchoolBusRoutine>> {
         return [
-            parseRoutine(schedule["工作日"]),
-            parseRoutine(schedule["休息日"])
+            parseRoutineForOneType(schedule["工作日"]),
+            parseRoutineForOneType(schedule["休息日"])
         ];
     }
 
-    export const routines: Array<Array<SchoolBus>> = parseJson();
+    export const routines: Array<Array<SchoolBusRoutine>> = parseJson();
 
-    export function getByFromTo(from: Campus, to: Campus, type: SchoolBusRoutineType): Array<SchoolBus> {
+    /**
+     * 获取从 @arg type 下 从@arg from 到 @arg to 的所有车次
+     */
+    export function getByFromTo(from: Campus, to: Campus, type: SchoolBusRoutineType): Array<SchoolBusRoutine> {
         const routinesForThisType = routines[type as number];
         return routinesForThisType.filter(_.partial(SchoolBusService.hasFromTo, _, from, to))
-            .sort((a: SchoolBus, b: SchoolBus) => {
+            .sort((a: SchoolBusRoutine, b: SchoolBusRoutine) => {
                 const aStartTime = SchoolBusService.startTimeInCampus(a, from);
                 const bStartTime = SchoolBusService.startTimeInCampus(b, from);
                 assert(!aStartTime.isNull && !bStartTime.isNull);
@@ -78,40 +88,63 @@ export namespace SchoolBusRepository {
             });
     }
 
-    function getByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBus> {
+    function getNextByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBusRoutine> {
         const routinesWithRightFromTo = getByFromTo(from, to, type);
-        return find(routinesWithRightFromTo, (bus: SchoolBus) => {
+        return find(routinesWithRightFromTo, (bus: SchoolBusRoutine) => {
             const fromStartTime = SchoolBusService.startTimeInCampus(bus, from);
             assert(!fromStartTime.isNull);
             return TimeService.earlierThan(time, fromStartTime.value as Date);
         });
     }
 
-    export function getByFromToAtDateTime(from: Campus, to: Campus, dateTime: Date, semester: Semester): Maybe<SchoolBus> {
+    /**
+     * 获取 @arg dateTime 时下一班从 @arg from 到 @arg to 的车次
+     */
+    export function getNextByFromTo(from: Campus, to: Campus, dateTime: Date, semester: Semester): Maybe<SchoolBusRoutine> {
         let isWorkingDay = SemesterService.isWorkingDay(semester, dateTime);
         if (isWorkingDay) {
-            return getByFromToAtTime(from, to, dateTime, SchoolBusRoutineType.WorkingDay);
+            return getNextByFromToAtTime(from, to, dateTime, SchoolBusRoutineType.WorkingDay);
         } else {
-            return getByFromToAtTime(from, to, dateTime, SchoolBusRoutineType.NonWorkingDay);
+            return getNextByFromToAtTime(from, to, dateTime, SchoolBusRoutineType.NonWorkingDay);
         }
     }
 
-    function getLastByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBus> {
+    function getLastByFromToAtTime(from: Campus, to: Campus, time: Date, type: SchoolBusRoutineType): Maybe<SchoolBusRoutine> {
         const routinesWithRightFromTo = getByFromTo(from, to, type);
-        const index: Maybe<number> = findIndex(routinesWithRightFromTo, (bus: SchoolBus) => {
+        return findBefore(routinesWithRightFromTo, (bus: SchoolBusRoutine) => {
             const fromStartTime = SchoolBusService.startTimeInCampus(bus, from);
             assert(!fromStartTime.isNull);
             return TimeService.earlierThan(time, fromStartTime.value as Date);
-        }).flatMap(it => it - 1 < 0 ? new Maybe<number>(null) : just(it - 1));
-        return index.map(it => routinesWithRightFromTo[it]);
+        });
     }
 
-    export function getLastByFromToAtDateTime(from: Campus, to: Campus, dateTime: Date, semester: Semester): Maybe<SchoolBus> {
+    /**
+     * 获取 @arg dateTime 时上一班从 @arg from 到 @arg to 的车次
+     */
+    export function getLastByFromTo(from: Campus, to: Campus, dateTime: Date, semester: Semester): Maybe<SchoolBusRoutine> {
         let isWorkingDay = SemesterService.isWorkingDay(semester, dateTime);
         if (isWorkingDay) {
             return getLastByFromToAtTime(from, to, dateTime, SchoolBusRoutineType.WorkingDay);
         } else {
             return getLastByFromToAtTime(from, to, dateTime, SchoolBusRoutineType.NonWorkingDay);
         }
+    }
+
+    export function timeDifferenceToNext(from: Campus, to: Campus, dateTime: Date, semester: Semester): Maybe<number> {
+        const startTimeInCampus = _.partial(SchoolBusService.startTimeInCampus, _, from);
+        const nextStartTime = getNextByFromTo(from, to, dateTime, semester).flatMap(startTimeInCampus);
+        return nextStartTime.map(_.partial(TimeService.timeDistance, dateTime) as any)
+    }
+
+    /**
+     *
+     * 获取 @arg dateTime 时上一班从 @arg from 到 @arg to 的车次到下一班从 @arg from 到 @arg to 的车次之间的时间差
+     * 以毫秒为单位表示
+     */
+    export function timeDifferenceBetweenLastAndNext(from: Campus, to: Campus, dateTime: Date, semester: Semester): Maybe<number> {
+        const startTimeInCampus = _.partial(SchoolBusService.startTimeInCampus, _, from);
+        const lastStartTime = getLastByFromTo(from, to, dateTime, semester).flatMap(startTimeInCampus);
+        const nextStartTime = getNextByFromTo(from, to, dateTime, semester).flatMap(startTimeInCampus);
+        return just(_.curry(TimeService.timeDistance)).apply(lastStartTime).apply(nextStartTime);
     }
 }

@@ -40,7 +40,7 @@ export class Maybe<T> {
     // 应该限制 T 为 (param: T) => U
     // 见下point-free版本的类型签名
     public apply(param: Maybe<any>): Maybe<any> {
-        return param.map(this.value as any);
+        return (this.value === null || param.value === null) ? (just<any>(null)) : (just((this.value as any)(param.value)));
     }
 
     get isNull(): boolean {
@@ -54,7 +54,7 @@ export function map<T, U>(maybe: Maybe<T>, func: (value: T) => U): Maybe<U> {
 }
 
 export function apply<T, U>(func: Maybe<(param: T) => U>, value: Maybe<T>): Maybe<U> {
-    return func.apply(value) as any as Maybe<U>;
+    return (func.value === null || value.value === null) ? (just<U>(null)) : (just(func.value(value.value)));
 }
 
 export function flatMap<T, U>(maybe: Maybe<T>, func: (value: T) => Maybe<U>): Maybe<U> {
@@ -63,20 +63,6 @@ export function flatMap<T, U>(maybe: Maybe<T>, func: (value: T) => Maybe<U>): Ma
 
 export function just<T>(value: T | null | undefined): Maybe<T> {
     return new Maybe<T>(value);
-}
-
-// some functions use Maybe
-export function find<T>(array: Array<T>, pred: (value: T) => boolean): Maybe<T> {
-    return new Maybe(array.find(pred));
-}
-
-export function findIndex<T>(array: Array<T>, pred: (value: T) => boolean): Maybe<number> {
-    for (let i = 0; i < array.length; ++i) {
-        if (pred(array[i])) {
-            return new Maybe(i);
-        }
-    }
-    return new Maybe<number>(null);
 }
 
 export function get<K, V>(map: Map<K, V>, key: K): Maybe<V> {

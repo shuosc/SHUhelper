@@ -58,11 +58,12 @@
     import {DayService} from "../../../shared/tools/dateTime/day/day";
     import {Semester, SemesterService} from "../../../shared/model/semester/semester";
     import * as semesterModule from '~/store/modules/semester';
-    import {find, just, Maybe} from "../../../shared/tools/functools/maybe";
+    import {just, Maybe} from "../../../shared/tools/functools/maybe";
     import * as _ from "lodash";
     import {Holiday, HolidayWithShift} from "../../../shared/model/semester/holiday/holiday";
     import {DateRangeService} from "../../../shared/model/dateRange/dateRange";
     import {toPercent} from "~/tools/toPercent";
+    import {find} from "../../../shared/tools/functools/array/array";
     import dayNumberToChinese = DayService.dayNumberToChinese;
     import daysTo = DateRangeService.daysTo;
 
@@ -124,6 +125,3 @@
         }
     }
 </script>
-
-<style scoped>
-</style>
