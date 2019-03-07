@@ -19,27 +19,28 @@
 </template>
 
 <script lang="ts">
-import {fetchNews} from "../../backend/src/service/crawl/news/news"
 import Component, {namespace} from "nuxt-class-component";
 import {Vue, Watch} from 'vue-property-decorator';
+ 
 @Component({
 
 })
 export default class schoolNews extends Vue{
-    allNews =[{}];
-    news=[{}];
+    allNews:any;
+    news:any;
     allType=['通知公告','新闻'];
-    type = '新闻'
+    type = '新闻';
     page:number = 1;
     isLoading:boolean = true;
     @Watch('page')
     onPageChanged(){
-        this.isLoading = true;
+        this.isLoading = true
         if(this.page>5){
-            fetchNews(this,this.type,(this.page-1)*6,this.page*6).then(res=>{
-            this.news=res
-            this.isLoading = false;
-        })
+            this.$axios.$post('/api/fetchNews',{type:this.type,startIndex:(this.page-1)*6,endIndex:this.page*6})
+                .then(res=>{
+                    this.news=res
+                    this.isLoading = false;
+                })
         } else {
             this.news = this.allNews.slice((this.page-1)*6,this.page*6)
             this.isLoading = false;
@@ -48,18 +49,21 @@ export default class schoolNews extends Vue{
     @Watch('type')
     onTypeChanged(){
         this.isLoading = true;
-        fetchNews(this,this.type,0,30).then(res=>{
-            this.allNews = res;
-            this.page = 1;
-            this.isLoading = false;
-        })
+        this.$axios.$post('/api/fetchNews',{type:this.type,startIndex:0,endIndex:30})
+            .then(res=>{
+                this.allNews = res;
+                this.page = 1;
+                this.news = this.allNews.slice(0,6);
+                this.isLoading = false;
+            })
     }
     mounted(){
-       fetchNews(this,this.type,0,30).then(res=>{
+        this.$axios.$post('/api/fetchNews',{type:this.type,startIndex:0,endIndex:30})
+            .then(res=>{
             this.allNews = res;
-            this.news=res.slice(0,6)
+            this.news=this.allNews.slice(0,6)
             this.isLoading = false;
-       })
+            })
     }
 }
 </script>

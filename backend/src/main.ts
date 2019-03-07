@@ -10,6 +10,7 @@ import {CourseRepository} from "./model/course/course";
 import {StudentRepository, StudentService} from "./model/student/student";
 import {ObjectID} from "bson";
 import {DateTimeService} from "../../shared/tools/dateTime/dateTime";
+import {fetchNews} from "./service/crawl/news/news"
 
 const app = new Koa();
 const router = new Router();
@@ -111,6 +112,9 @@ router
         } else {
             context.status = 403;
         }
+    })
+    .post('/api/fetchNews',async(context)=>{
+        context.body =await fetchNews(context.request.body.type,context.request.body.startIndex,context.request.body.endIndex)
     })
     .get('/*', async (context) => {
         context.body = 'It works!';

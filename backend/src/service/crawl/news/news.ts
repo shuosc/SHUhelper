@@ -1,17 +1,18 @@
 import * as Cheerio from 'cheerio';
 import * as url from 'url';
+import * as Request from 'request-promise-native';
 
 
 const host = 'http://www.jwc.shu.edu.cn';
-
-const config = {
-    '通知公告': 'http://www.jwc.shu.edu.cn/index/tzgg.htm',
-    '新闻':  'http://www.jwc.shu.edu.cn/index/xw.htm'
-};
-export async function fetchNews(that:any,type:string,startIndex:number,endIndex:number) {
-    const API_PROXY = 'https://bird.ioliu.cn/v1/?url=';
+/**
+ *  爬取教务处网站公告新闻
+ * @param type 数据类型
+ * @param startIndex 起始条数
+ * @param endIndex 终止条数
+ */
+export async function fetchNews(type:string,startIndex:number,endIndex:number) {
     let link:string;
-    if(type === "notice"){
+    if(type == "新闻"){
         if(startIndex>=30){
             link = `http://www.jwc.shu.edu.cn/index/tzgg/${51-Math.floor(startIndex/30)}.htm`;
             startIndex =startIndex %30;
@@ -24,13 +25,12 @@ export async function fetchNews(that:any,type:string,startIndex:number,endIndex:
             endIndex = endIndex %30 === 0 ? 30:endIndex%30;
         } else {link = 'http://www.jwc.shu.edu.cn/index/xw.htm'}
     }
-    const respond = await (that.$axios as any)({
-        method:'get',
-        url:API_PROXY+link,
-    })
-    const $ = Cheerio.load(respond.data);
+    let respond = await Request.get(link)
+    console.log(link);
+    console.log(startIndex)
+    const $ = Cheerio.load(respond);
     let list:Array<any> =$('#dnn_ctr43516_ArticleList__ctl0_ArtDataList__ctl1_titleLink1').slice(startIndex,endIndex)
-        .map(function(index, ele) {
+        .map(function(index:number, ele:CheerioElement) {
             return {
                 title: $(ele).attr('title'),
                 link: $(ele).attr('href'),
