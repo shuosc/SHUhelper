@@ -68,7 +68,8 @@
         title = 'SHUHelper';
         items = [
             {icon: 'school', title: '首页', to: '/'},
-            {icon: 'calendar_today', title: '日程', to: '/schedule'}
+            {icon: 'calendar_today', title: '日程', to: '/schedule'},
+            {icon: 'list',title: '新闻', to: '/schoolNews'}
         ];
 
         auth() {
