@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, { Store } from 'vuex';
+import Vuex from 'vuex';
 import axios from 'axios';
 import * as url from 'url';
 import * as Cheerio from 'cheerio'

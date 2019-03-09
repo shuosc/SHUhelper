@@ -25,7 +25,6 @@ import {Vue, Watch} from 'vue-property-decorator';
 @Component({
 })
 export default class schoolNews extends Vue{
-    allNews:any;
     news:any='';
     allType=['通知公告','新闻'];
     type = '新闻';
