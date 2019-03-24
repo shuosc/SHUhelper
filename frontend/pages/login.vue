@@ -7,6 +7,19 @@
                 <v-text-field v-model="password" prepend-icon="lock" name="password" label="密码"
                               @keyup.enter="login" type="password"></v-text-field>
             </v-form>
+            <v-dialog v-model="errorLogin" width="500">
+                <v-card>
+                    <v-card-text>
+                        学号或密码错误，请重试
+                    </v-card-text>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                    <v-btn @click="errorLogin = false " color="primary" block>
+                        确定
+                    </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
         </v-card-text>
         <v-card-actions>
             <v-btn :loading="loading" :disabled="loading" @click="login" block color="primary">登录</v-btn>
@@ -27,7 +40,7 @@
         layout() {
             return "middleBox"
         }
-
+        errorLogin = false;
         username: string = "";
         password: string = "";
         loading = false;
@@ -38,11 +51,16 @@
 
         async login() {
             this.loading = true;
-            await this.doLogin({username: this.username, password: this.password});
+            try {
+                await this.doLogin({username: this.username, password: this.password})
+            } catch(e){
+                this.errorLogin = true
+            }
             if (this.student.value !== null) {
                 this.$router.push('/');
                 localStorage.token = this.student.value.token;
             }
+            this.loading=false;
         }
     }
 </script>
