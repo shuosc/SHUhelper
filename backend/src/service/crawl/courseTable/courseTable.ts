@@ -16,7 +16,7 @@ const entities = new XmlEntities();
  * 下载课程页面
  */
 export function fetchCoursePage(studentId: string, cookies: Array<Cookie>): Promise<string> {
-    return postFormWithCookies(cookies, 'http://xk.autoisp.shu.edu.cn/StudentQuery/CtrlViewQueryCourseTable', {
+    return postFormWithCookies(cookies, 'http://xk.autoisp.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable', {
         studentNo: process.env.STUDENT_ID
     });
 }

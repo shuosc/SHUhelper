@@ -32,7 +32,7 @@ export namespace StudentService {
     export async function login(studentId: string, password: string): Promise<Maybe<Student>> {
         let cookie: Array<Cookie>;
         try {
-            cookie = await simulateLogin('http://xk.autoisp.shu.edu.cn', studentId, password);
+            cookie = await simulateLogin('http://xk.autoisp.shu.edu.cn:8080', studentId, password);
         } catch (e) {
             return just(null);
         }
