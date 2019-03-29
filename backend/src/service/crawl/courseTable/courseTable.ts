@@ -1,24 +1,75 @@
 import {Cookie} from 'tough-cookie';
 import {postFormWithCookies} from '../../../infrastructure/request';
 import * as Cheerio from 'cheerio';
-import {ClassService} from "../../../../../shared/model/course/class/class";
+import {Class} from "../../../../../shared/model/course/class/class";
 import {CourseRepository} from "../../../model/course/course";
 import {XmlEntities} from "html-entities";
 import {TeacherRepository} from "../../../model/teacher/teacher";
 import {Course} from "../../../../../shared/model/course/course";
 import {SemesterRepository} from "../../../model/semester/semester";
-import * as _ from "lodash";
-import {Maybe} from "../../../../../shared/tools/functools/maybe";
+import {Option, some} from "fp-ts/lib/Option";
+import {_, partial} from "../../../../tools/partial";
+import {DayService} from "../../../../tools/day";
 import {LabClass} from "../../../../../shared/model/course/class/labClass";
 
 const entities = new XmlEntities();
+export namespace ClassAnalizer {
+    function parseWeeks(str: string): Array<number> {
+        // 单双周课
+        if (str.includes('单')) {
+            return [1, 3, 5, 7, 9];
+        } else if (str.includes('双')) {
+            return [2, 4, 6, 8, 10];
+        }
+        // 某几周课
+        // eg. 1,2 周
+        str = str.replace('，', ',');
+        const discreteWeeksRegex = /(\d+\s*(,\s*\d+\s*)+)周/g;
+        let regexResult = discreteWeeksRegex.exec(str);
+        if (regexResult !== null) {
+            return regexResult[1]
+                .split(',')
+                .map(it => parseInt(it));
+        }
+        // 连续的几周课
+        // eg. 4-10周
+        const continuousWeeksRegex = /(\d+)\s*-\s*(\d+)\s*周/g;
+        regexResult = continuousWeeksRegex.exec(str);
+        if (regexResult !== null) {
+            let result = [];
+            for (let i = parseInt(regexResult[1]); i <= parseInt(regexResult[2]); ++i) {
+                result.push(i);
+            }
+            return result;
+        }
+        return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    }
+
+    /**
+     * 从字符串中构造出一节课的信息
+     */
+    export function fromString(str: string, courseId: any): Option<Class> {
+        const regex = /([一二三四五六日])(\d+)-(\d+)([^一二三四五]*)/;
+        return some(regex.exec(str)).chain(infoColumns =>
+            DayService.dayChineseToNumber(infoColumns[1]).map(day => {
+                    return {
+                        day: day,
+                        courseId: courseId,
+                        beginSector: parseInt(infoColumns[2]),
+                        endSector: parseInt(infoColumns[3]),
+                        weeks: parseWeeks(infoColumns[4].trim())
+                    }
+                }
+            ));
+    }
+}
 
 /**
  * 下载课程页面
  */
-export function fetchCoursePage(studentId: string, cookies: Array<Cookie>): Promise<string> {
+export async function fetchCoursePage(studentId: string, cookies: Array<Cookie>): Promise<string> {
     return postFormWithCookies(cookies, 'http://xk.autoisp.shu.edu.cn:8080/StudentQuery/CtrlViewQueryCourseTable', {
-        studentNo: process.env.STUDENT_ID
+        studentNo: studentId
     });
 }
 
@@ -49,21 +100,21 @@ export async function parseClassStrings(str: string): Promise<Array<string>> {
 /**
  * 从爬到的课程表格的一行中解析出课程
  */
-async function parseCourse(cols: Array<string>): Promise<Maybe<Course>> {
+async function parseCourse(cols: Array<string>): Promise<Option<Course>> {
     const id = cols[1] + '_' + cols[3];
     let result = await CourseRepository.getById(cols[1]);
-    if (!result.isNull) {
+    if (!result.isNone()) {
         return result;
     }
     const name = cols[2];
     const hasManyTeacher = cols[4][cols[4].length - 1] === '等';
     const teacher = await TeacherRepository.getOrCreateByName(hasManyTeacher ? cols[4].slice(0, -1) : cols[4]);
     const semester = await SemesterRepository.current();
-    const classFromString = _.partial(ClassService.fromString, _, id);
+    const classFromString: (str: string) => Option<Class> = partial(ClassAnalizer.fromString, _, id);
     const classes = (await parseClassStrings(cols[6]))
         .map(classFromString)
-        .filter(it => it.value !== null)
-        .map(it => it.value);
+        .filter(it => it.isSome())
+        .map(it => it.toNullable());
     const place = await cols[7];
     return semester.map(semester => {
         return {
@@ -94,16 +145,17 @@ export async function getCoursesFromPage(coursePage: string): Promise<Array<Cour
             break;
         }
         let course = await parseCourse(cols);
-        await course.map(CourseRepository.save).value;
-        if (!course.isNull) {
-            courses.push(course.value);
+        await course.map(CourseRepository.save).toNullable();
+        if (course.isSome()) {
+            courses.push(course.toNullable());
         }
     }
     return courses;
 }
 
+
 export function fetchLabCourseListPage(): string {
-    let url:string = 'https://www.phylab.shu.edu.cn/openexp/index.php/Public/clist';
+    let url: string = 'https://www.phylab.shu.edu.cn/openexp/index.php/Public/clist';
     //Need login first
     //After finishing auth module, just get from this url
     //below is an example return value
@@ -123,17 +175,17 @@ export async function getPhysicsLabCourse(labCourseListPage: string): Promise<Ar
     let $ = Cheerio.load(labCourseListPage, {ignoreWhitespace: true});
     const rows = $("table table tr");
 
-    for(let i = 1; ; i++) {
+    for (let i = 1; ; i++) {
         const row = $(rows[i]);
         let cols = [];
         row.find('td').each((_, element: CheerioElement) => {
             cols.push(entities.decode($(element).html()));
         });
 
-        if(cols.length !== 4) break;
+        if (cols.length !== 4) break;
 
         let labClass = parseLabCourse(cols);
-        if(labClass != null) {
+        if (labClass != null) {
             classes.push(labClass);
         }
     }

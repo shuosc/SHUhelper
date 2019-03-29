@@ -10,39 +10,35 @@
                             </v-avatar>
                         </v-layout>
                     </v-flex>
-                    <v-divider class="mx-3" inset vertical></v-divider>
+                    <v-divider class="mx-3" inset vertical>
+                    </v-divider>
                     <v-flex xs9>
                         <v-layout row wrap>
                             <v-flex xs12>
-                                今天是{{now.getFullYear()}}年{{now.getMonth()+1}}月{{now.getDate()}}日
-                                周{{dayNumberToChinese(now.getDay()).value}}
+                                今天是{{format(now,"yyyy年MM月dd日")}} 周{{dayNumberToChinese(now.getDay()).toNullable()}}
                             </v-flex>
-                            <template v-if="!currentSemester.isNull">
-                                <v-flex xs12>
-                                    是{{currentSemester.value.name}}
-                                    <template v-if="!currentWeekIndex.isNull">的第{{ currentWeekIndex.value }}周</template>
-                                </v-flex>
-                                <v-flex v-if="!currentHoliday.isNull" xs12>
-                                    现在正在放{{currentHoliday.value.name}}!
-                                </v-flex>
-                                <v-flex v-else-if="!nextHoliday.isNull" xs12>
-                                    <template v-if="daysTo(now,nextHoliday.value) !== 0">
-                                        距离下个假期{{nextHoliday.value.name}}还有{{daysTo(now,nextHoliday.value)}}天
-                                    </template>
-                                    <template v-else>下个假期{{nextHoliday.value.name}}明天就开始！</template>
-                                </v-flex>
-                                <v-flex xs12>
-                                    <v-layout row wrap>
-                                        <v-flex xs12>
-                                            <v-progress-linear
-                                                    v-model="finishedDaysPercentage.value"></v-progress-linear>
-                                        </v-flex>
-                                        <v-flex xs12>
-                                            已经过了{{totalWorkingDayCountInThisSemester.value}}个工作日中的{{passedWorkingDayCountInThisSemester.value}}天
-                                        </v-flex>
-                                    </v-layout>
-                                </v-flex>
-                            </template>
+                            <v-flex v-if="currentDateInSemester.isSome()" xs12>
+                                是 {{currentDateInSemester.map(it => it.semester.name).toNullable()}}
+                                <template v-if="currentDateInSemester.map(getWorkWeekIndex).getOrElse(0) !== 0">
+                                    的第 {{currentDateInSemester.map(getWorkWeekIndex).toNullable()}} 周
+                                </template>
+                            </v-flex>
+                            <v-flex v-if="currentDateInSemester.chain(getHoliday).isSome()" xs12>
+                                现在正在放{{currentDateInSemester.chain(getHoliday).map(it => it.name).toNullable()}}!
+                            </v-flex>
+                            <v-flex v-else-if="nextHoliday.isSome()" xs12>
+                                <template v-if="daysToNextHoliday.toNullable() !== 0">
+                                    距离下个假期 {{nextHoliday.map(it => it.name).toNullable()}} 还有
+                                    {{daysToNextHoliday.toNullable()}} 天
+                                </template>
+                                <template v-else>下个假期 {{nextHoliday.map(it => it.name).toNullable()}} 明天就开始！</template>
+                            </v-flex>
+                            <v-flex v-if="finishedDaysPercentage.isSome()" xs12>
+                                <v-progress-linear v-model="finishedDaysPercentage.toNullable()"></v-progress-linear>
+                            </v-flex>
+                            <v-flex v-if="finishedDaysPercentage.isSome()" xs12>
+                                已经过了 {{totalWorkingDays.toNullable()}} 个工作日中的 {{finishedWorkingDays.toNullable()}} 天
+                            </v-flex>
                         </v-layout>
                     </v-flex>
                 </v-layout>
@@ -51,77 +47,89 @@
     </v-card>
 </template>
 
+
 <script lang="ts">
-    import Vue from 'vue';
-    import Component, {namespace} from 'nuxt-class-component';
+
+    import {namespace} from "~/node_modules/vuex-class";
+    import {Component, Vue} from "~/node_modules/vue-property-decorator";
+    import {DayService} from "~/tools/day";
     import {avatarSize} from "~/tools/avatarSize";
-    import {DayService} from "../../../shared/tools/dateTime/day/day";
-    import {Semester, SemesterService} from "../../../shared/model/semester/semester";
-    import * as semesterModule from '~/store/modules/semester';
-    import {just, Maybe} from "../../../shared/tools/functools/maybe";
-    import * as _ from "lodash";
-    import {Holiday, HolidayWithShift} from "../../../shared/model/semester/holiday/holiday";
-    import {DateRangeService} from "../../../shared/model/dateRange/dateRange";
-    import {toPercent} from "~/tools/toPercent";
-    import {find} from "../../../shared/tools/functools/array/array";
+    import {DateTimeInSemester, DateTimeInSemesterService} from "~/service/dateTimeInSemester.service";
+    import {SemesterService} from "~/service/semester.service";
+    import {option, Option, some} from "fp-ts/lib/Option";
+
     import dayNumberToChinese = DayService.dayNumberToChinese;
-    import daysTo = DateRangeService.daysTo;
+    import getWorkingDayCount = SemesterService.getWorkingDayCount;
+    import getWorkWeekIndex = DateTimeInSemesterService.getWorkWeekIndex;
+    import getHoliday = DateTimeInSemesterService.getHoliday;
+    import {Holiday} from "../../../shared/model/semester/holiday/holiday";
+    import getNextHoliday = DateTimeInSemesterService.getNextHoliday;
+    import {liftA2, liftA3} from "~/node_modules/fp-ts/lib/Apply";
+    import {curry} from "~/node_modules/fp-ts/lib/function";
+    import {toPercent} from "~/tools/toPercent";
+    import {eachDayOfInterval, format} from "date-fns";
+    import {Semester} from "../../../shared/model/semester/semester";
 
-    const SemesterNamespace = namespace(semesterModule.name);
 
+    const SemesterNamespace = namespace("semester");
     @Component({
         methods: {
             avatarSize,
             dayNumberToChinese,
-            daysTo
+            getWorkWeekIndex,
+            getHoliday,
+            getWorkingDayCount,
+            format
         }
     })
     export default class DateInfo extends Vue {
+        @SemesterNamespace.Getter semesterForDate!: (date: Date) => Option<Semester>;
+        @SemesterNamespace.Action fetchCurrent!: () => void;
         now = new Date();
-        @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
 
-        mounted() {
+        async mounted() {
+            await this.fetchCurrent();
             setInterval(() => {
                 this.now = new Date();
             }, 1000);
         }
 
-        get currentSemester() {
-            return this.getSemesterForDate(this.now);
+        get current() {
+            if (this.semesterForDate(this.now).isNone()) {
+                this.fetchCurrent();
+            }
+            return this.semesterForDate(this.now);
         }
 
-        get currentWeekIndex(): Maybe<number> {
-            const getCurrentWeekIndex = _.partial(SemesterService.getWeekIndex, _, this.now);
-            return this.currentSemester
-                .map(getCurrentWeekIndex)
-                .flatMap(it => it === 0 ? just<number>(null) : just(it));
+        get currentDateInSemester(): Option<DateTimeInSemester> {
+            return this.current.map(current => {
+                return {
+                    semester: current,
+                    dateTime: this.now as any
+                }
+            });
         }
 
-        get nextHoliday(): Maybe<Holiday | HolidayWithShift> {
-            const nextFromNow = _.partial(DateRangeService.nextFromDate, _, this.now);
-            return this.currentSemester.flatMap(it => nextFromNow(it.holidays));
+        get nextHoliday(): Option<Holiday> {
+            return this.currentDateInSemester.chain(getNextHoliday);
         }
 
-        get currentHoliday(): Maybe<Holiday | HolidayWithShift> {
-            const nowIn = _.partial(DateRangeService.isDateIn, _, this.now);
-            return this.currentSemester.flatMap(it => find(it.holidays, nowIn));
+        get daysToNextHoliday(): Option<number> {
+            return this.nextHoliday.map(it => {
+                return eachDayOfInterval({start: this.now, end: it.start}).length;
+            });
         }
 
-        get passedWorkingDayCountInThisSemester(): Maybe<number> {
-            const passedWorkingDayCount = (semester: Semester) => SemesterService.getWorkingDayCount(semester, semester.begin, this.now);
-            return this.currentSemester.map(passedWorkingDayCount);
+        get finishedWorkingDays(): Option<number> {
+            return liftA3(option)(curry(SemesterService.getWorkingDayCount))(this.current)(this.current.map(it => it.start))(some(this.now));
         }
 
-        get totalWorkingDayCountInThisSemester(): Maybe<number> {
-            return this.currentSemester.map(SemesterService.getTotalWorkingDayCount);
+        get totalWorkingDays(): Option<number> {
+            return this.current.map(SemesterService.getTotalWorkingDayCount)
         }
 
-        get finishedDaysPercentage(): Maybe<number> {
-            // Silly Webstorm failed to infer _.curry's type
-            // noinspection TypeScriptValidateTypes
-            return just(_.curry(toPercent))
-                .apply(this.passedWorkingDayCountInThisSemester)
-                .apply(this.totalWorkingDayCountInThisSemester);
+        get finishedDaysPercentage(): Option<number> {
+            return liftA2(option)(curry(toPercent))(this.finishedWorkingDays)(this.totalWorkingDays);
         }
     }
 </script>

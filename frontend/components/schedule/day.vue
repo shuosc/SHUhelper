@@ -1,19 +1,17 @@
 <template>
-    <v-flex :class="{today: isToday,'non-empty': date!=null}" @click="clicked" class="day">
+    <v-flex :class="{today: isToday,'non-empty': date.isSome()}" @click="clicked" class="day">
         <v-container align-center fill-height justify-center>
             <v-layout column>
                 <v-flex class="date-number-wrapper text-xs-center">
-                    <span class="date-number">{{date === null ? '' : date.getDate()}}</span>
+                    <span class="date-number">{{date.map(it => it.getDate()).getOrElse('')}}</span>
                 </v-flex>
                 <v-flex class="dots text-xs-center">
-                    <template v-if="!isHoliday(date)">
-                        <v-layout align-center justify-center row wrap>
+                    <v-layout align-center justify-center row v-if="!isHoliday" wrap>
                         <span :style="{background:course.color}" class="dot"
                               v-for="course in allCourses"></span>
-                        </v-layout>
-                    </template>
+                    </v-layout>
                     <span v-else>
-                        假期
+                    假期
                     </span>
                 </v-flex>
             </v-layout>
@@ -22,65 +20,67 @@
 </template>
 
 <script lang="ts">
-    import Component, {namespace} from 'nuxt-class-component';
-    import Vue from 'vue';
-    import {Prop} from 'vue-property-decorator';
-    import * as courseModule from '~/store/modules/course';
-    import {Course} from '~/store/modules/course';
-    import * as semesterModule from '~/store/modules/semester';
-    import {Semester, SemesterService} from "../../../shared/model/semester/semester";
-    import {DateService} from "../../../shared/tools/dateTime/date/date";
-    import {Class} from "../../../shared/model/course/class/class";
-    import {Maybe} from "../../../shared/tools/functools/maybe";
-    import * as _ from "lodash";
 
-    const SemesterNamespace = namespace(semesterModule.name);
-    const CourseNamespace = namespace(courseModule.name);
+    import {namespace} from "~/node_modules/vuex-class";
+    import {Component, Prop, Vue} from "~/node_modules/vue-property-decorator";
+    import {none, Option} from "~/node_modules/fp-ts/lib/Option";
+    import {Semester} from "../../../shared/model/semester/semester";
+    import {Course} from "~/store/modules/course";
+    import {Class} from "../../../shared/model/course/class/class";
+    import {DateTimeInSemester, DateTimeInSemesterService} from "~/service/dateTimeInSemester.service";
+    import {isSameDay} from "date-fns";
+
+    const SemesterNamespace = namespace("semester");
+    const CourseNamespace = namespace("course");
 
     @Component
     export default class Day extends Vue {
-        @Prop({default: null, type: Date})
-        date!: Date;
-        @CourseNamespace.Getter getClassesForDate!: (semester: Semester, date: Date) => Array<Class>;
-        @CourseNamespace.Getter getCourse!: (id: string) => Maybe<Course>;
-        @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
+        @Prop({default: () => none})
+        date!: Option<Date>;
+        @SemesterNamespace.Getter semesterForDate!: (date: Date) => Option<Semester>;
+        @SemesterNamespace.Action fetchSemester!: (payload: { forDate: Date }) => void;
+        @CourseNamespace.Getter course!: (id: any) => Option<Course>;
+        @CourseNamespace.Action fetchCourses!: () => void;
+        @CourseNamespace.Getter classesForDate!: (dateInSemester: DateTimeInSemester) => Array<Class>;
+        @CourseNamespace.Getter courses!: () => Array<Class>;
+
+        async mounted() {
+            if (this.date.isSome())
+                await this.fetchSemester({forDate: this.date.toNullable()});
+        }
+
+        get semester() {
+            return this.date.chain(this.semesterForDate);
+        }
+
+        get currentDateInSemester(): Option<DateTimeInSemester> {
+            return this.semester.map(semester => {
+                return {
+                    semester: semester,
+                    dateTime: this.date.toNullable() as any
+                }
+            });
+        }
 
         get isToday(): boolean {
-            if (this.date === null) {
-                return false;
-            } else {
-                const today = new Date();
-                return DateService.isSameDate(today, this.date);
-            }
+            return this.date.map(it => isSameDay(new Date(), it)).getOrElse(false);
         }
 
         clicked() {
             if (this.date !== null)
-                this.$emit('click', this.date);
+                this.$emit('click', this.date.toNullable());
         }
 
-        isHoliday() {
-            const theSemester = this.getSemesterForDate(this.date);
-            if (theSemester.value === null) {
-                return false;
-            }
-            return SemesterService.isHoliday(theSemester.value, this.date);
+
+        get isHoliday() {
+            return this.currentDateInSemester.map(DateTimeInSemesterService.isHoliday).getOrElse(false);
         }
 
         get allCourses(): Array<Course> {
-            if (this.date === null) {
-                return [];
-            }
-            const semester: Maybe<Semester> = this.getSemesterForDate(this.date);
-            const getClassesForToday: (semester: Semester) => Array<Class> = _.partial(this.getClassesForDate, _, this.date);
-            const classesForDate: Maybe<Array<Class>> = semester.map(getClassesForToday);
-            if (classesForDate.value === null) {
-                return [];
-            }
-            const classTimeComp = (classA: Class, classB: Class) => classA.beginSector - classB.beginSector;
-            const classes = classesForDate.value.sort(classTimeComp);
-            const getCoursesForClasses = (classes: Array<Class>): Array<Maybe<Course>> => classes.map(class_ => this.getCourse(class_.courseId));
-            return getCoursesForClasses(classes).map(it => it.value) as any as Course[];
+            return this.currentDateInSemester
+                .map(this.classesForDate)
+                .getOrElse([])
+                .map(it => this.course(it.courseId).toNullable());
         }
     };
 </script>
@@ -132,6 +132,16 @@
 
         &.today {
             color #7b8dbf
+        }
+    }
+
+    .day.non-empty:hover {
+        cursor pointer;
+        background rgba(0, 0, 0, 0.3);
+
+        &.today {
+            color #666666
+            background #7b8dbf
         }
     }
 </style>

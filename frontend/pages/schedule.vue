@@ -10,27 +10,21 @@
 </template>
 
 <script lang="ts">
-    import Component from 'nuxt-class-component';
-    import {Vue} from 'vue-property-decorator';
-    import Calendar from '../components/schedule/calendar.vue';
+    import {namespace} from "~/node_modules/vuex-class";
+    import {Component, Vue} from "~/node_modules/vue-property-decorator";
     import CourseList from "~/components/schedule/courseList.vue";
+    import Calendar from "~/components/schedule/calendar.vue";
 
+    const CourseNamespace = namespace("course");
     @Component({
         components: {CourseList, Calendar}
     })
     export default class Schedule extends Vue {
         watchingDate = new Date();
-
-        async fetch(context: { store: any, params: any }) {
-            await context.store.dispatch("course/fetchCourses");
-        }
+        @CourseNamespace.Action fetchCourses!: () => void;
 
         daySelected(theDate: Date) {
-            this.watchingDate = theDate;
+            this.watchingDate = theDate as any;
         }
     }
 </script>
-
-<style scoped>
-
-</style>

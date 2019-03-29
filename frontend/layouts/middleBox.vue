@@ -20,8 +20,8 @@
 </template>
 
 <script lang="ts">
-    import Component from 'nuxt-class-component';
-    import Vue from 'vue';
+
+    import {Component, Vue} from "vue-property-decorator";
 
     @Component
     export default class MiddleBox extends Vue {

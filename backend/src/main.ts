@@ -2,14 +2,14 @@ import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import * as KoaBodyParser from 'koa-bodyparser';
 import * as KoaLogger from 'koa-logger';
-import * as jwt from 'jsonwebtoken';
-import {adminAuthMiddleware, authMiddleware} from "./middleware/auth";
 import {initDB} from "./infrastructure/mongo";
 import {SemesterRepository} from "./model/semester/semester";
-import {CourseRepository} from "./model/course/course";
-import {StudentRepository, StudentService} from "./model/student/student";
+import {adminAuthMiddleware, authMiddleware} from "./middleware/auth";
 import {ObjectID} from "bson";
-import {DateTimeService} from "../../shared/tools/dateTime/dateTime";
+import {StudentRepository, StudentService} from "./model/student/student";
+import * as jwt from 'jsonwebtoken';
+import {CourseRepository} from "./model/course/course";
+import {normalizeDateTimeInObject} from "../tools/dateTime";
 
 const app = new Koa();
 const router = new Router();
@@ -21,12 +21,13 @@ app.use(adminAuthMiddleware);
 
 async function saveSemesterInContext(id, context) {
     await SemesterRepository.save({
-        _id: id,
-        ...DateTimeService.normalizeDateTimeInObject({
-            begin: context.request.body.begin,
+        _id: new ObjectID(id),
+        ...normalizeDateTimeInObject({
+            start: context.request.body.start,
             end: context.request.body.end,
             holidays: context.request.body.holidays,
-            name: context.request.body.name
+            name: context.request.body.name,
+            courseSelectionPort8080: context.request.body.courseSelectionPort8080
         })
     });
 }
@@ -36,11 +37,11 @@ router
         const username = context.request.body['username'];
         const password = context.request.body['password'];
         const theStudent = await StudentService.login(username, password);
-        if (theStudent.isNull) {
+        if (theStudent.isNone()) {
             context.status = 403;
             return;
         }
-        await theStudent.map(StudentRepository.save).value;
+        await theStudent.map(StudentRepository.save).toNullable();
         let token = jwt.sign({student: username}, process.env['JWT_SECRET'], {expiresIn: 60 * 60 * 24 * 7});
         context.body = {
             token: token
@@ -51,8 +52,11 @@ router
             success: context.request.body['token'] === process.env['ADMIN_TOKEN']
         }
     })
+    .get('/api/course/:id', async (context) => {
+        context.body = (await CourseRepository.getById(context.params.id)).toNullable();
+    })
     .get('/api/student', async (context) => {
-        if (context.request.student === null) {
+        if (context.request.student.isNone()) {
             context.status = 403;
         } else {
             context.body = context.request.student.map(student => {
@@ -61,20 +65,30 @@ router
                     name: student.name,
                     courseIds: student.courseIds
                 }
-            }).value;
+            }).toNullable();
         }
-    })
-    .get('/api/course/:id', async (context) => {
-        context.body = (await CourseRepository.getById(context.params.id)).value;
     })
     .get('/api/semesters', async (context) => {
         context.body = (await SemesterRepository.all());
     })
     .get('/api/semester/current', async (context) => {
-        context.body = (await SemesterRepository.current()).value;
+        context.body = (await SemesterRepository.current()).getOrElseL(() => {
+            context.state = 404;
+            return null;
+        });
     })
     .get('/api/semester/:id', async (context) => {
-        context.body = (await SemesterRepository.getById(context.params.id)).value;
+        context.body = (await SemesterRepository.getById(context.params.id)).getOrElseL(() => {
+            context.state = 404;
+            return null;
+        });
+    })
+    .get('/api/semester', async (context) => {
+        const dateTime = context.query.time === "current" ? new Date() : new Date(context.query.time);
+        context.body = (await SemesterRepository.getByDate(dateTime)).getOrElseL(() => {
+            context.state = 404;
+            return null;
+        });
     })
     .post('/api/semester/', async (context) => {
         if (context.request.admin) {
@@ -82,7 +96,7 @@ router
             await saveSemesterInContext(id, context);
             context.body = {
                 success: true,
-                result: (await SemesterRepository.getById(id)).value
+                result: (await SemesterRepository.getById(id)).toNullable()
             }
         } else {
             context.status = 403;
@@ -109,8 +123,11 @@ router
             context.status = 403;
         }
     })
-    .get('/*', async (context) => {
+    .get('/', async (context) => {
         context.body = 'It works!';
+    })
+    .get('/*', async (context) => {
+        context.status = 404;
     });
 
 app.use(router.routes());

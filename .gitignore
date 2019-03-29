@@ -151,3 +151,4 @@ Temporary Items
 /data/
 /dump.rdb
 /deploy_key
+/backend/deploy_rsa

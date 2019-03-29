@@ -1,36 +1,32 @@
 import {Course} from "../../../../shared/model/course/course";
 import {redis, RedisService} from "../../infrastructure/redis";
-import {mongo, removeId} from "../../infrastructure/mongo";
+import {mongo} from "../../infrastructure/mongo";
 import {ObjectID} from "bson";
-import {just, Maybe} from "../../../../shared/tools/functools/maybe";
-import * as _ from "lodash";
+import {partial} from "../../../tools/partial";
+import {fromNullable, Option} from "fp-ts/lib/Option";
+
 
 export namespace CourseRepository {
-    const cache = _.partial(RedisService.cache, 'course');
+    const cache = partial(RedisService.cache, 'course');
 
-    export async function getById(id: string): Promise<Maybe<Course>> {
-        let objectInBuffer = just(await redis.get('course_' + id));
-        if (!objectInBuffer.isNull) {
+    export async function getById(id: string): Promise<Option<Course>> {
+        let objectInBuffer = fromNullable(await redis.get('course_' + id));
+        if (!objectInBuffer.isNone()) {
             return objectInBuffer.map(JSON.parse);
         }
-        return just(await mongo.collection('course').findOne({id: id}));
+        return fromNullable(await mongo.collection('course').findOne({id: id}));
     }
 
     export async function save(object: Course) {
-        let newObject = {
-            ...object
-        };
-        newObject.semesterId = (object.semesterId as ObjectID).toHexString();
-        newObject.teacherId = (object.teacherId as ObjectID).toHexString();
-        const cachePromise = cache(newObject);
-        let alreadyInDB = await mongo.collection('course').findOne({id: newObject.id});
+        const cachePromise = cache(object);
+        let alreadyInDB = await mongo.collection('course').findOne({id: object.id});
         let mongodbPromise: Promise<any>;
         if (alreadyInDB === null) {
-            mongodbPromise = mongo.collection('course').insertOne({_id: new ObjectID(), ...newObject});
+            mongodbPromise = mongo.collection('course').insertOne({_id: new ObjectID(), ...object});
+            await Promise.all([cachePromise, mongodbPromise]);
         } else {
-            mongodbPromise = mongo.collection('course').updateOne({_id: (newObject as any)._id}, {$set: removeId(newObject as any)}, {upsert: true});
+            await cachePromise;
         }
-        await Promise.all([cachePromise, mongodbPromise]);
     }
 
     export async function count(): Promise<number> {

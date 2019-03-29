@@ -4,19 +4,19 @@
                 :key="class_.courseId+class_.beginSector"
                 @click=""
                 avatar
-                v-for="class_ in classes">
+                v-for="class_ in allClasses">
             <v-list-tile-avatar>
-                <v-icon :style="{background: getCourse(class_.courseId).value.color}">class</v-icon>
+                <v-icon :style="{background: course(class_.courseId).map(it => it.color).toNullable()}">class</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-                <v-list-tile-title>{{ getCourse(class_.courseId).value.name }}</v-list-tile-title>
+                <v-list-tile-title>{{course(class_.courseId).map(it => it.name).toNullable()}}</v-list-tile-title>
                 <v-list-tile-sub-title>
                     <v-container class="class-info" grid-list-xs text-xs-left>
                         <v-layout row wrap>
-                            <v-flex xs2>{{ class_.beginSector }}-{{class_.endSector }}
+                            <v-flex xs2>{{class_.beginSector}}-{{class_.endSector}}
                             </v-flex>
                             <v-flex xs10>
-                                {{getCourse(class_.courseId).value.place}}
+                                {{course(class_.courseId).map(it => it.place).toNullable()}}
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -27,40 +27,46 @@
 </template>
 
 <script lang="ts">
-    import Component, {namespace} from 'nuxt-class-component';
-    import {Prop, Vue} from 'vue-property-decorator';
-    import {Class} from "../../../shared/model/course/class/class";
-    import {Course} from "../../../shared/model/course/course";
-    import * as courseModule from '~/store/modules/course';
-    import * as semesterModule from '~/store/modules/semester';
-    import {Maybe} from "../../../shared/tools/functools/maybe";
-    import {Semester} from "../../../shared/model/semester/semester";
-    import * as _ from "lodash";
 
-    const CourseNamespace = namespace(courseModule.name);
-    const SemesterNamespace = namespace(semesterModule.name);
+    import {namespace} from "vuex-class";
+    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {Option} from "fp-ts/lib/Option";
+    import {Semester} from "../../../shared/model/semester/semester";
+    import {Course} from "~/store/modules/course";
+    import {DateTimeInSemester} from "~/service/dateTimeInSemester.service";
+    import {Class} from "../../../shared/model/course/class/class";
+
+    const SemesterNamespace = namespace("semester");
+    const CourseNamespace = namespace("course");
+
     @Component
     export default class CourseList extends Vue {
         @Prop({default: null})
         date!: Date;
+        @SemesterNamespace.Getter semesterForDate!: (date: Date) => Option<Semester>;
+        @SemesterNamespace.Action fetchSemester!: (payload: { forDate: Date }) => void;
+        @CourseNamespace.Getter course!: (id: any) => Option<Course>;
+        @CourseNamespace.Action fetchCourses!: () => void;
+        @CourseNamespace.Getter classesForDate!: (dateInSemester: DateTimeInSemester) => Array<Class>;
 
-        @CourseNamespace.Getter getClassesForDate!: (semester: Semester, date: Date) => Array<Class>;
-        @CourseNamespace.Getter getCourse!: (id: string) => Maybe<Course>;
-        @SemesterNamespace.Getter getSemesterForDate!: (date: Date) => Maybe<Semester>;
+        get semester() {
+            return this.semesterForDate(this.date);
+        }
 
-        get classes(): Array<Class> {
-            if (this.date === null) {
-                return [];
-            }
-            const semester: Maybe<Semester> = this.getSemesterForDate(this.date);
-            const getClassesForToday: (semester: Semester) => Array<Class> = _.partial(this.getClassesForDate, _, this.date);
-            const classesForDate: Maybe<Array<Class>> = semester.map(getClassesForToday);
-            const classTimeCompare = (classA: Class, classB: Class) => classA.beginSector - classB.beginSector;
-            const classes = classesForDate.map(classes => classes.sort(classTimeCompare));
-            if (classes.value === null) {
-                return [];
-            }
-            return classes.value;
+        get currentDateInSemester(): Option<DateTimeInSemester> {
+            return this.semester.map(semester => {
+                return {
+                    semester: semester,
+                    dateTime: this.date
+                }
+            });
+        }
+
+        get allClasses(): Array<Class> {
+            return this.currentDateInSemester
+                .map(this.classesForDate)
+                .getOrElse([])
+                .sort((a: Class, b: Class) => a.beginSector - b.beginSector);
         }
     }
 </script>

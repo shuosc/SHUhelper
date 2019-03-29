@@ -1,35 +1,26 @@
 <template>
     <div>
-        <DateInfo class="mt-3"></DateInfo>
-        <CourseInfo class="mt-3"></CourseInfo>
-        <BusTimeInfo class="mt-3"></BusTimeInfo>
+        <DateInfo></DateInfo>
+        <TimeInfo></TimeInfo>
+        <BusTimeInfo></BusTimeInfo>
     </div>
 </template>
 
 <script lang="ts">
-    import Component from 'nuxt-class-component';
-    import Vue from 'vue';
+    import {Component, Vue} from "vue-property-decorator";
     import DateInfo from "~/components/index/dateInfo.vue";
-    import CourseInfo from "~/components/index/courseInfo.vue";
+    import TimeInfo from "~/components/index/timeInfo.vue";
     import BusTimeInfo from "~/components/index/busTimeInfo.vue";
 
     @Component({
-        components: {
-            DateInfo,
-            CourseInfo,
-            BusTimeInfo
-        }
+        components: {BusTimeInfo, TimeInfo, DateInfo}
     })
     export default class Index extends Vue {
-        async fetch(context: { store: any, params: any }) {
-            // vuex is a piece of sh*t!
-            // use plain string? serious?
-            await context.store.dispatch("semester/fetchCurrentSemester");
-            await context.store.dispatch("course/fetchCourses");
-        }
     }
 </script>
 
-<style scoped>
-
+<style>
+    .auth-button {
+        text-align: right;
+    }
 </style>

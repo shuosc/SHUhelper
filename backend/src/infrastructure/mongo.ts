@@ -1,5 +1,5 @@
 import {Db, MongoClient, ObjectID} from "mongodb";
-import {clone} from "../../../shared/tools/clone";
+import {clone} from "../../tools/clone";
 
 export let mongo: Db = null;
 

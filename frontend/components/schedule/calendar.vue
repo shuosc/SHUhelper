@@ -10,7 +10,7 @@
                 </v-btn>
             </v-flex>
             <v-flex class="today-date" xs8>
-                {{firstDayOfCurrentWatchingMonth.getFullYear()}}年{{firstDayOfCurrentWatchingMonth.getMonth()+1}}月
+                {{format(firstDayOfCurrentWatchingMonth,'yyyy 年 MM 月')}}
             </v-flex>
             <v-flex class="arrow-right text-xs-center" sm1 xs2>
                 <v-btn @click="navigateToNextMonth" fab small>
@@ -25,8 +25,8 @@
                               v-touch="{left: navigateToNextMonth,right: navigateToLastMonth}">
             <v-flex :key="day" class="day-name text-xs-center" v-for="day in DAY_CHINESES">{{day}}</v-flex>
             <Day :key="-i" class="day-empty" v-for="i in marginDaysBeforeFirstDay"></Day>
-            <Day :class="{watching:isSameDate(day,currentWatchingDate)}"
-                 :date="day"
+            <Day :class="{watching:isSameDay(currentWatchingDate,day)}"
+                 :date="some(day)"
                  :key="day.getDate()"
                  @click="daySelected"
                  v-for="day in daysInThisMonth"></Day>
@@ -36,65 +36,58 @@
 </template>
 
 <script lang="ts">
-    import Component from 'nuxt-class-component';
-    import Vue from 'vue';
-    import {Emit, Prop} from 'vue-property-decorator';
-    import {clone} from '../../../shared/tools/clone';
-    import Day from './day.vue';
-    import {DateService} from "../../../shared/tools/dateTime/date/date";
-    import {DayService} from "../../../shared/tools/dateTime/day/day";
-    import isSameDate = DateService.isSameDate;
+    import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+    import Day from "~/components/schedule/day.vue";
+    import {some} from "fp-ts/lib/Option";
+    import {DayService} from "~/tools/day";
+    import {addMonths, eachDayOfInterval, format, isSameDay, lastDayOfMonth, startOfMonth, subMonths} from "date-fns";
 
     @Component({
         components: {
             Day
         },
         methods: {
-            isSameDate
-        },
+            some,
+            format,
+            isSameDay
+        }
     })
     export default class Calendar extends Vue {
-        DAY_CHINESES = DayService.DAY_NUMBER_TO_CHINESE;
+        DAY_CHINESES = DayService.DAY_NUMBER_TO_CHINESE.toArray();
 
-        @Prop({default: new Date()})
-        initialDate!: Date;
-
-        firstDayOfCurrentWatchingMonth: Date = new Date();
-
-        currentWatchingDate: Date = new Date();
-
-        created() {
-            this.firstDayOfCurrentWatchingMonth = clone(this.initialDate);
-            this.firstDayOfCurrentWatchingMonth.setDate(1);
+        async fetch(context: { store: any, params: any }) {
+            await context.store.dispatch("course/fetchCourses");
         }
 
+        @Prop({default: () => new Date()})
+        initialDate!: Date;
+
+        firstDayOfCurrentWatchingMonth = startOfMonth(new Date());
+
+        currentWatchingDate = new Date();
+
         get marginDaysBeforeFirstDay(): number {
-            let firstDayInThisMonth = this.firstDayOfCurrentWatchingMonth;
-            return firstDayInThisMonth.getDay();
+            return this.firstDayOfCurrentWatchingMonth.getDay();
         }
 
         get marginDaysAfterLastDay(): number {
-            let lastDayInThisMonth = this.firstDayOfCurrentWatchingMonth;
-            lastDayInThisMonth.setMonth(lastDayInThisMonth.getMonth() + 1);
-            lastDayInThisMonth.setDate(0);
+            let lastDayInThisMonth = lastDayOfMonth(this.firstDayOfCurrentWatchingMonth);
             return 6 - lastDayInThisMonth.getDay();
         }
 
         get daysInThisMonth(): Array<Date> {
-            let result = [];
-            let firstDay = this.firstDayOfCurrentWatchingMonth;
-            for (let currentDay = clone(firstDay); currentDay.getMonth() == firstDay.getMonth(); currentDay.setDate(currentDay.getDate() + 1)) {
-                result.push(clone(currentDay));
-            }
-            return result;
+            return eachDayOfInterval({
+                start: this.firstDayOfCurrentWatchingMonth,
+                end: lastDayOfMonth(this.firstDayOfCurrentWatchingMonth)
+            });
         }
 
         navigateToLastMonth() {
-            this.firstDayOfCurrentWatchingMonth = new Date(this.firstDayOfCurrentWatchingMonth.getFullYear(), this.firstDayOfCurrentWatchingMonth.getMonth() - 1, 1);
+            this.firstDayOfCurrentWatchingMonth = subMonths(this.firstDayOfCurrentWatchingMonth, 1);
         }
 
         navigateToNextMonth() {
-            this.firstDayOfCurrentWatchingMonth = new Date(this.firstDayOfCurrentWatchingMonth.getFullYear(), this.firstDayOfCurrentWatchingMonth.getMonth() + 1, 1);
+            this.firstDayOfCurrentWatchingMonth = addMonths(this.firstDayOfCurrentWatchingMonth, 1)
         }
 
         @Emit('daySelected')
@@ -104,46 +97,46 @@
     };
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
     .calendar {
-        justify-content: flex-start
-        padding: 10px
-        max-width: 600px
+        justify-content: flex-start;
+        padding: 10px;
+        max-width: 600px;
     }
 
     .today-date {
-        text-align: center
-        line-height: 50px
+        text-align: center;
+        line-height: 50px;
     }
 
     .watching {
-        border: solid 1px #ff9752
+        border: solid 1px #ff9752;
     }
 
     .month-complete-item {
-        transition: all 1s
-        display: inline-block
-        margin-right: 10px
+        transition: all 1s;
+        display: inline-block;
+        margin-right: 10px;
     }
 
     .month-complete-enter, .list-complete-leave-to {
-        opacity: 0
-        transform: translateY(30px)
+        opacity: 0;
+        transform: translateY(30px);
     }
 
     .month-complete-leave-active {
-        position: absolute
+        position: absolute;
     }
 
     .day-name {
-        flex 14.28%;
+        flex: 14.28%;
     }
 
     .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s
+        transition: opacity .5s;
     }
 
     .fade-enter, .fade-leave-active {
-        opacity: 0
+        opacity: 0;
     }
 </style>

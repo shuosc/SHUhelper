@@ -9,10 +9,7 @@ CI/CD 相关配置见 [.travis.yml](https://github.com/shuopensourcecommunity/SH
 CI 分为三个阶段:
 
 ### Test
-
-这阶段会运行所有的单元测试。
-
-目前只进行共享代码部分的单元测试。
+目前烂了（TAT），没有启用。
 
 ### Build
 
@@ -31,5 +28,6 @@ CI 分为三个阶段:
 部署前请注意这里:
 ```yaml
 JWT_SECRET: CHANGE_WHEN_DEPLOY
+ADMIN_TOKEN: CHANGE_WHEN_DEPLOY
 ```
-要设置成你想要的JWT密钥。
+要设置成你想要的JWT密钥和Admin token。

@@ -1,24 +1,21 @@
-import {Teacher as SharedTeacher} from "../../../../shared/model/teacher/teacher";
 import {ObjectID} from "mongodb";
 import {redis, RedisService} from "../../infrastructure/redis";
 import {mongo, removeId} from "../../infrastructure/mongo";
-import * as _ from "lodash";
-
-export interface Teacher extends SharedTeacher {
-    _id: ObjectID;
-}
+import {fromNullable, Option} from "fp-ts/lib/Option";
+import {partial} from "../../../tools/partial";
+import {Teacher} from "../../../../shared/model/teacher/teacher";
 
 
 export namespace TeacherRepository {
-    const cache = _.partial(RedisService.cache, 'course');
+    const cache = partial(RedisService.cache, 'course');
 
-    export async function getById(id: string | ObjectID): Promise<Teacher | null> {
+    export async function getById(id: string | ObjectID): Promise<Option<Teacher>> {
         let objectId = new ObjectID(id);
-        let objectInBuffer = await redis.get('teacher_' + objectId);
-        if (objectInBuffer !== null) {
-            return JSON.parse(objectInBuffer);
+        let objectInBuffer = fromNullable(await redis.get('teacher_' + objectId));
+        if (objectInBuffer.isNone()) {
+            return objectInBuffer.map(JSON.parse);
         }
-        return await mongo.collection('teacher').findOne({_id: objectId});
+        return fromNullable(await mongo.collection('teacher').findOne({_id: objectId}));
     }
 
     export async function save(object: Teacher) {
@@ -27,11 +24,7 @@ export namespace TeacherRepository {
         await Promise.all([cachePromise, mongodbPromise]);
     }
 
-    export async function count(): Promise<number> {
-        return await mongo.collection('teacher').countDocuments();
-    }
-
-    export async function getOrCreateByName(name: string) {
+    export async function getOrCreateByName(name: string): Promise<Teacher> {
         let teacher: Teacher = await mongo.collection('teacher').findOne({name: name});
         if (teacher === null) {
             teacher = {
