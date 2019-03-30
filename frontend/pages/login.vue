@@ -52,7 +52,8 @@
             try {
                 await this.login({username: this.username, password: this.password});
             } catch (e) {
-                this.errorLogin = true
+                this.errorLogin = true;
+                this.loading=false;
             }
             if (this.student.isSome()) {
                 this.$router.push('/');
